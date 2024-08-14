@@ -13,4 +13,12 @@ $api.interceptors.request.use((config) => {
   return config;
 });
 
+$api.interceptors.response.use((config) => {
+  // Intercept "Unauthorized (401)"
+  if (config.status === 401)
+    localStorage.removeItem("jwtToken");
+
+  return config;
+});
+
 export default $api;

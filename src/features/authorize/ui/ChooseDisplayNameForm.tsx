@@ -21,12 +21,13 @@ const formSchema = z.object({
     message: "Username must be at least 2 characters.",
   }).max(50, {
     message: "Username can't be longer than 50 characters!"
-  }),
+  })
 });
 
-function ChooseDisplayNameForm({onProceed, onBack}: {
+function ChooseDisplayNameForm({onProceed, onBack, username}: {
   onProceed: (chosenUsername) => void;
   onBack: () => void;
+  username?: string;
 }) {
   function back(e) {
     e.preventDefault();
@@ -36,7 +37,7 @@ function ChooseDisplayNameForm({onProceed, onBack}: {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      username: username,
     },
   });
 
@@ -45,7 +46,7 @@ function ChooseDisplayNameForm({onProceed, onBack}: {
   }
 
   return (
-    <>
+    <div className="animate-appearance opacity-25">
       <CardHeader className="text-center pb-4">
         <div className="flex flex-row justify-between items-center">
           <Button
@@ -69,6 +70,7 @@ function ChooseDisplayNameForm({onProceed, onBack}: {
             <FormField
               control={form.control}
               name="username"
+              defaultValue={username}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Display name</FormLabel>
@@ -86,7 +88,7 @@ function ChooseDisplayNameForm({onProceed, onBack}: {
           </form>
         </Form>
       </CardContent>
-    </>
+    </div>
   );
 }
 

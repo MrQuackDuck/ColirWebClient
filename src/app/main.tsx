@@ -1,32 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import './index.css'
-import IndexPage from '@/pages/index/ui/IndexPage';
-import { ThemeProvider } from '@/shared/lib/theme-provider';
-import Header from '@/widgets/header/ui/Header';
-import { Toaster } from '@/shared/ui/toaster';
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { ThemeProvider } from "@/shared/lib/ThemeProvider";
+import App from "./App";
+import LoadingProvider from "@/shared/lib/LoadingContext";
+import AuthProvider from "@/features/authorize/lib/AuthProvider";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <IndexPage/>,
-  },
-  {
-    path: "/chat",
-    element: <h1 className='text-center'>Welcome on the chat page!</h1>
-  }
-]);
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Header/>
-      <RouterProvider router={router} />
-      <Toaster/>
-    </ThemeProvider>
-  </StrictMode>,
-)
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <AuthProvider>
+      <LoadingProvider>
+        <App />
+      </LoadingProvider>
+    </AuthProvider>
+  </ThemeProvider>
+);

@@ -1,0 +1,4 @@
+.selected {
+  color: hsl(var(--secondary-foreground));
+  background-color: hsl(var(--muted));
+}

@@ -1,3 +1,4 @@
+import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
 import { Button } from "@/shared/ui/Button";
 import {
   DropdownMenu,
@@ -10,6 +11,8 @@ import { GearIcon } from "@radix-ui/react-icons";
 import { BarChart3Icon, Undo2Icon, UserIcon } from "lucide-react";
 
 function ProfileButton() {
+  const { logOut } = useAuth();
+
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -27,7 +30,7 @@ function ProfileButton() {
         <DropdownMenuItem>
           <BarChart3Icon className="mr-2 h-4 w-4" strokeWidth={2} /> Stats
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={logOut}>
           <Undo2Icon className="mr-2 h-4 w-4" strokeWidth={2} /> Log out
         </DropdownMenuItem>
       </DropdownMenuGroup>

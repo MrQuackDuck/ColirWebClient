@@ -1,0 +1,22 @@
+export enum ErrorCode {
+  AttachmentNotFound,
+  EmptyMessage,
+  InvalidActionException,
+  InvalidDate,
+  IssuerNotInTheRoom,
+  MessageNotFound,
+  ModelNotValid,
+  NotEnoughPermissions,
+  NotEnoughSpace,
+  NotFound,
+  ReactionNotFound,
+  RoomExpired,
+  RoomNotFound,
+  StringWasTooLong,
+  StringWasTooShort,
+  UserAlreadyRegistered,
+  UserNotFound,
+  YouAreNotAuthorOfMessage,
+  YouAreNotAuthorOfReaction,
+  YouAreNotConnectedToVoiceChannel
+}

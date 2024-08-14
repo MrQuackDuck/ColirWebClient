@@ -2,8 +2,8 @@ import { Loader2 } from "lucide-react"
 
 function Loader() {
   return (
-    <div className="flex justify-center items-center pb-16 w-[100%] h-[100%]">
-      <Loader2 className='animate-spin m-auto'/>
+    <div className="flex absolute bg-background justify-center items-center pb-16 w-[100%] h-[100%]">
+      <Loader2 className='relative z-10 animate-spin m-auto'/>
     </div>
   )
 }

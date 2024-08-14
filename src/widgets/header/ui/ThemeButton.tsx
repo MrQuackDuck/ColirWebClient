@@ -1,4 +1,4 @@
-import { useTheme } from "@/shared/lib/theme-provider";
+import { useTheme } from "@/shared/lib/ThemeProvider";
 import { Button } from "@/shared/ui/Button";
 import {
   DropdownMenu,
