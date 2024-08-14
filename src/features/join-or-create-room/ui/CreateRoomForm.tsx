@@ -32,7 +32,7 @@ function CreateRoomForm() {
             <Input id="encryptionKey" placeholder="something-secret-here" className="pl-7" />
           </div>
           <span className="text-slate-500 text-sm">Enter the key used to encrypt/decrypt messages across
-          the selected room. <Link to="/">Why?</Link></span>
+          the selected room. <Link className="underline" to="/">Why?</Link></span>
       </div>
       <div className="space-y-1">
         <Label>Expire in...</Label>

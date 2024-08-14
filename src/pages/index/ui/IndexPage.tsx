@@ -6,7 +6,7 @@ function IndexPage() {
   const { isAuthorized } = useAuth();
 
   return (
-    <div className="flex flex-col justify-center items-center pt-10">
+    <div className="flex flex-col justify-center items-center pt-6">
         { !isAuthorized && <AuthForm/> }
         { isAuthorized && <JoinOrCreateRoom/> }
     </div>
