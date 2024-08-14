@@ -72,12 +72,12 @@ function ChooseDisplayNameForm({onProceed, onBack, username}: {
               name="username"
               defaultValue={username}
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="space-y-1">
                   <FormLabel>Display name</FormLabel>
                   <FormControl>
                     <Input autoComplete="off" placeholder="cool-username-goes-here" {...field} />
                   </FormControl>
-                  <FormDescription>Enter a name you want to be displayed</FormDescription>
+                  <FormDescription className="text-slate-500 text-sm">Enter a name you want to be displayed</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
