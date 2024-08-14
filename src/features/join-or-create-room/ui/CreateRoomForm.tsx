@@ -7,7 +7,7 @@ import {
 } from "@/shared/ui/Card";
 import { Input } from "@/shared/ui/Input";
 import { Label } from "@/shared/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/Select";
 import { KeyIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 

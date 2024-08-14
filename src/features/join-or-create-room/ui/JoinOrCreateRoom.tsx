@@ -1,7 +1,7 @@
 import {
   Card,
 } from "@/shared/ui/Card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
 import JoinRoomForm from "./JoinRoomForm";
 import CreateRoomForm from "./CreateRoomForm";
 
