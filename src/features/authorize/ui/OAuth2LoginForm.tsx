@@ -8,7 +8,7 @@ import {
 } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { showErrorToast } from "../lib/showErrorToast";
+import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
 import ChooseColirIdForm from "./ChooseColirIdForm";
 import { useAuth } from "../lib/hooks/useAuth";
@@ -85,7 +85,6 @@ function OAuth2LoginForm({
   const finish = () => {
     connection?.invoke<SignalRHubResponse>("FinishRegistration")
       .then((response) => {
-        console.log(response)
         if (response.resultType === SignalRResultType.Error) throw Error;
         let jwtToken = response.content["jwtToken"].toString();
         let refreshToken = response.content["refreshToken"].toString();

@@ -5,6 +5,7 @@ import "./index.css";
 import IndexPage from "@/pages/index/ui/IndexPage";
 import Header from "@/widgets/header/ui/Header";
 import Loader from "@/shared/ui/Loader";
+import NotFound from "@/pages/not-found/ui/NotFound";
 
 function App() {
   let { isLoading } = useLoading();
@@ -14,6 +15,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/" element={<IndexPage />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/gitHubAuth" element={<IndexPage />} />
         <Route path="/googleAuth" element={<IndexPage />} />
         <Route path="/chat" element={<h1 className="text-center">Welcome on the chat page!</h1>}/>

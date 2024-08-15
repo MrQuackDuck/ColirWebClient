@@ -6,7 +6,7 @@ import GoogleLogoIcon from "@/shared/ui/GoogleLogoIcon";
 import AuthService from "../lib/AuthService";
 import { toast } from "@/shared/ui/use-toast";
 import redirect from "../lib/redirect";
-import { showErrorToast } from "../lib/showErrorToast";
+import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { useLoading } from "@/shared/lib/hooks/useLoading";
 import { UserIcon } from "lucide-react";
 

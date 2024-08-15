@@ -16,10 +16,18 @@ export function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
+export function replaceAll(str, match, replacement){
+  return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+}
+
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
-export function replaceAll(str, match, replacement){
-  return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+export function setToLocalStorage<T>(key: string, data: T) {
+  localStorage.setItem(key, JSON.stringify(data))
+}
+
+export function getFromLocalStorage<T>(key): T {
+  return JSON.parse(localStorage.getItem(key)!) as T;
 }

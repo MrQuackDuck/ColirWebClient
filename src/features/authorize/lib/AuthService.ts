@@ -49,6 +49,10 @@ export default class AuthService {
     return $api.get("/Auth/GoogleLogin");
   }
 
+  static RefreshToken(accessToken, refreshToken): Promise<AxiosResponse<{ queueToken: string } | { newJwtToken: string, refreshToken: string }>> {
+    return $api.post("/Auth/RefreshToken", { accessToken, refreshToken });
+  } 
+
   static LogOut(): Promise<AxiosResponse> {
     return $api.post("/Auth/Logout");
   }

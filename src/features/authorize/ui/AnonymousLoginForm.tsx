@@ -1,5 +1,5 @@
 import { useLoading } from "@/shared/lib/hooks/useLoading";
-import { showErrorToast } from "../lib/showErrorToast";
+import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import AuthService from "../lib/AuthService";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import { useAuth } from "../lib/hooks/useAuth";
