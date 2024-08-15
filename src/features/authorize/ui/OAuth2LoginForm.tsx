@@ -87,7 +87,9 @@ function OAuth2LoginForm({
       .then((response) => {
         console.log(response)
         if (response.resultType === SignalRResultType.Error) throw Error;
-        authorize(response.content.toString());
+        let jwtToken = response.content["jwtToken"].toString();
+        let refreshToken = response.content["refreshToken"].toString();
+        authorize(jwtToken, refreshToken);
         window.location.href = "/";
       })
       .catch(showErrorToast);

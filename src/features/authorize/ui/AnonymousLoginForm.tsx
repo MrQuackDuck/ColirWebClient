@@ -1,7 +1,6 @@
 import { useLoading } from "@/shared/lib/hooks/useLoading";
 import { showErrorToast } from "../lib/showErrorToast";
-import { useNavigate } from "react-router-dom";
-import AuthService from "../../../entities/User/api/AuthService";
+import AuthService from "../lib/AuthService";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import { useAuth } from "../lib/hooks/useAuth";
 
@@ -14,8 +13,9 @@ function AnonymousLoginForm({onBack} : {onBack : () => void}) {
     AuthService.AnonymousLogin(username)
       .then(response => {
         if (response["status"] !== 200) throw Error;
-        let token = response["data"]["jwtToken"];
-        authorize(token);
+        let jwtToken = response["data"]["jwtToken"];
+        let refreshToken = response["data"]["refreshToken"];
+        authorize(jwtToken, refreshToken);
       })
       .catch(() => {
         showErrorToast();

@@ -7,6 +7,11 @@
   src: url("/src/assets/fonts/inter-variable-font.woff2");
 }
 
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 #root {
   display: flex;
   flex-direction: column;

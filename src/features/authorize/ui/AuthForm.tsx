@@ -1,7 +1,7 @@
 import { Card } from "@/shared/ui/Card";
 import ChooseAuthMethodForm from "./ChooseAuthMethodForm";
 import { useEffect, useState } from "react";
-import AuthService from "../../../entities/User/api/AuthService";
+import AuthService from "../lib/AuthService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AnonymousLoginForm from "./AnonymousLoginForm";
 import { useLoading } from "@/shared/lib/hooks/useLoading";
@@ -31,8 +31,8 @@ function AuthForm() {
           setQueueToken(response.data.queueToken);
           setAuthType(authType);
         }
-        else if ('jwtToken' in response.data)
-          authorize(response.data.jwtToken);
+        else if ('jwtToken' in response.data && 'refreshToken' in response.data)
+          authorize(response.data.jwtToken, response.data.refreshToken);
       })
       .catch(() => {
         navigate("/");

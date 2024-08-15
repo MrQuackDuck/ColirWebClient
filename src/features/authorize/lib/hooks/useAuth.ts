@@ -3,7 +3,7 @@ import { AuthContext } from "../AuthProvider";
 
 export const useAuth = (): {
   isAuthorized: boolean;
-  authorize: (token: string) => void;
+  authorize: (jwtToken: string, refreshToken: string) => void;
   logOut: () => void;
 } => {
   const { isAuthorized, authorize, logOut } = useContext(AuthContext);

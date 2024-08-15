@@ -3,7 +3,7 @@ import { Button } from "@/shared/ui/Button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/shared/ui/Separator";
 import GoogleLogoIcon from "@/shared/ui/GoogleLogoIcon";
-import AuthService from "../../../entities/User/api/AuthService";
+import AuthService from "../lib/AuthService";
 import { toast } from "@/shared/ui/use-toast";
 import redirect from "../lib/redirect";
 import { showErrorToast } from "../lib/showErrorToast";

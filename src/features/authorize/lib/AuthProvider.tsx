@@ -1,23 +1,25 @@
-import AuthService from "@/entities/User/api/AuthService";
+import AuthService from "@/features/authorize/lib/AuthService";
 import { createContext, useState } from "react";
 
 export const AuthContext = createContext<{
   isAuthorized: boolean;
-  authorize: (token: string) => void;
+  authorize: (jwtToken: string, refreshToken: string) => void;
   logOut: () => void;
 }>({ isAuthorized: false, authorize: () => {}, logOut: () => {} });
 
 const AuthProvider = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState<boolean>(localStorage.getItem("jwtToken") !== null);
 
-  const authorize = (token: string) => {
+  const authorize = (jwtToken: string, refreshToken: string) => {
     setIsAuthorized(true);
-    localStorage.setItem("jwtToken", token);
+    localStorage.setItem("jwtToken", jwtToken);
+    localStorage.setItem("refreshToken", refreshToken);
   };
 
   const logOut = () => {
     setIsAuthorized(false);
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("refreshToken");
     AuthService.LogOut();
   };
 

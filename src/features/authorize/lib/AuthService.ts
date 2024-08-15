@@ -2,9 +2,13 @@ import $api from "@/shared/api";
 import { AxiosResponse } from "axios";
 
 export default class AuthService {
+  static IsAuthenticated(): Promise<AxiosResponse> {
+    return $api.get("/Auth/IsAuthenticated");
+  }
+
   static AnonymousLogin(
     name: string
-  ): Promise<AxiosResponse<{ jwtToken: string }>> {
+  ): Promise<AxiosResponse<{ jwtToken: string, refreshToken: string }>> {
     return $api.post("/Auth/AnonymousLogin", null, {
       params: { name },
       paramsSerializer: {
@@ -16,7 +20,7 @@ export default class AuthService {
   static ExchangeGitHubCode(
     code,
     state
-  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string }>> {
+  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string, refreshToken: string }>> {
     return $api.get("/Auth/ExchangeGitHubCode", {
       params: { code, state },
       paramsSerializer: {
@@ -28,7 +32,7 @@ export default class AuthService {
   static ExchangeGoogleCode(
     code,
     state
-  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string }>> {
+  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string, refreshToken: string }>> {
     return $api.get("/Auth/ExchangeGoogleCode", {
       params: { code, state },
       paramsSerializer: {

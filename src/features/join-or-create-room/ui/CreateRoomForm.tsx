@@ -15,7 +15,7 @@ function CreateRoomForm() {
   return (<>
     <CardHeader>
       <CardTitle>Create a Room</CardTitle>
-      <CardDescription>To join the room you need to know its GUID and encryption key for information encoding/decoding.</CardDescription>
+      <CardDescription>You can create your own room and share its GUID with someone else to join there. You'll get the GUID once the room is created.</CardDescription>
     </CardHeader>
     <CardContent className="flex flex-col gap-4">
       <div className="space-y-1">
