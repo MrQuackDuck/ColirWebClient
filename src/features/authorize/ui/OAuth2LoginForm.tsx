@@ -12,6 +12,7 @@ import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
 import ChooseColirIdForm from "./ChooseColirIdForm";
 import { useAuth } from "../lib/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function OAuth2LoginForm({
   queueToken,
@@ -25,6 +26,7 @@ function OAuth2LoginForm({
   let [connection, setConnection] = useState<HubConnection>();
   let [proposedColors, setProposedColors] = useState<number[]>();
   let { authorize } = useAuth();
+  let navigate = useNavigate();
 
   useEffect(() => {
     setConnection(
@@ -89,7 +91,7 @@ function OAuth2LoginForm({
         let jwtToken = response.content["jwtToken"].toString();
         let refreshToken = response.content["refreshToken"].toString();
         authorize(jwtToken, refreshToken);
-        window.location.href = "/";
+        navigate("/");
       })
       .catch(showErrorToast);
   };

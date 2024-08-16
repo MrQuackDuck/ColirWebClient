@@ -23,11 +23,3 @@ export function replaceAll(str, match, replacement){
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-
-export function setToLocalStorage<T>(key: string, data: T) {
-  localStorage.setItem(key, JSON.stringify(data))
-}
-
-export function getFromLocalStorage<T>(key): T {
-  return JSON.parse(localStorage.getItem(key)!) as T;
-}

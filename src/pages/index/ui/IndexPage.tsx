@@ -1,18 +1,22 @@
+import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
 import AuthForm from "@/features/authorize/ui/AuthForm";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
-import { useNavigate } from "react-router-dom";
+import { useLoading } from "@/shared/lib/hooks/useLoading";
 
 function IndexPage() {
   const { isAuthorized } = useAuth();
-  const navigate = useNavigate();
+  const { updateCurrentUser } = useCurrentUser();
+  const { enableLoading } = useLoading();
 
   const onJoinedRoom = () => {
-    navigate("/chat");
+    enableLoading();
+    updateCurrentUser();
   }
 
   const onRoomCreated = () => {
-    navigate("/chat");
+    enableLoading();
+    updateCurrentUser();
   }
 
   return (

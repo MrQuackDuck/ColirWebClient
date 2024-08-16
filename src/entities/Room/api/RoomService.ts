@@ -51,8 +51,6 @@ export default class RoomService {
   }
 
   static async DeleteRoom(model: DeleteRoomModel): Promise<AxiosResponse<void>> {
-    return await $api.delete("/Room/DeleteRoom", {params: {
-      model
-    }});
+    return await $api.delete("/Room/DeleteRoom", {data: { roomGuid: model.roomGuid }});
   }
 }

@@ -1,4 +1,6 @@
+import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import AuthService from "@/features/authorize/lib/AuthService";
+import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import { createContext, useState } from "react";
 
 export const AuthContext = createContext<{
@@ -8,18 +10,22 @@ export const AuthContext = createContext<{
 }>({ isAuthorized: false, authorize: () => {}, logOut: () => {} });
 
 const AuthProvider = ({ children }) => {
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(localStorage.getItem("jwtToken") !== null);
+  const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
+  const { updateCurrentUser, removeUser } = useCurrentUser();
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(getFromLocalStorage("jwtToken") !== null);
 
   const authorize = (jwtToken: string, refreshToken: string) => {
     setIsAuthorized(true);
-    localStorage.setItem("jwtToken", jwtToken);
-    localStorage.setItem("refreshToken", refreshToken);
+    setToLocalStorage("jwtToken", jwtToken);
+    setToLocalStorage("refreshToken", refreshToken);
+    updateCurrentUser();
   };
 
   const logOut = () => {
+    removeUser();
     setIsAuthorized(false);
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("refreshToken");
+    removeFromLocalStorage("jwtToken");
+    removeFromLocalStorage("refreshToken");
     AuthService.LogOut();
   };
 

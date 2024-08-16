@@ -1,0 +1,37 @@
+import { RoomModel } from "@/entities/Room/model/RoomModel"
+import { Button } from "@/shared/ui/Button"
+import { Input } from "@/shared/ui/Input"
+import { Separator } from "@/shared/ui/Separator"
+import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
+import Countdown from 'react-countdown'
+import classes from './ChatSection.module.css'
+
+function ChatSection({room, openAside}: {room: RoomModel, openAside: () => any}) {
+  if (room == null) return <></>;
+
+  return (
+    <div className="flex flex-col w-[300%] h-[100%]">
+      <header className="flex flex-row items-center pb-2 gap-1">
+        <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
+          <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
+        </Button>
+        <div className="flex flex-row items-center select-none gap-2.5">
+          <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
+          <span>{room.name}</span>
+          <Separator orientation="vertical"/>
+          <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
+          <Separator orientation="vertical"/>
+          <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
+        </div>
+      </header>
+      <Separator orientation="horizontal"/>
+
+      <main className="h-[100%]">
+
+      </main>
+      <Input placeholder="Write a message..."/>
+    </div>
+  )
+}
+
+export default ChatSection

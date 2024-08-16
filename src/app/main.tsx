@@ -1,16 +1,19 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { ThemeProvider } from "@/shared/lib/ThemeProvider";
+import { ThemeProvider } from "@/shared/lib/providers/ThemeProvider";
 import App from "./App";
-import LoadingProvider from "@/shared/lib/LoadingContext";
-import AuthProvider from "@/features/authorize/lib/AuthProvider";
+import LoadingProvider from "@/shared/lib/providers/LoadingProvider";
+import CurrentUserProvider from "@/entities/User/lib/providers/CurrentUserProvider";
+import AuthProvider from "@/features/authorize/lib/providers/AuthProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    <AuthProvider>
-      <LoadingProvider>
-        <App />
-      </LoadingProvider>
-    </AuthProvider>
+    <LoadingProvider>
+      <CurrentUserProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </CurrentUserProvider>
+    </LoadingProvider>
   </ThemeProvider>
 );

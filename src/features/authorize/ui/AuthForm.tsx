@@ -26,13 +26,14 @@ function AuthForm() {
 
     const processResponse = (responsePromise : Promise<AxiosResponse>, authType : AuthorizationType) => {
       responsePromise.then((response) => {
-      if ('queueToken' in response.data)
-        {
+        if ('queueToken' in response.data) {
           setQueueToken(response.data.queueToken);
           setAuthType(authType);
         }
         else if ('jwtToken' in response.data && 'refreshToken' in response.data)
-          authorize(response.data.jwtToken, response.data.refreshToken);
+          {
+            authorize(response.data.jwtToken, response.data.refreshToken);
+          }
       })
       .catch(() => {
         navigate("/");

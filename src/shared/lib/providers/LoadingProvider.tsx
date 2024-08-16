@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const LoadingContext = createContext<{
   isLoading: boolean;
@@ -7,14 +7,21 @@ export const LoadingContext = createContext<{
 }>({ isLoading: false, enableLoading: () => {}, disableLoading: () => {} });
 
 const LoadingProvider = ({ children }) => {
+  const [enabledLoadings, setEnabledLoadings] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (enabledLoadings <= 0) setIsLoading(false);
+    else setIsLoading(true);
+  }, [enabledLoadings])
+
   function enableLoading() {
-    setIsLoading(true);
+    setEnabledLoadings(enabledLoadings + 1);
   }
 
   function disableLoading() {
-    setIsLoading(false);
+    if (enabledLoadings >= 0)
+      setEnabledLoadings(enabledLoadings - 1);
   }
 
   return (

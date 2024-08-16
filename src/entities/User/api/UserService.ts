@@ -1,7 +1,23 @@
+import $api from "@/shared/api";
 import { AxiosResponse } from "axios";
+import { DetailedUserModel } from "../model/DetailedUserModel";
+import { UserSettingsModel } from "../model/UserSettingsModel";
+import { UserStatisticsModel } from "../model/UserStatisticsModel";
 
 export default class UserService {
-  public static GetAccountInfo(): Promise<AxiosResponse> {
-    throw Error("Not implemented yet..");
+  public static async GetAccountInfo(): Promise<AxiosResponse<DetailedUserModel>> {
+    return await $api.get("/User/GetAccountInfo");
+  }
+
+  public static async GetStatistics(): Promise<AxiosResponse<UserStatisticsModel>> {
+    return await $api.get("/User/GetStatistics");
+  }
+
+  public static async ChangeSettings(newSettings: UserSettingsModel): Promise<AxiosResponse<void>> {
+    return await $api.put("/User/ChangeSettings", newSettings);
+  }
+
+  public static async DeleteAccount(): Promise<AxiosResponse<void>> {
+    return await $api.delete("/User/DeleteAccount");
   }
 }

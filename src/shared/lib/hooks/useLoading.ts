@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LoadingContext } from "../LoadingContext";
+import { LoadingContext } from "../providers/LoadingProvider";
 
 export const useLoading = (): {
   isLoading: boolean;

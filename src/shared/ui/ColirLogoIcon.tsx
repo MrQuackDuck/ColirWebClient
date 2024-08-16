@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTheme } from "../lib/ThemeProvider";
+import { useTheme } from "../lib/providers/ThemeProvider";
 
 function ColirLogoIcon({ ...props }) {
   const { theme } = useTheme();
