@@ -22,7 +22,7 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
   }
 
   return (
-    <div className="flex flex-col w-[300%]">
+    <div className="flex flex-col w-[300%] max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
         <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
@@ -38,7 +38,7 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
       </header>
       <Separator orientation="horizontal"/>
 
-      <main className="overflow-hidden max-h-[inherit] p-2">
+      <main className="h-full overflow-hidden p-2">
         <ScrollArea className="h-full">
           {messages.map(m => m.roomGuid == room.guid && <div key={Math.random()}>{m.authorHexId} - {m.content}</div>)}
         </ScrollArea>

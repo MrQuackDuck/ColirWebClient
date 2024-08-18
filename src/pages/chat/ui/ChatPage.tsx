@@ -72,7 +72,7 @@ function ChatPage() {
         <Aside rooms={currentUser!.joinedRooms} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} updateCurrentUser={updateCurrentUser}/> 
       </SheetContent>
     </Sheet>
-    <div className={`flex flex-row items-start gap-2 h-[100%] px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
+    <div className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
       <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}>
         <Aside rooms={currentUser!.joinedRooms} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} updateCurrentUser={updateCurrentUser}/>
         <Separator orientation="vertical" />
