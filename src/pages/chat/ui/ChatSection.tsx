@@ -10,6 +10,7 @@ import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { HubConnectionState } from "@microsoft/signalr"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
+import Message from "@/entities/Message/ui/Message"
 
 function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
@@ -38,9 +39,9 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
       </header>
       <Separator orientation="horizontal"/>
 
-      <main className="h-full overflow-hidden p-2">
+      <main className={`h-full overflow-hidden p-2 ${classes.messagesBlock}`}>
         <ScrollArea className="h-full">
-          {messages.map(m => m.roomGuid == room.guid && <div key={Math.random()}>{m.authorHexId} - {m.content}</div>)}
+          {messages.map(m => m.roomGuid == room.guid && <Message key={Math.random()} message={m} />)}
         </ScrollArea>
       </main>
 
