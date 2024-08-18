@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 function Aside({
   rooms,
@@ -51,6 +52,7 @@ function Aside({
       <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>
         <DialogContent>
           <DialogTitle className="hidden"></DialogTitle>
+          <DialogDescription className="hidden"></DialogDescription>
           <JoinOrCreateRoom
             onJoinedRoom={(r) => onJoinedOrCreatedRoom(r.guid)}
             onRoomCreated={(rGuid) => onJoinedOrCreatedRoom(rGuid)}

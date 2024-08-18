@@ -20,7 +20,7 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use((config) => config,
   error => {
   // Intercept "Unauthorized (401)"
-  if (error.response.status == 401) {
+  if (error?.response?.status == 401) {
     let currentJwtToken = getFromLocalStorage<string>("jwtToken");
     let currentRefreshToken = getFromLocalStorage<string>("refreshToken");
 

@@ -1,13 +1,24 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel"
 import { Button } from "@/shared/ui/Button"
-import { Input } from "@/shared/ui/Input"
 import { Separator } from "@/shared/ui/Separator"
 import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
+import ChatInput, { MessageToSend } from "./ChatInput"
+import { MessageModel } from "@/entities/Message/model/MessageModel"
+import { Connection } from "./ChatPage"
+import { showErrorToast } from "@/shared/lib/showErrorToast"
+import { HubConnectionState } from "@microsoft/signalr"
 
-function ChatSection({room, openAside}: {room: RoomModel, openAside: () => any}) {
+function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
+  if (connection == null) return <></>;
+  if (connection.connection.state != HubConnectionState.Connected) return <></>;
+
+  function sendMessage(message: MessageToSend) {
+    connection.connection.send("SendMessage", message)
+      .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
+  }
 
   return (
     <div className="flex flex-col w-[300%] h-[100%]">
@@ -27,9 +38,9 @@ function ChatSection({room, openAside}: {room: RoomModel, openAside: () => any})
       <Separator orientation="horizontal"/>
 
       <main className="h-[100%]">
-
+        {messages.map(m => <div key={Math.random()}>{m.authorHexId} - {m.content}</div>)}
       </main>
-      <Input placeholder="Write a message..."/>
+      <ChatInput onSend={(m) => sendMessage(m)}/>
     </div>
   )
 }
