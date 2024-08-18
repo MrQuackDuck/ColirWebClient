@@ -10,6 +10,8 @@ import { API_URL } from "@/shared/api";
 import AuthService from "@/features/authorize/lib/AuthService";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
+import { GetLastMessagesModel } from "@/entities/Message/model/request/GetLastMessagesModel";
+import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 
 export interface Connection {
   roomGuid: string,
@@ -28,6 +30,9 @@ function ChatPage() {
     currentUser.joinedRooms.map(r => {
       AuthService.IsAuthenticated()
         .then(() => {
+          // Return if the connection is already registered
+          if (connections.filter(c => c.roomGuid == r.guid).length > 1) return;
+
           let connection = new HubConnectionBuilder()
           .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`)
           .withAutomaticReconnect()
@@ -40,6 +45,11 @@ function ChatPage() {
 
           connection.start()
             .then(() => {
+              // Getting last messages
+              let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
+              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
+                .then(response => setMessages(prevMessages => [...prevMessages, ...response.content]));
+
               connection?.on("ReceiveMessage", m => setMessages(prevMessages => [...prevMessages, m]));
               connection?.on("UserJoined", () => updateCurrentUser());
             })

@@ -15,6 +15,7 @@ export enum ErrorCode {
   StringWasTooLong,
   StringWasTooShort,
   UserAlreadyRegistered,
+  UserAlreadyInRoom,
   UserNotFound,
   YouAreNotAuthorOfMessage,
   YouAreNotAuthorOfReaction,

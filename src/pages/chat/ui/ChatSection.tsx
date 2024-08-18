@@ -9,6 +9,7 @@ import { MessageModel } from "@/entities/Message/model/MessageModel"
 import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { HubConnectionState } from "@microsoft/signalr"
+import { ScrollArea } from "@/shared/ui/ScrollArea"
 
 function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
@@ -21,7 +22,7 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
   }
 
   return (
-    <div className="flex flex-col w-[300%] h-[100%]">
+    <div className="flex flex-col w-[300%]">
       <header className="flex flex-row items-center pb-2 gap-1">
         <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
@@ -37,10 +38,13 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
       </header>
       <Separator orientation="horizontal"/>
 
-      <main className="h-[100%]">
-        {messages.map(m => <div key={Math.random()}>{m.authorHexId} - {m.content}</div>)}
+      <main className="overflow-hidden max-h-[inherit] p-2">
+        <ScrollArea className="h-full">
+          {messages.map(m => m.roomGuid == room.guid && <div key={Math.random()}>{m.authorHexId} - {m.content}</div>)}
+        </ScrollArea>
       </main>
-      <ChatInput onSend={(m) => sendMessage(m)}/>
+
+      <ChatInput className="w-full" onSend={(m) => sendMessage(m)}/>
     </div>
   )
 }

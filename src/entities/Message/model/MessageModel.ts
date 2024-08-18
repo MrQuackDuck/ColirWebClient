@@ -3,7 +3,7 @@ import { ReactionModel } from "@/entities/Reaction/model/ReactionModel";
 
 export interface MessageModel {
     id: number;
-    roomId: number | null;
+    roomGuid: string | null;
     authorHexId: number;
     postDate: Date;
     editDate: Date | null;
