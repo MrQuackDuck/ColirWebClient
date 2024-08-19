@@ -11,16 +11,50 @@ import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { HubConnectionState } from "@microsoft/signalr"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
 import Message from "@/entities/Message/ui/Message"
+import { useMemo, useRef, useState } from "react"
+import { UserModel } from "@/entities/User/model/UserModel"
 
-function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
+function ChatSection({room, connection, messages, users, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], users: UserModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
   if (connection == null) return <></>;
   if (connection.connection.state != HubConnectionState.Connected) return <></>;
 
+  let messagesEnd = useRef<any>();
+  let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
+  let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
+
+  function replyClicked(message: MessageModel) {
+    scrollToBottom();
+    setMessageToReply(message);
+    setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
+  }
+
+  function replyCancelled() {
+    setMessageToReply(null);
+    setMessageToReplyAuthor(null);
+  }
+
   function sendMessage(message: MessageToSend) {
     connection.connection.send("SendMessage", message)
+      .then(() => {replyCancelled();})
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
   }
+
+  function scrollToBottom() {
+    setTimeout(() => {
+      messagesEnd.current.scrollIntoView({
+        block: "nearest",
+        inline: "center",
+        alignToTop: false
+      });
+    }, 50)
+  }
+
+  useMemo(() => {
+    if (!messagesEnd.current) return;
+    scrollToBottom();
+    scrollToBottom();
+  }, [messages.length])
 
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
@@ -31,21 +65,32 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
         <div className="flex flex-row items-center select-none gap-2.5">
           <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
           <span>{room.name}</span>
-          <Separator orientation="vertical"/>
+          <Separator className="min-h-5" orientation="vertical"/>
           <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
-          <Separator orientation="vertical"/>
+          <Separator className="min-h-5" orientation="vertical"/>
           <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
         </div>
       </header>
       <Separator orientation="horizontal"/>
 
-      <main className={`h-full overflow-hidden p-2 ${classes.messagesBlock}`}>
-        <ScrollArea className="h-full">
-          {messages.map(m => m.roomGuid == room.guid && <Message key={Math.random()} message={m} />)}
+      <main className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
+        <ScrollArea className={`h-full pr-3 pb-2`}>
+          {messages.sort((a, b) => a.id - b.id).map(m => {
+            let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
+
+            return m.roomGuid == room.guid && <Message 
+              key={Math.random()} 
+              repliedMessage={repliedMessage}
+              repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
+              onReplyClicked={() => replyClicked(m)}
+              message={m}
+              sender={users.find(u => u.hexId == m.authorHexId)!}/>
+          })}
+          <div className="w-full translate-y-30" ref={messagesEnd}></div>
         </ScrollArea>
       </main>
 
-      <ChatInput className="w-full" onSend={(m) => sendMessage(m)}/>
+      <ChatInput onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
     </div>
   )
 }

@@ -8,10 +8,11 @@ import { useLoading } from "@/shared/lib/hooks/useLoading";
 import OAuth2LoginForm from "./OAuth2LoginForm";
 import { AxiosResponse } from "axios";
 import { useAuth } from "../lib/hooks/useAuth";
+import { cn } from "@/shared/lib/utils";
 
 type AuthorizationType = "Anonymous" | "Google" | "GitHub" | null;
 
-function AuthForm() {
+function AuthForm({className}: {className?: string}) {
   const [authType, setAuthType] = useState<AuthorizationType>(null);
   const [queueToken, setQueueToken] = useState("");
   const [queryParams] = useSearchParams();
@@ -67,7 +68,7 @@ function AuthForm() {
   }
 
   return (<>
-    <Card className="w-[100%] max-w-[480px]">
+    <Card className={cn("w-[100%] max-w-[480px]", className)}>
       {getForm()}
     </Card>
   </>);

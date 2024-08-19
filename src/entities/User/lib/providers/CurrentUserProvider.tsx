@@ -11,20 +11,28 @@ export const CurrentUserContext = createContext<{
 }>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser:() => Promise.resolve() });
 
 const CurrentUserProvider = ({ children }) => {
-  const getUser = () => getFromLocalStorage<DetailedUserModel>("currentUser")
-
-  const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
-  const [ currentUser, setCurrentUser ] = useState<DetailedUserModel | null>(getUser());
-
   const setUser = (user: DetailedUserModel) => {
     setCurrentUser(user);
     setToLocalStorage("currentUser", user);
   }
-
+  
   const removeUser = () => {
     removeFromLocalStorage("currentUser");
     setCurrentUser(null);
   }
+
+  const getUser = () => {
+    try {
+      return getFromLocalStorage<DetailedUserModel>("currentUser")
+    }
+    catch {
+      removeUser();
+      return null;
+    }
+  }
+
+  const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
+  const [ currentUser, setCurrentUser ] = useState<DetailedUserModel | null>(getUser());
 
   const updateCurrentUser = async () => {
     return await UserService.GetAccountInfo()

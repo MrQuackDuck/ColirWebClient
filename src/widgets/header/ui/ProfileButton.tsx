@@ -18,7 +18,8 @@ function ProfileButton() {
     <DropdownMenuTrigger asChild>
       <Button
         className="focus-visible:ring-0 focus-visible:ring-offset-0"
-        variant={"outline"}>
+        variant={"outline"}
+        size={"sm"}>
         <UserIcon className="mr-2 h-4 w-4" strokeWidth={2} /> Profile
       </Button>
     </DropdownMenuTrigger>

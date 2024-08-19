@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { SmileIcon } from "lucide-react";
 import Picker from "@emoji-mart/react";
 import { useTheme } from "../lib/providers/ThemeProvider";
-import data from '@emoji-mart/data/sets/15/apple.json';
+import data from '@emoji-mart/data/sets/15/all.json';
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -20,7 +20,6 @@ export const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
       </PopoverTrigger>
       <PopoverContent className="w-full">
         <Picker
-					set='apple'
           emojiSize={24}
           theme={theme.theme}
           data={data}

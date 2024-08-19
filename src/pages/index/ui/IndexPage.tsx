@@ -20,9 +20,9 @@ function IndexPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center pt-6">
+    <div className="flex flex-col justify-center items-center pt-6 animate-appearance opacity-25">
         { !isAuthorized && <AuthForm/> }
-        { isAuthorized && <JoinOrCreateRoom onJoinedRoom={onJoinedRoom} onRoomCreated={onRoomCreated} /> }
+        { isAuthorized && <JoinOrCreateRoom className="animate-appearance opacity-25" onJoinedRoom={onJoinedRoom} onRoomCreated={onRoomCreated} /> }
     </div>
   );
 }

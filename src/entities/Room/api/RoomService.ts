@@ -14,7 +14,7 @@ import $api from "@/shared/api";
 export default class RoomService {
   static async GetRoomInfo(model: GetRoomInfoModel): Promise<AxiosResponse<RoomModel>> {
     return await $api.get("/Room/GetRoomInfo", {params: {
-      model: model
+      roomGuid: model.roomGuid
     }});
   }
 

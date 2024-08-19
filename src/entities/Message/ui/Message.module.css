@@ -1,0 +1,11 @@
+.hover-parent .hover-content {
+  visibility: hidden;
+}
+
+.hover-content {
+  visibility: hidden;
+}
+
+.hover-parent:hover .hover-content {
+  visibility: visible;
+}

@@ -11,8 +11,9 @@ import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { ErrorCode } from "@/shared/model/ErrorCode";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
+import { cn } from "@/shared/lib/utils";
 
-function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated }: { onJoinedRoom: (model: RoomModel) => any, onRoomCreated: (roomGuid: string) => any }) {
+function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any, onRoomCreated: (roomGuid: string) => any, className?: string }) {
   const { enableLoading, disableLoading } = useLoading();
 
   const onRoomJoin = async (model: JoinRoomModel) => {
@@ -41,7 +42,7 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated }: { onJoinedRoom: (mode
   }
 
   return (
-    <Tabs defaultValue="joinRoom" className="w-[100%] max-w-[480px]">
+    <Tabs defaultValue="joinRoom" className={cn("w-[100%] max-w-[480px]", className)}>
       <TabsList className="grid w-full grid-cols-2 mb-2">
         <TabsTrigger value="joinRoom">Join the Room</TabsTrigger>
         <TabsTrigger value="createRoom">Create a Room</TabsTrigger>
