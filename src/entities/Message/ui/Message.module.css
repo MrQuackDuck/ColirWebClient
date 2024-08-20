@@ -1,3 +1,7 @@
+.message-content a {
+  color: #1890D3;
+}
+
 .hover-parent .hover-content {
   visibility: hidden;
 }
@@ -8,4 +12,20 @@
 
 .hover-parent:hover .hover-content {
   visibility: visible;
+}
+
+@media (max-width: 700px) {
+  .hover-parent .hover-content {
+    top: 0;
+    box-shadow: 10px 5px 5px red;
+    display: none;
+  }
+  
+  .hover-content {
+    display: none;
+  }
+  
+  .hover-parent:hover .hover-content {
+    display: flex;
+  }
 }

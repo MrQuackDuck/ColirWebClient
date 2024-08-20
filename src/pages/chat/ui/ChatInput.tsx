@@ -40,11 +40,11 @@ function ChatInput({
     textArea.current.textArea.style.height = "42px";
   }
 
-  function insertAt(index: number, str: string, isEmoji: boolean) {
+  function insertAt(index: number, str: string) {
     let value = textArea.current.textArea.value;
     textArea.current.textArea.value =
       value.substr(0, index) + str + value.substr(index);
-    setCursorPosition(isEmoji ? index + 2 : index + 1);
+    setCursorPosition(index + str.length);
   }
 
   // Move to file
@@ -75,6 +75,10 @@ function ChatInput({
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.keyCode == 27) {
+      onReplyCancelled();
+    }
+
     if (event.keyCode == 66 && event.ctrlKey) {
       event.preventDefault();
       let selection = getSelectedText();
@@ -97,9 +101,13 @@ function ChatInput({
     }
   }
 
+  useEffect(() => {
+    textArea.current.textArea.focus();
+  }, [messageToReply]);
+
   return (
     <>
-      <div className={cn("flex relative items-center", className)}>
+      <div className={cn("flex absolute bottom-0 items-center", className)}>
         {messageToReply && <ReplySection onReplyCancelled={onReplyCancelled} message={messageToReply} sender={messageToReplyAuthor!} />}
 
         <PaperclipIcon
@@ -112,12 +120,12 @@ function ChatInput({
           onKeyDown={handleKeyDown}
           placeholder="Write a message..."
           className="flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 pl-8 pr-20 resize-none
-        ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-        />
+        ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"/>
         <div className="absolute h-[100%] py-2 right-3 flex flex-row gap-2.5">
           <EmojiPicker
-            onChange={(emoji) => insertAt(getCursorPosition(), emoji, true)}
+            onChange={(emoji) => insertAt(getCursorPosition(), emoji)}
             key={1}
+            className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400/100 top-[14px] h-6 w-6 -translate-y-1/2 transform"
           />
           <Separator orientation="vertical" />
           <SendIcon

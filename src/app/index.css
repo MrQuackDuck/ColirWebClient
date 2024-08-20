@@ -4,7 +4,12 @@
 
 @font-face {
   font-family: Inter;
-  src: url("/src/assets/fonts/inter-variable-font.woff2");
+  src: url("/src/assets/fonts/Inter-variable-font.woff2");
+}
+
+@font-face {
+  font-family: CascadiaCode;
+  src: url("/src/assets/fonts/CascadiaCode.woff2");
 }
 
 body {
@@ -12,12 +17,25 @@ body {
   overflow-x: hidden;
 }
 
+code, strong, p, a {
+  white-space: pre-line;
+  line-break: anywhere;
+}
+
+code {
+  font-family: CascadiaCode, monospace;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 #root {
   display: flex;
   flex-direction: column;
   max-height: 100vh;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 * {

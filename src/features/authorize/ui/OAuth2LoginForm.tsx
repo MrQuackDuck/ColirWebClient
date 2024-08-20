@@ -47,7 +47,7 @@ function OAuth2LoginForm({
   const usernameChosen = async (username) => {
     setUsername(username);
     const sendSignalAndProceedToNextStep = () => {
-      connection?.invoke<SignalRHubResponse>("ChooseUsername", username)
+      connection?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
         .then((response) => {
           if (response.resultType === SignalRResultType.Error) throw Error();
           setStep(1);
@@ -70,7 +70,7 @@ function OAuth2LoginForm({
   };
 
   const regenerateHexs = () => {
-    connection?.invoke<SignalRHubResponse>("RegenerateHexs")
+    connection?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
       .then(response => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         setProposedColors(response.content as number[]);
@@ -79,13 +79,13 @@ function OAuth2LoginForm({
   }
 
   const colorChosen = (color) => {
-    connection?.invoke<SignalRHubResponse>("ChooseHex", color)
+    connection?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
       .then(() => finish())
       .catch(showErrorToast);
   };
 
   const finish = () => {
-    connection?.invoke<SignalRHubResponse>("FinishRegistration")
+    connection?.invoke<SignalRHubResponse<any>>("FinishRegistration")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         let jwtToken = response.content["jwtToken"].toString();

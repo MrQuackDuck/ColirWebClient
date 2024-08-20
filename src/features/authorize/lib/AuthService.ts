@@ -2,8 +2,8 @@ import $api from "@/shared/api";
 import { AxiosResponse } from "axios";
 
 export default class AuthService {
-  static IsAuthenticated(): Promise<AxiosResponse> {
-    return $api.get("/Auth/IsAuthenticated");
+  static async IsAuthenticated(): Promise<AxiosResponse> {
+    return await $api.get("/Auth/IsAuthenticated");
   }
 
   static AnonymousLogin(

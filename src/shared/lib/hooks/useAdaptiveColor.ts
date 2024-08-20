@@ -28,7 +28,7 @@ function getBrightness(hexcolor): ColorType {
   var b = parseInt(hexcolor.substring(5,7),16);
   var brightness = ((r*299)+(g*587)+(b*114)) / 1000;
   if (brightness < 50) return "tooBlack";
-  if (brightness >= 50 && brightness <= 200) return "normal";
+  if (brightness >= 50 && brightness <= 190) return "normal";
   else return "tooWhite";
 }
 

@@ -19,7 +19,7 @@ import { GetLastMessagesModel } from "@/entities/Message/model/request/GetLastMe
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import RoomService from "@/entities/Room/api/RoomService";
 import { UserModel } from "@/entities/User/model/UserModel";
-import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
+import { useJwt } from "@/shared/lib/hooks/useJwt";
 
 export interface Connection {
   roomGuid: string;
@@ -34,10 +34,10 @@ function ChatPage() {
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let [users, setUsers] = useState<UserModel[]>([]);
-  let { getFromLocalStorage } = useLocalStorage();
-  let [asideOpen, setAsideOpen] = useState(false); // For mobile devices
+  let getJwt = useJwt();
+  let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
 
-  const distinctUsers = (array) => {
+  const distinctUsers = (array: UserModel[]) => {
     const newUsers: UserModel[] = [];
     array.map((u) => {
       if (newUsers.find((usr) => usr.hexId == u.hexId)) return;
@@ -45,6 +45,16 @@ function ChatPage() {
     });
 
     return newUsers;
+  };
+
+  const distinctMessages = (array: MessageModel[]) => {
+    const newMessages: MessageModel[] = [];
+    array.map((u) => {
+      if (newMessages.find((m) => m.id == u.id)) return;
+      newMessages.push(u);
+    });
+
+    return newMessages;
   };
 
   const updateUsers = async () => {
@@ -63,6 +73,68 @@ function ChatPage() {
     });
   };
 
+  function startConnection(connection: HubConnection) {
+    if (!currentUser?.joinedRooms) return;
+    connection.start()
+    .then(() => {
+      // Getting last messages
+      let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
+      connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
+        .then((response) => {
+          setMessages((prevMessages) => distinctMessages([
+            ...prevMessages,
+            ...response.content,
+          ]))
+        
+          // Getting the list of replied messages
+          response.content.map(m => {
+            if (!m.repliedMessageId) return;
+            connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
+              .then(resp => {
+                setMessages((prevMessages) => distinctMessages([
+                  ...prevMessages,
+                  resp.content,
+                ]))
+              });
+          })
+        }
+        );
+
+      connection?.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
+      connection?.on("MessageDeleted", (messageId: number) => setMessages((prevMessages) => [...prevMessages.filter(m => m.id != messageId)]));
+      connection?.on("MessageEdited", (message: MessageModel) => setMessages((prevMessages) => {
+        let target = prevMessages.find(m => m.id == message.id);
+        if (target) {
+          target.content = message.content;
+          target.editDate = message.editDate;
+        }
+
+        return [...prevMessages]
+      }));
+      connection?.on("UserJoined", () => updateUsers());
+      connection?.on("UserLeft", (hexId) => { if (currentUser.hexId != hexId) updateUsers(); });
+      connection?.on("UserKicked", (hexId) => { if (currentUser.hexId != hexId) updateUsers(); });
+      connection?.on("MessageGotReaction", (message: MessageModel) => setMessages((prevMessages) => {
+        let target = prevMessages.find(m => m.id == message.id);
+        if (target) {
+          target.reactions = [];
+          target.reactions = message.reactions;
+        }
+        return [...prevMessages]
+      }));
+      connection?.on("MessageLostReaction", (message: MessageModel) => setMessages((prevMessages) => {
+        let target = prevMessages.find(m => m.id == message.id);
+        if (target) target.reactions = message.reactions;
+        return [...prevMessages]
+      }));
+    })
+    .catch(() => {
+      showErrorToast(
+        `Couldn't connect to the room`,
+        `We weren't able to establish a connection. Please, try again later.`);
+    });
+  }
+
   useEffect(() => {
     if (!currentUser?.joinedRooms) return;
 
@@ -72,55 +144,21 @@ function ChatPage() {
           // Return if the connection is already registered
           if (connections.filter((c) => c.roomGuid == r.guid).length >= 1) return;
     
-          let connection = new HubConnectionBuilder()
+          getJwt().then(jwt => {
+            let connection = new HubConnectionBuilder()
             .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
-              accessTokenFactory: () => getFromLocalStorage<string>("jwtToken"),
+              accessTokenFactory: () => jwt,
             })
             .withAutomaticReconnect()
             .build();
     
-          setConnections((prevConnections) => [
-            ...prevConnections,
-            { roomGuid: r.guid, connection: connection },
-          ]);
-    
-          connection.start()
-            .then(() => {
-              // Getting last messages
-              let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
-              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
-                .then((response) => {
-                  setMessages((prevMessages) => [
-                    ...prevMessages,
-                    ...response.content,
-                  ])
-                
-                  // Getting the list of replied messages
-                  response.content.map(m => {
-                    if (!m.repliedMessageId) return;
-                    connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
-                      .then(resp => {
-                        setMessages((prevMessages) => [
-                          ...prevMessages,
-                          resp.content,
-                        ])
-                      });
-                  })
-                }
-                );
-    
-              connection?.on("ReceiveMessage", (m) => setMessages((prevMessages) => [...prevMessages, m]));
-              connection?.on("UserJoined", () => updateUsers());
-              connection?.on("UserLeft", (hexId) => {
-                if (currentUser.hexId != hexId) updateUsers();
-              });
+            setConnections((prevConnections) => [
+              ...prevConnections,
+              { roomGuid: r.guid, connection: connection },
+            ]);
+      
+            startConnection(connection);
             })
-            .catch(() =>
-              showErrorToast(
-                `Couldn't connect to the room`,
-                `We weren't able to establish a connection with ${r.name}`
-              )
-            );
         });
       });
   }, [currentUser?.joinedRooms.length]);

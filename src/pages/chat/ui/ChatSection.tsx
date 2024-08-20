@@ -13,6 +13,7 @@ import { ScrollArea } from "@/shared/ui/ScrollArea"
 import Message from "@/entities/Message/ui/Message"
 import { useMemo, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
+import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 
 function ChatSection({room, connection, messages, users, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], users: UserModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
@@ -20,6 +21,8 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   if (connection.connection.state != HubConnectionState.Connected) return <></>;
 
   let messagesEnd = useRef<any>();
+  const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
+  let { currentUser } = useCurrentUser();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
 
@@ -35,9 +38,29 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   }
 
   function sendMessage(message: MessageToSend) {
+    replyCancelled();
     connection.connection.send("SendMessage", message)
-      .then(() => {replyCancelled();})
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
+  }
+
+  function addReaction(messageId: number, reaction: string) {
+    connection.connection.send("AddReactionOnMessage", { messageId, reaction })
+      .catch(e => showErrorToast("Couldn't add the reaction", e.message));
+  }
+
+  function removeReaction(reactionId: number) {
+    connection.connection.send("RemoveReactionFromMessage", { reactionId })
+      .catch(e => showErrorToast("Couldn't remove the reaction", e.message));
+  }
+
+  function deleteMessage(messageId: number) {
+    connection.connection.send("DeleteMessage", { messageId: messageId })
+      .catch(e => showErrorToast("Couldn't delete the message", e.mesage));
+  }
+
+  function editMessage(messageId: number, newContent: string) {
+    connection.connection.send("EditMessage", { messageId, newContent })
+      .catch(e => showErrorToast("Couldn't delete the message", e.mesage));
   }
 
   function scrollToBottom() {
@@ -51,9 +74,23 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   }
 
   useMemo(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsMessagesEndObserved(entry.isIntersecting);
+    });
+  
+    if (messagesEnd.current) {
+      observer.observe(messagesEnd.current);
+    }
+  
+    return () => {
+      observer.disconnect(); 
+    };
+  }, []);
+
+  useMemo(() => {
     if (!messagesEnd.current) return;
-    scrollToBottom();
-    scrollToBottom();
+    if (isMessagesEndObserved) scrollToBottom();
+    if (messages[messages.length - 1].authorHexId == currentUser?.hexId) scrollToBottom();
   }, [messages.length])
 
   return (
@@ -78,15 +115,19 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
           {messages.sort((a, b) => a.id - b.id).map(m => {
             let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
 
-            return m.roomGuid == room.guid && <Message 
-              key={Math.random()} 
+            return m.roomGuid == room.guid && <Message
+              key={m.id}
               repliedMessage={repliedMessage}
               repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
+              onReactionAdded={emoji => addReaction(m.id, emoji)}
+              onReactionRemoved={reactionId => removeReaction(reactionId)}
               onReplyClicked={() => replyClicked(m)}
+              onDeleteClicked={() => deleteMessage(m.id)}
+              onMessageEdited={(newContent) => editMessage(m.id, newContent)}
               message={m}
               sender={users.find(u => u.hexId == m.authorHexId)!}/>
           })}
-          <div className="w-full translate-y-30" ref={messagesEnd}></div>
+          <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
         </ScrollArea>
       </main>
 

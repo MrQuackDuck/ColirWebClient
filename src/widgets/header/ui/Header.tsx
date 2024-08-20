@@ -14,7 +14,7 @@ function Header() {
   }
 
   return (
-    <header className={`flex z-50 justify-between w-[100vw] min-h-[60px] leading-[32px] pt-[20px] px-[10vw] ${classes.header}`}>
+    <header className={`flex z-50 justify-between w-[100vw] min-h-[60px] leading-[32px] ${classes.header}`}>
       <ColirLogoIcon onClick={() => navigateHome()} className="max-h-[100%] cursor-pointer" />
       <div className="flex gap-[6px]">
         <ThemeButton />

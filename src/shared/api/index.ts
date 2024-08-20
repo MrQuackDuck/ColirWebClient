@@ -43,7 +43,15 @@ $api.interceptors.response.use((config) => config,
         return $api.request(error.config)
           .catch((e) => Promise.reject(e));
       })
-      .catch((e) => Promise.reject(e));
+      .catch((e) => {
+        if (e.response?.status == 400) {
+          removeFromLocalStorage("jwtToken");
+          removeFromLocalStorage("refreshToken");
+          window.location.href = "/";
+        }
+
+        Promise.reject(e)
+      });
   }
 
   return Promise.reject(error);
