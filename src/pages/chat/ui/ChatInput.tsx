@@ -31,13 +31,19 @@ function ChatInput({
   let textArea = useRef<any>();
 
   useEffect(() => {
+    // Adding this event listener to focus the textarea when the user clicks outside of it
     textArea.current.textArea.focus();
+    document.addEventListener("keydown", e => {
+      if (e.ctrlKey || e.altKey) return;
+      if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
+      if (textArea.current) textArea.current.textArea.focus();
+    });
   }, []);
 
   function sendMessage() {
     onSend({ content: textArea.current.textArea.value, attachments: [], replyMessageId: messageToReply?.id });
     textArea.current.textArea.value = "";
-    textArea.current.textArea.style.height = "42px";
+    textArea.current.textArea.style.height = "43x";
   }
 
   function insertAt(index: number, str: string) {
@@ -102,7 +108,7 @@ function ChatInput({
   }
 
   useEffect(() => {
-    textArea.current.textArea.focus();
+    setTimeout(() => textArea.current.textArea.focus(), 10);
   }, [messageToReply]);
 
   return (

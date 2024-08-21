@@ -127,6 +127,10 @@ function ChatPage() {
         if (target) target.reactions = message.reactions;
         return [...prevMessages]
       }));
+      connection?.on("RoomRenamed", () => {
+        // TODO: In future, make better state management for the user in order to prevent updating the entire user
+        updateCurrentUser();
+      });
     })
     .catch(() => {
       showErrorToast(

@@ -1,13 +1,7 @@
 import { Separator } from "@/shared/ui/Separator";
 import { MessageModel } from "../model/MessageModel";
 import { UserModel } from "@/entities/User/model/UserModel";
-import { useAdaptiveColor } from "@/shared/lib/hooks/useAdaptiveColor";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/ui/Tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import Moment from "moment";
 import { Button } from "@/shared/ui/Button";
 import {
@@ -40,8 +34,11 @@ import {
   CardContent,
 } from "@/shared/ui/Card";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import Username from "@/entities/User/ui/Username";
 
 function Message({
   message,
@@ -64,14 +61,7 @@ function Message({
   onMessageEdited: (newContent: string) => any;
   onReplyClicked: () => any;
 }) {
-  let whiteHex = 16777215; // #FFFFFF
   let { currentUser } = useCurrentUser();
-  let { colorString, isAdjusted } = useAdaptiveColor(
-    sender ? sender.hexId : whiteHex
-  );
-  let repliedHexId = useAdaptiveColor(
-    repliedMessageAuthor ? repliedMessageAuthor.hexId : whiteHex
-  ).colorString;
   let [buttonDeleteConfirmation, setButtonDeleteConfirmation] =
     useState<boolean>(false);
   let [isDialogConfirmationShown, setDeleteDialogConfirmation] =
@@ -156,7 +146,17 @@ function Message({
     }
   }
 
+  function handleMouseEnter() {
+    if (message.authorHexId != currentUser?.hexId) return;
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+  }
+
   function handleMouseLeave() {
+    if (message.authorHexId != currentUser?.hexId) return;
+    document.removeEventListener("keydown", handleKeyDown);
+    document.removeEventListener("keyup", handleKeyUp);
+    setShiftPressed(false);
     setButtonDeleteConfirmation(false);
   }
 
@@ -171,27 +171,23 @@ function Message({
     if (event.key == "Shift") setShiftPressed(false);
   }
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  function formatDate(date) {
+    const now = Moment();
+    const givenDate = Moment(date);
 
-  useEffect(() => {
-    document.addEventListener("keyup", handleKeyUp);
-    return () => document.removeEventListener("keyup", handleKeyUp);
-  }, []);
+    if (givenDate.isSame(now, "day")) return givenDate.format("h:mm A");
+    if (givenDate.isSame(now.add(1, "day"), "day"))
+      return givenDate.format("MMMM D, h:mm A");
+    return givenDate.format("MMMM D, h:mm A");
+  }
 
   return (
-    <div className={`flex flex-col justify-between my-1`}>
+    <div className={`flex flex-col justify-between my-0.5 mt-1`}>
       {repliedMessage && (
-        <div className="inline-flex max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
+        <div className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
           <div className="flex flex-row max-h-5 overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
-            <span style={{ color: repliedHexId }}>
-              {repliedMessageAuthor
-                ? repliedMessageAuthor.username
-                : "Deleted User"}
-            </span>
+            <Username className="text-[11px]" user={repliedMessageAuthor} />
             <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
               {repliedMessage.content}
             </span>
@@ -205,6 +201,7 @@ function Message({
       >
         <DialogContent>
           <DialogTitle className="hidden" />
+          <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
               <CardTitle>Are you sure?</CardTitle>
@@ -242,48 +239,45 @@ function Message({
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <div
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`flex flex-row justify-between px-2 py-0.5 rounded-[6px] hover:bg-accent/80 ${
-              classes["hover-parent"]
-            } ${isEditMode && "bg-accent/80"}`}
+            className={`flex flex-row justify-between px-2 rounded-[6px] hover:bg-accent/80 
+              ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}
           >
             <div className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">
-                <TooltipProvider>
+                <Username user={sender} />
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                      {<span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px]">{formatDate(message.postDate)}</span>}
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <span className="text-[12px]">
+                        {Moment(message.postDate).format("LLLL")}
+                      </span>
+                    </TooltipContent>
+                </Tooltip>
+                {message.editDate && (<>
+                  <Separator className="min-h-5" orientation="vertical" />
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span
-                        style={{ color: colorString }}
-                        className="cursor-pointer hover:underline text-sm"
-                      >
-                        {sender ? sender.username : "Deleted User"}
-                      </span>
+                      {<span className="text-slate-400 cursor-default text-[0.625rem] font-medium">edited {formatDate(message.editDate)}</span>}
                     </TooltipTrigger>
-                    {isAdjusted && sender && (
-                      <TooltipContent>
-                        <p>The color was adjusted</p>
-                      </TooltipContent>
-                    )}
+                    <TooltipContent side="right">
+                      <span className="text-[12px]">{Moment(message.editDate).format("LLLL")}</span>
+                    </TooltipContent>
                   </Tooltip>
-                </TooltipProvider>
-                <span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px]">
-                  {<>{Moment(message.postDate).format("LLLL")}</>}
-                </span>
-                {message.editDate && (
-                  <>
-                    <Separator className="min-h-5" orientation="vertical" />
-                    <span className="text-slate-400 text-[0.625rem] font-medium">
-                      edited {Moment(message.editDate).format("LLLL")}
-                    </span>
-                  </>
-                )}
+                </>)}
               </div>
 
               {!isEditMode && (
                 <span
                   className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}
                 >
-                  <ReactMarkdown className="whitespace-pre-line text-sm text-wrap">
+                  <ReactMarkdown
+                    remarkPlugins={[[remarkGfm, { listItem: false }]]}
+                    className="whitespace-pre-line text-sm text-wrap"
+                  >
                     {message.content}
                   </ReactMarkdown>
                 </span>
@@ -321,7 +315,8 @@ function Message({
               <ReactionBar
                 onReactionAdded={addOrRemoveReaction}
                 onReactionRemoved={addOrRemoveReaction}
-              reactions={message.reactions} />
+                reactions={message.reactions}
+              />
             </div>
             {!isEditMode && (
               <div

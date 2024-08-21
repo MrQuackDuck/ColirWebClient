@@ -30,6 +30,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.markdown > * {
+  all: revert;
+}
+
 #root {
   display: flex;
   flex-direction: column;

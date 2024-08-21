@@ -23,11 +23,12 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   if (connection.connection.state != HubConnectionState.Connected) return <></>;
 
   let messagesEnd = useRef<any>();
+  let scrollArea = useRef<any>();
   const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
   let { currentUser } = useCurrentUser();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
-  let [ scrolledToBottomOnOwnMessage, setScrolledToBottomOnOwnMessage ] = useState(false);
+  let [lastMessageId, setLastMessageId] = useState<number>(0);
 
   function replyClicked(message: MessageModel) {
     scrollToBottom();
@@ -85,22 +86,16 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
     if (messagesEnd.current) {
       observer.observe(messagesEnd.current);
     }
-  
-    return () => {
-      observer.disconnect(); 
-    };
   }, []);
 
   useMemo(() => {
     if (!messagesEnd.current) return;
     if (isMessagesEndObserved) scrollToBottom();
-    if (messages[messages.length - 1].authorHexId == currentUser?.hexId && !scrolledToBottomOnOwnMessage) {
-      scrollToBottom();
-      setScrolledToBottomOnOwnMessage(true);
-    }
-    else if (messages[messages.length - 1].authorHexId != currentUser?.hexId) {
-      setScrolledToBottomOnOwnMessage(false);
-    }
+    let lastMessage = messages[messages.length - 1];
+    if (!lastMessage) return;
+    if (lastMessage.authorHexId == currentUser?.hexId && lastMessage.id != lastMessageId) scrollToBottom();
+
+    setLastMessageId(lastMessage.id);
   }, [messages])
 
   return (
@@ -121,7 +116,7 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
       <Separator orientation="horizontal"/>
 
       <main className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
-        <ScrollArea className={`h-full pr-3 pb-2`}>
+        <ScrollArea onScroll={e => console.log(e)} ref={scrollArea} className={`h-full pr-3 pb-2`}>
           {messages.sort((a, b) => a.id - b.id).map(m => {
             let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
 

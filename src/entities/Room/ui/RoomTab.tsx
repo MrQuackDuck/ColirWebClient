@@ -17,7 +17,7 @@ import {
 } from "@/shared/ui/ContextMenu";
 import { Button } from "@/shared/ui/Button";
 import { useState } from "react";
-import { Dialog, DialogContent } from "@/shared/ui/Dialog";
+import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import RoomService from "../api/RoomService";
@@ -149,6 +149,7 @@ function RoomTab({
       <Dialog open={leaveConfirmationOpened} onOpenChange={setLeaveConfirmationOpened}>
         <DialogContent>
           <DialogTitle className="hidden" />
+          <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
               <CardTitle>Are you sure?</CardTitle>
@@ -170,6 +171,7 @@ function RoomTab({
       <Dialog open={roomSettingsOpened} onOpenChange={setRoomSettingsOpened}>
         <DialogContent>
           <DialogTitle className="hidden" />
+          <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
               <CardTitle>Room Settings</CardTitle>
@@ -204,10 +206,10 @@ function RoomTab({
                   )}/>
 
                   <div className="flex flex-col gap gap-2">
-                    <Button onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}><Trash2 className="mr-1 h-4 w-4"/>Delete room</Button>
+                    <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}><Trash2 className="mr-1 h-4 w-4"/>Delete room</Button>
                     <div className="flex flex-row gap-2">
-                      <Button onClick={closeSettings} className="w-[100%]" variant={"outline"}>Cancel</Button>
-                      <Button className="w-[100%]"><CheckIcon className="mr-1 h-4 w-4" />Apply</Button>
+                      <Button type="button" onClick={closeSettings} className="w-[100%]" variant={"outline"}>Cancel</Button>
+                      <Button type="submit" className="w-[100%]"><CheckIcon className="mr-1 h-4 w-4" />Apply</Button>
                     </div>
                   </div>
                 </form>
@@ -220,6 +222,7 @@ function RoomTab({
       <Dialog open={deleteConfirmationOpened} onOpenChange={setDeleteConfirmationOpened}>
         <DialogContent>
           <DialogTitle className="hidden" />
+          <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
               <CardTitle>Are you sure?</CardTitle>

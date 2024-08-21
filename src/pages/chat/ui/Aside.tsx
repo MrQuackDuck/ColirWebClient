@@ -51,8 +51,8 @@ function Aside({
 
       <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>
         <DialogContent>
-          <DialogTitle className="hidden"></DialogTitle>
-          <DialogDescription className="hidden"></DialogDescription>
+          <DialogTitle className="hidden" />
+          <DialogDescription className="hidden" />
           <JoinOrCreateRoom
             onJoinedRoom={(r) => onJoinedOrCreatedRoom(r.guid)}
             onRoomCreated={(rGuid) => onJoinedOrCreatedRoom(rGuid)}

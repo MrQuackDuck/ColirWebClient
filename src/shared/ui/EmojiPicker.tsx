@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { SmileIcon, SmilePlusIcon } from "lucide-react";
 import Picker from "@emoji-mart/react";
 import { useTheme } from "../lib/providers/ThemeProvider";
-import data from '@emoji-mart/data/sets/15/all.json';
+import data from '@emoji-mart/data'
 import { cn } from "../lib/utils";
 import { Button } from "./Button";
 
