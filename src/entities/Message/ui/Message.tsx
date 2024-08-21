@@ -89,6 +89,15 @@ function Message({
     });
   }
 
+  function addOrRemoveReaction(reaction: string) {
+    let reactionId = message.reactions.find(
+      (r) => r.authorHexId == currentUser?.hexId && r.symbol == reaction
+    )?.id;
+
+    if (reactionId) onReactionRemoved(reactionId);
+    else onReactionAdded(reaction);
+  }
+
   function enableEditMode() {
     setIsEditMode(true);
   }
@@ -309,9 +318,9 @@ function Message({
                   </Button>
                 </div>
               )}
-              <ReactionBar 
-                onReactionAdded={onReactionAdded}
-                onReactionRemoved={onReactionRemoved}
+              <ReactionBar
+                onReactionAdded={addOrRemoveReaction}
+                onReactionRemoved={addOrRemoveReaction}
               reactions={message.reactions} />
             </div>
             {!isEditMode && (
@@ -340,7 +349,7 @@ function Message({
                     )}
                   </>
                 )}
-                <EmojiPicker asButton onChange={onReactionAdded} />
+                <EmojiPicker asButton onChange={addOrRemoveReaction} />
                 {sender && currentUser?.hexId == sender.hexId && (
                   <>
                     {!buttonDeleteConfirmation && (

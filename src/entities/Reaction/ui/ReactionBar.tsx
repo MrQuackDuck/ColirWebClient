@@ -6,7 +6,7 @@ import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 interface ReactionBarProps {
   reactions: ReactionModel[];
   onReactionAdded: (symbol: string) => any;
-  onReactionRemoved: (reactionId: number) => any;
+  onReactionRemoved: (symbol: string) => any;
 }
 
 interface ReactionElement {
@@ -30,14 +30,19 @@ function ReactionBar(props: ReactionBarProps) {
 
       if (existingReaction) {
         existingReaction.count++;
-      } else {
+      }
+      else {
         newReactionElements.push({
           id: reaction.id,
           symbol: reaction.symbol,
           count: 1,
-          isActivated: props.reactions.find((r) => r.authorHexId === currentUser?.hexId) != undefined,
+          isActivated: false,
         });
       }
+    });
+
+    newReactionElements.forEach((element) => {
+      element.isActivated = props.reactions.find(r => r.authorHexId == currentUser?.hexId && r.symbol == element.symbol) != undefined;
     });
 
     setReactionElements(newReactionElements);
@@ -51,7 +56,7 @@ function ReactionBar(props: ReactionBarProps) {
           isActivated={r.isActivated}
           count={r.count}
           onReactionAdded={() => props.onReactionAdded(r.symbol)}
-          onReactionRemoved={() => props.onReactionRemoved(r.id)}
+          onReactionRemoved={() => props.onReactionRemoved(r.symbol)}
           symbol={r.symbol}
         />
       ))}

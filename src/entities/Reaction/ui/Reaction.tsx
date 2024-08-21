@@ -1,3 +1,5 @@
+import AnimatedNumbers from "react-animated-numbers";
+
 interface ReactionProps {
   symbol: string;
   count: number;
@@ -13,22 +15,20 @@ function Reaction(props: ReactionProps) {
   }
 
   return (
-    <button onClick={reactionClicked} className="flex flex-row w-min text-sm bg-accent/50 border-primary/20 hover:bg-primary/10 gap-1.5 px-1.5 py-[1px] border rounded-[6px] leading-5 select-none cursor-pointer">
+    <button onClick={reactionClicked} className={`flex flex-row w-min ${props.isActivated ? "bg-accent/100 border-primary/40" : "bg-accent/50 border-primary/20"} text-sm hover:bg-primary/10 gap-1.5 px-1.5 py-[1px] border rounded-[6px] leading-5 select-none cursor-pointer`}>
       <span className="text-[12px]">{props.symbol}</span>
-      {/* <AnimatedNumbers
-        className="text-primary/80 font-semibold"
+      <AnimatedNumbers
+        className={`${props.isActivated ? "text-primary/80" : "text-primary/70" } font-semibold`}
         transitions={() => ({
-          type: "spring",
-          duration: 1,
-          bounce: 0,
-          mass: 0.2,
-          when: "in",
-          ease: "easeInOut",
-          velocity: 1,
+          type: 'tween', 
+          stiffness: 100,
+          damping: 10,
+          mass: 1,
+          restDelta: 0.01,
+          restSpeed: 0.01,
         })}
         animateToNumber={props.count}
-        /> */}
-        <span className="text-primary/80 font-semibold">{props.count}</span>
+        />
     </button>
   )
 }

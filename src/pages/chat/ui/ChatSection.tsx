@@ -14,6 +14,8 @@ import Message from "@/entities/Message/ui/Message"
 import { useMemo, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
+import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
+import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 
 function ChatSection({room, connection, messages, users, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], users: UserModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
@@ -25,6 +27,7 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   let { currentUser } = useCurrentUser();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
+  let [ scrolledToBottomOnOwnMessage, setScrolledToBottomOnOwnMessage ] = useState(false);
 
   function replyClicked(message: MessageModel) {
     scrollToBottom();
@@ -44,7 +47,8 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   }
 
   function addReaction(messageId: number, reaction: string) {
-    connection.connection.send("AddReactionOnMessage", { messageId, reaction })
+    connection.connection.invoke<SignalRHubResponse<any>>("AddReactionOnMessage", { messageId, reaction })
+      .then(response => { if (response.resultType == SignalRResultType.Error) throw Error(`Error code: ${response.error.errorCodeAsString}`) })
       .catch(e => showErrorToast("Couldn't add the reaction", e.message));
   }
 
@@ -90,8 +94,14 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   useMemo(() => {
     if (!messagesEnd.current) return;
     if (isMessagesEndObserved) scrollToBottom();
-    if (messages[messages.length - 1].authorHexId == currentUser?.hexId) scrollToBottom();
-  }, [messages.length])
+    if (messages[messages.length - 1].authorHexId == currentUser?.hexId && !scrolledToBottomOnOwnMessage) {
+      scrollToBottom();
+      setScrolledToBottomOnOwnMessage(true);
+    }
+    else if (messages[messages.length - 1].authorHexId != currentUser?.hexId) {
+      setScrolledToBottomOnOwnMessage(false);
+    }
+  }, [messages])
 
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
