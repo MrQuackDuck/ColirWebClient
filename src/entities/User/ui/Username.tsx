@@ -14,8 +14,8 @@ function Username({ user, className }: { user?: UserModel, className?: string })
       <TooltipTrigger asChild>
         <span
           style={{ color: colorString }}
-          className={cn("cursor-pointer hover:underline text-sm", className)}>
-          {user ? user.username : "Deleted User"}
+          className={cn("cursor-pointer text-ellipsis hover:underline text-sm", className)}>
+          {user ? user.username : "Unknown User"}
         </span>
       </TooltipTrigger>
       {isAdjusted && user && (

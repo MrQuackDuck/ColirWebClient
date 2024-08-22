@@ -7,18 +7,21 @@ import CurrentUserProvider from "@/entities/User/lib/providers/CurrentUserProvid
 import AuthProvider from "@/features/authorize/lib/providers/AuthProvider";
 import { TooltipProvider } from "@/shared/ui/Tooltip";
 import JoinedRoomsProvider from "@/entities/Room/lib/providers/JoinedRoomsProvider";
+import { UsersProvider } from "@/entities/User/lib/providers/UsersProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <LoadingProvider>
       <CurrentUserProvider>
-        <JoinedRoomsProvider>
-          <TooltipProvider>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </TooltipProvider>
-        </JoinedRoomsProvider>
+        <UsersProvider>
+          <JoinedRoomsProvider>
+            <TooltipProvider>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </TooltipProvider>
+          </JoinedRoomsProvider>
+        </UsersProvider>
       </CurrentUserProvider>
     </LoadingProvider>
   </ThemeProvider>

@@ -7,6 +7,8 @@ import { Button } from "@/shared/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardContent } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";
+import { useUsers } from "@/entities/User/lib/hooks/useUsers";
+import Username from "@/entities/User/ui/Username";
 
 interface ReactionBarProps {
   reactions: ReactionModel[];
@@ -24,9 +26,15 @@ interface ReactionElement {
 
 const ReactionBar = (props: ReactionBarProps) => {
   const { currentUser } = useCurrentUser();
+  const { users } = useUsers();
   const [reactionElements, setReactionElements] = useState<ReactionElement[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [currentReactionInDialog, setCurrentReactionInDialog] = useState<string | null>(props.reactions[0]?.symbol);
+
+  function openDialog(reaction: string) {
+    setCurrentReactionInDialog(reaction);
+    setIsDialogOpen(true);
+  }
 
   useEffect(() => {
     const newReactionElements: ReactionElement[] = [];
@@ -41,7 +49,7 @@ const ReactionBar = (props: ReactionBarProps) => {
           id: reaction.id,
           symbol: reaction.symbol,
           count: 1,
-          isActivated: false,
+          isActivated: false
         });
     });
 
@@ -59,15 +67,15 @@ const ReactionBar = (props: ReactionBarProps) => {
           <TooltipTrigger asChild>
             <span>
               <Reaction
-              isActivated={r.isActivated}
-              count={r.count}
-              onReactionAdded={() => props.onReactionAdded(r.symbol)}
-              onReactionRemoved={() => props.onReactionRemoved(r.symbol)}
-              symbol={r.symbol}/>
+                isActivated={r.isActivated}
+                count={r.count}
+                onReactionAdded={() => props.onReactionAdded(r.symbol)}
+                onReactionRemoved={() => props.onReactionRemoved(r.symbol)}
+                symbol={r.symbol}/>
             </span>
           </TooltipTrigger>
           <TooltipContent>
-            <Button onClick={() => setIsDialogOpen(true)} variant={"link"} className="h-2 text-[12px] p-0 leading-0">Who reacted?</Button>
+            <Button onClick={() => openDialog(r.symbol)} variant={"link"} className="h-2 text-[12px] p-0 leading-0">Who reacted?</Button>
           </TooltipContent>
         </Tooltip>
       ))}
@@ -79,12 +87,24 @@ const ReactionBar = (props: ReactionBarProps) => {
         <DialogDescription className="hidden" />
         <Card>
           <CardContent className="flex flex-col gap-2 py-2">
-            <div className="flex flex-row gap-2">
-              {reactionElements.map((r) => <Button key={r.symbol} onClick={() => setCurrentReactionInDialog(r.symbol)} size={"icon"} variant={"outline"}>{r.symbol}</Button>)}
+            <div className="flex flex-row flex-wrap max-w-full gap-2">
+              {reactionElements.map((r) => 
+                <Reaction
+                key={r.symbol}
+                isActivated={false}
+                count={r.count}
+                onReactionAdded={() => setCurrentReactionInDialog(r.symbol)}
+                onReactionRemoved={() => setCurrentReactionInDialog(r.symbol)}
+                symbol={r.symbol}/>
+              )}
             </div>
             <Separator/>
             <div className="flex flex-col">
-              {props.reactions.filter(r => r.symbol == currentReactionInDialog).map((r) => <span key={r.symbol}>{r.authorHexId}</span>)}
+              {props.reactions.filter(r => r.symbol == currentReactionInDialog).map((r) => (
+                <div key={r.id} className="flex flex-row gap-1">
+                  <Username user={users.find(u => u.hexId == r.authorHexId)} />
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>

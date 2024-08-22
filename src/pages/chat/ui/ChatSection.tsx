@@ -16,8 +16,9 @@ import { UserModel } from "@/entities/User/model/UserModel"
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
+import { useUsers } from "@/entities/User/lib/hooks/useUsers"
 
-function ChatSection({room, connection, messages, users, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], users: UserModel[], openAside: () => any | null}) {
+function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
   if (room == null) return <></>;
   if (connection == null) return <></>;
   if (connection.connection.state != HubConnectionState.Connected) return <></>;
@@ -25,7 +26,8 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
   let messagesEnd = useRef<any>();
   let scrollArea = useRef<any>();
   const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
-  let { currentUser } = useCurrentUser();
+  let {currentUser} = useCurrentUser();
+  let {users} = useUsers();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [lastMessageId, setLastMessageId] = useState<number>(0);
@@ -116,7 +118,7 @@ function ChatSection({room, connection, messages, users, openAside}: {room: Room
       <Separator orientation="horizontal"/>
 
       <main className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
-        <ScrollArea onScroll={e => console.log(e)} ref={scrollArea} className={`h-full pr-3 pb-2`}>
+        <ScrollArea ref={scrollArea} className={`h-full pr-3 pb-2`}>
           {messages.sort((a, b) => a.id - b.id).map(m => {
             let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
 

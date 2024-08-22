@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/shared/ui/Sheet";
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
@@ -21,6 +21,7 @@ import RoomService from "@/entities/Room/api/RoomService";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
+import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 
 export interface Connection {
   roomGuid: string;
@@ -33,7 +34,7 @@ function ChatPage() {
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let {joinedRooms, setJoinedRooms} = useJoinedRooms();
   let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms[0].guid ?? "");
-  let [users, setUsers] = useState<UserModel[]>([]);
+  let {setUsers} = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
 
@@ -72,6 +73,8 @@ function ChatPage() {
 
   function startConnection(roomGuid: string, connection: HubConnection) {
     if (!joinedRooms || !currentUser) return;
+    if (connection.state != HubConnectionState.Disconnected) return;
+
     connection.start()
     .then(() => {
       // Getting last messages
@@ -108,7 +111,9 @@ function ChatPage() {
 
         return [...prevMessages]
       }));
+
       connection?.on("UserJoined", (user: UserModel) => {
+        if (currentUser.hexId == user.hexId) return;
         setUsers((prevUsers) => [...prevUsers, user])
         setJoinedRooms((prevRooms) => {
           let target = prevRooms.find(r => r.guid == roomGuid);
@@ -116,8 +121,15 @@ function ChatPage() {
           return [...prevRooms];
         });
       });
+
       connection?.on("UserLeft", (hexId) => {
-        if (currentUser.hexId == hexId) return;
+        if (currentUser.hexId == hexId) {
+          setConnections((prevConnections) => [
+            ...prevConnections.filter(c => c.roomGuid != roomGuid)
+          ]);
+          connection.stop();
+          return;
+        }
 
         setJoinedRooms((prevRooms) => {
           let target = prevRooms.find(r => r.guid == roomGuid);
@@ -139,7 +151,19 @@ function ChatPage() {
           return [...prevRooms];
         });
       });
-      connection?.on("UserKicked", (hexId) => { if (currentUser.hexId != hexId) setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]) });
+
+      connection?.on("UserKicked", (hexId) => {
+        if (currentUser.hexId == hexId) {
+          setConnections((prevConnections) => [
+            ...prevConnections.filter(c => c.roomGuid != roomGuid)
+          ]);
+          connection.stop();
+          return;
+        }
+        
+        setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]) 
+      });
+
       connection?.on("MessageGotReaction", (message: MessageModel) => setMessages((prevMessages) => {
         let target = prevMessages.find(m => m.id == message.id);
         if (target) {
@@ -148,11 +172,13 @@ function ChatPage() {
         }
         return [...prevMessages]
       }));
+
       connection?.on("MessageLostReaction", (message: MessageModel) => setMessages((prevMessages) => {
         let target = prevMessages.find(m => m.id == message.id);
         if (target) target.reactions = message.reactions;
         return [...prevMessages]
       }));
+
       connection?.on("RoomRenamed", (newName) => {
         setJoinedRooms((prevRooms) => {
           let target = prevRooms.find(r => r.guid == selectedRoom);
@@ -161,10 +187,10 @@ function ChatPage() {
         });
       });
     })
-    .catch(() => {
+    .catch(e => {
       showErrorToast(
         `Couldn't connect to the room`,
-        `We weren't able to establish a connection. Please, try again later.`);
+        `We weren't able to establish a connection. Error: ${e}.`);
     });
   }
 
@@ -175,8 +201,8 @@ function ChatPage() {
       .then(() => {
         joinedRooms.map((r) => {
           // Return if the connection is already registered
-          if (connections.filter((c) => c.roomGuid == r.guid).length >= 1) return;
-    
+          if (connections.find((c) => c.roomGuid == r.guid)) return;
+
           getJwt().then(jwt => {
             let connection = new HubConnectionBuilder()
             .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
@@ -184,17 +210,27 @@ function ChatPage() {
             })
             .withAutomaticReconnect()
             .build();
-    
+
             setConnections((prevConnections) => [
               ...prevConnections,
               { roomGuid: r.guid, connection: connection },
             ]);
-      
-            startConnection(r.guid, connection);
           })
         });
       });
   }, [joinedRooms.length]);
+
+  useEffect(() => {
+    if (!connections) return;
+
+    let mappedConnections: string[] = [];
+    connections.map((c) => {
+      if (connections.find((c) => c.roomGuid == selectedRoom)?.connection.state == HubConnectionState.Connected) return;
+      if (mappedConnections.includes(c.roomGuid)) return;
+      mappedConnections.push(c.roomGuid);
+      startConnection(c.roomGuid, c.connection)
+    });
+  }, [connections.length])
 
   return (
     <>
@@ -228,7 +264,6 @@ function ChatPage() {
         </div>
         <ChatSection
           messages={messages}
-          users={users}
           connection={connections.find((c) => c.roomGuid == selectedRoom)!}
           openAside={() => setAsideOpen(true)}
           room={joinedRooms.find((r) => r.guid == selectedRoom)!}

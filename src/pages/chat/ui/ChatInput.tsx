@@ -34,7 +34,7 @@ function ChatInput({
     // Adding this event listener to focus the textarea when the user clicks outside of it
     textArea.current.textArea.focus();
     document.addEventListener("keydown", e => {
-      if (e.ctrlKey || e.altKey) return;
+      if (e.ctrlKey || e.altKey || e.shiftKey) return;
       if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
       if (textArea.current) textArea.current.textArea.focus();
     });
