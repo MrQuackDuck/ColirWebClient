@@ -18,7 +18,7 @@ export default class RoomService {
     }});
   }
 
-  static async CreateRoom(model: CreateRoomModel): Promise<AxiosResponse<string>> {
+  static async CreateRoom(model: CreateRoomModel): Promise<AxiosResponse<RoomModel>> {
     return await $api.post("/Room/CreateRoom", model);
   }
 

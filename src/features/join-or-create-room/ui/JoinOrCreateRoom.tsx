@@ -13,7 +13,7 @@ import { ErrorCode } from "@/shared/model/ErrorCode";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { cn } from "@/shared/lib/utils";
 
-function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any, onRoomCreated: (roomGuid: string) => any, className?: string }) {
+function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any, onRoomCreated: (model: RoomModel) => any, className?: string }) {
   const { enableLoading, disableLoading } = useLoading();
 
   const onRoomJoin = async (model: JoinRoomModel) => {

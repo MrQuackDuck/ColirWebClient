@@ -7,16 +7,16 @@ import Header from "@/widgets/header/ui/Header";
 import Loader from "@/shared/ui/Loader";
 import NotFound from "@/pages/not-found/ui/NotFound";
 import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import ChatPage from "@/pages/chat/ui/ChatPage";
+import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 
 function App() {
   let { isLoading } = useLoading();
   let { isAuthorized } = useAuth();
-  let { currentUser } = useCurrentUser();
+  let { joinedRooms } = useJoinedRooms();
 
   const getRoutes = () => {
-    if (isAuthorized && currentUser && currentUser.joinedRooms.length > 0) {
+    if (isAuthorized && joinedRooms && joinedRooms.length > 0) {
       return (<>
         <Route path="/" element={<ChatPage/>} />
         <Route path="/gitHubAuth" element={<ChatPage/>} />

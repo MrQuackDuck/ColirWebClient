@@ -6,7 +6,7 @@ import {
   LogOutIcon,
   MailCheckIcon,
   SettingsIcon,
-  Trash2,
+  Trash2Icon,
 } from "lucide-react";
 import { RoomModel } from "../model/RoomModel";
 import {
@@ -31,6 +31,7 @@ import { z } from "zod";
 import { Input } from "@/shared/ui/Input";
 import { Link } from "react-router-dom";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useJoinedRooms } from "../lib/hooks/useJoinedRooms";
 
 const formSchema = z.object({
   roomName: z.string().min(2, {
@@ -58,12 +59,13 @@ function RoomTab({
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false)
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
-  const { updateCurrentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
+  const { setJoinedRooms } = useJoinedRooms();
 
   function leaveFromRoom() {
     RoomService.LeaveRoom({ roomGuid: room.guid })
       .then(() => {
-        updateCurrentUser()
+        setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
         setLeaveConfirmationOpened(false);
       })
       .catch(() => showErrorToast("Oops!", "We weren't able to make leave you from the room."))
@@ -80,7 +82,7 @@ function RoomTab({
   function deleteRoom() {
     RoomService.DeleteRoom({ roomGuid: room.guid })
     .then(() => {
-      updateCurrentUser()
+      setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
       setDeleteConfirmationOpened(false);
     })
     .catch(() => showErrorToast("Oops!", "We weren't able to delete the room."))
@@ -108,7 +110,13 @@ function RoomTab({
     // Check if room name changed
     if (values.roomName != room.name) {
       RoomService.RenameRoom({ roomGuid: room.guid, newName: values.roomName })
-        .then(() => updateCurrentUser())
+        .then(() => {
+          setJoinedRooms((rooms) => {
+            let target = rooms.find((r) => r.guid == room.guid);
+            if (target) target.name = values.roomName;
+            return [...rooms];
+          });
+         })
         .catch(() => showErrorToast("An error occurred!", "We were unable to change the name of the room"))
     }
 
@@ -206,7 +214,7 @@ function RoomTab({
                   )}/>
 
                   <div className="flex flex-col gap gap-2">
-                    <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}><Trash2 className="mr-1 h-4 w-4"/>Delete room</Button>
+                    {room?.owner?.hexId == currentUser?.hexId && <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}><Trash2Icon className="mr-1 h-4 w-4"/>Delete room</Button>}
                     <div className="flex flex-row gap-2">
                       <Button type="button" onClick={closeSettings} className="w-[100%]" variant={"outline"}>Cancel</Button>
                       <Button type="submit" className="w-[100%]"><CheckIcon className="mr-1 h-4 w-4" />Apply</Button>

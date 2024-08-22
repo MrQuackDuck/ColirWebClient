@@ -38,6 +38,7 @@ export const EmojiPicker = ({ onChange, className, asButton }: EmojiPickerProps)
       </PopoverTrigger>
       <PopoverContent className="w-full">
         <Picker
+          style={{ "backgroundColor": "#FFFFFF !important" }}
           emojiSize={24}
           theme={theme.theme}
           data={data}

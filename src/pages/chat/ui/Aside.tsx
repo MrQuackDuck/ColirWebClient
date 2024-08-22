@@ -6,30 +6,28 @@ import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 
 function Aside({
   rooms,
   selectedRoom,
-  setSelectedRoom,
-  updateCurrentUser
+  setSelectedRoom
 }: {
   rooms: RoomModel[];
   selectedRoom: string;
   setSelectedRoom: (roomGuid) => any;
-  updateCurrentUser: () => any;
 }) {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
+  let { joinedRooms, setJoinedRooms } = useJoinedRooms();
 
   function selectRoom(roomGuid: string) {
     setSelectedRoom(roomGuid);
   }
 
-  function onJoinedOrCreatedRoom(roomGuid: string) {
-    updateCurrentUser()
-    .then(() => {
-      setNewRoomModalOpened(false);
-      setSelectedRoom(roomGuid);
-    });
+  function onJoinedOrCreatedRoom(room: RoomModel) {
+    setJoinedRooms([...joinedRooms, room]);
+    setNewRoomModalOpened(false);
+    setSelectedRoom(room.guid);
   }
 
   return (
@@ -54,8 +52,8 @@ function Aside({
           <DialogTitle className="hidden" />
           <DialogDescription className="hidden" />
           <JoinOrCreateRoom
-            onJoinedRoom={(r) => onJoinedOrCreatedRoom(r.guid)}
-            onRoomCreated={(rGuid) => onJoinedOrCreatedRoom(rGuid)}
+            onJoinedRoom={(r) => onJoinedOrCreatedRoom(r)}
+            onRoomCreated={(r) => onJoinedOrCreatedRoom(r)}
           />
         </DialogContent>
       </Dialog>

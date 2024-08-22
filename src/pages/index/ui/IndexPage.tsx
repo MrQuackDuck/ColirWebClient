@@ -1,4 +1,4 @@
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
+import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
 import AuthForm from "@/features/authorize/ui/AuthForm";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
@@ -6,17 +6,17 @@ import { useLoading } from "@/shared/lib/hooks/useLoading";
 
 function IndexPage() {
   const { isAuthorized } = useAuth();
-  const { updateCurrentUser } = useCurrentUser();
+  const { joinedRooms, setJoinedRooms } = useJoinedRooms();
   const { enableLoading } = useLoading();
 
-  const onJoinedRoom = () => {
+  const onJoinedRoom = (room) => {
     enableLoading();
-    updateCurrentUser();
+    setJoinedRooms([...joinedRooms, room]);
   }
 
-  const onRoomCreated = () => {
+  const onRoomCreated = (room) => {
     enableLoading();
-    updateCurrentUser();
+    setJoinedRooms([...joinedRooms, room]);
   }
 
   return (

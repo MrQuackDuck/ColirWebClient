@@ -20,6 +20,7 @@ import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import RoomService from "@/entities/Room/api/RoomService";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
+import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 
 export interface Connection {
   roomGuid: string;
@@ -28,11 +29,10 @@ export interface Connection {
 
 function ChatPage() {
   let { currentUser, updateCurrentUser } = useCurrentUser();
-  let [selectedRoom, setSelectedRoom] = useState<string>(
-    currentUser?.joinedRooms[0].guid ?? ""
-  );
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
+  let {joinedRooms, setJoinedRooms} = useJoinedRooms();
+  let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms[0].guid ?? "");
   let [users, setUsers] = useState<UserModel[]>([]);
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
@@ -73,8 +73,8 @@ function ChatPage() {
     });
   };
 
-  function startConnection(connection: HubConnection) {
-    if (!currentUser?.joinedRooms) return;
+  function startConnection(roomGuid: string, connection: HubConnection) {
+    if (!joinedRooms || !currentUser) return;
     connection.start()
     .then(() => {
       // Getting last messages
@@ -98,7 +98,7 @@ function ChatPage() {
               });
           })
         }
-        );
+      );
 
       connection?.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
       connection?.on("MessageDeleted", (messageId: number) => setMessages((prevMessages) => [...prevMessages.filter(m => m.id != messageId)]));
@@ -111,9 +111,38 @@ function ChatPage() {
 
         return [...prevMessages]
       }));
-      connection?.on("UserJoined", () => updateUsers());
-      connection?.on("UserLeft", (hexId) => { if (currentUser.hexId != hexId) updateUsers(); });
-      connection?.on("UserKicked", (hexId) => { if (currentUser.hexId != hexId) updateUsers(); });
+      connection?.on("UserJoined", (user: UserModel) => {
+        setUsers((prevUsers) => [...prevUsers, user])
+        setJoinedRooms((prevRooms) => {
+          let target = prevRooms.find(r => r.guid == roomGuid);
+          target?.joinedUsers.push(user);
+          return [...prevRooms];
+        });
+      });
+      connection?.on("UserLeft", (hexId) => {
+        if (currentUser.hexId == hexId) return;
+
+        setJoinedRooms((prevRooms) => {
+          let target = prevRooms.find(r => r.guid == roomGuid);
+          if (target) target.joinedUsers = target.joinedUsers.filter(u => u.hexId != hexId);
+
+          // Checking if the user is present on other rooms with current user
+          // If present, don't delete the user from memory
+          let isUserPresent = false;
+          joinedRooms.forEach(r => {
+            if (r.joinedUsers.find(u => u.hexId == hexId)) {
+              isUserPresent = true;
+            }
+          });
+
+          if (!isUserPresent) {
+            setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]);
+          }
+
+          return [...prevRooms];
+        });
+      });
+      connection?.on("UserKicked", (hexId) => { if (currentUser.hexId != hexId) setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]) });
       connection?.on("MessageGotReaction", (message: MessageModel) => setMessages((prevMessages) => {
         let target = prevMessages.find(m => m.id == message.id);
         if (target) {
@@ -127,9 +156,12 @@ function ChatPage() {
         if (target) target.reactions = message.reactions;
         return [...prevMessages]
       }));
-      connection?.on("RoomRenamed", () => {
-        // TODO: In future, make better state management for the user in order to prevent updating the entire user
-        updateCurrentUser();
+      connection?.on("RoomRenamed", (newName) => {
+        setJoinedRooms((prevRooms) => {
+          let target = prevRooms.find(r => r.guid == selectedRoom);
+          if (target) target.name = newName;
+          return [...prevRooms];
+        });
       });
     })
     .catch(() => {
@@ -140,11 +172,11 @@ function ChatPage() {
   }
 
   useEffect(() => {
-    if (!currentUser?.joinedRooms) return;
+    if (!joinedRooms) return;
 
     updateUsers()
       .then(() => {
-        currentUser.joinedRooms.map((r) => {
+        joinedRooms.map((r) => {
           // Return if the connection is already registered
           if (connections.filter((c) => c.roomGuid == r.guid).length >= 1) return;
     
@@ -161,11 +193,11 @@ function ChatPage() {
               { roomGuid: r.guid, connection: connection },
             ]);
       
-            startConnection(connection);
-            })
+            startConnection(r.guid, connection);
+          })
         });
       });
-  }, [currentUser?.joinedRooms.length]);
+  }, [joinedRooms.length]);
 
   return (
     <>
@@ -178,10 +210,9 @@ function ChatPage() {
             </SheetDescription>
           </SheetHeader>
           <Aside
-            rooms={currentUser!.joinedRooms}
+            rooms={joinedRooms}
             selectedRoom={selectedRoom}
             setSelectedRoom={setSelectedRoom}
-            updateCurrentUser={updateCurrentUser}
           />
         </SheetContent>
       </Sheet>
@@ -192,10 +223,9 @@ function ChatPage() {
           className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}
         >
           <Aside
-            rooms={currentUser!.joinedRooms}
+            rooms={joinedRooms}
             selectedRoom={selectedRoom}
             setSelectedRoom={setSelectedRoom}
-            updateCurrentUser={updateCurrentUser}
           />
           <Separator orientation="vertical" />
         </div>
@@ -204,7 +234,7 @@ function ChatPage() {
           users={users}
           connection={connections.find((c) => c.roomGuid == selectedRoom)!}
           openAside={() => setAsideOpen(true)}
-          room={currentUser!.joinedRooms.find((r) => r.guid == selectedRoom)!}
+          room={joinedRooms.find((r) => r.guid == selectedRoom)!}
         />
       </div>
     </>

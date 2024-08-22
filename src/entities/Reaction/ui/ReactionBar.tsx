@@ -1,11 +1,11 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactionModel } from "../model/ReactionModel";
 import Reaction from "./Reaction";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import { Button } from "@/shared/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardContent, CardTitle } from "@/shared/ui/Card";
+import { Card, CardContent } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";
 
 interface ReactionBarProps {
@@ -22,7 +22,7 @@ interface ReactionElement {
 }
 
 
-const ReactionBar = forwardRef((props: ReactionBarProps, ref: any) => {
+const ReactionBar = (props: ReactionBarProps) => {
   const { currentUser } = useCurrentUser();
   const [reactionElements, setReactionElements] = useState<ReactionElement[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -59,7 +59,6 @@ const ReactionBar = forwardRef((props: ReactionBarProps, ref: any) => {
           <TooltipTrigger asChild>
             <span>
               <Reaction
-              ref={ref}
               isActivated={r.isActivated}
               count={r.count}
               onReactionAdded={() => props.onReactionAdded(r.symbol)}
@@ -81,17 +80,17 @@ const ReactionBar = forwardRef((props: ReactionBarProps, ref: any) => {
         <Card>
           <CardContent className="flex flex-col gap-2 py-2">
             <div className="flex flex-row gap-2">
-              {reactionElements.map((r) => <Button onClick={() => setCurrentReactionInDialog(r.symbol)} size={"icon"} variant={"outline"}>{r.symbol}</Button>)}
+              {reactionElements.map((r) => <Button key={r.symbol} onClick={() => setCurrentReactionInDialog(r.symbol)} size={"icon"} variant={"outline"}>{r.symbol}</Button>)}
             </div>
             <Separator/>
             <div className="flex flex-col">
-              {props.reactions.filter(r => r.symbol == currentReactionInDialog).map((r) => <span>{r.authorHexId}</span>)}
+              {props.reactions.filter(r => r.symbol == currentReactionInDialog).map((r) => <span key={r.symbol}>{r.authorHexId}</span>)}
             </div>
           </CardContent>
         </Card>
       </DialogContent>
     </Dialog>
   </>);
-})
+}
 
 export default ReactionBar;

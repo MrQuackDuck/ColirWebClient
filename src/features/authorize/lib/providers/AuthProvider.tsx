@@ -1,3 +1,4 @@
+import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import AuthService from "@/features/authorize/lib/AuthService";
 import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
@@ -13,6 +14,7 @@ const AuthProvider = ({ children }) => {
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const { updateCurrentUser, removeUser } = useCurrentUser();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(getFromLocalStorage("jwtToken") !== null);
+  const { setJoinedRooms } = useJoinedRooms();
 
   const authorize = (jwtToken: string, refreshToken: string) => {
     setIsAuthorized(true);
@@ -23,6 +25,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     removeUser();
+    setJoinedRooms([]);
     setIsAuthorized(false);
     removeFromLocalStorage("jwtToken");
     removeFromLocalStorage("refreshToken");
