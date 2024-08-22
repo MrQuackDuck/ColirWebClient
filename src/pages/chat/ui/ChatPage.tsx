@@ -28,7 +28,7 @@ export interface Connection {
 }
 
 function ChatPage() {
-  let { currentUser, updateCurrentUser } = useCurrentUser();
+  let { currentUser } = useCurrentUser();
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let {joinedRooms, setJoinedRooms} = useJoinedRooms();
@@ -58,11 +58,8 @@ function ChatPage() {
   };
 
   const updateUsers = async () => {
-    if (!currentUser) return;
-
-    updateCurrentUser();
     let pendingUsers: any[] = [];
-    await currentUser.joinedRooms.map(async r => {
+    await joinedRooms.map(async r => {
       await RoomService.GetRoomInfo({ roomGuid: r.guid }).then((roomInfoResponse) => {
         pendingUsers = distinctUsers([
           ...pendingUsers,

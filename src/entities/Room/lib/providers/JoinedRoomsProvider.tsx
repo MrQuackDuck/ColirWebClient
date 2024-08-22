@@ -22,7 +22,7 @@ const JoinedRoomsProvider = ({ children }) => {
       RoomService.GetRoomInfo({ roomGuid: room.guid })
         .then((response) => {
           setJoinedRooms((rooms) => [...rooms, response.data]);
-        });
+        })
       });
   }, []);
 

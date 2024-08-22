@@ -16,7 +16,7 @@ function App() {
   let { joinedRooms } = useJoinedRooms();
 
   const getRoutes = () => {
-    if (isAuthorized && joinedRooms && joinedRooms.length > 0) {
+    if (isAuthorized && joinedRooms.length > 0) {
       return (<>
         <Route path="/" element={<ChatPage/>} />
         <Route path="/gitHubAuth" element={<ChatPage/>} />
