@@ -85,7 +85,7 @@ function ChatPage() {
       .start()
       .then(() => {
         // Getting last messages
-        let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
+        let request: GetLastMessagesModel = { count: 20, skipCount: 0 };
         connection
           .invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
           .then((response) => {
@@ -96,10 +96,7 @@ function ChatPage() {
             // Getting the list of replied messages
             response.content.map((m) => {
               if (!m.repliedMessageId) return;
-              connection
-                .invoke<SignalRHubResponse<MessageModel>>("GetMessageById", {
-                  messageId: m.repliedMessageId,
-                })
+              connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
                 .then((resp) => {
                   setMessages((prevMessages) =>
                     distinctMessages([...prevMessages, resp.content])
@@ -280,12 +277,8 @@ function ChatPage() {
           />
         </SheetContent>
       </Sheet>
-      <div
-        className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}
-      >
-        <div
-          className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}
-        >
+      <div className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
+        <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}>
           <Aside
             rooms={joinedRooms}
             selectedRoom={selectedRoom}
@@ -297,8 +290,7 @@ function ChatPage() {
           messages={messages}
           connection={connections.find((c) => c.roomGuid == selectedRoom)!}
           openAside={() => setAsideOpen(true)}
-          room={joinedRooms.find((r) => r.guid == selectedRoom)!}
-        />
+          room={joinedRooms.find((r) => r.guid == selectedRoom)!}/>
       </div>
     </>
   );

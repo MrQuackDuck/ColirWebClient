@@ -16,6 +16,8 @@ import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 import { useUsers } from "@/entities/User/lib/hooks/useUsers"
+import SkeletonMessageList from "@/entities/Message/ui/SkeletonMessageList"
+import { HubConnectionState } from "@microsoft/signalr"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -37,6 +39,7 @@ function ChatSection({
   let {users} = useUsers();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
+  let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
   let [lastMessageId, setLastMessageId] = useState<number>(0);
 
   function replyClicked(message: MessageModel) {
@@ -107,7 +110,13 @@ function ChatSection({
     setLastMessageId(lastMessage.id);
   }, [messages])
 
-  let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("default");
+  let [messagesLoaded, setMessagesLoaded] = useState(false);
+  let mainSection = useRef<any>();
+  useEffect(() => {
+    if (connection == null) return setMessagesLoaded(false);
+    if (messages.length == 0 && connection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
+    setMessagesLoaded(true);
+  }, [messages]);
 
   useEffect(() => {
     connection?.connection.onreconnecting(() => {
@@ -119,7 +128,14 @@ function ChatSection({
     connection?.connection.onclose(() => {
       setCurrentChatVariant("disconnected");
     });
-  }, [connection?.connection])
+  }, [connection?.connection]);
+
+  useEffect(() => {
+    if (messagesLoaded) {
+      setCurrentChatVariant("default");
+      scrollToBottom();
+    }
+  }, [messagesLoaded]);
 
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
@@ -138,7 +154,7 @@ function ChatSection({
       </header>
       <Separator orientation="horizontal"/>
 
-      <main className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
+      <main ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
         <ScrollArea ref={scrollArea} className={`h-full pr-3 pb-2`}>
           {messages.sort((a, b) => a.id - b.id).map(m => {
             let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
@@ -156,6 +172,7 @@ function ChatSection({
               message={m}
               sender={users.find(u => u.hexId == m.authorHexId)!}/>
           })}
+          {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
         </ScrollArea>
       </main>

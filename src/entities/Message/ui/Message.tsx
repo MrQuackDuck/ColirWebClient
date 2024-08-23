@@ -33,8 +33,6 @@ import {
   CardDescription,
   CardContent,
 } from "@/shared/ui/Card";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -275,15 +273,8 @@ function Message({
               </div>
 
               {!isEditMode && (
-                <span
-                  className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}
-                >
-                  <ReactMarkdown
-                    remarkPlugins={[[remarkGfm, { listItem: false }]]}
-                    className="whitespace-pre-line text-sm text-wrap"
-                  >
-                    {message.content}
-                  </ReactMarkdown>
+                <span className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}>
+                  {message.content}
                 </span>
               )}
               {isEditMode && (
