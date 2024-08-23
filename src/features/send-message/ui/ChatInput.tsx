@@ -132,8 +132,8 @@ function ChatInput({
         />}
         {variant === "connecting" && (<Loader2 className='absolute z-10 pointer-events-none stroke-slate-400/80 animate-spin m-auto left-2 h-5 w-5'/>)}
         {variant == "connecting" && <span className="z-10 absolute left pointer-events-none text-muted-foreground/90 text-sm pl-9">Connecting...</span>}
-        {variant === "disconnected" && (<PlugZapIcon className='absolute z-10 pointer-events-none stroke-destructive-foreground m-auto left-2 h-5 w-5'/>)}
-        {variant == "disconnected" && <span className="z-10 absolute pointer-events-none left stroke-destructive-foreground text-sm pl-9">Disconnected from server.</span>}
+        {variant === "disconnected" && (<PlugZapIcon className='absolute z-10 pointer-events-none stroke-primary m-auto left-2 h-5 w-5'/>)}
+        {variant == "disconnected" && <span className="z-10 absolute pointer-events-none left text-primary text-sm pl-9">Disconnected from server.</span>}
         <AutosizeTextarea
           readOnly={variant !== "default"}
           autoFocus
