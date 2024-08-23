@@ -12,15 +12,16 @@ interface EmojiPickerProps {
   onChange: (value: string) => void;
   asButton?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
-export const EmojiPicker = ({ onChange, className, asButton }: EmojiPickerProps) => {
+export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
 	let theme = useTheme();
 
   function getTrigger() {
     if (asButton) {
       return (
-        <Button className="w-8 h-8" variant={"outline"} size={"icon"}>
+        <Button disabled={disabled} className="w-8 h-8" variant={"outline"} size={"icon"}>
           <SmilePlusIcon className="text-primary/80 h-4 w-4" />
         </Button>
       );

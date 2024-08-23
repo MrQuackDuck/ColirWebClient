@@ -40,27 +40,31 @@ import { EmojiPicker } from "@/shared/ui/EmojiPicker";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Username from "@/entities/User/ui/Username";
 
-function Message({
-  message,
-  sender,
-  repliedMessage,
-  repliedMessageAuthor,
-  onReactionAdded,
-  onReactionRemoved,
-  onDeleteClicked,
-  onMessageEdited,
-  onReplyClicked,
-}: {
+interface MessageProps {
   message: MessageModel;
   sender?: UserModel;
-  repliedMessage: MessageModel | undefined;
-  repliedMessageAuthor: UserModel | undefined;
+  repliedMessage?: MessageModel;
+  repliedMessageAuthor?: UserModel;
+  controlsEnabled: boolean;
   onReactionAdded: (reaction: string) => any;
   onReactionRemoved: (reactionId: number) => any;
   onDeleteClicked: () => any;
   onMessageEdited: (newContent: string) => any;
   onReplyClicked: () => any;
-}) {
+}
+
+function Message({
+  message,
+  sender,
+  repliedMessage,
+  repliedMessageAuthor,
+  controlsEnabled,
+  onReactionAdded,
+  onReactionRemoved,
+  onDeleteClicked,
+  onMessageEdited,
+  onReplyClicked,
+}: MessageProps) {
   let { currentUser } = useCurrentUser();
   let [buttonDeleteConfirmation, setButtonDeleteConfirmation] =
     useState<boolean>(false);
@@ -323,6 +327,7 @@ function Message({
                 className={`flex flex-row gap-1.5 pt-0.5 absolute right-1 top-0 ${classes["hover-content"]}`}
               >
                 <Button
+                  disabled={!controlsEnabled}
                   onClick={onReplyClicked}
                   className="w-8 h-8"
                   variant={"outline"}
@@ -334,6 +339,7 @@ function Message({
                   <>
                     {!isEditMode && (
                       <Button
+                        disabled={!controlsEnabled}
                         onClick={enableEditMode}
                         className="w-8 h-8"
                         variant={"outline"}
@@ -344,11 +350,12 @@ function Message({
                     )}
                   </>
                 )}
-                <EmojiPicker asButton onChange={addOrRemoveReaction} />
+                <EmojiPicker disabled={!controlsEnabled} asButton onChange={addOrRemoveReaction} />
                 {sender && currentUser?.hexId == sender.hexId && (
                   <>
                     {!buttonDeleteConfirmation && (
                       <Button
+                        disabled={!controlsEnabled}
                         onClick={showDialogConfirmationOrDelete}
                         className="w-8 h-8"
                         variant={"outline"}
@@ -380,12 +387,12 @@ function Message({
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="text-sm">
-          <ContextMenuItem onClick={() => onReplyClicked()}>
+          <ContextMenuItem disabled={!controlsEnabled} onClick={() => onReplyClicked()}>
             <ReplyIcon className="h-4 w-4 mr-4" />
             Reply
           </ContextMenuItem>
           {sender && currentUser?.hexId == sender.hexId && (
-            <ContextMenuItem onClick={() => enableEditMode()}>
+            <ContextMenuItem disabled={!controlsEnabled} onClick={() => enableEditMode()}>
               <PencilIcon className="h-4 w-4 mr-4" />
               Edit
             </ContextMenuItem>
@@ -396,6 +403,7 @@ function Message({
           </ContextMenuItem>
           {sender && currentUser?.hexId == sender.hexId && (
             <ContextMenuItem
+              disabled={!controlsEnabled}
               onClick={() => setDeleteDialogConfirmation(true)}
               className="text-destructive"
             >

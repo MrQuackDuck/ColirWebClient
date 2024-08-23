@@ -4,25 +4,32 @@ import { Separator } from "@/shared/ui/Separator"
 import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
-import ChatInput, { MessageToSend } from "./ChatInput"
+import ChatInput, { ChatInputVariant, MessageToSend } from "../../../features/send-message/ui/ChatInput"
 import { MessageModel } from "@/entities/Message/model/MessageModel"
 import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
-import { HubConnectionState } from "@microsoft/signalr"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
 import Message from "@/entities/Message/ui/Message"
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 import { useUsers } from "@/entities/User/lib/hooks/useUsers"
 
-function ChatSection({room, connection, messages, openAside}: {room: RoomModel, connection: Connection, messages: MessageModel[], openAside: () => any | null}) {
-  if (room == null) return <></>;
-  if (connection == null) return <></>;
-  if (connection.connection.state != HubConnectionState.Connected) return <></>;
+interface ChatSectionProps {
+  room: RoomModel;
+  connection: Connection;
+  messages: MessageModel[];
+  openAside: () => any | null;
+}
 
+function ChatSection({
+  room,
+  connection,
+  messages,
+  openAside,
+}: ChatSectionProps) {
   let messagesEnd = useRef<any>();
   let scrollArea = useRef<any>();
   const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
@@ -100,6 +107,20 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
     setLastMessageId(lastMessage.id);
   }, [messages])
 
+  let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("default");
+
+  useEffect(() => {
+    connection?.connection.onreconnecting(() => {
+      setCurrentChatVariant("connecting");
+    });
+    connection?.connection.onreconnected(() => {
+      setCurrentChatVariant("default");
+    });
+    connection?.connection.onclose(() => {
+      setCurrentChatVariant("disconnected");
+    });
+  }, [connection?.connection])
+
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
@@ -124,6 +145,7 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
 
             return m.roomGuid == room.guid && <Message
               key={m.id}
+              controlsEnabled={currentChatVariant == "default"}
               repliedMessage={repliedMessage}
               repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
               onReactionAdded={emoji => addReaction(m.id, emoji)}
@@ -138,7 +160,7 @@ function ChatSection({room, connection, messages, openAside}: {room: RoomModel, 
         </ScrollArea>
       </main>
 
-      <ChatInput onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
+      <ChatInput variant={currentChatVariant} onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
     </div>
   )
 }

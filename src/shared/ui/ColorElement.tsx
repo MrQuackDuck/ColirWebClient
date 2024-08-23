@@ -1,7 +1,17 @@
 import { useAdaptiveColor } from '../lib/hooks/useAdaptiveColor';
 import classes from './ColorElement.module.css'
 
-function ColorElement({ color, isSelected, onSelected }: { color: number, isSelected?: boolean, onSelected?: () => void }) {
+interface ColorElementProps {
+  color: number;
+  isSelected?: boolean;
+  onSelected?: () => void;
+}
+
+function ColorElement({
+  color,
+  isSelected,
+  onSelected,
+}: ColorElementProps) {
   let { colorString } = useAdaptiveColor(color);
   
   return (

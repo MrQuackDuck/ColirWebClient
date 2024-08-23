@@ -1,6 +1,6 @@
 import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
 import { Separator } from "@/shared/ui/Separator";
-import { PaperclipIcon, SendIcon } from "lucide-react";
+import { Loader2, PaperclipIcon, PlugZapIcon, SendIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import React from "react";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
@@ -9,10 +9,22 @@ import { MessageModel } from "@/entities/Message/model/MessageModel";
 import ReplySection from "./ReplySection";
 import { UserModel } from "@/entities/User/model/UserModel";
 
+export type ChatInputVariant = "default" | "connecting" | "disconnected";
+
 export interface MessageToSend {
   content: string;
   attachments: [];
   replyMessageId?: number;
+  variant?: ChatInputVariant;
+}
+
+interface ChatInputProps {
+  onSend: (message: MessageToSend) => any;
+  messageToReply: MessageModel | null;
+  messageToReplyAuthor: UserModel | null;
+  className?: string;
+  onReplyCancelled: () => any;
+  variant?: ChatInputVariant;
 }
 
 function ChatInput({
@@ -21,13 +33,8 @@ function ChatInput({
   messageToReplyAuthor,
   className,
   onReplyCancelled,
-}: {
-  onSend: (message: MessageToSend) => any;
-  messageToReply: MessageModel | null;
-  messageToReplyAuthor: UserModel | null;
-  className?: string;
-  onReplyCancelled: () => any;
-}) {
+  variant = "default",
+}: ChatInputProps) {
   let textArea = useRef<any>();
 
   useEffect(() => {
@@ -41,12 +48,14 @@ function ChatInput({
   }, []);
 
   function sendMessage() {
+    if (textArea.current.textArea.disabled) return;
     onSend({ content: textArea.current.textArea.value, attachments: [], replyMessageId: messageToReply?.id });
     textArea.current.textArea.value = "";
     textArea.current.textArea.style.height = "43x";
   }
 
   function insertAt(index: number, str: string) {
+    if (textArea.current.textArea.disabled) return;
     let value = textArea.current.textArea.value;
     textArea.current.textArea.value =
       value.substr(0, index) + str + value.substr(index);
@@ -114,32 +123,39 @@ function ChatInput({
   return (
     <>
       <div className={cn("flex absolute bottom-0 items-center", className)}>
-        {messageToReply && <ReplySection onReplyCancelled={onReplyCancelled} message={messageToReply} sender={messageToReplyAuthor!} />}
+        {messageToReply && variant == "default" && <ReplySection onReplyCancelled={onReplyCancelled} message={messageToReply} sender={messageToReplyAuthor!} />}
 
+        {variant === "default" && 
         <PaperclipIcon
           strokeWidth={1.5}
-          className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400/100 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform"
-        />
+          className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform"
+        />}
+        {variant === "connecting" && (<Loader2 className='absolute z-10 pointer-events-none stroke-slate-400/80 animate-spin m-auto left-2 h-5 w-5'/>)}
+        {variant == "connecting" && <span className="z-10 absolute left pointer-events-none text-muted-foreground/90 text-sm pl-9">Connecting...</span>}
+        {variant === "disconnected" && (<PlugZapIcon className='absolute z-10 pointer-events-none stroke-destructive-foreground m-auto left-2 h-5 w-5'/>)}
+        {variant == "disconnected" && <span className="z-10 absolute pointer-events-none left stroke-destructive-foreground text-sm pl-9">Disconnected from server.</span>}
         <AutosizeTextarea
+          readOnly={variant !== "default"}
           autoFocus
           ref={textArea}
           onKeyDown={handleKeyDown}
-          placeholder="Write a message..."
-          className="flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 pl-8 pr-20 resize-none
-        ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"/>
+          placeholder={variant == "default" ? "Write a message..." : ""}
+          className={cn(`flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 pl-8 pr-20 resize-none
+        ring-0 focus-visible:ring-0 focus-visible:ring-offset-0`, variant == "connecting" && "cursor-default" , variant == "disconnected" && "cursor-not-allowed bg-destructive/25 border-destructive")}/>
+        {variant === "default" && 
         <div className="absolute h-[100%] py-2 right-3 flex flex-row gap-2.5">
           <EmojiPicker
             onChange={(emoji) => insertAt(getCursorPosition(), emoji)}
             key={1}
-            className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400/100 top-[14px] h-6 w-6 -translate-y-1/2 transform"
+            className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"
           />
           <Separator orientation="vertical" />
           <SendIcon
             onClick={() => sendMessage()}
             strokeWidth={1.5}
-            className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400/100 top-[14px] h-6 w-6 -translate-y-1/2 transform"
+            className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"
           />
-        </div>
+        </div>}
       </div>
     </>
   );

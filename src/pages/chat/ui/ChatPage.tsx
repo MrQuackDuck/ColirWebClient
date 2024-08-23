@@ -1,5 +1,4 @@
 import { Separator } from "@/shared/ui/Separator";
-import Aside from "./Aside";
 import ChatSection from "./ChatSection";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { useEffect, useState } from "react";
@@ -11,7 +10,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/shared/ui/Sheet";
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
@@ -22,6 +25,7 @@ import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 import { useUsers } from "@/entities/User/lib/hooks/useUsers";
+import Aside from "@/widgets/aside/ui/Aside";
 
 export interface Connection {
   roomGuid: string;
@@ -32,9 +36,9 @@ function ChatPage() {
   let { currentUser } = useCurrentUser();
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
-  let {joinedRooms, setJoinedRooms} = useJoinedRooms();
+  let { joinedRooms, setJoinedRooms } = useJoinedRooms();
   let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms[0].guid ?? "");
-  let {setUsers} = useUsers();
+  let { setUsers } = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
 
@@ -60,14 +64,16 @@ function ChatPage() {
 
   const updateUsers = async () => {
     let pendingUsers: any[] = [];
-    await joinedRooms.map(async r => {
-      await RoomService.GetRoomInfo({ roomGuid: r.guid }).then((roomInfoResponse) => {
-        pendingUsers = distinctUsers([
-          ...pendingUsers,
-          ...roomInfoResponse.data.joinedUsers,
-        ]);
-        setUsers(pendingUsers);
-      });
+    await joinedRooms.map(async (r) => {
+      await RoomService.GetRoomInfo({ roomGuid: r.guid }).then(
+        (roomInfoResponse) => {
+          pendingUsers = distinctUsers([
+            ...pendingUsers,
+            ...roomInfoResponse.data.joinedUsers,
+          ]);
+          setUsers(pendingUsers);
+        }
+      );
     });
   };
 
@@ -75,149 +81,170 @@ function ChatPage() {
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
-    connection.start()
-    .then(() => {
-      // Getting last messages
-      let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
-      connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
-        .then((response) => {
-          setMessages((prevMessages) => distinctMessages([
-            ...prevMessages,
-            ...response.content,
-          ]))
-        
-          // Getting the list of replied messages
-          response.content.map(m => {
-            if (!m.repliedMessageId) return;
-            connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
-              .then(resp => {
-                setMessages((prevMessages) => distinctMessages([
-                  ...prevMessages,
-                  resp.content,
-                ]))
-              });
-          })
-        }
-      );
+    connection
+      .start()
+      .then(() => {
+        // Getting last messages
+        let request: GetLastMessagesModel = { count: 40, skipCount: 0 };
+        connection
+          .invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
+          .then((response) => {
+            setMessages((prevMessages) =>
+              distinctMessages([...prevMessages, ...response.content])
+            );
 
-      connection?.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
-      connection?.on("MessageDeleted", (messageId: number) => setMessages((prevMessages) => [...prevMessages.filter(m => m.id != messageId)]));
-      connection?.on("MessageEdited", (message: MessageModel) => setMessages((prevMessages) => {
-        let target = prevMessages.find(m => m.id == message.id);
-        if (target) {
-          target.content = message.content;
-          target.editDate = message.editDate;
-        }
-
-        return [...prevMessages]
-      }));
-
-      connection?.on("UserJoined", (user: UserModel) => {
-        if (currentUser.hexId == user.hexId) return;
-        setUsers((prevUsers) => [...prevUsers, user])
-        setJoinedRooms((prevRooms) => {
-          let target = prevRooms.find(r => r.guid == roomGuid);
-          target?.joinedUsers.push(user);
-          return [...prevRooms];
-        });
-      });
-
-      connection?.on("UserLeft", (hexId) => {
-        if (currentUser.hexId == hexId) {
-          setConnections((prevConnections) => [
-            ...prevConnections.filter(c => c.roomGuid != roomGuid)
-          ]);
-          connection.stop();
-          return;
-        }
-
-        setJoinedRooms((prevRooms) => {
-          let target = prevRooms.find(r => r.guid == roomGuid);
-          if (target) target.joinedUsers = target.joinedUsers.filter(u => u.hexId != hexId);
-
-          // Checking if the user is present on other rooms with current user
-          // If present, don't delete the user from memory
-          let isUserPresent = false;
-          joinedRooms.forEach(r => {
-            if (r.joinedUsers.find(u => u.hexId == hexId)) {
-              isUserPresent = true;
-            }
+            // Getting the list of replied messages
+            response.content.map((m) => {
+              if (!m.repliedMessageId) return;
+              connection
+                .invoke<SignalRHubResponse<MessageModel>>("GetMessageById", {
+                  messageId: m.repliedMessageId,
+                })
+                .then((resp) => {
+                  setMessages((prevMessages) =>
+                    distinctMessages([...prevMessages, resp.content])
+                  );
+                });
+            });
           });
 
-          if (!isUserPresent) {
-            setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]);
+        connection?.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
+        connection?.on("MessageDeleted", (messageId: number) => setMessages((prevMessages) => [...prevMessages.filter((m) => m.id != messageId)]));
+        connection?.on("MessageEdited", (message: MessageModel) =>
+          setMessages((prevMessages) => {
+            let target = prevMessages.find((m) => m.id == message.id);
+            if (target) {
+              target.content = message.content;
+              target.editDate = message.editDate;
+            }
+            return [...prevMessages];
+          })
+        );
+
+        connection?.on("UserJoined", (user: UserModel) => {
+          if (currentUser.hexId == user.hexId) return;
+          setUsers((prevUsers) => [...prevUsers, user]);
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == roomGuid);
+            target?.joinedUsers.push(user);
+            return [...prevRooms];
+          });
+        });
+
+        connection?.on("UserLeft", (hexId) => {
+          if (currentUser.hexId == hexId) {
+            setConnections((prevConnections) => [
+              ...prevConnections.filter((c) => c.roomGuid != roomGuid),
+            ]);
+            connection.stop();
+            return;
           }
 
-          return [...prevRooms];
-        });
-      });
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == roomGuid);
+            if (target)
+              target.joinedUsers = target.joinedUsers.filter(
+                (u) => u.hexId != hexId
+              );
 
-      connection?.on("UserKicked", (hexId) => {
-        if (currentUser.hexId == hexId) {
-          setConnections((prevConnections) => [
-            ...prevConnections.filter(c => c.roomGuid != roomGuid)
+            // Checking if the user is present on other rooms with current user
+            // If present, don't delete the user from memory
+            let isUserPresent = false;
+            joinedRooms.forEach((r) => {
+              if (r.joinedUsers.find((u) => u.hexId == hexId)) {
+                isUserPresent = true;
+              }
+            });
+
+            if (!isUserPresent) {
+              setUsers((prevUsers) => [
+                ...prevUsers.filter((u) => u.hexId != hexId),
+              ]);
+            }
+
+            return [...prevRooms];
+          });
+        });
+
+        connection?.on("UserKicked", (hexId) => {
+          if (currentUser.hexId == hexId) {
+            setConnections((prevConnections) => [
+              ...prevConnections.filter((c) => c.roomGuid != roomGuid),
+            ]);
+            connection.stop();
+            return;
+          }
+
+          setUsers((prevUsers) => [
+            ...prevUsers.filter((u) => u.hexId != hexId),
           ]);
-          connection.stop();
-          return;
-        }
-        
-        setUsers((prevUsers) => [...prevUsers.filter(u => u.hexId != hexId)]) 
-      });
-
-      connection?.on("MessageGotReaction", (message: MessageModel) => setMessages((prevMessages) => {
-        let target = prevMessages.find(m => m.id == message.id);
-        if (target) {
-          target.reactions = [];
-          target.reactions = message.reactions;
-        }
-        return [...prevMessages]
-      }));
-
-      connection?.on("MessageLostReaction", (message: MessageModel) => setMessages((prevMessages) => {
-        let target = prevMessages.find(m => m.id == message.id);
-        if (target) target.reactions = message.reactions;
-        return [...prevMessages]
-      }));
-
-      connection?.on("RoomRenamed", (newName) => {
-        setJoinedRooms((prevRooms) => {
-          let target = prevRooms.find(r => r.guid == selectedRoom);
-          if (target) target.name = newName;
-          return [...prevRooms];
         });
+
+        connection?.on("MessageGotReaction", (message: MessageModel) =>
+          setMessages((prevMessages) => {
+            let target = prevMessages.find((m) => m.id == message.id);
+            if (target) {
+              target.reactions = [];
+              target.reactions = message.reactions;
+            }
+            return [...prevMessages];
+          })
+        );
+
+        connection?.on("MessageLostReaction", (message: MessageModel) =>
+          setMessages((prevMessages) => {
+            let target = prevMessages.find((m) => m.id == message.id);
+            if (target) target.reactions = message.reactions;
+            return [...prevMessages];
+          })
+        );
+
+        connection?.on("RoomRenamed", (newName) => {
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == selectedRoom);
+            if (target) target.name = newName;
+            return [...prevRooms];
+          });
+        });
+
+        connection.onclose(() => {
+          showErrorToast(
+            `Connection to the room lost`,
+            `The connection to the room ${roomGuid} was lost.`
+          );
+        });
+      })
+      .catch((e) => {
+        showErrorToast(
+          `Couldn't connect to the room`,
+          `We weren't able to establish a connection. Error: ${e}.`
+        );
       });
-    })
-    .catch(e => {
-      showErrorToast(
-        `Couldn't connect to the room`,
-        `We weren't able to establish a connection. Error: ${e}.`);
-    });
   }
 
   useEffect(() => {
     if (!joinedRooms) return;
 
-    updateUsers()
-      .then(() => {
-        joinedRooms.map((r) => {
-          // Return if the connection is already registered
-          if (connections.find((c) => c.roomGuid == r.guid)) return;
+    updateUsers().then(() => {
+      joinedRooms.map((r) => {
+        // Return if the connection is already registered
+        if (connections.find((c) => c.roomGuid == r.guid)) return;
 
-          getJwt().then(jwt => {
-            let connection = new HubConnectionBuilder()
+        getJwt().then((jwt) => {
+          let connection = new HubConnectionBuilder()
             .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
               accessTokenFactory: () => jwt,
             })
-            .withAutomaticReconnect()
+            .withAutomaticReconnect([5000, 5000, 6000, 6000])
             .build();
 
-            setConnections((prevConnections) => [
-              ...prevConnections,
-              { roomGuid: r.guid, connection: connection },
-            ]);
-          })
+          setConnections((prevConnections) => [
+            ...prevConnections,
+            { roomGuid: r.guid, connection: connection },
+          ]);
         });
       });
+    });
   }, [joinedRooms.length]);
 
   useEffect(() => {
@@ -225,12 +252,16 @@ function ChatPage() {
 
     let mappedConnections: string[] = [];
     connections.map((c) => {
-      if (connections.find((c) => c.roomGuid == selectedRoom)?.connection.state == HubConnectionState.Connected) return;
+      if (
+        connections.find((c) => c.roomGuid == selectedRoom)?.connection.state ==
+        HubConnectionState.Connected
+      )
+        return;
       if (mappedConnections.includes(c.roomGuid)) return;
       mappedConnections.push(c.roomGuid);
-      startConnection(c.roomGuid, c.connection)
+      startConnection(c.roomGuid, c.connection);
     });
-  }, [connections.length])
+  }, [connections.length]);
 
   return (
     <>

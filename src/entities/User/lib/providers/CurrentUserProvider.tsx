@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import { DetailedUserModel } from "../../model/DetailedUserModel";
 import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import UserService from "../../api/UserService";
+import { showErrorToast } from "@/shared/lib/showErrorToast";
 
 export const CurrentUserContext = createContext<{
   currentUser: DetailedUserModel | null;
@@ -37,7 +38,10 @@ const CurrentUserProvider = ({ children }) => {
   const updateCurrentUser = async () => {
     return await UserService.GetAccountInfo()
       .then(response => setUser(response.data))
-      .catch(() => removeUser());
+      .catch(e => {
+        if (e.code == "ERR_NETWORK") showErrorToast("Couldn't update the user info", "The server is not available. Please try again later.");
+        else showErrorToast("Couldn't update the user info", e.message);
+      });
   }
 
   return (

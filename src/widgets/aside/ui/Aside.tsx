@@ -8,15 +8,17 @@ import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 
+interface AsideProps {
+  rooms: RoomModel[];
+  selectedRoom: string;
+  setSelectedRoom: (roomGuid: string) => any;
+}
+
 function Aside({
   rooms,
   selectedRoom,
-  setSelectedRoom
-}: {
-  rooms: RoomModel[];
-  selectedRoom: string;
-  setSelectedRoom: (roomGuid) => any;
-}) {
+  setSelectedRoom,
+}: AsideProps) {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
   let { joinedRooms, setJoinedRooms } = useJoinedRooms();
 

@@ -23,10 +23,10 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
         onJoinedRoom(response.data);
       })
       .catch((error) => {
-        if (error.response.data.errorCode === ErrorCode.RoomNotFound) {
+        if (error.response.data.errorCode === ErrorCode.RoomNotFound) 
           showErrorToast("Room not found!", "The room you've tried to join not exists.");
-          return;
-        }
+        else if (error.response.data.errorCode === ErrorCode.UserAlreadyInRoom) 
+          showErrorToast("Can't join the room twice!", "You've already joined the room");
       })
       .finally(() => disableLoading());
   }
