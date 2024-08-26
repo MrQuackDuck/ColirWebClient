@@ -3,11 +3,13 @@ import { AttachmentModel } from '../model/AttachmentModel'
 import { SERVER_URL } from '@/shared/api';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/shared/ui/Dialog';
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '@/shared/ui/ContextMenu';
-import { DownloadIcon, FileIcon } from 'lucide-react';
+import { CopyIcon, DownloadIcon, FileIcon } from 'lucide-react';
 import ReactAudioPlayer from 'react-audio-player';
 import FileSaver from 'file-saver';
 import ReactPlayer from 'react-player'
 import { Button } from '@/shared/ui/Button';
+import { isFirefox } from 'react-device-detect'
+import { toast } from '@/shared/ui/use-toast';
 
 interface AttachmentProps {
   attachment: AttachmentModel;
@@ -54,13 +56,49 @@ function Attachment({ attachment }: AttachmentProps) {
     return (attachment.sizeInBytes / (1024 * 1024)).toFixed(2);
   }
 
+  function copyToClipboard() {
+    if (!imgRef.current) return;
+  
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+  
+    if (!ctx || !imgRef.current) return;
+  
+    // Ensure the crossOrigin attribute is set on the img element
+    imgRef.current.crossOrigin = 'anonymous';
+  
+    // Set canvas dimensions
+    canvas.width = imgRef.current.naturalWidth;
+    canvas.height = imgRef.current.naturalHeight;
+  
+    // Draw the image on the canvas
+    ctx.drawImage(imgRef.current, 0, 0);
+  
+    // Convert the canvas to a Blob and copy it to the clipboard
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+  
+      const item = new ClipboardItem({
+        'image/png': blob,
+      });
+  
+      await navigator.clipboard.write([item])
+        .then(() => {
+          toast({
+            title: 'Copied!',
+            description: 'Image copied to clipboard.'
+          });
+        });
+    }, 'image/png');
+  }
+
   return (<>
     <ContextMenu>
       <ContextMenuTrigger>
       {attachmentType === AttachmentType.IMAGE &&
         <Dialog>
           <DialogTrigger asChild>
-            <img ref={imgRef} src={`${SERVER_URL}/${attachment.path}`} alt={attachment.filename} className="max-h-60 cursor-pointer" />
+            <img crossOrigin={isFirefox ? "anonymous" : undefined} ref={imgRef} src={`${SERVER_URL}/${attachment.path}`} alt={attachment.filename} className="max-h-60 cursor-pointer" />
           </DialogTrigger>
           <DialogContent className='closeButtonDisabled' onClick={event => event.stopPropagation()}>
             <DialogTitle className='hidden'/>
@@ -80,9 +118,7 @@ function Attachment({ attachment }: AttachmentProps) {
         className="max-h-60 cursor-pointer"
         />
       }
-      {attachmentType == AttachmentType.AUDIO &&
-        <ReactAudioPlayer src={`${SERVER_URL}/${attachment.path}`} controls/>
-      }
+      {attachmentType == AttachmentType.AUDIO && <ReactAudioPlayer src={`${SERVER_URL}/${attachment.path}`} controls/>}
       {attachmentType == AttachmentType.DOCUMENT &&
         <div className='flex flex-row items-center max-w-full w-64 bg-secondary/90 p-2 rounded-[6px] justify-between'>
           <div className='flex flex-row items-center gap-2'>
@@ -103,6 +139,7 @@ function Attachment({ attachment }: AttachmentProps) {
       }
       </ContextMenuTrigger>
       <ContextMenuContent>
+        {attachmentType == AttachmentType.IMAGE && isFirefox && <ContextMenuItem onClick={() => copyToClipboard()}><CopyIcon className="mr-2 h-4 w-4" /> Copy</ContextMenuItem>}
         <ContextMenuItem onClick={() => downloadAttachment()}><DownloadIcon className="mr-2 h-4 w-4" /> Download ({getSizeInMb()} Mb)</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

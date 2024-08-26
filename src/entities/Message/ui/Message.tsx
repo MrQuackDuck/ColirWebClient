@@ -211,7 +211,7 @@ function Message({
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
             <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-              {repliedMessage.content}
+              {repliedMessage.content} {repliedMessage.attachments.map((attachment) => <span className="text-ellipsis whitespace-nowrap text-primary/70">[{attachment.filename}] </span>)}
             </span>
           </div>
         </div>

@@ -10,7 +10,10 @@ function ReplySection({message, sender, onReplyCancelled}: {message: MessageMode
         <div className="flex flex-row overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
           <CornerUpRightIcon className="w-3 h-3" />
           <Username className="text-[12px]" user={sender} />
-          <span className="max-w-screen-sm overflow-hidden text-ellipsis whitespace-nowrap">{message.content}</span>
+          <span className="max-w-screen-sm overflow-hidden text-ellipsis whitespace-nowrap">
+            <span className="flex flex-row overflow-hidden text-ellipsis mr-1">{message.content}</span>
+            {message.attachments.map((attachment) => <span className="flex flex-row overflow-hidden text-ellipsis whitespace-nowrap flex-nowrap text-primary/70">[{attachment.filename}] </span>)}
+          </span>
         </div>
         <div className="flex flex-row pl-1 items-center text-[11px] gap-1 select-none">
           <XCircleIcon onClick={onReplyCancelled} className="cursor-pointer w-4 h-4 stroke-slate-400/80 hover:stroke-slate-400/100" />
