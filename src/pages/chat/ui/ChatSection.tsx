@@ -4,7 +4,7 @@ import { Separator } from "@/shared/ui/Separator"
 import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
-import ChatInput, { ChatInputVariant, MessageToSend } from "../../../features/send-message/ui/ChatInput"
+import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput"
 import { MessageModel } from "@/entities/Message/model/MessageModel"
 import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
@@ -18,6 +18,10 @@ import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 import { useUsers } from "@/entities/User/lib/hooks/useUsers"
 import SkeletonMessageList from "@/entities/Message/ui/SkeletonMessageList"
 import { HubConnectionState } from "@microsoft/signalr"
+import { SendMessageModel } from "@/entities/Message/model/request/SendMessageModel"
+import UploadService from "@/entities/Attachment/api/UploadService"
+import { ErrorResponse } from "@/shared/model/ErrorResponse"
+import { ErrorCode } from "@/shared/model/ErrorCode"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -32,6 +36,7 @@ function ChatSection({
   messages,
   openAside,
 }: ChatSectionProps) {
+  if (!room) return <></>;
   let messagesEnd = useRef<any>();
   let scrollArea = useRef<any>();
   const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
@@ -53,9 +58,30 @@ function ChatSection({
     setMessageToReplyAuthor(null);
   }
 
-  function sendMessage(message: MessageToSend) {
+  async function sendMessage(message: ChatInputMessage) {
+    let attachmentIds: number[] = [];
+
+    try {
+      if (message.attachments.length > 0)
+        attachmentIds = (await UploadService.UploadAttachments({ roomGuid: room.guid, files: message.attachments })).data;
+    }
+    catch (e: any) {
+      let error = e?.response.data as ErrorResponse;
+
+      if (error.errorCode == ErrorCode.NotEnoughSpace)
+        showErrorToast("Not enough space!", "There's not enough space in the room to upload the attachment(s).");
+      else
+        showErrorToast("Couldn't upload attachment(s).", "An unknown error occurred! Please, notify the developer.");
+    }
+
+    let model: SendMessageModel = {
+      content: message.content,
+      attachmentsIds: attachmentIds,
+      replyMessageId: messageToReply?.id
+    }
+
     replyCancelled();
-    connection.connection.send("SendMessage", message)
+    connection.connection.send("SendMessage", model)
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
   }
 
@@ -137,6 +163,12 @@ function ChatSection({
     }
   }, [messagesLoaded]);
 
+  useEffect(() => {
+    setMessageToReply(null);
+  }, [room])
+
+  let [currentPadding, setCurrentPadding] = useState<number>(0);
+
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
@@ -154,7 +186,7 @@ function ChatSection({
       </header>
       <Separator orientation="horizontal"/>
 
-      <main ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock} ${messageToReply && 'pb-4'}`}>
+      <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
         <ScrollArea ref={scrollArea} className={`h-full pr-3 pb-2`}>
           {messages.sort((a, b) => a.id - b.id).map(m => {
             let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
@@ -177,7 +209,7 @@ function ChatSection({
         </ScrollArea>
       </main>
 
-      <ChatInput variant={currentChatVariant} onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
+      <ChatInput onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
     </div>
   )
 }

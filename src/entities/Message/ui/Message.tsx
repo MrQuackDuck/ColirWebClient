@@ -37,6 +37,7 @@ import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Username from "@/entities/User/ui/Username";
+import AttachmentsSection from "../../Attachment/ui/AttachmentsSection";
 
 interface MessageProps {
   message: MessageModel;
@@ -183,6 +184,25 @@ function Message({
     return givenDate.format("MMMM D, h:mm A");
   }
 
+  function validateContextMenu(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    if (event.target instanceof HTMLElement) {
+      if (!isContextMenuAllowed(event.target, 8)) {
+        event.target.parentElement?.parentElement
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+  }
+
+  function isContextMenuAllowed(element: HTMLElement | null, depth: number): boolean {
+    if (depth <= 0) return true;
+    if (element == null) return false;
+    if (element.classList.contains("message-context-menu-disabled")) return false;
+    else {
+      return isContextMenuAllowed(element.parentElement, depth - 1);
+    }
+  }
+
   return (
     <div className={`flex flex-col justify-between my-0.5 mt-1`}>
       {repliedMessage && (
@@ -239,13 +259,12 @@ function Message({
       </Dialog>
 
       <ContextMenu>
-        <ContextMenuTrigger asChild>
-          <div
-            onMouseEnter={handleMouseEnter}
+        <ContextMenuTrigger onContextMenu={validateContextMenu} asChild>
+          {/* Message block */}
+          <div onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`flex flex-row justify-between px-2 rounded-[6px] hover:bg-accent/80 
-              ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}
-          >
+            className={`flex flex-col justify-between px-2 rounded-[6px] hover:bg-accent/80 
+              ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}>
             <div className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">
                 <Username user={sender} />
@@ -271,7 +290,6 @@ function Message({
                   </Tooltip>
                 </>)}
               </div>
-
               {!isEditMode && (
                 <span className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}>
                   {message.content}
@@ -307,12 +325,16 @@ function Message({
                   </Button>
                 </div>
               )}
-              <ReactionBar
+              
+              {message.attachments.length > 0 && <AttachmentsSection className="message-context-menu-disabled" attachments={message.attachments} />}
+              {message.reactions.length > 0 && <ReactionBar className="message-context-menu-disabled"
                 onReactionAdded={addOrRemoveReaction}
                 onReactionRemoved={addOrRemoveReaction}
                 reactions={message.reactions}
-              />
+              />}
             </div>
+
+            {/* Editing block */}
             {!isEditMode && (
               <div
                 className={`flex flex-row gap-1.5 pt-0.5 absolute right-1 top-0 ${classes["hover-content"]}`}
@@ -377,6 +399,7 @@ function Message({
             )}
           </div>
         </ContextMenuTrigger>
+
         <ContextMenuContent className="text-sm">
           <ContextMenuItem disabled={!controlsEnabled} onClick={() => onReplyClicked()}>
             <ReplyIcon className="h-4 w-4 mr-4" />

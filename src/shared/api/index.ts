@@ -2,7 +2,8 @@ import AuthService from '@/features/authorize/lib/AuthService';
 import axios from 'axios';
 import { useLocalStorage } from '../lib/hooks/useLocalStorage';
 
-export const API_URL = `http://localhost:7700/API`;
+export const SERVER_URL = `http://localhost:7700`;
+export const API_URL = `${SERVER_URL}/API`;
 
 const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
 
@@ -13,7 +14,6 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${getFromLocalStorage<string>("jwtToken")}`;
-  config.headers['Content-Type'] = "application/json";
   return config;
 });
 

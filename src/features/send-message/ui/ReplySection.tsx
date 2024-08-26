@@ -6,7 +6,7 @@ import { CornerUpRightIcon, XCircleIcon } from "lucide-react";
 function ReplySection({message, sender, onReplyCancelled}: {message: MessageModel; sender: UserModel; onReplyCancelled: () => any}) {
   return (
     <>
-      <div className="absolute flex flex-row overflow-hidden text-ellipsis pl-2.5 pr-3 pb-1 h-7 justify-between items-center w-[100%] rounded-t-[6px] top-[-1.4rem] bg-accent/80">
+      <div className="flex flex-row overflow-hidden text-ellipsis pl-2.5 pr-3 h-5 justify-between items-center w-[100%]">
         <div className="flex flex-row overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
           <CornerUpRightIcon className="w-3 h-3" />
           <Username className="text-[12px]" user={sender} />

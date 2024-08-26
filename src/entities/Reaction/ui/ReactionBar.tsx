@@ -9,11 +9,13 @@ import { Card, CardContent } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";
 import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 import Username from "@/entities/User/ui/Username";
+import { cn } from "@/shared/lib/utils";
 
 interface ReactionBarProps {
   reactions: ReactionModel[];
   onReactionAdded: (symbol: string) => any;
   onReactionRemoved: (symbol: string) => any;
+  className?: string;
 }
 
 interface ReactionElement {
@@ -61,7 +63,7 @@ const ReactionBar = (props: ReactionBarProps) => {
   }, [props.reactions, currentUser?.hexId]);
 
   return (<>
-    <div className="flex flex-row gap-1.5 mt-1">
+    <div className={cn("flex flex-row w-fit gap-1.5 mt-1", props.className)}>
       {reactionElements.map((r) => (
         <Tooltip key={r.symbol}>
           <TooltipTrigger asChild>

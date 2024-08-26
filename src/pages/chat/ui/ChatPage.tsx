@@ -203,13 +203,6 @@ function ChatPage() {
             return [...prevRooms];
           });
         });
-
-        connection.onclose(() => {
-          showErrorToast(
-            `Connection to the room lost`,
-            `The connection to the room ${roomGuid} was lost.`
-          );
-        });
       })
       .catch((e) => {
         showErrorToast(

@@ -20,7 +20,7 @@ function RoomTabsList({
 
   return (
     <div className="flex flex-col gap-2">
-      {rooms.map((r) => (
+      {rooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
         <RoomTab
           key={r.guid}
           onClick={() => selectRoom(r)}
