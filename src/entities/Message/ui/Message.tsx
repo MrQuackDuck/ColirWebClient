@@ -66,10 +66,8 @@ function Message({
   onReplyClicked,
 }: MessageProps) {
   let { currentUser } = useCurrentUser();
-  let [buttonDeleteConfirmation, setButtonDeleteConfirmation] =
-    useState<boolean>(false);
-  let [isDialogConfirmationShown, setDeleteDialogConfirmation] =
-    useState<boolean>(false);
+  let [buttonDeleteConfirmation, setButtonDeleteConfirmation] = useState<boolean>(false);
+  let [isDialogConfirmationShown, setDeleteDialogConfirmation] = useState<boolean>(false);
   let [isEditMode, setIsEditMode] = useState<boolean>(false);
   let [editedContent, setEditedContent] = useState<string>(message.content);
   let [shiftPressed, setShiftPressed] = useState<boolean>(false);
@@ -327,7 +325,7 @@ function Message({
                 </div>
               )}
               
-              {message.attachments.length > 0 && <AttachmentsSection className="message-context-menu-disabled" attachments={message.attachments} />}
+              {message.attachments.length > 0 && <AttachmentsSection attachments={message.attachments} />}
               {message.reactions.length > 0 && <ReactionBar className="message-context-menu-disabled"
                 onReactionAdded={addOrRemoveReaction}
                 onReactionRemoved={addOrRemoveReaction}

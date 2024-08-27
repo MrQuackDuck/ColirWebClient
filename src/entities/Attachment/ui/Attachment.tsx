@@ -10,9 +10,11 @@ import ReactPlayer from 'react-player'
 import { Button } from '@/shared/ui/Button';
 import { isFirefox } from 'react-device-detect'
 import { toast } from '@/shared/ui/use-toast';
+import { cn } from '@/shared/lib/utils';
 
 interface AttachmentProps {
   attachment: AttachmentModel;
+  className?: string;
 }
 
 enum AttachmentType {
@@ -33,7 +35,7 @@ const extensionToAttachmentTypeMap = {
   'wav': AttachmentType.AUDIO,
 };
 
-function Attachment({ attachment }: AttachmentProps) {
+function Attachment({ attachment, className }: AttachmentProps) {
   let [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
   let imgRef = useRef<HTMLImageElement>(null);
 
@@ -92,7 +94,7 @@ function Attachment({ attachment }: AttachmentProps) {
     }, 'image/png');
   }
 
-  return (<>
+  return (<div className={cn(className)}>
     <ContextMenu>
       <ContextMenuTrigger>
       {attachmentType === AttachmentType.IMAGE &&
@@ -143,7 +145,7 @@ function Attachment({ attachment }: AttachmentProps) {
         <ContextMenuItem onClick={() => downloadAttachment()}><DownloadIcon className="mr-2 h-4 w-4" /> Download ({getSizeInMb()} Mb)</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
-  </>)
+  </div>)
 }
 
 export default Attachment;

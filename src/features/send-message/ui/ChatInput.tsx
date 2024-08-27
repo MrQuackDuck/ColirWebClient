@@ -45,7 +45,7 @@ function ChatInput({
 		// Adding this event listener to focus on textarea when a user clicks outside of it
 		textArea.current.textArea.focus();
 		document.addEventListener("keydown", (e) => {
-			if (e.ctrlKey || e.altKey || e.shiftKey) return;
+			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.shiftKey) return;
 			if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
 			if (textArea.current) textArea.current.textArea.focus();
 		});
@@ -108,10 +108,23 @@ function ChatInput({
 			setFiles((prev) => [...prev, file]);
 		}
 		onSizeChange(topArea.current.clientHeight ?? 0);
-  }
+	}
 
 	function fileRemoved(file: File) {
 		setFiles((prev) => prev.filter((f) => f !== file));
+	}
+
+	function handlePaste(event: React.ClipboardEvent<HTMLTextAreaElement>) {
+		const clipboardItems = event.clipboardData.items;
+		for (let i = 0; i < clipboardItems.length; i++) {
+			const item = clipboardItems[i];
+			if (item.type.indexOf("image") !== -1) {
+				const blob = item.getAsFile();
+				if (blob) {
+					setFiles((prev) => [...prev, blob]);
+				}
+			}
+		}
 	}
 
 	useEffect(() => {
@@ -172,6 +185,7 @@ function ChatInput({
 						</span>
 					)}
 					<AutosizeTextarea
+						onPaste={handlePaste}
 						readOnly={variant !== "default"}
 						autoFocus
 						ref={textArea}

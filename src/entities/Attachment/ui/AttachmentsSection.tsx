@@ -11,7 +11,7 @@ function AttachmentsSection(props: AttachmentsSectionProps) {
   return (
     <div className={cn("flex flex-wrap w-fit gap-2 pt-1", props.className)}>
       {props.attachments.map((attachment, index) => (
-        <Attachment key={index} attachment={attachment} />
+        <Attachment className="message-context-menu-disabled" key={index} attachment={attachment} />
       ))}
     </div>
   )
