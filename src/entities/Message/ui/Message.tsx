@@ -38,6 +38,7 @@ import { EmojiPicker } from "@/shared/ui/EmojiPicker";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Username from "@/entities/User/ui/Username";
 import AttachmentsSection from "../../Attachment/ui/AttachmentsSection";
+import { formatText } from "../lib/formatText";
 
 interface MessageProps {
   message: MessageModel;
@@ -292,7 +293,7 @@ function Message({
               </div>
               {!isEditMode && (
                 <span className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}>
-                  {message.content}
+                  {formatText(message.content)}
                 </span>
               )}
               {isEditMode && (
