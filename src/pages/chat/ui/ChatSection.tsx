@@ -22,6 +22,7 @@ import { SendMessageModel } from "@/entities/Message/model/request/SendMessageMo
 import UploadService from "@/entities/Attachment/api/UploadService"
 import { ErrorResponse } from "@/shared/model/ErrorResponse"
 import { ErrorCode } from "@/shared/model/ErrorCode"
+import Dater from "@/shared/ui/Dater"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -188,21 +189,28 @@ function ChatSection({
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
         <ScrollArea ref={scrollArea} className={`h-full pr-3 pb-2`}>
-          {messages.sort((a, b) => a.id - b.id).map(m => {
-            let repliedMessage = messages.find(repMessage => repMessage.id == m.repliedMessageId);
+        {messages.filter(m => m.roomGuid == room.guid).sort((a, b) => a.id - b.id)
+          .map((m, index, filteredMessages) => {
+            let repliedMessage = filteredMessages.find(repMessage => repMessage.id == m.repliedMessageId);
+            let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
 
-            return m.roomGuid == room.guid && <Message
-              key={m.id}
-              controlsEnabled={currentChatVariant == "default"}
-              repliedMessage={repliedMessage}
-              repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
-              onReactionAdded={emoji => addReaction(m.id, emoji)}
-              onReactionRemoved={reactionId => removeReaction(reactionId)}
-              onReplyClicked={() => replyClicked(m)}
-              onDeleteClicked={() => deleteMessage(m.id)}
-              onMessageEdited={(newContent) => editMessage(m.id, newContent)}
-              message={m}
-              sender={users.find(u => u.hexId == m.authorHexId)!}/>
+            return (
+              <div key={m.id}>
+                {needToInsertDater && <Dater date={m.postDate} />}
+                <Message
+                  controlsEnabled={currentChatVariant == "default"}
+                  repliedMessage={repliedMessage}
+                  repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
+                  onReactionAdded={emoji => addReaction(m.id, emoji)}
+                  onReactionRemoved={reactionId => removeReaction(reactionId)}
+                  onReplyClicked={() => replyClicked(m)}
+                  onDeleteClicked={() => deleteMessage(m.id)}
+                  onMessageEdited={(newContent) => editMessage(m.id, newContent)}
+                  message={m}
+                  sender={users.find(u => u.hexId == m.authorHexId)!}
+                />
+              </div>
+            );
           })}
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>

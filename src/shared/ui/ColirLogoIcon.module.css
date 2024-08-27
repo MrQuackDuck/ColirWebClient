@@ -1,0 +1,7 @@
+.logo {
+  transition: transform 0.1s;
+}
+
+.logo:active {
+  transform: scale(0.95);
+}

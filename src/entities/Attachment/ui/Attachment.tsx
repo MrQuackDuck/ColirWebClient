@@ -100,7 +100,7 @@ function Attachment({ attachment }: AttachmentProps) {
           <DialogTrigger asChild>
             <img crossOrigin={isFirefox ? "anonymous" : undefined} ref={imgRef} src={`${SERVER_URL}/${attachment.path}`} alt={attachment.filename} className="max-h-60 cursor-pointer" />
           </DialogTrigger>
-          <DialogContent className='closeButtonDisabled' onClick={event => event.stopPropagation()}>
+          <DialogContent className='focus-visible:outline-none closeButtonDisabled' onClick={event => event.stopPropagation()}>
             <DialogTitle className='hidden'/>
             <DialogDescription className='hidden'/>
             <div className="relative overflow-clip rounded-md bg-transparent shadow-md">

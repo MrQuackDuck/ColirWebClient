@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "../lib/providers/ThemeProvider";
+import { cn } from "../lib/utils";
+import classes from './ColirLogoIcon.module.css'
 
-function ColirLogoIcon({ ...props }) {
+function ColirLogoIcon({ className, ...props }) {
   const { theme } = useTheme();
   const [fillColor, setFillColor] = useState("#FFFFFF");
 
@@ -12,6 +14,7 @@ function ColirLogoIcon({ ...props }) {
 
   return (
     <svg
+      className={cn(classes.logo, className)}
       width="69"
       height="28"
       viewBox="0 0 593 239"
