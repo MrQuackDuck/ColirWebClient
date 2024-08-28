@@ -49,6 +49,27 @@ function ChatInput({
 			if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
 			if (textArea.current) textArea.current.textArea.focus();
 		});
+
+		document.addEventListener("dragover", (e) => {
+			e.preventDefault();
+		});
+
+		document.addEventListener("drop", (e) => {
+			console.log("DROP")
+			e.preventDefault();
+
+			if (e.dataTransfer?.items) {
+				for (let i = 0; i < e.dataTransfer.items.length; i++) {
+					let item = e.dataTransfer.items[i];
+					if (item.kind === "file") {
+						let file = item.getAsFile();
+						if (file) {
+							setFiles((prev) => [...prev, file]);
+						}
+					}
+				}
+			}
+		})
 	}, []);
 
 	function sendMessage() {
