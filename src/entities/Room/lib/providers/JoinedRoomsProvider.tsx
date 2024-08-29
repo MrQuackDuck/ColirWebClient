@@ -25,7 +25,8 @@ const JoinedRoomsProvider = ({ children }) => {
           .then((response) => {
             setJoinedRooms((rooms) => [...rooms, response.data]);
           })
-          .catch(() => {
+          .catch((e) => {
+            console.log(e.response)
             showErrorToast("Failed to get room info");
           });
       });

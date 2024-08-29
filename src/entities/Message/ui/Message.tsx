@@ -92,10 +92,6 @@ const Message = forwardRef(({
     else onReactionAdded(reaction);
   }
 
-  function enableEditMode() {
-    setIsEditMode(true);
-  }
-
   // Tracking the edit mode to focus on the textarea
   useEffect(() => {
     if (!isEditMode) return;
@@ -103,6 +99,10 @@ const Message = forwardRef(({
     textAreaRef.current.textArea.selectionEnd = message.content.length;
     textAreaRef.current.focus();
   }, [isEditMode]);
+  
+  function enableEditMode() {
+    setIsEditMode(true);
+  }
 
   function disableEditMode() {
     setIsEditMode(false);

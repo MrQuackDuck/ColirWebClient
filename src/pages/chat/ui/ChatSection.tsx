@@ -121,7 +121,6 @@ function ChatSection({
   function scrollToMessage(messageId: number) {
     let messageRef = messageRefs.current.get(messageId);
     if (messageRef) {
-      highlightMessage(messageId);
       messageRef.scrollIntoView({ block: "center" });
     };
   }
@@ -132,6 +131,11 @@ function ChatSection({
       messageRef.classList.add("outline");
       setTimeout(() => messageRef.classList.remove("outline"), 1000);
     }
+  }
+
+  function handleReplySectionClick(messageId: number) {
+    scrollToMessage(messageId);
+    highlightMessage(messageId);
   }
 
   useMemo(() => {
@@ -227,7 +231,7 @@ function ChatSection({
                   onReactionAdded={emoji => addReaction(m.id, emoji)}
                   onReactionRemoved={reactionId => removeReaction(reactionId)}
                   onReplyButtonClicked={() => replyButtonClicked(m)}
-                  onReplySectionClicked={() => scrollToMessage(m.repliedMessageId || 0)}
+                  onReplySectionClicked={() => handleReplySectionClick(m.repliedMessageId || 0)}
                   onDeleteClicked={() => deleteMessage(m.id)}
                   onMessageEdited={(newContent) => editMessage(m.id, newContent)}
                   message={m}
