@@ -47,8 +47,9 @@ function ChatSection({
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
   let [lastMessageId, setLastMessageId] = useState<number>(0);
+  const messageRefs = useRef(new Map<number, any>());
 
-  function replyClicked(message: MessageModel) {
+  function replyButtonClicked(message: MessageModel) {
     scrollToBottom();
     setMessageToReply(message);
     setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
@@ -117,6 +118,22 @@ function ChatSection({
     }, 50)
   }
 
+  function scrollToMessage(messageId: number) {
+    let messageRef = messageRefs.current.get(messageId);
+    if (messageRef) {
+      highlightMessage(messageId);
+      messageRef.scrollIntoView({ block: "center" });
+    };
+  }
+
+  function highlightMessage(messageId: number) {
+    let messageRef = messageRefs.current.get(messageId);
+    if (messageRef) {
+      messageRef.classList.add("outline");
+      setTimeout(() => messageRef.classList.remove("outline"), 1000);
+    }
+  }
+
   useMemo(() => {
     const observer = new IntersectionObserver(([entry]) => {
       setIsMessagesEndObserved(entry.isIntersecting);
@@ -166,7 +183,7 @@ function ChatSection({
 
   useEffect(() => {
     setMessageToReply(null);
-  }, [room])
+  }, [room]);
 
   let [currentPadding, setCurrentPadding] = useState<number>(0);
 
@@ -195,15 +212,22 @@ function ChatSection({
             let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
 
             return (
-              <div key={m.id}>
+              <div
+              className="rounded-[6px] h-fit"
+              key={m.id}>
                 {needToInsertDater && <Dater date={m.postDate} />}
                 <Message
+                  ref={(el) => {
+                    if (el) messageRefs.current.set(m.id, el);
+                    else messageRefs.current.delete(m.id);
+                  }}
                   controlsEnabled={currentChatVariant == "default"}
                   repliedMessage={repliedMessage}
                   repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
                   onReactionAdded={emoji => addReaction(m.id, emoji)}
                   onReactionRemoved={reactionId => removeReaction(reactionId)}
-                  onReplyClicked={() => replyClicked(m)}
+                  onReplyButtonClicked={() => replyButtonClicked(m)}
+                  onReplySectionClicked={() => scrollToMessage(m.repliedMessageId || 0)}
                   onDeleteClicked={() => deleteMessage(m.id)}
                   onMessageEdited={(newContent) => editMessage(m.id, newContent)}
                   message={m}

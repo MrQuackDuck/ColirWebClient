@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import classes from "./Message.module.css";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
 import {
   ContextMenu,
@@ -50,10 +50,11 @@ interface MessageProps {
   onReactionRemoved: (reactionId: number) => any;
   onDeleteClicked: () => any;
   onMessageEdited: (newContent: string) => any;
-  onReplyClicked: () => any;
+  onReplyButtonClicked: () => any;
+  onReplySectionClicked: () => any;
 }
 
-function Message({
+const Message = forwardRef(({
   message,
   sender,
   repliedMessage,
@@ -63,8 +64,9 @@ function Message({
   onReactionRemoved,
   onDeleteClicked,
   onMessageEdited,
-  onReplyClicked,
-}: MessageProps) {
+  onReplyButtonClicked,
+  onReplySectionClicked,
+}: MessageProps, ref: any) => {
   let { currentUser } = useCurrentUser();
   let [buttonDeleteConfirmation, setButtonDeleteConfirmation] = useState<boolean>(false);
   let [isDialogConfirmationShown, setDeleteDialogConfirmation] = useState<boolean>(false);
@@ -205,7 +207,7 @@ function Message({
   return (
     <div className={`flex flex-col justify-between my-0.5 mt-1`}>
       {repliedMessage && (
-        <div className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
+        <div onClick={onReplySectionClicked} className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
           <div className="flex flex-row max-h-5 overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
@@ -262,7 +264,8 @@ function Message({
           {/* Message block */}
           <div onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`flex flex-col justify-between px-2 rounded-[6px] hover:bg-accent/80 
+            ref={ref}
+            className={`flex flex-col justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-3px] outline-2 outline-primary/80
               ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}>
             <div className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">
@@ -340,7 +343,7 @@ function Message({
               >
                 <Button
                   disabled={!controlsEnabled}
-                  onClick={onReplyClicked}
+                  onClick={onReplyButtonClicked}
                   className="w-8 h-8"
                   variant={"outline"}
                   size={"icon"}
@@ -400,7 +403,7 @@ function Message({
         </ContextMenuTrigger>
 
         <ContextMenuContent className="text-sm">
-          <ContextMenuItem disabled={!controlsEnabled} onClick={() => onReplyClicked()}>
+          <ContextMenuItem disabled={!controlsEnabled} onClick={() => onReplyButtonClicked()}>
             <ReplyIcon className="h-4 w-4 mr-4" />
             Reply
           </ContextMenuItem>
@@ -428,6 +431,6 @@ function Message({
       </ContextMenu>
     </div>
   );
-}
+});
 
 export default Message;
