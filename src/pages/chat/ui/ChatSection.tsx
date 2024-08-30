@@ -10,9 +10,8 @@ import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
 import Message from "@/entities/Message/ui/Message"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 import { useUsers } from "@/entities/User/lib/hooks/useUsers"
@@ -23,11 +22,14 @@ import UploadService from "@/entities/Attachment/api/UploadService"
 import { ErrorResponse } from "@/shared/model/ErrorResponse"
 import { ErrorCode } from "@/shared/model/ErrorCode"
 import Dater from "@/shared/ui/Dater"
+import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
+import SkeletonMessage from "@/entities/Message/ui/SkeletonMessage"
 
 interface ChatSectionProps {
   room: RoomModel;
   connection: Connection;
   messages: MessageModel[];
+  setMessages: React.Dispatch<React.SetStateAction<MessageModel[]>>;
   openAside: () => any | null;
 }
 
@@ -35,19 +37,22 @@ function ChatSection({
   room,
   connection,
   messages,
+  setMessages,
   openAside,
 }: ChatSectionProps) {
   if (!room) return <></>;
   let messagesEnd = useRef<any>();
+  let messagesStart = useRef<any>();
   let scrollArea = useRef<any>();
-  const [isMessagesEndObserved, setIsMessagesEndObserved] = useState(false);
-  let {currentUser} = useCurrentUser();
   let {users} = useUsers();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
-  let [lastMessageId, setLastMessageId] = useState<number>(0);
+  let [messagesLoaded, setMessagesLoaded] = useState(false);
   const messageRefs = useRef(new Map<number, any>());
+  let filteredMessages = messages.filter(m => m.roomGuid == room.guid).sort((a, b) => a.id - b.id);
+  let viewportRef = useRef<HTMLDivElement | null>(null);
+  let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
 
   function replyButtonClicked(message: MessageModel) {
     scrollToBottom();
@@ -84,6 +89,9 @@ function ChatSection({
 
     replyCancelled();
     connection.connection.send("SendMessage", model)
+      .then(() => {
+        scrollToBottom();
+      })
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
   }
 
@@ -110,12 +118,9 @@ function ChatSection({
 
   function scrollToBottom() {
     setTimeout(() => {
-      messagesEnd.current.scrollIntoView({
-        block: "nearest",
-        inline: "center",
-        alignToTop: false
-      });
-    }, 50)
+      if (!viewportRef.current) return;
+      viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
+    }, 10)
   }
 
   function scrollToMessage(messageId: number) {
@@ -138,27 +143,54 @@ function ChatSection({
     highlightMessage(messageId);
   }
 
-  useMemo(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsMessagesEndObserved(entry.isIntersecting);
-    });
+  function loadMoreMessages() {
+    if (roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length >= 1) return;
+
+    let countToLoad = 5;
+    connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageRefs.current.size })
+      .then(response => {
+        setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
+        response.content.map(m => {
+          if (!m.repliedMessageId) return;
+          connection.connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
+            .then(resp => setMessages(prevMessages => distinctMessages([...prevMessages, resp.content])));
+        });
+
+        if (response.content.length < countToLoad) {
+          setRoomsWithNoMoreMessagesToLoad(prev => [...prev, room.guid]);
+        }
+
+        setTimeout(() => {
+          if (!viewportRef.current) return;
+          viewportRef.current.scrollBy(0, messagesStart.current.clientHeight);
+        }, 0);
+      });
+  }
+
+  // Load more messages when the user scrolls to the top of the chat
+  useEffect(() => {
+    if (!connection || connection.roomGuid !== room.guid) return;
+    if (!messagesLoaded) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0) {
+          loadMoreMessages();
+        }
+      }, { threshold: 1.0 }
+    );
   
-    if (messagesEnd.current) {
-      observer.observe(messagesEnd.current);
+    if (messagesStart.current) {
+      observer.observe(messagesStart.current);
     }
-  }, []);
+  
+    return () => {
+      if (messagesStart.current) {
+        observer.unobserve(messagesStart.current);
+      }
+    };
+  }, [messagesLoaded, connection, roomsWithNoMoreMessagesToLoad]);
 
-  useMemo(() => {
-    if (!messagesEnd.current) return;
-    if (isMessagesEndObserved) scrollToBottom();
-    let lastMessage = messages[messages.length - 1];
-    if (!lastMessage) return;
-    if (lastMessage.authorHexId == currentUser?.hexId && lastMessage.id != lastMessageId) scrollToBottom();
-
-    setLastMessageId(lastMessage.id);
-  }, [messages])
-
-  let [messagesLoaded, setMessagesLoaded] = useState(false);
   let mainSection = useRef<any>();
   useEffect(() => {
     if (connection == null) return setMessagesLoaded(false);
@@ -186,6 +218,7 @@ function ChatSection({
   }, [messagesLoaded]);
 
   useEffect(() => {
+    scrollToBottom();
     setMessageToReply(null);
   }, [room]);
 
@@ -209,9 +242,9 @@ function ChatSection({
       <Separator orientation="horizontal"/>
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
-        <ScrollArea ref={scrollArea} className={`h-full pr-3 pb-2`}>
-        {messages.filter(m => m.roomGuid == room.guid).sort((a, b) => a.id - b.id)
-          .map((m, index, filteredMessages) => {
+        <ScrollArea ref={scrollArea} viewportRef={viewportRef} className={`h-full pr-3 pb-2`}>
+        {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && <div className="z-50 w-full top-30" ref={messagesStart}><SkeletonMessage/></div>}
+        {filteredMessages.map((m, index, filteredMessages) => {
             let repliedMessage = filteredMessages.find(repMessage => repMessage.id == m.repliedMessageId);
             let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
 

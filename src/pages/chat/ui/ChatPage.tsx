@@ -26,6 +26,8 @@ import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 import Aside from "@/widgets/aside/ui/Aside";
+import { distinctUsers } from "@/entities/User/lib/distinctUsers";
+import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
 
 export interface Connection {
   roomGuid: string;
@@ -42,29 +44,9 @@ function ChatPage() {
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
 
-  const distinctUsers = (array: UserModel[]) => {
-    const newUsers: UserModel[] = [];
-    array.map((u) => {
-      if (newUsers.find((usr) => usr.hexId == u.hexId)) return;
-      newUsers.push(u);
-    });
-
-    return newUsers;
-  };
-
-  const distinctMessages = (array: MessageModel[]) => {
-    const newMessages: MessageModel[] = [];
-    array.map((u) => {
-      if (newMessages.find((m) => m.id == u.id)) return;
-      newMessages.push(u);
-    });
-
-    return newMessages;
-  };
-
   const updateUsers = async () => {
     let pendingUsers: any[] = [];
-    await joinedRooms.map(async (r) => {
+    joinedRooms.map(async (r) => {
       await RoomService.GetRoomInfo({ roomGuid: r.guid }).then(
         (roomInfoResponse) => {
           pendingUsers = distinctUsers([
@@ -281,6 +263,7 @@ function ChatPage() {
         </div>
         <ChatSection
           messages={messages}
+          setMessages={setMessages}
           connection={connections.find((c) => c.roomGuid == selectedRoom)!}
           openAside={() => setAsideOpen(true)}
           room={joinedRooms.find((r) => r.guid == selectedRoom)!}/>

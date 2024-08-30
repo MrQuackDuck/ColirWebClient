@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from "react";
 import { RoomModel } from "../../model/RoomModel";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import RoomService from "../../api/RoomService";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 
 export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
@@ -25,10 +24,7 @@ const JoinedRoomsProvider = ({ children }) => {
           .then((response) => {
             setJoinedRooms((rooms) => [...rooms, response.data]);
           })
-          .catch((e) => {
-            console.log(e.response)
-            showErrorToast("Failed to get room info");
-          });
+          .catch((e) => console.error(e.response));
       });
     });
   }, []);

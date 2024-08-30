@@ -19,9 +19,7 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
   const onRoomJoin = async (model: JoinRoomModel) => {
     enableLoading();
     await RoomService.JoinRoom(model)
-      .then(response => {
-        onJoinedRoom(response.data);
-      })
+      .then(response => onJoinedRoom(response.data))
       .catch((error) => {
         if (error.response.data.errorCode === ErrorCode.RoomNotFound) 
           showErrorToast("Room not found!", "The room you've tried to join not exists.");
@@ -34,9 +32,7 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
   const onRoomCreate = async (model: CreateRoomModel) => {
     enableLoading();
     await RoomService.CreateRoom(model)
-      .then(response => {
-        onRoomCreated(response.data);
-      })
+      .then(response => onRoomCreated(response.data))
       .catch(() => showErrorToast())
       .finally(() => disableLoading());
   }
