@@ -23,7 +23,6 @@ import { ErrorResponse } from "@/shared/model/ErrorResponse"
 import { ErrorCode } from "@/shared/model/ErrorCode"
 import Dater from "@/shared/ui/Dater"
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
-import SkeletonMessage from "@/entities/Message/ui/SkeletonMessage"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -161,8 +160,8 @@ function ChatSection({
         }
 
         setTimeout(() => {
-          if (!viewportRef.current) return;
-          viewportRef.current.scrollBy(0, messagesStart.current.clientHeight);
+          if (viewportRef.current)
+            viewportRef.current.scrollBy(0, 1);
         }, 0);
       });
   }
@@ -242,8 +241,9 @@ function ChatSection({
       <Separator orientation="horizontal"/>
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
-        <ScrollArea ref={scrollArea} viewportRef={viewportRef} className={`h-full pr-3 pb-2`}>
-        {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && <div className="z-50 w-full top-30" ref={messagesStart}><SkeletonMessage/></div>}
+        <ScrollArea ref={scrollArea} viewportRef={viewportRef} style={{"overflowAnchor": "none"}} className={`h-full pr-3 pb-2`}>
+        {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
+        <div className="z-50 w-full top-30" ref={messagesStart}></div>}
         {filteredMessages.map((m, index, filteredMessages) => {
             let repliedMessage = filteredMessages.find(repMessage => repMessage.id == m.repliedMessageId);
             let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
