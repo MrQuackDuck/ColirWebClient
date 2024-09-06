@@ -23,6 +23,7 @@ import { ErrorResponse } from "@/shared/model/ErrorResponse"
 import { ErrorCode } from "@/shared/model/ErrorCode"
 import Dater from "@/shared/ui/Dater"
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
+import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -44,6 +45,7 @@ function ChatSection({
   let messagesStart = useRef<any>();
   let scrollArea = useRef<any>();
   let {users} = useUsers();
+  let currentUser = useCurrentUser();
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
@@ -54,9 +56,9 @@ function ChatSection({
   let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
 
   function replyButtonClicked(message: MessageModel) {
-    scrollToBottom();
     setMessageToReply(message);
     setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
+    setTimeout(() => scrollToBottom(), 0);
   }
 
   function replyCancelled() {
@@ -88,9 +90,6 @@ function ChatSection({
 
     replyCancelled();
     connection.connection.send("SendMessage", model)
-      .then(() => {
-        scrollToBottom();
-      })
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
   }
 
@@ -119,14 +118,22 @@ function ChatSection({
     setTimeout(() => {
       if (!viewportRef.current) return;
       viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
-    }, 10)
+    }, 0)
   }
 
   function scrollToMessage(messageId: number) {
     let messageRef = messageRefs.current.get(messageId);
     if (messageRef) {
       messageRef.scrollIntoView({ block: "center" });
-    };
+    } 
+    else {
+      connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetSurroundingMessages", { messageId: messageId, count: 4 })
+        .then(response => {
+          setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
+          messageRef = messageRefs.current.get(messageId);
+          if (messageRef) scrollToMessage(messageId);
+        });
+    }
   }
 
   function highlightMessage(messageId: number) {
@@ -149,11 +156,6 @@ function ChatSection({
     connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageRefs.current.size })
       .then(response => {
         setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
-        response.content.map(m => {
-          if (!m.repliedMessageId) return;
-          connection.connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
-            .then(resp => setMessages(prevMessages => distinctMessages([...prevMessages, resp.content])));
-        });
 
         if (response.content.length < countToLoad) {
           setRoomsWithNoMoreMessagesToLoad(prev => [...prev, room.guid]);
@@ -195,7 +197,12 @@ function ChatSection({
     if (connection == null) return setMessagesLoaded(false);
     if (messages.length == 0 && connection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
     setMessagesLoaded(true);
-  }, [messages]);
+
+    // Scroll to the bottom when the user sends a message
+    let lastMessage = messages[messages.length - 1];
+    if (lastMessage.authorHexId == currentUser.currentUser?.hexId && Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 5000) 
+      setTimeout(() => scrollToBottom(), 0);
+    }, [messages]);
 
   useEffect(() => {
     connection?.connection.onreconnecting(() => {
@@ -245,9 +252,9 @@ function ChatSection({
         {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
         <div className="z-50 w-full top-30" ref={messagesStart}></div>}
         {filteredMessages.map((m, index, filteredMessages) => {
-            let repliedMessage = filteredMessages.find(repMessage => repMessage.id == m.repliedMessageId);
             let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
-
+            let repliedMessageAuthor = users.find(u => u.hexId == m.repliedMessage?.authorHexId);
+            
             return (
               <div
               className="rounded-[6px] h-fit"
@@ -259,8 +266,8 @@ function ChatSection({
                     else messageRefs.current.delete(m.id);
                   }}
                   controlsEnabled={currentChatVariant == "default"}
-                  repliedMessage={repliedMessage}
-                  repliedMessageAuthor={users.find(u => u.hexId == repliedMessage?.authorHexId)}
+                  repliedMessage={m.repliedMessage}
+                  repliedMessageAuthor={repliedMessageAuthor}
                   onReactionAdded={emoji => addReaction(m.id, emoji)}
                   onReactionRemoved={reactionId => removeReaction(reactionId)}
                   onReplyButtonClicked={() => replyButtonClicked(m)}

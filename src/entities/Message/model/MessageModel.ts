@@ -8,6 +8,7 @@ export interface MessageModel {
     postDate: Date;
     editDate: Date | null;
     content: string;
+    repliedMessage: MessageModel | undefined;
     repliedMessageId: number | null;
     reactions: ReactionModel[];
     attachments: AttachmentModel[];

@@ -74,17 +74,6 @@ function ChatPage() {
             setMessages((prevMessages) =>
               distinctMessages([...prevMessages, ...response.content])
             );
-
-            // Getting the list of replied messages
-            response.content.map((m) => {
-              if (!m.repliedMessageId) return;
-              connection.invoke<SignalRHubResponse<MessageModel>>("GetMessageById", { messageId: m.repliedMessageId })
-                .then((resp) => {
-                  setMessages((prevMessages) =>
-                    distinctMessages([...prevMessages, resp.content])
-                  );
-                });
-            });
           });
 
         connection?.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
