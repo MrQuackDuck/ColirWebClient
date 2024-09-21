@@ -6,8 +6,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import { UserAuthType } from "../model/UserAuthType";
 import Moment from "moment";
+import { useCurrentUser } from "../lib/hooks/useCurrentUser";
+import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
+import { Button } from "@/shared/ui/Button";
+import { GavelIcon } from "lucide-react";
 
 function Username({ user, className }: { user?: UserModel, className?: string }) {
+  let {currentUser} = useCurrentUser();
+  let {selectedRoom} = useSelectedRoom();
+
   let whiteHex = 16777215;
   let { colorString, isAdjusted } = useAdaptiveColor(
     user ? user.hexId : whiteHex
@@ -51,6 +58,9 @@ function Username({ user, className }: { user?: UserModel, className?: string })
           <p><span className="font-medium">Colir ID</span>: {user ? decimalToHexString(user.hexId) : "Unknown"}</p>
           <p><span className="font-medium">Registration Date</span>: {formatDate(user?.registrationDate)}</p>
         </div>
+        {currentUser?.hexId === selectedRoom.owner.hexId && currentUser.hexId != user?.hexId && (
+          <Button className="mt-2 w-full" variant={'destructive'}><GavelIcon className="mr-2 h-4 w-4" /> Kick</Button>
+        )}
       </PopoverContent>
     </Popover>
   );

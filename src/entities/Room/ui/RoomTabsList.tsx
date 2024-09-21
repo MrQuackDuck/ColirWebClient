@@ -1,30 +1,29 @@
+import { useJoinedRooms } from "../lib/hooks/useJoinedRooms";
+import { useSelectedRoom } from "../lib/hooks/useSelectedRoom";
 import { RoomModel } from "../model/RoomModel";
 import RoomTab from "./RoomTab";
 
 function RoomTabsList({
-  rooms,
-  selectedRoomGuid,
-  onRoomSelected,
   onMarkAsReadClicked,
   onSettingsClicked
 }: {
-  rooms: RoomModel[];
-  selectedRoomGuid: string;
-  onRoomSelected: (room: RoomModel) => any;
   onMarkAsReadClicked: (room: RoomModel) => any;
   onSettingsClicked: (room: RoomModel) => any;
 }) {
+  let {joinedRooms} = useJoinedRooms();
+  let {selectedRoom, setSelectedRoom} = useSelectedRoom();
+
   function selectRoom(room: RoomModel) {
-    onRoomSelected(room);
+    setSelectedRoom(room);
   }
 
   return (
     <div className="flex flex-col gap-2">
-      {rooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
+      {joinedRooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
         <RoomTab
           key={r.guid}
           onClick={() => selectRoom(r)}
-          isSelected={r.guid == selectedRoomGuid}
+          isSelected={r.guid == selectedRoom?.guid ?? ""}
           room={r}
           onSettingsClicked={onSettingsClicked(r)}
           onMarkAsReadClicked={onMarkAsReadClicked(r)}

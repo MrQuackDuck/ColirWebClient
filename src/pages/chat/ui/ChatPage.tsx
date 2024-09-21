@@ -28,6 +28,7 @@ import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 import Aside from "@/widgets/aside/ui/Aside";
 import { distinctUsers } from "@/entities/User/lib/distinctUsers";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
+import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
 
 export interface Connection {
   roomGuid: string;
@@ -35,11 +36,11 @@ export interface Connection {
 }
 
 function ChatPage() {
-  let { currentUser } = useCurrentUser();
+  let {currentUser} = useCurrentUser();
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
-  let { joinedRooms, setJoinedRooms } = useJoinedRooms();
-  let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms?.[0]?.guid ?? "");
+  let {joinedRooms, setJoinedRooms} = useJoinedRooms();
+  let {selectedRoom} = useSelectedRoom();
   let { setUsers } = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
@@ -169,7 +170,7 @@ function ChatPage() {
 
         connection?.on("RoomRenamed", (newName) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == selectedRoom);
+            let target = prevRooms.find((r) => r.guid == selectedRoom.guid);
             if (target) target.name = newName;
             return [...prevRooms];
           });
@@ -214,7 +215,7 @@ function ChatPage() {
     let mappedConnections: string[] = [];
     connections.map((c) => {
       if (
-        connections.find((c) => c.roomGuid == selectedRoom)?.connection.state ==
+        connections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state ==
         HubConnectionState.Connected
       )
         return;
@@ -234,28 +235,20 @@ function ChatPage() {
               Tip: Hold the room to open the context menu.
             </SheetDescription>
           </SheetHeader>
-          <Aside
-            rooms={joinedRooms}
-            selectedRoom={selectedRoom}
-            setSelectedRoom={setSelectedRoom}
-          />
+          <Aside/>
         </SheetContent>
       </Sheet>
       <div className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
         <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}>
-          <Aside
-            rooms={joinedRooms}
-            selectedRoom={selectedRoom}
-            setSelectedRoom={setSelectedRoom}
-          />
+          <Aside/>
           <Separator orientation="vertical" />
         </div>
         <ChatSection
           messages={messages}
           setMessages={setMessages}
-          connection={connections.find((c) => c.roomGuid == selectedRoom)!}
+          connection={connections.find((c) => c.roomGuid == selectedRoom?.guid)!}
           openAside={() => setAsideOpen(true)}
-          room={joinedRooms.find((r) => r?.guid == selectedRoom)!}/>
+          room={selectedRoom}/>
       </div>
     </>
   );

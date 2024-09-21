@@ -7,34 +7,21 @@ import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
+import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
 
-interface AsideProps {
-  rooms: RoomModel[];
-  selectedRoom: string;
-  setSelectedRoom: (roomGuid: string) => any;
-}
-
-function Aside({
-  rooms,
-  selectedRoom,
-  setSelectedRoom,
-}: AsideProps) {
+function Aside() {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
   let { joinedRooms, setJoinedRooms } = useJoinedRooms();
-
-  function selectRoom(roomGuid: string) {
-    setSelectedRoom(roomGuid);
-  }
+  let {selectedRoom, setSelectedRoom} = useSelectedRoom();
 
   function onJoinedOrCreatedRoom(room: RoomModel) {
     setJoinedRooms([...joinedRooms, room]);
     setNewRoomModalOpened(false);
-    setSelectedRoom(room.guid);
+    setSelectedRoom(room);
   }
 
   useEffect(() => {
-    if (!joinedRooms.find(r => r.guid == selectedRoom))
-      setSelectedRoom(joinedRooms[0]?.guid ?? "");
+    if (!selectedRoom) setSelectedRoom(joinedRooms[0]);
   }, [joinedRooms])
 
   return (
@@ -47,11 +34,8 @@ function Aside({
         <PlusIcon className="mr-1 h-4 w-4" /> New Room
       </Button>
       <RoomTabsList
-        onRoomSelected={(r) => selectRoom(r.guid)}
-        selectedRoomGuid={selectedRoom}
         onMarkAsReadClicked={() => {}}
         onSettingsClicked={() => {}}
-        rooms={rooms}
       />
 
       <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>

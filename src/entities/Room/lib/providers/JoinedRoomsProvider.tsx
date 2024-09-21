@@ -29,6 +29,12 @@ const JoinedRoomsProvider = ({ children }) => {
     });
   }, []);
 
+  // Update the current user when the joined rooms change
+  // This is made in order to update the data in the local storage
+  useEffect(() => {
+    updateCurrentUser();
+  }, [joinedRooms]);
+
   return (
     <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms }}>
       {children}

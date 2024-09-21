@@ -40,7 +40,6 @@ function ChatSection({
   setMessages,
   openAside,
 }: ChatSectionProps) {
-  if (!room) return <></>;
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
   let scrollArea = useRef<any>();
@@ -243,6 +242,7 @@ function ChatSection({
 
   let [currentPadding, setCurrentPadding] = useState<number>(0);
 
+  if (!room) return <></>;
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
