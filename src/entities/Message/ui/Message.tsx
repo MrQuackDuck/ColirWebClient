@@ -150,29 +150,29 @@ const Message = forwardRef(({
     }
   }
 
+  let [keyUpHandler] = useState(() => handleKeyUp);
+  let [keyDownHandler] = useState(() => handleKeyDown);
+
   function handleMouseEnter() {
     if (message.authorHexId != currentUser?.hexId) return;
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("keyup", keyUpHandler);
+    document.addEventListener("keydown", keyDownHandler);
   }
 
   function handleMouseLeave() {
     if (message.authorHexId != currentUser?.hexId) return;
-    document.removeEventListener("keydown", handleKeyDown);
-    document.removeEventListener("keyup", handleKeyUp);
+    document.removeEventListener("keyup", keyUpHandler);
+    document.removeEventListener("keydown", keyDownHandler);
     setShiftPressed(false);
     setButtonDeleteConfirmation(false);
   }
 
   function handleKeyDown(event: KeyboardEvent) {
-    if (event.shiftKey) {
-      setShiftPressed(true);
-      return;
-    }
+    setShiftPressed(event.shiftKey);
   }
 
   function handleKeyUp(event: KeyboardEvent) {
-    if (event.key == "Shift") setShiftPressed(false);
+    setShiftPressed(event.shiftKey);
   }
 
   function formatDate(date) {

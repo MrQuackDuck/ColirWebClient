@@ -125,15 +125,19 @@ function ChatSection({
     let messageRef = messageRefs.current.get(messageId);
     if (messageRef) {
       messageRef.scrollIntoView({ block: "center" });
-    } 
-    else {
-      connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetSurroundingMessages", { messageId: messageId, count: 4 })
-        .then(response => {
-          setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
-          messageRef = messageRefs.current.get(messageId);
-          if (messageRef) scrollToMessage(messageId);
-        });
+      return;
     }
+    
+    let nearestMessageId = messages.find(m => m.id > messageId)?.id;
+    connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId })
+      .then(response => {
+        setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
+        messageRef = messageRefs.current.get(messageId);
+        setTimeout(() => {
+          scrollToMessage(messageId);
+          highlightMessage(messageId);
+        }, 15);
+      });
   }
 
   function highlightMessage(messageId: number) {
@@ -150,21 +154,30 @@ function ChatSection({
   }
 
   function loadMoreMessages() {
-    if (roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length >= 1) return;
-
-    let countToLoad = 5;
+    if (roomsWithNoMoreMessagesToLoad.includes(room.guid)) return;
+  
+    const countToLoad = 5;
+    
+    // Preserve the current scroll position
+    const previousScrollHeight = viewportRef.current?.scrollHeight || 0;
+    const previousScrollTop = viewportRef.current?.scrollTop || 0;
+  
     connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageRefs.current.size })
       .then(response => {
-        setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
-
+        setMessages(prevMessages => distinctMessages([...response.content, ...prevMessages])); // Add new messages to the top
+  
         if (response.content.length < countToLoad) {
           setRoomsWithNoMoreMessagesToLoad(prev => [...prev, room.guid]);
         }
-
+  
         setTimeout(() => {
-          if (viewportRef.current)
-            viewportRef.current.scrollBy(0, 1);
-        }, 0);
+          if (viewportRef.current && viewportRef.current.scrollTop == 0) {
+            // Calculate the new scroll position
+            const newScrollHeight = viewportRef.current.scrollHeight;
+            const scrollDifference = newScrollHeight - previousScrollHeight;
+            viewportRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
+          }}, 
+        0);
       });
   }
 
@@ -200,7 +213,7 @@ function ChatSection({
 
     // Scroll to the bottom when the user sends a message
     let lastMessage = messages[messages.length - 1];
-    if (lastMessage.authorHexId == currentUser.currentUser?.hexId && Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 5000) 
+    if (lastMessage && lastMessage.authorHexId == currentUser.currentUser?.hexId && Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 5000) 
       setTimeout(() => scrollToBottom(), 0);
     }, [messages]);
 
@@ -249,6 +262,7 @@ function ChatSection({
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
         <ScrollArea ref={scrollArea} viewportRef={viewportRef} style={{"overflowAnchor": "none"}} className={`h-full pr-3 pb-2`}>
+        
         {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
         <div className="z-50 w-full top-30" ref={messagesStart}></div>}
         {filteredMessages.map((m, index, filteredMessages) => {

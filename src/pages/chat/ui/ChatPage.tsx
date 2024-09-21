@@ -39,7 +39,7 @@ function ChatPage() {
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let { joinedRooms, setJoinedRooms } = useJoinedRooms();
-  let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms[0].guid ?? "");
+  let [selectedRoom, setSelectedRoom] = useState<string>(joinedRooms?.[0]?.guid ?? "");
   let { setUsers } = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
@@ -255,7 +255,7 @@ function ChatPage() {
           setMessages={setMessages}
           connection={connections.find((c) => c.roomGuid == selectedRoom)!}
           openAside={() => setAsideOpen(true)}
-          room={joinedRooms.find((r) => r.guid == selectedRoom)!}/>
+          room={joinedRooms.find((r) => r?.guid == selectedRoom)!}/>
       </div>
     </>
   );

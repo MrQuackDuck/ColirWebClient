@@ -55,7 +55,6 @@ function ChatInput({
 		});
 
 		document.addEventListener("drop", (e) => {
-			console.log("DROP")
 			e.preventDefault();
 
 			if (e.dataTransfer?.items) {
@@ -82,7 +81,7 @@ function ChatInput({
 		
 		setFiles([]);
 		textArea.current.textArea.value = "";
-		textArea.current.textArea.style.height = "43x";
+		textArea.current.textArea.style.height = "43px";
 	}
 
 	function insertAt(index: number, str: string) {

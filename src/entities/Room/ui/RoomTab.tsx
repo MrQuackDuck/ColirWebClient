@@ -103,7 +103,7 @@ function RoomTab({
     resolver: zodResolver(formSchema),
     defaultValues: {
       roomName: room.name,
-    },
+    }
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -192,7 +192,7 @@ function RoomTab({
                     <FormField name="roomName" control={form.control} render={({ field }) => (
                       <FormItem className="space-y-1">
                         <FormLabel>Room name</FormLabel>
-                        <FormControl><Input autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} /></FormControl>
+                        <FormControl><Input disabled={room.owner.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} /></FormControl>
                         <FormDescription className="text-slate-500 text-sm">Name that is displayed for members</FormDescription>
                         <FormMessage />
                       </FormItem>
