@@ -40,7 +40,7 @@ function ChatPage() {
   let [connections, setConnections] = useState<Connection[]>([]);
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let {joinedRooms, setJoinedRooms} = useJoinedRooms();
-  let {selectedRoom} = useSelectedRoom();
+  let {selectedRoom, setSelectedRoom} = useSelectedRoom();
   let { setUsers } = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
@@ -59,6 +59,33 @@ function ChatPage() {
       );
     });
   };
+
+  function updateUserList(roomGuid: string, hexId: number) {
+    setJoinedRooms((prevRooms) => {
+      let target = prevRooms.find((r) => r.guid == roomGuid);
+      if (target)
+        target.joinedUsers = target.joinedUsers.filter(
+          (u) => u.hexId != hexId
+        );
+
+      // Checking if the user is present on other rooms with current user
+      // If present, don't delete the user from memory
+      let isUserPresent = false;
+      joinedRooms.forEach((r) => {
+        if (r.joinedUsers.find((u) => u.hexId == hexId)) {
+          isUserPresent = true;
+        }
+      });
+
+      if (!isUserPresent) {
+        setUsers((prevUsers) => [
+          ...prevUsers.filter((u) => u.hexId != hexId),
+        ]);
+      }
+
+      return [...prevRooms];
+    });
+  }
 
   function startConnection(roomGuid: string, connection: HubConnection) {
     if (!joinedRooms || !currentUser) return;
@@ -102,51 +129,26 @@ function ChatPage() {
 
         connection?.on("UserLeft", (hexId) => {
           if (currentUser.hexId == hexId) {
-            setConnections((prevConnections) => [
-              ...prevConnections.filter((c) => c.roomGuid != roomGuid),
-            ]);
+            setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
             connection.stop();
             return;
           }
 
-          setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
-            if (target)
-              target.joinedUsers = target.joinedUsers.filter(
-                (u) => u.hexId != hexId
-              );
-
-            // Checking if the user is present on other rooms with current user
-            // If present, don't delete the user from memory
-            let isUserPresent = false;
-            joinedRooms.forEach((r) => {
-              if (r.joinedUsers.find((u) => u.hexId == hexId)) {
-                isUserPresent = true;
-              }
-            });
-
-            if (!isUserPresent) {
-              setUsers((prevUsers) => [
-                ...prevUsers.filter((u) => u.hexId != hexId),
-              ]);
-            }
-
-            return [...prevRooms];
-          });
+          updateUserList(roomGuid, hexId);
         });
 
         connection?.on("UserKicked", (hexId) => {
+          // If the current user is kicked, remove the connection
           if (currentUser.hexId == hexId) {
-            setConnections((prevConnections) => [
-              ...prevConnections.filter((c) => c.roomGuid != roomGuid),
-            ]);
-            connection.stop();
+            setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
+            let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
+            setJoinedRooms(newRooms);
+            setSelectedRoom(newRooms[0]);
+            setMessages(prevMessages => prevMessages.filter(m => m.roomGuid != roomGuid));
             return;
           }
 
-          setUsers((prevUsers) => [
-            ...prevUsers.filter((u) => u.hexId != hexId),
-          ]);
+          updateUserList(roomGuid, hexId);
         });
 
         connection?.on("MessageGotReaction", (message: MessageModel) =>

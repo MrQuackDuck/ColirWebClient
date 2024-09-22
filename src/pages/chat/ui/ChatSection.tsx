@@ -24,6 +24,7 @@ import { ErrorCode } from "@/shared/model/ErrorCode"
 import Dater from "@/shared/ui/Dater"
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
+import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -49,6 +50,8 @@ function ChatSection({
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
   let [messagesLoaded, setMessagesLoaded] = useState(false);
+  let {selectedRoom} = useSelectedRoom();
+  const selectedRoomRef = useRef(selectedRoom);
   const messageRefs = useRef(new Map<number, any>());
   let filteredMessages = messages.filter(m => m.roomGuid == room.guid).sort((a, b) => a.id - b.id);
   let viewportRef = useRef<HTMLDivElement | null>(null);
@@ -153,6 +156,7 @@ function ChatSection({
   }
 
   function loadMoreMessages() {
+    if (connection.connection.state != HubConnectionState.Connected) return;
     if (roomsWithNoMoreMessagesToLoad.includes(room.guid)) return;
   
     const countToLoad = 5;
@@ -204,6 +208,10 @@ function ChatSection({
     };
   }, [messagesLoaded, connection, roomsWithNoMoreMessagesToLoad]);
 
+  useEffect(() => {
+    selectedRoomRef.current = selectedRoom;
+  }, [selectedRoom]);
+
   let mainSection = useRef<any>();
   useEffect(() => {
     if (connection == null) return setMessagesLoaded(false);
@@ -214,19 +222,26 @@ function ChatSection({
     let lastMessage = messages[messages.length - 1];
     if (lastMessage && lastMessage.authorHexId == currentUser.currentUser?.hexId && Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 5000) 
       setTimeout(() => scrollToBottom(), 0);
-    }, [messages]);
+  }, [messages]);
 
+  // Set chat variant based on the connection state
   useEffect(() => {
+    if (connection && connection.connection.state == HubConnectionState.Connected) {
+      setCurrentChatVariant("default");
+    }
     connection?.connection.onreconnecting(() => {
+      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("connecting");
     });
     connection?.connection.onreconnected(() => {
+      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("default");
     });
     connection?.connection.onclose(() => {
+      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("disconnected");
     });
-  }, [connection?.connection]);
+  }, [connection?.connection, selectedRoom]);
 
   useEffect(() => {
     if (messagesLoaded) {

@@ -59,7 +59,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
                 <FormLabel>Encryption Key</FormLabel>
                 <div className="relative flex items-center max-w-2xl ">
                   <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                  <FormControl><Input autoComplete="off" id="encryptionKey" placeholder="encryption-key-here" className="pl-7" {...field}/></FormControl>
+                  <FormControl><Input type="password" autoComplete="off" id="encryptionKey" placeholder="encryption-key-here" className="pl-7" {...field}/></FormControl>
                 </div>
                 <FormDescription className="text-slate-500 text-sm">
                   Enter the key used to encrypt/decrypt messages across the

@@ -8,7 +8,7 @@ import {
 } from "@/shared/ui/Card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import { Input } from "@/shared/ui/Input";
-import { Label } from "@/shared/ui/label";
+import { Label } from "@/shared/ui/Label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/Select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyIcon } from "lucide-react";
@@ -72,7 +72,7 @@ function CreateRoomForm({onSend}: {onSend: (model: CreateRoomModel) => any}) {
                 <FormLabel>Encryption Key</FormLabel>
                 <div className="relative flex items-center max-w-2xl ">
                   <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                  <FormControl><Input autoComplete="off" id="encryptionKey" placeholder="something-secret-here" className="pl-7" {...field}/></FormControl>
+                  <FormControl><Input type="password" autoComplete="off" id="encryptionKey" placeholder="something-secret-here" className="pl-7" {...field}/></FormControl>
                 </div>
                 <FormDescription className="text-slate-500 text-sm">
                   Enter the key used to encrypt/decrypt messages across the

@@ -23,7 +23,7 @@ function RoomTabsList({
         <RoomTab
           key={r.guid}
           onClick={() => selectRoom(r)}
-          isSelected={r.guid == selectedRoom?.guid ?? ""}
+          isSelected={r.guid == selectedRoom?.guid}
           room={r}
           onSettingsClicked={onSettingsClicked(r)}
           onMarkAsReadClicked={onMarkAsReadClicked(r)}

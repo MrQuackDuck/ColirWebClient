@@ -41,9 +41,7 @@ export default class RoomService {
   }
 
   static async KickMember(model: KickMemberModel): Promise<AxiosResponse<void>> {
-    return await $api.delete("/Room/UpdateLastTimeReadChat", {params: {
-      model
-    }});
+    return await $api.delete("/Room/KickMember", {data: { targetHexId: model.targetHexId, roomGuid: model.roomGuid }});
   }
 
   static async RenameRoom(model: RenameRoomModel): Promise<AxiosResponse<void>> {

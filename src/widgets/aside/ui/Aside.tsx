@@ -22,7 +22,7 @@ function Aside() {
 
   useEffect(() => {
     if (!selectedRoom) setSelectedRoom(joinedRooms[0]);
-  }, [joinedRooms])
+  }, [joinedRooms]);
 
   return (
     <div className="flex flex-col gap-2.5 w-[100%] h-[100%] p-2.5 pb-0">
