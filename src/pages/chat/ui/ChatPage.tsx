@@ -128,8 +128,12 @@ function ChatPage() {
         });
 
         connection?.on("UserLeft", (hexId) => {
+          // If the current user leaves, remove the connection and the room
           if (currentUser.hexId == hexId) {
             setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
+            let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
+            setJoinedRooms(newRooms);
+            if (newRooms.length > 0) setSelectedRoom(newRooms[0]);
             connection.stop();
             return;
           }
@@ -138,12 +142,12 @@ function ChatPage() {
         });
 
         connection?.on("UserKicked", (hexId) => {
-          // If the current user is kicked, remove the connection
+          // If the current user leaves, remove the connection and the room
           if (currentUser.hexId == hexId) {
             setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
             let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
             setJoinedRooms(newRooms);
-            setSelectedRoom(newRooms[0]);
+            if (newRooms.length > 0) setSelectedRoom(newRooms[0]);
             setMessages(prevMessages => prevMessages.filter(m => m.roomGuid != roomGuid));
             return;
           }
