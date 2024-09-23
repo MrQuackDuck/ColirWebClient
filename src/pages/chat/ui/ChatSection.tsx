@@ -25,6 +25,8 @@ import Dater from "@/shared/ui/Dater"
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom"
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
+import Username from "@/entities/User/ui/Username"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -268,7 +270,18 @@ function ChatSection({
           <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
           <span>{room.name}</span>
           <Separator className="min-h-5" orientation="vertical"/>
-          <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col w-fit">
+              <span className="text-base">Members</span>
+              <span className="text-sm text-slate-400">Here are displayed members of the room</span>
+              <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
+                  {room.joinedUsers.map(u => <div><Username user={u} /></div>)}
+              </div>
+            </PopoverContent>
+          </Popover>
           <Separator className="min-h-5" orientation="vertical"/>
           <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
         </div>

@@ -1,7 +1,7 @@
 import { Separator } from "@/shared/ui/Separator";
 import ChatSection from "./ChatSection";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./ChatPage.module.css";
 import {
   Sheet,
@@ -29,6 +29,7 @@ import Aside from "@/widgets/aside/ui/Aside";
 import { distinctUsers } from "@/entities/User/lib/distinctUsers";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
 import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
+import { showInfoToast } from "@/shared/lib/showInfoToast";
 
 export interface Connection {
   roomGuid: string;
@@ -41,9 +42,14 @@ function ChatPage() {
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let {joinedRooms, setJoinedRooms} = useJoinedRooms();
   let {selectedRoom, setSelectedRoom} = useSelectedRoom();
-  let { setUsers } = useUsers();
+  const selectedRoomRef = useRef(selectedRoom);
+  let {setUsers} = useUsers();
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
+
+  useEffect(() => {
+    selectedRoomRef.current = selectedRoom;
+  }, [selectedRoom]);
 
   const updateUsers = async () => {
     let pendingUsers: any[] = [];
@@ -88,6 +94,7 @@ function ChatPage() {
   }
 
   function startConnection(roomGuid: string, connection: HubConnection) {
+    console.log("Starting connection for room", roomGuid);
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
@@ -119,6 +126,7 @@ function ChatPage() {
 
         connection?.on("UserJoined", (user: UserModel) => {
           if (currentUser.hexId == user.hexId) return;
+          showInfoToast("User joined", `${user.username} has joined the room.`);
           setUsers((prevUsers) => [...prevUsers, user]);
           setJoinedRooms((prevRooms) => {
             let target = prevRooms.find((r) => r.guid == roomGuid);
@@ -147,8 +155,10 @@ function ChatPage() {
             setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
             let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
             setJoinedRooms(newRooms);
-            if (newRooms.length > 0) setSelectedRoom(newRooms[0]);
             setMessages(prevMessages => prevMessages.filter(m => m.roomGuid != roomGuid));
+            console.log(roomGuid)
+            if (newRooms.length > 0 && selectedRoomRef.current.guid == roomGuid) setSelectedRoom(newRooms[0]);
+            connection.stop();
             return;
           }
 
@@ -194,11 +204,8 @@ function ChatPage() {
     if (!joinedRooms) return;
 
     updateUsers().then(() => {
-      joinedRooms.map((r) => {
-        // Return if the connection is already registered
-        if (connections.find((c) => c.roomGuid == r.guid)) return;
-
         getJwt().then((jwt) => {
+        joinedRooms.map((r) => {
           let connection = new HubConnectionBuilder()
             .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
               accessTokenFactory: () => jwt,
@@ -206,25 +213,18 @@ function ChatPage() {
             .withAutomaticReconnect([5000, 5000, 6000, 6000])
             .build();
 
-          setConnections((prevConnections) => [
-            ...prevConnections,
-            { roomGuid: r.guid, connection: connection },
-          ]);
+          setConnections((prevConnections) => {
+            if (prevConnections.find((c) => c.roomGuid == r.guid)) return prevConnections;
+            return [...prevConnections, { roomGuid: r.guid, connection: connection }]});
         });
       });
     });
-  }, [joinedRooms.length]);
+  }, [joinedRooms.length, currentUser]);
 
   useEffect(() => {
-    if (!connections) return;
-
     let mappedConnections: string[] = [];
     connections.map((c) => {
-      if (
-        connections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state ==
-        HubConnectionState.Connected
-      )
-        return;
+      if (connections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
       if (mappedConnections.includes(c.roomGuid)) return;
       mappedConnections.push(c.roomGuid);
       startConnection(c.roomGuid, c.connection);

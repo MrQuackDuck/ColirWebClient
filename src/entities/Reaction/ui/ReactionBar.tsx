@@ -25,7 +25,6 @@ interface ReactionElement {
   isActivated: boolean;
 }
 
-
 const ReactionBar = (props: ReactionBarProps) => {
   const { currentUser } = useCurrentUser();
   const { users } = useUsers();

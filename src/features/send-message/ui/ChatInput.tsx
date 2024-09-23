@@ -161,13 +161,12 @@ function ChatInput({
 			<div className={cn("flex flex-col absolute bottom-0 items-center", className)}>
 				{/* Top section (with reply and files) */}
 				<div ref={topArea} className="flex flex-col bg-accent/80 w-full items-center rounded-t-[6px] gap-0.5">
-					{messageToReply && variant == "default" && (
-						<ReplySection
-							onReplyCancelled={onReplyCancelled}
-							message={messageToReply}
-							sender={messageToReplyAuthor!}
-						/>
-					)}
+					<ReplySection
+						onReplyCancelled={onReplyCancelled}
+						message={messageToReply}
+						sender={messageToReplyAuthor!}
+						className={messageToReply && variant == "default" ? '' : 'hidden'}
+					/>
 
 					{messageToReply && files.length > 0 && <Separator className="bg-secondary outline-none border-none" />}
 
