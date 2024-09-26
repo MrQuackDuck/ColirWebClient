@@ -12,14 +12,20 @@ import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { ErrorCode } from "@/shared/model/ErrorCode";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { cn } from "@/shared/lib/utils";
+import { distinctUsers } from "@/entities/User/lib/distinctUsers";
+import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 
 function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any, onRoomCreated: (model: RoomModel) => any, className?: string }) {
   const { enableLoading, disableLoading } = useLoading();
+  const {setUsers} = useUsers();
 
   const onRoomJoin = async (model: JoinRoomModel) => {
     enableLoading();
     await RoomService.JoinRoom(model)
-      .then(response => onJoinedRoom(response.data))
+      .then(response => {
+        onJoinedRoom(response.data);
+        setUsers(prevUsers => distinctUsers([...prevUsers, ...response.data.joinedUsers]));
+      })
       .catch((error) => {
         if (error.response.data.errorCode === ErrorCode.RoomNotFound) 
           showErrorToast("Room not found!", "The room you've tried to join not exists.");

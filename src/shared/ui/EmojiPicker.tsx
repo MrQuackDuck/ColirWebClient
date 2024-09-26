@@ -44,6 +44,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
           emojiVersion={"3.0"}
           skinTonesDisabled={true}
           hiddenEmojis={["1FAE0"]}
+          lazyLoadEmojis={true}
           theme={theme == "dark" ? Theme.DARK : Theme.LIGHT}
           emojiStyle={EmojiStyle.NATIVE}
           onEmojiClick={(emoji) => onChange(emoji.emoji.toString())}

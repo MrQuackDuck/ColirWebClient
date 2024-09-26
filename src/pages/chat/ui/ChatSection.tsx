@@ -27,6 +27,7 @@ import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
 import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
 import Username from "@/entities/User/ui/Username"
+import AuthTypeBadge from "@/shared/ui/AuthTypeBadge"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -52,6 +53,7 @@ function ChatSection({
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
   let [messagesLoaded, setMessagesLoaded] = useState(false);
+  let [isLoadingMoreMessages, setIsLoadingMoreMessages] = useState(false);
   let {selectedRoom} = useSelectedRoom();
   const selectedRoomRef = useRef(selectedRoom);
   const messageRefs = useRef(new Map<number, any>());
@@ -158,8 +160,11 @@ function ChatSection({
   }
 
   function loadMoreMessages() {
+    if (isLoadingMoreMessages) return; // Prevent multiple requests
     if (connection.connection.state != HubConnectionState.Connected) return;
     if (roomsWithNoMoreMessagesToLoad.includes(room.guid)) return;
+
+    setIsLoadingMoreMessages(true);
   
     const countToLoad = 5;
     
@@ -183,7 +188,8 @@ function ChatSection({
             viewportRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
           }}, 
         0);
-      });
+      })
+      .finally(() => setIsLoadingMoreMessages(false));
   }
 
   // Load more messages when the user scrolls to the top of the chat
@@ -231,6 +237,13 @@ function ChatSection({
     if (connection && connection.connection.state == HubConnectionState.Connected) {
       setCurrentChatVariant("default");
     }
+    if (connection && connection.connection.state == HubConnectionState.Connecting) {
+      setCurrentChatVariant("connecting");
+    }
+    if (connection && connection.connection.state == HubConnectionState.Disconnected) {
+      setCurrentChatVariant("disconnected");
+    }
+
     connection?.connection.onreconnecting(() => {
       if (connection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("connecting");
@@ -243,7 +256,7 @@ function ChatSection({
       if (connection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("disconnected");
     });
-  }, [connection?.connection, selectedRoom]);
+  }, [connection?.connection.state, selectedRoom]);
 
   useEffect(() => {
     if (messagesLoaded) {
@@ -278,7 +291,7 @@ function ChatSection({
               <span className="text-base">Members</span>
               <span className="text-sm text-slate-400">Here are displayed members of the room</span>
               <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
-                  {room.joinedUsers.map(u => <div><Username user={u} /></div>)}
+                  {room.joinedUsers.map(u => <div className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
               </div>
             </PopoverContent>
           </Popover>

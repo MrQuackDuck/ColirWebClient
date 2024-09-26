@@ -15,7 +15,6 @@ import { KeyIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-import { addMinutes } from "../lib/addMinutes";
 
 
 const formSchema = z.object({
@@ -34,20 +33,20 @@ function CreateRoomForm({onSend}: {onSend: (model: CreateRoomModel) => any}) {
     }
   })
 
-  function getExpiryDate(inputValue: string) {
+  function getMinutesBeforeExpiry(inputValue: string) {
     switch (inputValue) {
-      case "12-hours": return addMinutes(new Date(), 12 * 60);
-      case "24-hours": return addMinutes(new Date(), 24 * 60);
-      case "7-days": return addMinutes(new Date(), 7 * 24 * 60);
-      case "1-month": return addMinutes(new Date(), 30 * 24 * 60);
-      case "1-year": return addMinutes(new Date(), 365 * 24 * 60);
-      default: return null;
+      case "12-hours": return 12 * 60;
+      case "24-hours": return  24 * 60;
+      case "7-days": return 7 * 24 * 60;
+      case "1-month": return 30 * 24 * 60;
+      case "1-year": return 365 * 24 * 60;
+      default: return undefined;
     }
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Submit logic
-    onSend({ name: values.roomName, expiryDate: getExpiryDate(values.expiryTime) })
+    onSend({ name: values.roomName, minutesToLive: getMinutesBeforeExpiry(values.expiryTime) })
   }
 
   return (<>

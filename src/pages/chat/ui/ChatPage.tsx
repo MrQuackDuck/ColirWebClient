@@ -20,13 +20,11 @@ import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import { GetLastMessagesModel } from "@/entities/Message/model/request/GetLastMessagesModel";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import RoomService from "@/entities/Room/api/RoomService";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
 import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 import Aside from "@/widgets/aside/ui/Aside";
-import { distinctUsers } from "@/entities/User/lib/distinctUsers";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
 import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
 import { showInfoToast } from "@/shared/lib/showInfoToast";
@@ -42,6 +40,7 @@ function ChatPage() {
   let [messages, setMessages] = useState<MessageModel[]>([]);
   let {joinedRooms, setJoinedRooms} = useJoinedRooms();
   let {selectedRoom, setSelectedRoom} = useSelectedRoom();
+  const joinedRoomsRef = useRef(joinedRooms);
   const selectedRoomRef = useRef(selectedRoom);
   let {setUsers} = useUsers();
   let getJwt = useJwt();
@@ -51,50 +50,22 @@ function ChatPage() {
     selectedRoomRef.current = selectedRoom;
   }, [selectedRoom]);
 
-  const updateUsers = async () => {
-    let pendingUsers: any[] = [];
-    joinedRooms.map(async (r) => {
-      await RoomService.GetRoomInfo({ roomGuid: r.guid }).then(
-        (roomInfoResponse) => {
-          pendingUsers = distinctUsers([
-            ...pendingUsers,
-            ...roomInfoResponse.data.joinedUsers,
-          ]);
-          setUsers(pendingUsers);
-        }
-      );
-    });
-  };
+  // Verifies that the users which are not present in the room and don't share same rooms with current user are removed from the memory
+  function verifyUsersPresenceOnAllRooms() {
+    if (!joinedRooms || !currentUser) return;
 
-  function updateUserList(roomGuid: string, hexId: number) {
-    setJoinedRooms((prevRooms) => {
-      let target = prevRooms.find((r) => r.guid == roomGuid);
-      if (target)
-        target.joinedUsers = target.joinedUsers.filter(
-          (u) => u.hexId != hexId
-        );
-
-      // Checking if the user is present on other rooms with current user
-      // If present, don't delete the user from memory
-      let isUserPresent = false;
-      joinedRooms.forEach((r) => {
-        if (r.joinedUsers.find((u) => u.hexId == hexId)) {
-          isUserPresent = true;
-        }
+    let usersToKeep: number[] = [];
+    joinedRooms.forEach((r) => {
+      r.joinedUsers.forEach((u) => {
+        usersToKeep.push(u.hexId);
       });
-
-      if (!isUserPresent) {
-        setUsers((prevUsers) => [
-          ...prevUsers.filter((u) => u.hexId != hexId),
-        ]);
-      }
-
-      return [...prevRooms];
     });
+
+    setUsers((prevUsers) => [...prevUsers.filter((u) => usersToKeep.find(userHex => userHex == u.hexId))]);
   }
 
+
   function startConnection(roomGuid: string, connection: HubConnection) {
-    console.log("Starting connection for room", roomGuid);
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
@@ -126,7 +97,7 @@ function ChatPage() {
 
         connection?.on("UserJoined", (user: UserModel) => {
           if (currentUser.hexId == user.hexId) return;
-          showInfoToast("User joined", `${user.username} has joined the room.`);
+          if (selectedRoomRef.current.guid == roomGuid) showInfoToast("User joined", `${user.username} has joined the room.`);
           setUsers((prevUsers) => [...prevUsers, user]);
           setJoinedRooms((prevRooms) => {
             let target = prevRooms.find((r) => r.guid == roomGuid);
@@ -136,33 +107,27 @@ function ChatPage() {
         });
 
         connection?.on("UserLeft", (hexId) => {
+          verifyUsersPresenceOnAllRooms();
           // If the current user leaves, remove the connection and the room
           if (currentUser.hexId == hexId) {
             setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
-            let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
-            setJoinedRooms(newRooms);
-            if (newRooms.length > 0) setSelectedRoom(newRooms[0]);
             connection.stop();
             return;
           }
-
-          updateUserList(roomGuid, hexId);
         });
 
         connection?.on("UserKicked", (hexId) => {
+          verifyUsersPresenceOnAllRooms();
           // If the current user leaves, remove the connection and the room
           if (currentUser.hexId == hexId) {
             setConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
-            let newRooms = [...joinedRooms.filter((r) => r.guid != roomGuid)];
+            let newRooms = [...joinedRoomsRef.current.filter((r) => r.guid != roomGuid)];
             setJoinedRooms(newRooms);
             setMessages(prevMessages => prevMessages.filter(m => m.roomGuid != roomGuid));
-            console.log(roomGuid)
             if (newRooms.length > 0 && selectedRoomRef.current.guid == roomGuid) setSelectedRoom(newRooms[0]);
             connection.stop();
             return;
           }
-
-          updateUserList(roomGuid, hexId);
         });
 
         connection?.on("MessageGotReaction", (message: MessageModel) =>
@@ -203,20 +168,19 @@ function ChatPage() {
   useEffect(() => {
     if (!joinedRooms) return;
 
-    updateUsers().then(() => {
-        getJwt().then((jwt) => {
-        joinedRooms.map((r) => {
-          let connection = new HubConnectionBuilder()
-            .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
-              accessTokenFactory: () => jwt,
-            })
-            .withAutomaticReconnect([5000, 5000, 6000, 6000])
-            .build();
+    verifyUsersPresenceOnAllRooms();
+    getJwt().then((jwt) => {
+      joinedRooms.map((r) => {
+        let connection = new HubConnectionBuilder()
+          .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
+            accessTokenFactory: () => jwt,
+          })
+          .withAutomaticReconnect([5000, 5000, 6000, 6000])
+          .build();
 
-          setConnections((prevConnections) => {
-            if (prevConnections.find((c) => c.roomGuid == r.guid)) return prevConnections;
-            return [...prevConnections, { roomGuid: r.guid, connection: connection }]});
-        });
+        setConnections((prevConnections) => {
+          if (prevConnections.find((c) => c.roomGuid == r.guid)) return prevConnections;
+          return [...prevConnections, { roomGuid: r.guid, connection: connection }]});
       });
     });
   }, [joinedRooms.length, currentUser]);

@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { RoomModel } from "../../model/RoomModel";
 import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import RoomService from "../../api/RoomService";
+import { distinctUsers } from "@/entities/User/lib/distinctUsers";
+import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 
 export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
@@ -14,6 +16,7 @@ export const JoinedRoomsContext = createContext<{
 const JoinedRoomsProvider = ({ children }) => {
   const { currentUser, updateCurrentUser } = useCurrentUser();
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
+  const { setUsers } = useUsers();
 
   useEffect(() => {
     if (!currentUser) return;
@@ -23,6 +26,7 @@ const JoinedRoomsProvider = ({ children }) => {
         RoomService.GetRoomInfo({ roomGuid: room.guid })
           .then((response) => {
             setJoinedRooms((rooms) => [...rooms, response.data]);
+            setUsers(prev => distinctUsers([...prev, ...response.data.joinedUsers]));
           })
           .catch((e) => console.error(e.response));
       });

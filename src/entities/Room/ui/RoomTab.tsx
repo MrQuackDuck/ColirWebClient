@@ -32,6 +32,7 @@ import { Input } from "@/shared/ui/Input";
 import { Link } from "react-router-dom";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useJoinedRooms } from "../lib/hooks/useJoinedRooms";
+import { useSelectedRoom } from "../lib/hooks/useSelectedRoom";
 
 const formSchema = z.object({
   roomName: z.string().min(2, {
@@ -59,13 +60,19 @@ function RoomTab({
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false)
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
-  const { currentUser } = useCurrentUser();
-  const { setJoinedRooms } = useJoinedRooms();
+  const {selectedRoom, setSelectedRoom} = useSelectedRoom();
+  const {currentUser} = useCurrentUser();
+  const {setJoinedRooms} = useJoinedRooms();
 
   function leaveFromRoom() {
     RoomService.LeaveRoom({ roomGuid: room.guid })
       .then(() => {
-        setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
+        let newRooms: RoomModel[] = [];
+        setJoinedRooms((rooms) => {
+          newRooms = rooms.filter((r) => r.guid !== room.guid);
+          return newRooms;
+        });
+        if (selectedRoom?.guid == room.guid && newRooms.length > 0) setSelectedRoom(newRooms[0]);
         setLeaveConfirmationOpened(false);
       })
       .catch(() => showErrorToast("Oops!", "We weren't able to make leave you from the room."))
