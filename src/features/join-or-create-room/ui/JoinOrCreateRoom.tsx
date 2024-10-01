@@ -38,7 +38,10 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
   const onRoomCreate = async (model: CreateRoomModel) => {
     enableLoading();
     await RoomService.CreateRoom(model)
-      .then(response => onRoomCreated(response.data))
+      .then(response => {
+        onRoomCreated(response.data);
+        setUsers(prevUsers => distinctUsers([...prevUsers, ...response.data.joinedUsers]));
+      })
       .catch(() => showErrorToast())
       .finally(() => disableLoading());
   }

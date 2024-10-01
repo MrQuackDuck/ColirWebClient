@@ -64,7 +64,6 @@ function ChatPage() {
     setUsers((prevUsers) => [...prevUsers.filter((u) => usersToKeep.find(userHex => userHex == u.hexId))]);
   }
 
-
   function startConnection(roomGuid: string, connection: HubConnection) {
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
@@ -153,6 +152,18 @@ function ChatPage() {
           setJoinedRooms((prevRooms) => {
             let target = prevRooms.find((r) => r.guid == selectedRoom.guid);
             if (target) target.name = newName;
+            return [...prevRooms];
+          });
+        });
+
+        connection?.on("RoomSizeChanged", (newSize) => {
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == selectedRoom.guid);
+            if (target) {
+              let prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
+              target.freeMemoryInBytes = prevSize - newSize;
+              target.usedMemoryInBytes = newSize;
+            }
             return [...prevRooms];
           });
         });

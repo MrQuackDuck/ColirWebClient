@@ -6,17 +6,17 @@ import { useLoading } from "@/shared/lib/hooks/useLoading";
 
 function IndexPage() {
   const { isAuthorized } = useAuth();
-  const { joinedRooms, setJoinedRooms } = useJoinedRooms();
+  const { setJoinedRooms } = useJoinedRooms();
   const { enableLoading } = useLoading();
 
   const onJoinedRoom = (room) => {
     enableLoading();
-    setJoinedRooms([...joinedRooms, room]);
+    setJoinedRooms(prevRooms => [...prevRooms, room]);
   }
 
   const onRoomCreated = (room) => {
     enableLoading();
-    setJoinedRooms([...joinedRooms, room]);
+    setJoinedRooms(prevRooms => [...prevRooms, room]);
   }
 
   return (

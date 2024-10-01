@@ -28,6 +28,7 @@ import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
 import Username from "@/entities/User/ui/Username"
 import AuthTypeBadge from "@/shared/ui/AuthTypeBadge"
+import StorageBar from "@/features/manage-storage/ui/StorageBar"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -279,24 +280,29 @@ function ChatSection({
         <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
         </Button>
-        <div className="flex flex-row items-center select-none gap-2.5">
-          <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
-          <span>{room.name}</span>
-          <Separator className="min-h-5" orientation="vertical"/>
-          <Popover>
-            <PopoverTrigger>
-              <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col w-fit">
-              <span className="text-base">Members</span>
-              <span className="text-sm text-slate-400">Here are displayed members of the room</span>
-              <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
-                  {room.joinedUsers.map(u => <div className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
-              </div>
-            </PopoverContent>
-          </Popover>
-          <Separator className="min-h-5" orientation="vertical"/>
-          <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
+        <div className="w-full flex flex-row justify-between items-center select-none">
+          <div className="flex flex-row items-center select-none gap-2.5">
+            <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
+            <span>{room.name}</span>
+            <Separator className="min-h-5" orientation="vertical"/>
+            <Popover>
+              <PopoverTrigger>
+                <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
+              </PopoverTrigger>
+              <PopoverContent className="flex flex-col w-fit">
+                <span className="text-base">Members</span>
+                <span className="text-sm text-slate-400">Here are displayed members of the room</span>
+                <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
+                    {room.joinedUsers.map(u => <div className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Separator className="min-h-5" orientation="vertical"/>
+            <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
+          </div>
+          <div className="flex flex-row gap-2.5">
+            <StorageBar room={selectedRoom} />
+          </div>
         </div>
       </header>
       <Separator orientation="horizontal"/>
