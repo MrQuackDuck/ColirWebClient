@@ -21,7 +21,7 @@ function Aside() {
   }
 
   useEffect(() => {
-    if (!selectedRoom) setSelectedRoom(joinedRooms[0]);
+    if (!selectedRoom || joinedRooms.length == 1) setSelectedRoom(joinedRooms[0]);
   }, [joinedRooms]);
 
   return (

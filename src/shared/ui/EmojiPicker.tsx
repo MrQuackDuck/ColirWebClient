@@ -2,11 +2,11 @@
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { SmileIcon, SmilePlusIcon } from "lucide-react";
-import EmojiPickerReact, { EmojiStyle, Theme } from 'emoji-picker-react';
-import { useTheme } from "../lib/providers/ThemeProvider";
 import { cn } from "../lib/utils";
 import { Button } from "./Button";
 import './EmojiPicker.css'
+import { ScrollArea } from "./ScrollArea";
+import emojiData from '../lib/emojis.json';
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -16,8 +16,6 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
-	let { theme } = useTheme();
-
   function getTrigger() {
     if (asButton) {
       return (
@@ -37,18 +35,21 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
       <PopoverTrigger asChild className={cn(className)}>
         {getTrigger()}
       </PopoverTrigger>
-      <PopoverContent className="w-full">
-        <EmojiPickerReact
-          previewConfig={{ showPreview: false }}
-          height={400}
-          emojiVersion={"3.0"}
-          skinTonesDisabled={true}
-          hiddenEmojis={["1FAE0"]}
-          lazyLoadEmojis={true}
-          theme={theme == "dark" ? Theme.DARK : Theme.LIGHT}
-          emojiStyle={EmojiStyle.NATIVE}
-          onEmojiClick={(emoji) => onChange(emoji.emoji.toString())}
-        />
+      <PopoverContent className="w-[300px] max-h-[400px] overflow-hidden p-4">
+        <ScrollArea className="h-[400px] text-[22px]">
+          <div className="flex flex-col gap-1">
+          {Object.keys(emojiData).map((category) => (
+            <div>
+              <h3>{category}</h3>
+              <div className="flex flex-wrap gap-1">
+                {emojiData[category as keyof typeof emojiData].map((emoji, index) => (
+                  <Button key={index} onClick={() => onChange(emoji)} variant={"ghost"} size={"icon"} className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]">{emoji}</Button>
+                ))}
+              </div>
+            </div>
+          ))}
+          </div>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

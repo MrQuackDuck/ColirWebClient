@@ -142,7 +142,7 @@ function RoomTab({
             }`}
           >
             <DollarSignIcon className="text-slate-400 h-4 min-w-4 max-w-4 mr-2" />
-            <span className="text-popover-foreground text-ellipsis inline-block overflow-hidden max-w-[100%]">{room.name}</span>
+            <span className="text-popover-foreground text-ellipsis text-nowrap inline-block overflow-hidden max-w-[100%]">{room.name}</span>
           </button>
         </ContextMenuTrigger>
         <ContextMenuContent>

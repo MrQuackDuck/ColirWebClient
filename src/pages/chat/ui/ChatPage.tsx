@@ -156,6 +156,11 @@ function ChatPage() {
           });
         });
 
+        connection?.on("RoomDeleted", () => {
+          setJoinedRooms((prevRooms) => [...prevRooms.filter((r) => r.guid != selectedRoom.guid)]);
+          setMessages((prevMessages) => [...prevMessages.filter((m) => m.roomGuid != selectedRoom.guid)]);
+        });
+
         connection?.on("RoomSizeChanged", (newSize) => {
           setJoinedRooms((prevRooms) => {
             let target = prevRooms.find((r) => r.guid == selectedRoom.guid);
@@ -163,6 +168,26 @@ function ChatPage() {
               let prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
               target.freeMemoryInBytes = prevSize - newSize;
               target.usedMemoryInBytes = newSize;
+            }
+            return [...prevRooms];
+          });
+        });
+
+        connection?.on("RoomCleared", () => {
+          // Takes all messages in the room and removes attachment array from them
+          setMessages((prevMessages) => {
+            let targetMessages = prevMessages.filter((m) => m.roomGuid == roomGuid);
+            targetMessages.forEach((m) => (m.attachments = []));
+            return [...prevMessages];
+          });
+
+          // Also clears the room's memory
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == roomGuid);
+            if (target) {
+              let prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
+              target.freeMemoryInBytes = prevSize;
+              target.usedMemoryInBytes = 0;
             }
             return [...prevRooms];
           });

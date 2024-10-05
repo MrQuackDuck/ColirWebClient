@@ -280,20 +280,20 @@ function ChatSection({
         <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
         </Button>
-        <div className="w-full flex flex-row justify-between items-center select-none">
+        <div className="w-full flex flex-row justify-between flex-wrap gap-1 items-center select-none">
           <div className="flex flex-row items-center select-none gap-2.5">
             <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
-            <span>{room.name}</span>
+            <span className="text-ellipsis text-nowrap max-w-[40%] overflow-hidden">{room.name}</span>
             <Separator className="min-h-5" orientation="vertical"/>
             <Popover>
-              <PopoverTrigger>
+              <PopoverTrigger asChild>
                 <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
               </PopoverTrigger>
               <PopoverContent className="flex flex-col w-fit">
                 <span className="text-base">Members</span>
                 <span className="text-sm text-slate-400">Here are displayed members of the room</span>
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
-                    {room.joinedUsers.map(u => <div className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
+                    {room.joinedUsers.map(u => <div key={u.hexId} className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
                 </div>
               </PopoverContent>
             </Popover>
