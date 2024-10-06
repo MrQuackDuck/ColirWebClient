@@ -18,6 +18,7 @@ function Username({ user, className }: { user?: UserModel, className?: string })
   let {currentUser} = useCurrentUser();
   let {selectedRoom} = useSelectedRoom();
   let [isKickConfirmationShown, setIsKickConfirmationShown] = useState(false);
+  let [isPopoverOpen, setIsPopoverOpen] = useState(false);
   let kickButtonDisplayed: boolean = 
     currentUser?.hexId === selectedRoom.owner.hexId // Only the owner can kick
     && currentUser.hexId != user?.hexId // Can't kick yourself
@@ -45,7 +46,7 @@ function Username({ user, className }: { user?: UserModel, className?: string })
   }
 
   return (<>
-    <Popover>
+    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -63,7 +64,7 @@ function Username({ user, className }: { user?: UserModel, className?: string })
         </Tooltip>
       </PopoverTrigger>
       <PopoverContent>
-        <p style={{ color: colorString }}>{user?.username ?? "Unknown User"}</p>
+        {isPopoverOpen && <><p style={{ color: colorString }}>{user?.username ?? "Unknown User"}</p>
         <AuthTypeBadge authType={user?.authType} />
         <div className="text-sm text-primary/80">
           <p><span className="font-medium">Colir ID</span>: {user ? decimalToHexString(user.hexId) : "Unknown"}</p>
@@ -71,7 +72,7 @@ function Username({ user, className }: { user?: UserModel, className?: string })
         </div>
         {kickButtonDisplayed && (
           <Button onClick={() => setIsKickConfirmationShown(true)} className="mt-2 w-full" variant={'destructive'}><GavelIcon className="mr-2 h-4 w-4" /> Kick</Button>
-        )}
+        )}</>}
       </PopoverContent>
     </Popover>
 

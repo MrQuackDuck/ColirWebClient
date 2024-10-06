@@ -37,24 +37,27 @@ function ChatInput({
 	onSizeChange,
 	variant = "default",
 }: ChatInputProps) {
-	let textArea = useRef<any>();
-  let fileInput = useRef<any>();
-	let topArea = useRef<any>();
+	let textAreaRef = useRef<any>();
+  let fileInputRef = useRef<any>();
+	let topAreaRef = useRef<any>();
+	const documentRef = useRef(document);
 
 	useEffect(() => {
-		// Adding this event listener to focus on textarea when a user clicks outside of it
-		textArea.current.textArea.focus();
-		document.addEventListener("keydown", (e) => {
+		// Adding this event listener to focus on textarea when a user presses keys outside of it
+		documentRef.current.addEventListener("keydown", (e) => {
 			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.shiftKey) return;
 			if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
-			if (textArea.current) textArea.current.textArea.focus();
+			if (!textAreaRef.current) return;
+			if (e.key === "Enter") e.preventDefault();
+			if (e.key == "Escape") onReplyCancelled();
+			textAreaRef.current.textArea.focus();
 		});
 
-		document.addEventListener("dragover", (e) => {
+		documentRef.current.addEventListener("dragover", (e) => {
 			e.preventDefault();
 		});
 
-		document.addEventListener("drop", (e) => {
+		documentRef.current.addEventListener("drop", (e) => {
 			e.preventDefault();
 
 			if (e.dataTransfer?.items) {
@@ -72,28 +75,28 @@ function ChatInput({
 	}, []);
 
 	function sendMessage() {
-		if (textArea.current.textArea.disabled) return;
+		if (textAreaRef.current.textArea.disabled) return;
 		onSend({
-			content: textArea.current.textArea.value,
+			content: textAreaRef.current.textArea.value ?? "",
 			attachments: [...files],
 			replyMessageId: messageToReply?.id,
 		});
 		
 		setFiles([]);
-		textArea.current.textArea.value = "";
-		textArea.current.textArea.style.height = "43px";
+		textAreaRef.current.textArea.value = "";
+		textAreaRef.current.textArea.style.height = "43px";
 	}
 
 	function insertAt(index: number, str: string) {
-		if (textArea.current.textArea.disabled) return;
-		let value = textArea.current.textArea.value;
-		textArea.current.textArea.value =
+		if (textAreaRef.current.textArea.disabled) return;
+		let value = textAreaRef.current.textArea.value;
+		textAreaRef.current.textArea.value =
 			value.substr(0, index) + str + value.substr(index);
 		setCursorPosition(index + str.length);
 	}
 
 	function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-		if (event.keyCode == 27) {
+		if (event.key == "Escape") {
 			onReplyCancelled();
 		}
 
@@ -101,7 +104,7 @@ function ChatInput({
 			event.preventDefault();
 			let element = event.target as HTMLTextAreaElement;
 
-			if (element.value.length === 0 && files.length === 0) {
+			if (element.value?.length === 0 && files.length === 0) {
 				event.preventDefault();
 				return;
 			}
@@ -111,11 +114,11 @@ function ChatInput({
 	}
 
 	function getCursorPosition() {
-		return textArea.current.textArea.selectionStart;
+		return textAreaRef.current.textArea.selectionStart;
 	}
 
 	function setCursorPosition(index: number) {
-		textArea.current.textArea.selectionEnd = index;
+		textAreaRef.current.textArea.selectionEnd = index;
 	}
 
 	let [files, setFiles] = React.useState<File[]>([]);
@@ -127,7 +130,7 @@ function ChatInput({
 			let file = files[i];
 			setFiles((prev) => [...prev, file]);
 		}
-		onSizeChange(topArea.current.clientHeight ?? 0);
+		onSizeChange(topAreaRef.current.clientHeight ?? 0);
 	}
 
 	function fileRemoved(file: File) {
@@ -148,19 +151,19 @@ function ChatInput({
 	}
 
 	useEffect(() => {
-		onSizeChange(topArea.current.clientHeight ?? 0);
+		onSizeChange(topAreaRef.current.clientHeight ?? 0);
 	}, [files])
 
 	useEffect(() => {
-		onSizeChange(topArea.current.clientHeight ?? 0);
-		setTimeout(() => textArea.current.textArea.focus(), 10);
+		onSizeChange(topAreaRef.current.clientHeight ?? 0);
+		setTimeout(() => textAreaRef.current.textArea.focus(), 10);
 	}, [messageToReply]);
 
 	return (
 		<>
 			<div className={cn("flex flex-col absolute bottom-0 items-center", className)}>
 				{/* Top section (with reply and files) */}
-				<div ref={topArea} className="flex flex-col bg-accent/80 w-full items-center rounded-t-[6px] gap-0.5">
+				<div ref={topAreaRef} className="flex flex-col bg-accent/80 w-full items-center rounded-t-[6px] gap-0.5">
 					<ReplySection
 						onReplyCancelled={onReplyCancelled}
 						message={messageToReply}
@@ -181,11 +184,11 @@ function ChatInput({
 
 					{variant === "default" && (<>
 						<PaperclipIcon
-              onClick={() => fileInput.current.click()}
+              onClick={() => fileInputRef.current.click()}
 							strokeWidth={1.5}
 							className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform"
 						/>
-            <input onChange={fileSelected} multiple={true} className="hidden" ref={fileInput} type="file" />
+            <input onChange={fileSelected} multiple={true} className="hidden" ref={fileInputRef} type="file" />
 					</>)}
 					{variant === "connecting" && (
 						<Loader2 className="absolute z-10 pointer-events-none stroke-slate-400/80 animate-spin m-auto left-2 h-5 w-5" />
@@ -207,7 +210,7 @@ function ChatInput({
 						onPaste={handlePaste}
 						readOnly={variant !== "default"}
 						autoFocus
-						ref={textArea}
+						ref={textAreaRef}
 						onKeyDown={handleKeyDown}
 						placeholder={variant == "default" ? "Write a message..." : ""}
 						className={cn(

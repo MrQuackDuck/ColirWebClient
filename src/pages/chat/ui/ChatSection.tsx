@@ -15,7 +15,7 @@ import { UserModel } from "@/entities/User/model/UserModel"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
 import { useUsers } from "@/entities/User/lib/hooks/useUsers"
-import SkeletonMessageList from "@/entities/Message/ui/SkeletonMessageList"
+import SkeletonMessageList from "@/shared/ui/SkeletonMessageList"
 import { HubConnectionState } from "@microsoft/signalr"
 import { SendMessageModel } from "@/entities/Message/model/request/SendMessageModel"
 import UploadService from "@/entities/Attachment/api/UploadService"
@@ -167,7 +167,7 @@ function ChatSection({
 
     setIsLoadingMoreMessages(true);
   
-    const countToLoad = 5;
+    const countToLoad = 20;
     
     // Preserve the current scroll position
     const previousScrollHeight = viewportRef.current?.scrollHeight || 0;
@@ -226,10 +226,14 @@ function ChatSection({
     if (connection == null) return setMessagesLoaded(false);
     if (messages.length == 0 && connection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
     setMessagesLoaded(true);
+    
+    let lastMessage = messages[messages.length - 1];
+    let isMessageIsNew = Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 2000;
+    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageIsNew && viewportRef.current && viewportRef.current.scrollHeight - viewportRef.current.scrollTop - viewportRef.current.clientHeight < 100) ?? false;
+    let theLastMessageIsNewAndCurrentUserIsAuthor: (() => boolean) = () => isMessageIsNew && lastMessage && lastMessage.authorHexId == currentUser.currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
-    let lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.authorHexId == currentUser.currentUser?.hexId && Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 5000) 
+    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor())
       setTimeout(() => scrollToBottom(), 0);
   }, [messages]);
 

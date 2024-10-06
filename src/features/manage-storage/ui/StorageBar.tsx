@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
-import { Progress } from "@/shared/ui/progress";
+import { Progress } from "@/shared/ui/Progress";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 
 interface StorageBarProps {

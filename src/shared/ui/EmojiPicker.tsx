@@ -7,6 +7,8 @@ import { Button } from "./Button";
 import './EmojiPicker.css'
 import { ScrollArea } from "./ScrollArea";
 import emojiData from '../lib/emojis.json';
+import { Separator } from "./Separator";
+import { useState } from "react";
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -16,6 +18,8 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
+  let [isOpen, setIsOpen] = useState(false);
+
   function getTrigger() {
     if (asButton) {
       return (
@@ -31,19 +35,20 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild className={cn(className)}>
         {getTrigger()}
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] max-h-[400px] overflow-hidden p-4">
+      <PopoverContent className="w-[300px] overflow-hidden p-4">
         <ScrollArea className="h-[400px] text-[22px]">
-          <div className="flex flex-col gap-1">
-          {Object.keys(emojiData).map((category) => (
-            <div>
-              <h3>{category}</h3>
-              <div className="flex flex-wrap gap-1">
-                {emojiData[category as keyof typeof emojiData].map((emoji, index) => (
-                  <Button key={index} onClick={() => onChange(emoji)} variant={"ghost"} size={"icon"} className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]">{emoji}</Button>
+          <div className="flex flex-col h-full gap-1">
+          {isOpen && Object.keys(emojiData).map((category) => (
+            <div key={category}>
+              <h4 className="capitalize">{category}</h4>
+              <Separator className="mt-0.5"/>
+              <div className="flex flex-wrap gap-1 pt-0.5">
+                {emojiData[category as keyof typeof emojiData].map((emoji) => (
+                  <Button key={emoji} onMouseUp={() => onChange(emoji)} variant={"ghost"} size={"icon"} className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]">{emoji}</Button>
                 ))}
               </div>
             </div>
