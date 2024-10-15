@@ -11,8 +11,9 @@ import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
 import ChooseColirIdForm from "./ChooseColirIdForm";
-import { useAuth } from "../lib/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../lib/providers/AuthProvider";
+import { useContextSelector } from "use-context-selector";
 
 function OAuth2LoginForm({
   queueToken,
@@ -25,7 +26,7 @@ function OAuth2LoginForm({
   let [username, setUsername] = useState("");
   let [connection, setConnection] = useState<HubConnection>();
   let [proposedColors, setProposedColors] = useState<number[]>();
-  let { authorize } = useAuth();
+  let authorize = useContextSelector(AuthContext, c => c.authorize);
   let navigate = useNavigate();
 
   useEffect(() => {

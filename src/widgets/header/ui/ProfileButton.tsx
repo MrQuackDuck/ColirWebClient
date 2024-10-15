@@ -1,4 +1,4 @@
-import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { Button } from "@/shared/ui/Button";
 import {
   DropdownMenu,
@@ -9,9 +9,10 @@ import {
 } from "@/shared/ui/DropdownMenu";
 import { GearIcon } from "@radix-ui/react-icons";
 import { BarChart3Icon, Undo2Icon, UserIcon } from "lucide-react";
+import { useContextSelector } from "use-context-selector";
 
 function ProfileButton() {
-  const { logOut } = useAuth();
+  let logOut = useContextSelector(AuthContext, c => c.logOut);
 
   return (
     <DropdownMenu>

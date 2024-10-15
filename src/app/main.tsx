@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/shared/ui/Tooltip";
 import JoinedRoomsProvider from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 import { UsersProvider } from "@/entities/User/lib/providers/UsersProvider";
 import SelectedRoomProvider from "@/entities/Room/lib/providers/SelectedRoomProvider";
+import { ChatConnectionsProvider } from "@/shared/lib/providers/ChatConnectionsProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
             <SelectedRoomProvider>
               <TooltipProvider>
                 <AuthProvider>
-                  <App />
+                  <ChatConnectionsProvider>
+                    <App />
+                  </ChatConnectionsProvider>
                 </AuthProvider>
               </TooltipProvider>
             </SelectedRoomProvider>

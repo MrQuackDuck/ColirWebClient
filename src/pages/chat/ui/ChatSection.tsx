@@ -6,72 +6,73 @@ import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput"
 import { MessageModel } from "@/entities/Message/model/MessageModel"
-import { Connection } from "./ChatPage"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
-import Message from "@/entities/Message/ui/Message"
-import { useEffect, useRef, useState } from "react"
+import { Profiler, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
-import { useUsers } from "@/entities/User/lib/hooks/useUsers"
 import SkeletonMessageList from "@/shared/ui/SkeletonMessageList"
 import { HubConnectionState } from "@microsoft/signalr"
 import { SendMessageModel } from "@/entities/Message/model/request/SendMessageModel"
 import UploadService from "@/entities/Attachment/api/UploadService"
 import { ErrorResponse } from "@/shared/model/ErrorResponse"
 import { ErrorCode } from "@/shared/model/ErrorCode"
-import Dater from "@/shared/ui/Dater"
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages"
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser"
-import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom"
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover"
 import Username from "@/entities/User/ui/Username"
 import AuthTypeBadge from "@/shared/ui/AuthTypeBadge"
 import StorageBar from "@/features/manage-storage/ui/StorageBar"
+import { useContextSelector } from 'use-context-selector';
+import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider"
+import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider"
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider"
+import { UsersContext } from "@/entities/User/lib/providers/UsersProvider"
+import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider"
+import MessagesList from "@/entities/Message/ui/MessagesList"
 
 interface ChatSectionProps {
   room: RoomModel;
-  connection: Connection;
-  messages: MessageModel[];
-  setMessages: React.Dispatch<React.SetStateAction<MessageModel[]>>;
-  openAside: () => any | null;
+  setAsideVisibility: (isVisible: boolean) => any | null;
 }
 
-function ChatSection({
-  room,
-  connection,
-  messages,
-  setMessages,
-  openAside,
-}: ChatSectionProps) {
+function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
   let scrollArea = useRef<any>();
-  let {users} = useUsers();
-  let currentUser = useCurrentUser();
+  let users = useContextSelector(UsersContext, c => c.users);
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
   let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
   let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
   let [messagesLoaded, setMessagesLoaded] = useState(false);
-  let [isLoadingMoreMessages, setIsLoadingMoreMessages] = useState(false);
-  let {selectedRoom} = useSelectedRoom();
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
+  let messages = useContextSelector(MessagesContext, m => m.messages);
+  let setMessages = useContextSelector(MessagesContext, m => m.setMessages);
+  const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
-  const messageRefs = useRef(new Map<number, any>());
-  let filteredMessages = messages.filter(m => m.roomGuid == room.guid).sort((a, b) => a.id - b.id);
+  const messageElementsRefs = useRef(new Map<number, HTMLDivElement>());
+  const setMessageRef = useCallback((messageId: number) => (el: HTMLDivElement | null) => {
+    if (el) messageElementsRefs.current.set(messageId, el);
+    else messageElementsRefs.current.delete(messageId);
+  }, []);
+  const filteredMessages = useMemo(() => {
+    return messages.filter(m => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
+  }, [messages, room]);
+
   let viewportRef = useRef<HTMLDivElement | null>(null);
   let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
+  let chatConnections = useContextSelector(ChatConnectionsContext, c => c.chatConnections);
+  let selectedRoomConnection = useMemo(() => chatConnections.find(c => c.roomGuid == room.guid), [chatConnections, room?.guid]);
+  const selectedRoomConnectionRef = useRef(selectedRoomConnection);
+  useEffect(() => {
+    selectedRoomConnectionRef.current = selectedRoomConnection;
+  }, [selectedRoomConnection]);
 
-  function replyButtonClicked(message: MessageModel) {
-    setMessageToReply(message);
-    setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
-    setTimeout(() => scrollToBottom(), 0);
-  }
-
-  function replyCancelled() {
-    setMessageToReply(null);
-    setMessageToReplyAuthor(null);
-  }
+  const filteredMessagesRef = useRef(filteredMessages);
+  useEffect(() => {
+    filteredMessagesRef.current = filteredMessages;
+  }, [filteredMessages]);
 
   async function sendMessage(message: ChatInputMessage) {
     let attachmentIds: number[] = [];
@@ -96,29 +97,46 @@ function ChatSection({
     }
 
     replyCancelled();
-    connection.connection.send("SendMessage", model)
+    selectedRoomConnection?.connection.send("SendMessage", model)
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
   }
 
-  function addReaction(messageId: number, reaction: string) {
-    connection.connection.invoke<SignalRHubResponse<any>>("AddReactionOnMessage", { messageId, reaction })
+  const addReaction = useCallback((messageId: number, reaction: string) => {
+    selectedRoomConnection?.connection.invoke<SignalRHubResponse<any>>("AddReactionOnMessage", { messageId, reaction })
       .then(response => { if (response.resultType == SignalRResultType.Error) throw Error(`Error code: ${response.error.errorCodeAsString}`) })
       .catch(e => showErrorToast("Couldn't add the reaction", e.message));
-  }
+  }, [selectedRoomConnection]);
 
-  function removeReaction(reactionId: number) {
-    connection.connection.send("RemoveReactionFromMessage", { reactionId })
+  const removeReaction = useCallback((reactionId: number) => {
+    selectedRoomConnection?.connection.send("RemoveReactionFromMessage", { reactionId })
       .catch(e => showErrorToast("Couldn't remove the reaction", e.message));
-  }
+  }, [selectedRoomConnection]);
 
-  function deleteMessage(messageId: number) {
-    connection.connection.send("DeleteMessage", { messageId: messageId })
-      .catch(e => showErrorToast("Couldn't delete the message", e.mesage));
-  }
+  const deleteMessage = useCallback((messageId: number) => {
+    selectedRoomConnection?.connection.send("DeleteMessage", { messageId: messageId })
+      .catch(e => showErrorToast("Couldn't delete the message", e.message));
+  }, [selectedRoomConnection]);
 
-  function editMessage(messageId: number, newContent: string) {
-    connection.connection.send("EditMessage", { messageId, newContent })
-      .catch(e => showErrorToast("Couldn't delete the message", e.mesage));
+  const editMessage = useCallback((messageId: number, newContent: string) => {
+    selectedRoomConnection?.connection.send("EditMessage", { messageId, newContent })
+      .catch(e => showErrorToast("Couldn't edit the message", e.message));
+  }, [selectedRoomConnection]);
+
+  const replyButtonClicked = useCallback((message: MessageModel) => {
+    setMessageToReply(message);
+    setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
+    setTimeout(() => scrollToBottom(), 0);
+  }, []);
+
+  const handleReplySectionClick = useCallback((repliedMessageId: number) => {
+    scrollToMessage(repliedMessageId);
+    highlightMessage(repliedMessageId);
+  }, []);
+
+
+  function replyCancelled() {
+    setMessageToReply(null);
+    setMessageToReplyAuthor(null);
   }
 
   function scrollToBottom() {
@@ -128,44 +146,39 @@ function ChatSection({
     }, 0)
   }
 
-  function scrollToMessage(messageId: number) {
-    let messageRef = messageRefs.current.get(messageId);
+  function scrollToMessage(messageId: number, repeatCall: boolean = true) {
+    let messageRef = messageElementsRefs.current.get(messageId);
     if (messageRef) {
       messageRef.scrollIntoView({ block: "center" });
       return;
     }
     
-    let nearestMessageId = messages.find(m => m.id > messageId)?.id;
-    connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId })
+    let nearestMessageId = filteredMessagesRef.current.find(m => m.id > messageId)?.id;
+    selectedRoomConnectionRef.current?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId })
       .then(response => {
         setMessages(prevMessages => distinctMessages([...prevMessages, ...response.content]));
-        messageRef = messageRefs.current.get(messageId);
+        messageRef = messageElementsRefs.current.get(messageId);
         setTimeout(() => {
-          scrollToMessage(messageId);
+          if (repeatCall) scrollToMessage(messageId, false);
           highlightMessage(messageId);
         }, 15);
       });
   }
 
   function highlightMessage(messageId: number) {
-    let messageRef = messageRefs.current.get(messageId);
+    let messageRef = messageElementsRefs.current.get(messageId);
     if (messageRef) {
       messageRef.classList.add("outline");
       setTimeout(() => messageRef.classList.remove("outline"), 1000);
     }
   }
 
-  function handleReplySectionClick(messageId: number) {
-    scrollToMessage(messageId);
-    highlightMessage(messageId);
-  }
-
   function loadMoreMessages() {
-    if (isLoadingMoreMessages) return; // Prevent multiple requests
-    if (connection.connection.state != HubConnectionState.Connected) return;
+    if (isLoadingMoreMessages.current) return; // Prevent multiple requests
+    if (selectedRoomConnection?.connection.state != HubConnectionState.Connected) return;
     if (roomsWithNoMoreMessagesToLoad.includes(room.guid)) return;
 
-    setIsLoadingMoreMessages(true);
+    isLoadingMoreMessages.current = true;
   
     const countToLoad = 20;
     
@@ -173,7 +186,7 @@ function ChatSection({
     const previousScrollHeight = viewportRef.current?.scrollHeight || 0;
     const previousScrollTop = viewportRef.current?.scrollTop || 0;
   
-    connection.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageRefs.current.size })
+    selectedRoomConnection?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
       .then(response => {
         setMessages(prevMessages => distinctMessages([...response.content, ...prevMessages])); // Add new messages to the top
   
@@ -190,12 +203,12 @@ function ChatSection({
           }}, 
         0);
       })
-      .finally(() => setIsLoadingMoreMessages(false));
+      .finally(() => isLoadingMoreMessages.current = false);
   }
 
   // Load more messages when the user scrolls to the top of the chat
   useEffect(() => {
-    if (!connection || connection.roomGuid !== room.guid) return;
+    if (!selectedRoomConnection || selectedRoomConnection.roomGuid !== room.guid) return;
     if (!messagesLoaded) return;
 
     const observer = new IntersectionObserver(
@@ -215,7 +228,7 @@ function ChatSection({
         observer.unobserve(messagesStart.current);
       }
     };
-  }, [messagesLoaded, connection, roomsWithNoMoreMessagesToLoad]);
+  }, [messagesLoaded, selectedRoomConnection, roomsWithNoMoreMessagesToLoad]);
 
   useEffect(() => {
     selectedRoomRef.current = selectedRoom;
@@ -223,45 +236,45 @@ function ChatSection({
 
   let mainSection = useRef<any>();
   useEffect(() => {
-    if (connection == null) return setMessagesLoaded(false);
-    if (messages.length == 0 && connection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
+    if (selectedRoomConnection == null) return setMessagesLoaded(false);
+    if (messages.length == 0 && selectedRoomConnection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
     setMessagesLoaded(true);
     
     let lastMessage = messages[messages.length - 1];
-    let isMessageIsNew = Math.abs(Date.now() - new Date(lastMessage.postDate).getTime()) < 2000;
-    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageIsNew && viewportRef.current && viewportRef.current.scrollHeight - viewportRef.current.scrollTop - viewportRef.current.clientHeight < 100) ?? false;
-    let theLastMessageIsNewAndCurrentUserIsAuthor: (() => boolean) = () => isMessageIsNew && lastMessage && lastMessage.authorHexId == currentUser.currentUser?.hexId;
+    let isMessageNew = Math.abs(Date.now() - new Date(lastMessage?.postDate).getTime()) < 2000;
+    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageNew && viewportRef.current && viewportRef.current.scrollHeight - viewportRef.current.scrollTop - viewportRef.current.clientHeight < 100) ?? false;
+    let theLastMessageIsNewAndCurrentUserIsAuthor: (() => boolean) = () => isMessageNew && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
     if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor())
       setTimeout(() => scrollToBottom(), 0);
-  }, [messages]);
+  }, [filteredMessages]);
 
   // Set chat variant based on the connection state
   useEffect(() => {
-    if (connection && connection.connection.state == HubConnectionState.Connected) {
+    if (selectedRoomConnection && selectedRoomConnection.connection.state == HubConnectionState.Connected) {
       setCurrentChatVariant("default");
     }
-    if (connection && connection.connection.state == HubConnectionState.Connecting) {
+    if (selectedRoomConnection && selectedRoomConnection.connection.state == HubConnectionState.Connecting) {
       setCurrentChatVariant("connecting");
     }
-    if (connection && connection.connection.state == HubConnectionState.Disconnected) {
+    if (selectedRoomConnection && selectedRoomConnection.connection.state == HubConnectionState.Disconnected) {
       setCurrentChatVariant("disconnected");
     }
 
-    connection?.connection.onreconnecting(() => {
-      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
+    selectedRoomConnection?.connection.onreconnecting(() => {
+      if (selectedRoomConnection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("connecting");
     });
-    connection?.connection.onreconnected(() => {
-      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
+    selectedRoomConnection?.connection.onreconnected(() => {
+      if (selectedRoomConnection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("default");
     });
-    connection?.connection.onclose(() => {
-      if (connection.roomGuid != selectedRoomRef.current?.guid) return;
+    selectedRoomConnection?.connection.onclose(() => {
+      if (selectedRoomConnection.roomGuid != selectedRoomRef.current?.guid) return;
       setCurrentChatVariant("disconnected");
     });
-  }, [connection?.connection.state, selectedRoom]);
+  }, [selectedRoomConnection?.connection.state, selectedRoom]);
 
   useEffect(() => {
     if (messagesLoaded) {
@@ -277,11 +290,21 @@ function ChatSection({
 
   let [currentPadding, setCurrentPadding] = useState<number>(0);
 
+  // Temporary function to test the performance of the chat
+  function onRender(id, phase, actualDuration, baseDuration, startTime, commitTime) {
+    if (actualDuration < 10) return;
+    console.log(new Date().getSeconds());
+  }
+
+  function openAside() {
+    setAsideVisibility(true);
+  }
+
   if (!room) return <></>;
   return (
     <div className="flex flex-col w-[300%] max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
-        <Button onClick={() => openAside()} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
+        <Button onClick={openAside} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
         </Button>
         <div className="w-full flex flex-row justify-between flex-wrap gap-1 items-center select-none">
@@ -291,7 +314,7 @@ function ChatSection({
             <Separator className="min-h-5" orientation="vertical"/>
             <Popover>
               <PopoverTrigger asChild>
-                <Button className="px-0 h-7" variant={"link"}>{room.joinedUsers.length} members</Button>
+                <Button className="px-0 h-7" variant={"link"}>{selectedRoom?.joinedUsers?.length} members</Button>
               </PopoverTrigger>
               <PopoverContent className="flex flex-col w-fit">
                 <span className="text-base">Members</span>
@@ -305,7 +328,7 @@ function ChatSection({
             <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
           </div>
           <div className="flex flex-row gap-2.5">
-            <StorageBar room={selectedRoom} />
+            <StorageBar room={room} />
           </div>
         </div>
       </header>
@@ -313,44 +336,28 @@ function ChatSection({
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
         <ScrollArea ref={scrollArea} viewportRef={viewportRef} style={{"overflowAnchor": "none"}} className={`h-full pr-3 pb-2`}>
-        
-        {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
-        <div className="z-50 w-full top-30" ref={messagesStart}></div>}
-        {filteredMessages.map((m, index, filteredMessages) => {
-            let needToInsertDater = index == 0 || new Date(filteredMessages[index].postDate).getDate() != new Date(filteredMessages[index - 1].postDate).getDate();
-            let repliedMessageAuthor = users.find(u => u.hexId == m.repliedMessage?.authorHexId);
-            
-            return (
-              <div
-              className="rounded-[6px] h-fit"
-              key={m.id}>
-                {needToInsertDater && <Dater date={m.postDate} />}
-                <Message
-                  ref={(el) => {
-                    if (el) messageRefs.current.set(m.id, el);
-                    else messageRefs.current.delete(m.id);
-                  }}
-                  controlsEnabled={currentChatVariant == "default"}
-                  repliedMessage={m.repliedMessage}
-                  repliedMessageAuthor={repliedMessageAuthor}
-                  onReactionAdded={emoji => addReaction(m.id, emoji)}
-                  onReactionRemoved={reactionId => removeReaction(reactionId)}
-                  onReplyButtonClicked={() => replyButtonClicked(m)}
-                  onReplySectionClicked={() => handleReplySectionClick(m.repliedMessageId || 0)}
-                  onDeleteClicked={() => deleteMessage(m.id)}
-                  onMessageEdited={(newContent) => editMessage(m.id, newContent)}
-                  message={m}
-                  sender={users.find(u => u.hexId == m.authorHexId)!}
-                />
-              </div>
-            );
-          })}
+          {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
+          <div className="z-50 w-full top-30" ref={messagesStart}></div>}
+          <Profiler id="Messages" onRender={onRender}>
+            <MessagesList
+              filteredMessages={filteredMessages}
+              users={users}
+              controlsEnabled={currentChatVariant === "default"}
+              addReaction={addReaction}
+              removeReaction={removeReaction}
+              deleteMessage={deleteMessage}
+              editMessage={editMessage}
+              replyButtonClicked={replyButtonClicked}
+              handleReplySectionClick={handleReplySectionClick}
+              setMessageRef={setMessageRef}
+            />
+          </Profiler>
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
         </ScrollArea>
       </main>
 
-      <ChatInput onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={(m) => sendMessage(m)}/>
+      <ChatInput onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={sendMessage}/>
     </div>
   )
 }

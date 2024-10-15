@@ -1,22 +1,27 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RoomModel } from "../../model/RoomModel";
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import RoomService from "../../api/RoomService";
 import { distinctUsers } from "@/entities/User/lib/distinctUsers";
-import { useUsers } from "@/entities/User/lib/hooks/useUsers";
+import { createContext, useContextSelector } from "use-context-selector";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 
 export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
+  isThereAnyJoinedRoom: boolean;
   setJoinedRooms: React.Dispatch<React.SetStateAction<RoomModel[]>>;
 }>({
   joinedRooms: [] as RoomModel[],
   setJoinedRooms: () => {},
+  isThereAnyJoinedRoom: false,
 });
 
 const JoinedRoomsProvider = ({ children }) => {
-  const { currentUser, updateCurrentUser } = useCurrentUser();
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
-  const { setUsers } = useUsers();
+  const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
+  let setUsers = useContextSelector(UsersContext, c => c.setUsers);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -33,14 +38,13 @@ const JoinedRoomsProvider = ({ children }) => {
     });
   }, []);
 
-  // Update the current user when the joined rooms change
-  // This is made in order to update the data in the local storage
   useEffect(() => {
-    updateCurrentUser();
+    if (joinedRooms.length > 0 && !isThereAnyJoinedRoom) setIsThereAnyJoinedRoom(true);
+    else if (joinedRooms.length == 0 && isThereAnyJoinedRoom) setIsThereAnyJoinedRoom(false);
   }, [joinedRooms]);
 
   return (
-    <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms }}>
+    <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom }}>
       {children}
     </JoinedRoomsContext.Provider>
   );

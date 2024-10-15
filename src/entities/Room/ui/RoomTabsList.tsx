@@ -1,7 +1,8 @@
-import { useJoinedRooms } from "../lib/hooks/useJoinedRooms";
-import { useSelectedRoom } from "../lib/hooks/useSelectedRoom";
+import { useContextSelector } from "use-context-selector";
 import { RoomModel } from "../model/RoomModel";
 import RoomTab from "./RoomTab";
+import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
+import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 
 function RoomTabsList({
   onMarkAsReadClicked,
@@ -10,8 +11,9 @@ function RoomTabsList({
   onMarkAsReadClicked: (room: RoomModel) => any;
   onSettingsClicked: (room: RoomModel) => any;
 }) {
-  let {joinedRooms} = useJoinedRooms();
-  let {selectedRoom, setSelectedRoom} = useSelectedRoom();
+  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
+  let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
 
   function selectRoom(room: RoomModel) {
     setSelectedRoom(room);

@@ -6,13 +6,16 @@ import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
-import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
+import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
+import { useContextSelector } from "use-context-selector";
+import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
 
 function Aside() {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
-  let { joinedRooms, setJoinedRooms } = useJoinedRooms();
-  let {selectedRoom, setSelectedRoom} = useSelectedRoom();
+  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
+  let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
+  let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
 
   function onJoinedOrCreatedRoom(room: RoomModel) {
     setJoinedRooms([...joinedRooms, room]);

@@ -15,7 +15,6 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import classes from "./Message.module.css";
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
 import {
@@ -31,6 +30,9 @@ import Username from "@/entities/User/ui/Username";
 import AttachmentsSection from "../../Attachment/ui/AttachmentsSection";
 import { formatText } from "../lib/formatText";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
+import React from "react";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { useContextSelector } from "use-context-selector";
 
 interface MessageProps {
   message: MessageModel;
@@ -38,12 +40,12 @@ interface MessageProps {
   repliedMessage?: MessageModel;
   repliedMessageAuthor?: UserModel;
   controlsEnabled: boolean;
-  onReactionAdded: (reaction: string) => any;
+  onReactionAdded: (messageId: number, reaction: string) => any;
   onReactionRemoved: (reactionId: number) => any;
-  onDeleteClicked: () => any;
-  onMessageEdited: (newContent: string) => any;
-  onReplyButtonClicked: () => any;
-  onReplySectionClicked: () => any;
+  onDeleteClicked: (messageId: number) => any;
+  onMessageEdited: (messageId: number, newContent: string) => any;
+  onReplyButtonClicked: (message: MessageModel) => any;
+  onReplySectionClicked: (messageId: number) => any;
 }
 
 const Message = forwardRef(({
@@ -59,7 +61,7 @@ const Message = forwardRef(({
   onReplyButtonClicked,
   onReplySectionClicked,
 }: MessageProps, ref: any) => {
-  let { currentUser } = useCurrentUser();
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let [isButtonDeleteConfirmationShown, setIsButtonDeleteConfirmationShown] = useState<boolean>(false);
   let [isDeleteConfirmationDialogShown, setIsDeleteConfirmationDialogShown] = useState<boolean>(false);
   let [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -85,7 +87,7 @@ const Message = forwardRef(({
     )?.id;
 
     if (reactionId) onReactionRemoved(reactionId);
-    else onReactionAdded(reaction);
+    else onReactionAdded(message.id, reaction);
   }
 
   // Tracking the edit mode to focus on the textarea
@@ -107,18 +109,18 @@ const Message = forwardRef(({
 
   function finishEditing() {
     if (editedContent.length < 0) return;
-    if (editedContent != message.content) onMessageEdited(editedContent);
+    if (editedContent != message.content) onMessageEdited(message.id, editedContent);
     disableEditMode();
   }
 
   function deleteMessage(withDelay?: boolean) {
     setIsDeleteConfirmationDialogShown(false);
     if (withDelay) {
-      setTimeout(() => onDeleteClicked(), 100);
+      setTimeout(() => onDeleteClicked(message.id), 100);
       return;
     }
 
-    onDeleteClicked();
+    onDeleteClicked(message.id);
   }
 
   function showDialogConfirmationOrDelete(
@@ -144,6 +146,18 @@ const Message = forwardRef(({
       event.preventDefault();
       finishEditing();
     }
+  }
+
+  function handleReplySectionClicked() {
+    onReplySectionClicked(message.repliedMessageId!);
+  }
+
+  function handleReplyButtonClicked() {
+    onReplyButtonClicked(message);
+  }
+
+  function handleDeleteButtonClicked() {
+    onDeleteClicked(message.id);
   }
 
   let [keyUpHandler] = useState(() => handleKeyUp);
@@ -201,7 +215,7 @@ const Message = forwardRef(({
   return (
     <div className={`flex flex-col justify-between my-0.5 mt-1`}>
       {repliedMessage && (
-        <div onClick={onReplySectionClicked} className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
+        <div onClick={handleReplySectionClicked} className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
           <div className="flex flex-row max-h-5 overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
@@ -282,7 +296,7 @@ const Message = forwardRef(({
             {/* Editing block */}
             {!isEditMode && (
               <div className={`flex flex-row gap-1.5 pt-0.5 absolute right-1 top-0 ${classes["hover-content"]}`}>
-                <Button disabled={!controlsEnabled} onClick={onReplyButtonClicked} className="w-8 h-8" variant={"outline"} size={"icon"}>
+                <Button disabled={!controlsEnabled} onClick={handleReplyButtonClicked} className="w-8 h-8" variant={"outline"} size={"icon"}>
                   <ReplyIcon className="text-primary/80 h-4 w-4" />
                 </Button>
                 {sender && currentUser?.hexId == sender.hexId && (
@@ -303,7 +317,7 @@ const Message = forwardRef(({
                       </Button>
                     )}
                     {isButtonDeleteConfirmationShown && (
-                      <Button onClick={() => onDeleteClicked()} className="w-8 h-8" variant={"outline"} size={"icon"}>
+                      <Button onClick={handleDeleteButtonClicked} className="w-8 h-8" variant={"outline"} size={"icon"}>
                         <SkullIcon className="text-destructive h-4 w-4" />
                       </Button>
                     )}
@@ -316,7 +330,7 @@ const Message = forwardRef(({
 
         <ContextMenuContent className="text-sm">
           {isContextMenuShown && <>
-            <ContextMenuItem disabled={!controlsEnabled} onClick={() => onReplyButtonClicked()}>
+            <ContextMenuItem disabled={!controlsEnabled} onClick={handleReplyButtonClicked}>
               <ReplyIcon className="h-4 w-4 mr-4" />
               Reply
             </ContextMenuItem>
@@ -346,4 +360,4 @@ const Message = forwardRef(({
   );
 });
 
-export default Message;
+export default React.memo(Message);

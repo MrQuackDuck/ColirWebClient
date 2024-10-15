@@ -19,7 +19,6 @@ import { Button } from "@/shared/ui/Button";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import RoomService from "../api/RoomService";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { toast } from "@/shared/ui/use-toast";
@@ -31,8 +30,10 @@ import { z } from "zod";
 import { Input } from "@/shared/ui/Input";
 import { Link } from "react-router-dom";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useJoinedRooms } from "../lib/hooks/useJoinedRooms";
-import { useSelectedRoom } from "../lib/hooks/useSelectedRoom";
+import { useContextSelector } from "use-context-selector";
+import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
+import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 
 const formSchema = z.object({
   roomName: z.string().min(2, {
@@ -60,9 +61,10 @@ function RoomTab({
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false)
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
-  const {selectedRoom, setSelectedRoom} = useSelectedRoom();
-  const {currentUser} = useCurrentUser();
-  const {setJoinedRooms} = useJoinedRooms();
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
+  let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
+  let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
 
   function leaveFromRoom() {
     RoomService.LeaveRoom({ roomGuid: room.guid })
@@ -199,7 +201,7 @@ function RoomTab({
                     <FormField name="roomName" control={form.control} render={({ field }) => (
                       <FormItem className="space-y-1">
                         <FormLabel>Room name</FormLabel>
-                        <FormControl><Input disabled={room.owner.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} /></FormControl>
+                        <FormControl><Input disabled={room?.owner?.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} /></FormControl>
                         <FormDescription className="text-slate-500 text-sm">Name that is displayed for members</FormDescription>
                         <FormMessage />
                       </FormItem>

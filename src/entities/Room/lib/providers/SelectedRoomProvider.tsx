@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
-import { useJoinedRooms } from "../hooks/useJoinedRooms";
+import { useEffect, useState } from "react";
 import { RoomModel } from "../../model/RoomModel";
+import { createContext, useContextSelector } from "use-context-selector";
+import { JoinedRoomsContext } from "./JoinedRoomsProvider";
 
 export const SelectedRoomContext = createContext<{
   selectedRoom: RoomModel;
@@ -11,8 +12,13 @@ export const SelectedRoomContext = createContext<{
 });
 
 const SelectedRoomProvider = ({ children }) => {
-  let { joinedRooms } = useJoinedRooms();
+  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
   const [selectedRoom, setSelectedRoom] = useState<RoomModel>(joinedRooms?.[0]);
+
+  useEffect(() => {
+    let currentRoom = joinedRooms?.find(room => room.guid === selectedRoom?.guid);
+    if (currentRoom) setSelectedRoom(currentRoom);
+  }, [joinedRooms]);
 
   return (
     <SelectedRoomContext.Provider value={{ selectedRoom, setSelectedRoom }}>

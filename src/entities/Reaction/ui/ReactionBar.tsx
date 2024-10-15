@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { ReactionModel } from "../model/ReactionModel";
 import Reaction from "./Reaction";
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import { Button } from "@/shared/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardContent } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";
-import { useUsers } from "@/entities/User/lib/hooks/useUsers";
 import Username from "@/entities/User/ui/Username";
 import { cn } from "@/shared/lib/utils";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { useContextSelector } from "use-context-selector";
+import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 
 interface ReactionBarProps {
   reactions: ReactionModel[];
@@ -26,8 +27,8 @@ interface ReactionElement {
 }
 
 const ReactionBar = (props: ReactionBarProps) => {
-  const { currentUser } = useCurrentUser();
-  const { users } = useUsers();
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let users = useContextSelector(UsersContext, c => c.users);
   const [reactionElements, setReactionElements] = useState<ReactionElement[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [currentReactionInDialog, setCurrentReactionInDialog] = useState<string | null>(props.reactions[0]?.symbol);

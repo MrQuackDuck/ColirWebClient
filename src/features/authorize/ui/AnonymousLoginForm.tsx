@@ -1,12 +1,14 @@
-import { useLoading } from "@/shared/lib/hooks/useLoading";
 import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import AuthService from "../lib/AuthService";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
-import { useAuth } from "../lib/hooks/useAuth";
+import { AuthContext } from "../lib/providers/AuthProvider";
+import { useContextSelector } from "use-context-selector";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 
 function AnonymousLoginForm({onBack} : {onBack : () => void}) {
-  const { enableLoading, disableLoading } = useLoading();
-  const { authorize } = useAuth();
+  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
+  let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
+  let authorize = useContextSelector(AuthContext, c => c.authorize);
 
   const authorizeAsAnonymous = (username) => {
     enableLoading();

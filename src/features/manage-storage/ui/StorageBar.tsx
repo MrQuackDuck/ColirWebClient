@@ -1,5 +1,4 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel"
-import { useCurrentUser } from "@/entities/User/lib/hooks/useCurrentUser";
 import { Button } from "@/shared/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { Trash2Icon } from "lucide-react"
@@ -12,13 +11,15 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { Progress } from "@/shared/ui/Progress";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { useContextSelector } from "use-context-selector";
 
 interface StorageBarProps {
   room: RoomModel;
 }
 
 function StorageBar(props: StorageBarProps) {
-  let {currentUser} = useCurrentUser();
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let getJwt = useJwt();
   let [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
   let [isClearingDialogOpen, setIsClearingDialogOpen] = useState<boolean>(false);
@@ -77,7 +78,7 @@ function StorageBar(props: StorageBarProps) {
         This limitation exists to provide stability to our servers and prevent disk overflow.
         You can free up the memory either by deleting sent files and images from the chat or by pressing the button below (it will delete all images and files).
         </span>
-        {bytesToMB(props.room.usedMemoryInBytes) > 0.01 && currentUser?.hexId == props.room.owner.hexId
+        {bytesToMB(props.room.usedMemoryInBytes) > 0.01 && currentUser?.hexId == props?.room?.owner?.hexId
           && <Button onClick={() => setIsConfirmationDialogOpen(true)} className="w-[100%] mt-0.5" variant={"destructive"}>Clear the space ({bytesToMB(props.room.usedMemoryInBytes)} mb)</Button>}
       </PopoverContent>
     </Popover>

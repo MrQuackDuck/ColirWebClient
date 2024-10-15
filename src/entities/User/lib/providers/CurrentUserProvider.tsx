@@ -1,8 +1,9 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { DetailedUserModel } from "../../model/DetailedUserModel";
 import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import UserService from "../../api/UserService";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
+import { createContext } from "use-context-selector";
 
 export const CurrentUserContext = createContext<{
   currentUser: DetailedUserModel | null;

@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import AuthService from "../lib/AuthService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AnonymousLoginForm from "./AnonymousLoginForm";
-import { useLoading } from "@/shared/lib/hooks/useLoading";
 import OAuth2LoginForm from "./OAuth2LoginForm";
 import { AxiosResponse } from "axios";
-import { useAuth } from "../lib/hooks/useAuth";
 import { cn } from "@/shared/lib/utils";
+import { AuthContext } from "../lib/providers/AuthProvider";
+import { useContextSelector } from "use-context-selector";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 
 type AuthorizationType = "Anonymous" | "Google" | "GitHub" | null;
 
@@ -16,8 +17,9 @@ function AuthForm({className}: {className?: string}) {
   const [authType, setAuthType] = useState<AuthorizationType>(null);
   const [queueToken, setQueueToken] = useState("");
   const [queryParams] = useSearchParams();
-  const { enableLoading, disableLoading } = useLoading();
-  const { authorize } = useAuth();
+  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
+  let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
+  let authorize = useContextSelector(AuthContext, c => c.authorize);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -4,8 +4,6 @@ import { cn, decimalToHexString } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import Moment from "moment";
-import { useCurrentUser } from "../lib/hooks/useCurrentUser";
-import { useSelectedRoom } from "@/entities/Room/lib/hooks/useSelectedRoom";
 import { Button } from "@/shared/ui/Button";
 import { GavelIcon } from "lucide-react";
 import { useState } from "react";
@@ -13,14 +11,18 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import RoomService from "@/entities/Room/api/RoomService";
 import AuthTypeBadge from "@/shared/ui/AuthTypeBadge";
+import React from "react";
+import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
+import { useContextSelector } from "use-context-selector";
+import { CurrentUserContext } from "../lib/providers/CurrentUserProvider";
 
-function Username({ user, className }: { user?: UserModel, className?: string }) {
-  let {currentUser} = useCurrentUser();
-  let {selectedRoom} = useSelectedRoom();
+const Username = React.memo(function Username({ user, className }: { user?: UserModel, className?: string }) {
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let [isKickConfirmationShown, setIsKickConfirmationShown] = useState(false);
   let [isPopoverOpen, setIsPopoverOpen] = useState(false);
   let kickButtonDisplayed: boolean = 
-    currentUser?.hexId === selectedRoom.owner.hexId // Only the owner can kick
+    currentUser?.hexId === selectedRoom?.owner?.hexId // Only the owner can kick
     && currentUser.hexId != user?.hexId // Can't kick yourself
     && user?.authType != null // Can't kick unknown users
     && selectedRoom.joinedUsers.find(u => u.hexId === user?.hexId) != null; // User must be in the room
@@ -113,6 +115,6 @@ function Username({ user, className }: { user?: UserModel, className?: string })
         </Dialog>
     )}
   </>);
-}
+});
 
 export default Username;

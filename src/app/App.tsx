@@ -1,22 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useLoading } from "@/shared/lib/hooks/useLoading";
 import { Toaster } from "@/shared/ui/Toaster";
 import "./index.css";
 import IndexPage from "@/pages/index/ui/IndexPage";
 import Header from "@/widgets/header/ui/Header";
 import Loader from "@/shared/ui/Loader";
 import NotFound from "@/pages/not-found/ui/NotFound";
-import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
 import ChatPage from "@/pages/chat/ui/ChatPage";
-import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
+import { useContextSelector } from "use-context-selector";
+import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
+import { MessagesProvider } from "@/entities/Message/lib/providers/MessagesProvider";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 
 function App() {
-  let { isLoading } = useLoading();
-  let { isAuthorized } = useAuth();
-  let { joinedRooms } = useJoinedRooms();
+  let isLoading = useContextSelector(LoadingContext, c => c.isLoading);
+  let isAuthorized = useContextSelector(AuthContext, c => c.isAuthorized);
+  let isThereAnyJoinedRoom = useContextSelector(JoinedRoomsContext, c => c.isThereAnyJoinedRoom);
 
   const getRoutes = () => {
-    if (isAuthorized && joinedRooms.length > 0) {
+    if (isAuthorized && isThereAnyJoinedRoom) {
       return (<>
         <Route path="/" element={<ChatPage/>} />
         <Route path="/gitHubAuth" element={<ChatPage/>} />
@@ -34,11 +36,13 @@ function App() {
   return (
     <BrowserRouter>
       <Header/>
-      <Routes>
-        {getRoutes()}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      {isLoading && <Loader />}
+      <MessagesProvider>
+        <Routes>
+          {getRoutes()}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        {isLoading && <Loader />}
+      </MessagesProvider>
       <Toaster />
     </BrowserRouter>
   );

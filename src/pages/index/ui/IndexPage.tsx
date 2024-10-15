@@ -1,13 +1,14 @@
-import { useJoinedRooms } from "@/entities/Room/lib/hooks/useJoinedRooms";
-import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
+import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import AuthForm from "@/features/authorize/ui/AuthForm";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
-import { useLoading } from "@/shared/lib/hooks/useLoading";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { useContextSelector } from "use-context-selector";
 
 function IndexPage() {
-  const { isAuthorized } = useAuth();
-  const { setJoinedRooms } = useJoinedRooms();
-  const { enableLoading } = useLoading();
+  let isAuthorized = useContextSelector(AuthContext, c => c.isAuthorized);
+  let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
+  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
 
   const onJoinedRoom = (room) => {
     enableLoading();

@@ -2,12 +2,13 @@ import ColirLogoIcon from "@/shared/ui/ColirLogoIcon";
 import ThemeButton from "./ThemeButton";
 import ProfileButton from "./ProfileButton";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/features/authorize/lib/hooks/useAuth";
 import classes from "./Header.module.css";
+import { useContextSelector } from "use-context-selector";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 
 function Header() {
   const navigate = useNavigate();
-  const { isAuthorized } = useAuth();
+  let isAuthorized = useContextSelector(AuthContext, c => c.isAuthorized);
 
   const navigateHome = () => {
     navigate("/", { replace: true });

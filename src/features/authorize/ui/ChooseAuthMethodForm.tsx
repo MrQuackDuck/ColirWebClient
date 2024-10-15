@@ -7,11 +7,13 @@ import AuthService from "../lib/AuthService";
 import { toast } from "@/shared/ui/use-toast";
 import redirect from "../lib/redirect";
 import { showErrorToast } from "../../../shared/lib/showErrorToast";
-import { useLoading } from "@/shared/lib/hooks/useLoading";
 import { UserIcon } from "lucide-react";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { useContextSelector } from "use-context-selector";
 
 function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChosen : () => void}) {
-  const { enableLoading, disableLoading } = useLoading();
+  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
+  let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
 
   const gitHubAuth = () => {
     enableLoading();
