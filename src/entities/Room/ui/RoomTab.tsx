@@ -21,7 +21,6 @@ import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import RoomService from "../api/RoomService";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
-import { toast } from "@/shared/ui/use-toast";
 import { Separator } from "@/shared/ui/Separator";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import { useForm } from "react-hook-form";
@@ -34,6 +33,8 @@ import { useContextSelector } from "use-context-selector";
 import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
+import { toast } from "@/shared/lib/hooks/useToast";
 
 const formSchema = z.object({
   roomName: z.string().min(2, {
@@ -65,6 +66,9 @@ function RoomTab({
   let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
   let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let setEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.setEncryptionKey);
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let roomEncryptionKey = getEncryptionKey(room.guid);
 
   function leaveFromRoom() {
     RoomService.LeaveRoom({ roomGuid: room.guid })
@@ -112,6 +116,7 @@ function RoomTab({
     resolver: zodResolver(formSchema),
     defaultValues: {
       roomName: room.name,
+      encryptionKey: roomEncryptionKey || ""
     }
   });
 
@@ -128,6 +133,10 @@ function RoomTab({
          })
         .catch(() => showErrorToast("An error occurred!", "We were unable to change the name of the room"))
     }
+
+    // Check if encryption key changed
+    if (values.encryptionKey != roomEncryptionKey)
+      setEncryptionKey(room.guid, values.encryptionKey);
 
     setRoomSettingsOpened(false);
   }
@@ -197,7 +206,7 @@ function RoomTab({
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2.5">
+                <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col gap-2.5">
                     <FormField name="roomName" control={form.control} render={({ field }) => (
                       <FormItem className="space-y-1">
                         <FormLabel>Room name</FormLabel>
@@ -210,9 +219,9 @@ function RoomTab({
                   <FormField name="encryptionKey" control={form.control} render={({ field }) => (
                     <FormItem className="space-y-1">
                       <FormLabel>Encryption Key</FormLabel>
-                      <div className="relative flex items-center max-w-2xl ">
+                      <div className="relative flex items-center">
                         <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                        <FormControl><Input autoComplete="off" id="encryptionKey" placeholder="something-secret-here" className="pl-7" {...field}/></FormControl>
+                        <FormControl><Input type="password" autoComplete="new-password" id="encryptionKey" placeholder="something-secret-here" className="pl-7" {...field}/></FormControl>
                       </div>
                       <FormDescription className="text-slate-500 text-sm">
                         Enter the key used to encrypt/decrypt messages across the

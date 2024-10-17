@@ -11,6 +11,7 @@ interface MessageListItemProps {
   repliedMessage?: MessageModel;
   repliedMessageAuthor?: UserModel;
   controlsEnabled: boolean;
+  decryptionKey: string;
   onReactionAdded: (messageId: number, reaction: string) => any;
   onReactionRemoved: (reactionId: number) => any;
   onDeleteClicked: (messageId: number) => any;
@@ -27,6 +28,7 @@ class MessageListItem extends React.Component<MessageListItemProps> {
       isEqual(this.props.repliedMessage, nextProps.repliedMessage) &&
       isEqual(this.props.repliedMessageAuthor, nextProps.repliedMessageAuthor) &&
       this.props.controlsEnabled === nextProps.controlsEnabled &&
+      this.props.decryptionKey === nextProps.decryptionKey &&
       this.props.onReactionAdded === nextProps.onReactionAdded &&
       this.props.onReactionRemoved === nextProps.onReactionRemoved &&
       this.props.onDeleteClicked === nextProps.onDeleteClicked &&
@@ -45,6 +47,7 @@ class MessageListItem extends React.Component<MessageListItemProps> {
         repliedMessage={this.props.repliedMessage}
         repliedMessageAuthor={this.props.repliedMessageAuthor}
         controlsEnabled={this.props.controlsEnabled}
+        decryptionKey={this.props.decryptionKey}
         onReactionAdded={this.props.onReactionAdded}
         onReactionRemoved={this.props.onReactionRemoved}
         onDeleteClicked={this.props.onDeleteClicked}

@@ -2,7 +2,7 @@ import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Button } from "@/shared/ui/Button";
 import { ArrowLeftIcon, RepeatIcon } from "lucide-react";
 import { Separator } from "@/shared/ui/Separator";
-import ListColorSelector from "@/shared/ui/ListColorSelector";
+import ListHexSelector from "@/shared/ui/ListHexSelector";
 import { useEffect, useState } from "react";
 
 function ChooseColirIdForm({
@@ -16,7 +16,7 @@ function ChooseColirIdForm({
   onRegenerate: () => void;
   onBack: () => void;
 }) {
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [selectedHexId, setSelectedColor] = useState(colors[0]);
 
   useEffect(() => {
     setSelectedColor(colors[0]);
@@ -29,7 +29,7 @@ function ChooseColirIdForm({
   }
 
   function submit() {
-    onProceed(selectedColor);
+    onProceed(selectedHexId);
   }
 
   return (
@@ -52,7 +52,7 @@ function ChooseColirIdForm({
         <Separator />
       </CardHeader>
       <CardContent className="flex flex-col gap-2.5">
-        <ListColorSelector
+        <ListHexSelector
           onSelected={(color) => setSelectedColor(color)}
           colors={colors}
         />

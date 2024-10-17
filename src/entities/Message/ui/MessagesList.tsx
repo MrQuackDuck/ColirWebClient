@@ -9,6 +9,7 @@ interface MessagesListProps {
   filteredMessages: MessageModel[];
   users: UserModel[];
   controlsEnabled: boolean;
+  decryptionKey: string;
   addReaction: (messageId: number, reaction: string) => void;
   removeReaction: (reactionId: number) => void;
   deleteMessage: (messageId: number) => void;
@@ -22,6 +23,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
   filteredMessages,
   users,
   controlsEnabled,
+  decryptionKey,
   addReaction,
   removeReaction,
   deleteMessage,
@@ -44,9 +46,10 @@ const MessagesList: React.FC<MessagesListProps> = ({
             {needToInsertDater && <Dater date={m.postDate} />}
             <MessageListItem
               setMessagesRef={setMessageRef}
-              controlsEnabled={controlsEnabled}
               repliedMessage={m.repliedMessage}
               repliedMessageAuthor={repliedMessageAuthor}
+              controlsEnabled={controlsEnabled}
+              decryptionKey={decryptionKey}
               onReactionAdded={addReaction}
               onReactionRemoved={removeReaction}
               onDeleteClicked={deleteMessage}
@@ -68,6 +71,7 @@ const arePropsEqual = (prevProps: MessagesListProps, nextProps: MessagesListProp
     isEqual(prevProps.filteredMessages, nextProps.filteredMessages) &&
     isEqual(prevProps.users, nextProps.users) &&
     prevProps.controlsEnabled === nextProps.controlsEnabled &&
+    prevProps.decryptionKey === nextProps.decryptionKey &&
     prevProps.addReaction === nextProps.addReaction &&
     prevProps.removeReaction === nextProps.removeReaction &&
     prevProps.deleteMessage === nextProps.deleteMessage &&

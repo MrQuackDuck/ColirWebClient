@@ -4,11 +4,11 @@ import { Separator } from "@/shared/ui/Separator"
 import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
-import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput"
+import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../features/send-message/ui/ChatInput"
 import { MessageModel } from "@/entities/Message/model/MessageModel"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
-import { Profiler, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { UserModel } from "@/entities/User/model/UserModel"
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult"
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType"
@@ -30,6 +30,7 @@ import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserPro
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider"
 import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider"
 import MessagesList from "@/entities/Message/ui/MessagesList"
+import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -39,7 +40,6 @@ interface ChatSectionProps {
 function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
-  let scrollArea = useRef<any>();
   let users = useContextSelector(UsersContext, c => c.users);
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
@@ -60,7 +60,39 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     return messages.filter(m => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
   }, [messages, room]);
 
-  let viewportRef = useRef<HTMLDivElement | null>(null);
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let roomDecryptionKey = getEncryptionKey(room?.guid);
+
+  let scrollAreaRef = useRef<HTMLDivElement | null>(null);
+  const savedScrollTop = useRef<number>(0);
+
+  // Handle full-screen change event
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      if (document.fullscreenElement) {
+        // Save the current scroll position before entering full-screen mode
+        if (scrollAreaRef.current) {
+          savedScrollTop.current = scrollAreaRef.current.scrollTop;
+        }
+      } else {
+        // Restore the scroll position after exiting full-screen mode
+        if (scrollAreaRef.current) {
+          scrollAreaRef.current.scrollTop = savedScrollTop.current;
+        }
+      }
+    };
+
+    // Listen for full-screen changes
+    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
+    };
+  }, []);
+
+  // Other code
   let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
   let chatConnections = useContextSelector(ChatConnectionsContext, c => c.chatConnections);
   let selectedRoomConnection = useMemo(() => chatConnections.find(c => c.roomGuid == room.guid), [chatConnections, room?.guid]);
@@ -133,16 +165,22 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     highlightMessage(repliedMessageId);
   }, []);
 
-
   function replyCancelled() {
     setMessageToReply(null);
     setMessageToReplyAuthor(null);
   }
 
+  function handleInputReplySectionClick() {
+    if (messageToReply) {
+      scrollToMessage(messageToReply.id);
+      highlightMessage(messageToReply.id);
+    }
+  }
+
   function scrollToBottom() {
     setTimeout(() => {
-      if (!viewportRef.current) return;
-      viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
+      if (!scrollAreaRef.current) return;
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }, 0)
   }
 
@@ -183,8 +221,8 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     const countToLoad = 20;
     
     // Preserve the current scroll position
-    const previousScrollHeight = viewportRef.current?.scrollHeight || 0;
-    const previousScrollTop = viewportRef.current?.scrollTop || 0;
+    const previousScrollHeight = scrollAreaRef.current?.scrollHeight || 0;
+    const previousScrollTop = scrollAreaRef.current?.scrollTop || 0;
   
     selectedRoomConnection?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
       .then(response => {
@@ -195,11 +233,11 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
         }
   
         setTimeout(() => {
-          if (viewportRef.current && viewportRef.current.scrollTop == 0) {
+          if (scrollAreaRef.current && scrollAreaRef.current.scrollTop == 0) {
             // Calculate the new scroll position
-            const newScrollHeight = viewportRef.current.scrollHeight;
+            const newScrollHeight = scrollAreaRef.current.scrollHeight;
             const scrollDifference = newScrollHeight - previousScrollHeight;
-            viewportRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
+            scrollAreaRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
           }}, 
         0);
       })
@@ -242,12 +280,12 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     
     let lastMessage = messages[messages.length - 1];
     let isMessageNew = Math.abs(Date.now() - new Date(lastMessage?.postDate).getTime()) < 2000;
-    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageNew && viewportRef.current && viewportRef.current.scrollHeight - viewportRef.current.scrollTop - viewportRef.current.clientHeight < 100) ?? false;
+    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageNew && scrollAreaRef.current && scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < 100) ?? false;
     let theLastMessageIsNewAndCurrentUserIsAuthor: (() => boolean) = () => isMessageNew && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
     if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor())
-      setTimeout(() => scrollToBottom(), 0);
+      setTimeout(() => scrollToBottom(), 3);
   }, [filteredMessages]);
 
   // Set chat variant based on the connection state
@@ -279,22 +317,16 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   useEffect(() => {
     if (messagesLoaded) {
       setCurrentChatVariant("default");
-      scrollToBottom();
+      setTimeout(() => scrollToBottom(), 0);
     }
   }, [messagesLoaded]);
 
   useEffect(() => {
-    scrollToBottom();
+    setTimeout(() => scrollToBottom(), 0);
     setMessageToReply(null);
   }, [room]);
 
   let [currentPadding, setCurrentPadding] = useState<number>(0);
-
-  // Temporary function to test the performance of the chat
-  function onRender(id, phase, actualDuration, baseDuration, startTime, commitTime) {
-    if (actualDuration < 10) return;
-    console.log(new Date().getSeconds());
-  }
 
   function openAside() {
     setAsideVisibility(true);
@@ -335,14 +367,14 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
       <Separator orientation="horizontal"/>
 
       <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
-        <ScrollArea ref={scrollArea} viewportRef={viewportRef} style={{"overflowAnchor": "none"}} className={`h-full pr-3 pb-2`}>
+        <ScrollArea viewportRef={scrollAreaRef} style={{"overflowAnchor": "none"}} className={`h-full pr-3 pb-2`}>
           {roomsWithNoMoreMessagesToLoad.filter(r => r == room.guid).length == 0 && 
           <div className="z-50 w-full top-30" ref={messagesStart}></div>}
-          <Profiler id="Messages" onRender={onRender}>
             <MessagesList
               filteredMessages={filteredMessages}
               users={users}
               controlsEnabled={currentChatVariant === "default"}
+              decryptionKey={roomDecryptionKey ?? ''}
               addReaction={addReaction}
               removeReaction={removeReaction}
               deleteMessage={deleteMessage}
@@ -351,13 +383,12 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
               handleReplySectionClick={handleReplySectionClick}
               setMessageRef={setMessageRef}
             />
-          </Profiler>
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
         </ScrollArea>
       </main>
 
-      <ChatInput onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={sendMessage}/>
+      <ChatInput encryptionKey={roomDecryptionKey ?? ''} onReplySectionClicked={handleInputReplySectionClick} onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={sendMessage}/>
     </div>
   )
 }

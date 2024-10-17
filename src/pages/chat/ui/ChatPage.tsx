@@ -1,5 +1,5 @@
 import { Separator } from "@/shared/ui/Separator";
-import ChatSection from "./ChatSection";
+import ChatSection from "../../../widgets/chat-section/ChatSection";
 import { useEffect, useRef, useState } from "react";
 import classes from "./ChatPage.module.css";
 import {
@@ -46,6 +46,11 @@ function ChatPage() {
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
+
+  useEffect(() => {
+    joinedRoomsRef.current = joinedRooms;
+    selectedRoomRef.current = selectedRoom;
+  }, [joinedRooms, selectedRoom]);
 
   // Verifies that the users which are not present in the room and don't share same rooms with current user are removed from the memory
   function verifyUsersPresenceOnAllRooms() {
@@ -105,6 +110,17 @@ function ChatPage() {
           })
         );
 
+        connection?.on("UserJoined", (user: UserModel) => {
+          if (currentUser.hexId == user.hexId) return;
+          if (selectedRoomRef?.current?.guid == roomGuid) showInfoToast("User joined", `${user.username} has joined the room.`);
+          setUsers((prevUsers) => [...prevUsers, user]);
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == roomGuid);
+            target?.joinedUsers.push(user);
+            return [...prevRooms];
+          });
+        });
+
         connection?.on("UserLeft", (hexId) => {
           setJoinedRooms((prevRooms) => {
             let target = prevRooms.find((r) => r.guid == roomGuid);
@@ -137,17 +153,6 @@ function ChatPage() {
             connection.stop();
             return;
           }
-        });
-
-        connection?.on("UserJoined", (user: UserModel) => {
-          if (currentUser.hexId == user.hexId) return;
-          if (selectedRoomRef.current.guid == roomGuid) showInfoToast("User joined", `${user.username} has joined the room.`);
-          setUsers((prevUsers) => [...prevUsers, user]);
-          setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
-            target?.joinedUsers.push(user);
-            return [...prevRooms];
-          });
         });
 
         connection?.on("RoomRenamed", (newName) => {

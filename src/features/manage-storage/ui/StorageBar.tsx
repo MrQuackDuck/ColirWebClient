@@ -28,7 +28,7 @@ function StorageBar(props: StorageBarProps) {
   let [totalFilesCount, setTotalFilesCount] = useState<number>(0);
   let [deletedFilesCount, setDeletedFilesCount] = useState<number>(0);
   
-  // Opens a SiganlR connection to the server to "ClearRoom" hub and starts the "Clear" method
+  // Opens a SiganlR connection to the server to "ClearRoom" hub and calls the "Clear" method
   function startClearing() {
     getJwt()
       .then((jwt) => {

@@ -30,7 +30,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Submit logic
-    onSend({ roomGuid: values.roomGuid });
+    onSend({ roomGuid: values.roomGuid, encryptionKey: values.encryptionKey });
   }
 
   return (
@@ -57,7 +57,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
             <FormField name="encryptionKey" control={form.control} render={({ field }) => (
               <FormItem className="space-y-1">
                 <FormLabel>Encryption Key</FormLabel>
-                <div className="relative flex items-center max-w-2xl ">
+                <div className="relative flex items-center">
                   <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
                   <FormControl><Input type="password" autoComplete="off" id="encryptionKey" placeholder="encryption-key-here" className="pl-7" {...field}/></FormControl>
                 </div>

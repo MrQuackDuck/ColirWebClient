@@ -1,4 +1,4 @@
-import { toast } from "@/shared/ui/use-toast";
+import { toast } from "./hooks/useToast";
 
 export const showInfoToast = (title?, description?) => {
   toast({

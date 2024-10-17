@@ -4,18 +4,17 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/shared/ui/Separator";
 import GoogleLogoIcon from "@/shared/ui/GoogleLogoIcon";
 import AuthService from "../lib/AuthService";
-import { toast } from "@/shared/ui/use-toast";
 import redirect from "../lib/redirect";
-import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { UserIcon } from "lucide-react";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
+import { showErrorToast } from "@/shared/lib/showErrorToast";
 
 function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChosen : () => void}) {
   let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
   let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
 
-  const gitHubAuth = () => {
+  const authenticateViaGitHub = () => {
     enableLoading();
     AuthService.GetGithubAuthLink()
     .then(response => {
@@ -29,18 +28,18 @@ function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChose
     });
   }
 
-  const googleAuth = () => {
+  const authenticateViaGoogle = () => {
+    enableLoading();
     AuthService.GetGoogleAuthLink()
     .then(response => {
       redirect(response.data);
     })
     .catch(() => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-      });
+      showErrorToast();
     })
+    .finally(() => {
+      disableLoading();
+    });
   }
 
   return (
@@ -56,10 +55,10 @@ function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChose
         <span className="text-[12px] pb-2 leading-3">
           * You'll get a single-session account without ability to re-login
         </span>
-        <Button onClick={gitHubAuth}>
+        <Button onClick={authenticateViaGitHub}>
           <GitHubLogoIcon className="mr-2 h-4 w-4" /> Login via GitHub
         </Button>
-        <Button  onClick={googleAuth}>
+        <Button  onClick={authenticateViaGoogle}>
           <GoogleLogoIcon className="mr-2 h-4 w-4" /> Login via Google
         </Button>
         <Button variant={"link"} className="mr-auto px-0 py-[1px] leading-0">

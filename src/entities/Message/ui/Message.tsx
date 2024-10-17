@@ -6,6 +6,7 @@ import Moment from "moment";
 import { Button } from "@/shared/ui/Button";
 import {
   CheckIcon,
+  CodeIcon,
   CopyIcon,
   CornerUpRightIcon,
   PencilIcon,
@@ -23,7 +24,6 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/shared/ui/ContextMenu";
-import { toast } from "@/shared/ui/use-toast";
 import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
 import Username from "@/entities/User/ui/Username";
@@ -33,6 +33,8 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import React from "react";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
+import { decryptString, encryptString } from "@/shared/lib/utils";
+import { toast } from "@/shared/lib/hooks/useToast";
 
 interface MessageProps {
   message: MessageModel;
@@ -40,6 +42,7 @@ interface MessageProps {
   repliedMessage?: MessageModel;
   repliedMessageAuthor?: UserModel;
   controlsEnabled: boolean;
+  decryptionKey: string;
   onReactionAdded: (messageId: number, reaction: string) => any;
   onReactionRemoved: (reactionId: number) => any;
   onDeleteClicked: (messageId: number) => any;
@@ -54,6 +57,7 @@ const Message = forwardRef(({
   repliedMessage,
   repliedMessageAuthor,
   controlsEnabled,
+  decryptionKey,
   onReactionAdded,
   onReactionRemoved,
   onDeleteClicked,
@@ -68,16 +72,22 @@ const Message = forwardRef(({
   let [editedContent, setEditedContent] = useState<string>(message.content);
   let [shiftPressed, setShiftPressed] = useState<boolean>(false);
   let textAreaRef = useRef<any>();
-  
-  let [isContextMenuShown, setIsContextMenuShown] = useState<boolean>(false);
-  let [isCreationDateTooltipShown, setIsCreationDateTooltipShown] = useState<boolean>(false);
-  let [isEditDateTooltipShown, setIsEditDateTooltipShown] = useState<boolean>(false);
+  let decryptedContent: string | undefined = decryptString(message.content, decryptionKey);
+  let decryptedRepliedMessageContent = repliedMessage ? decryptString(repliedMessage.content, decryptionKey) : undefined;
 
   function copyMessage() {
-    navigator.clipboard.writeText(message.content);
+    navigator.clipboard.writeText(decryptedContent ?? "Couldn't decrypt...");
     toast({
       title: "Copied!",
       description: "Message content copied to the clipboard successfully!",
+    });
+  }
+
+  function copyEncryptedMessage() {
+    navigator.clipboard.writeText(message.content);
+    toast({
+      title: "Copied!",
+      description: "Encrypted message content copied to the clipboard successfully!",
     });
   }
 
@@ -100,6 +110,7 @@ const Message = forwardRef(({
   
   function enableEditMode() {
     setIsEditMode(true);
+    setEditedContent(decryptedContent!);
   }
 
   function disableEditMode() {
@@ -108,8 +119,8 @@ const Message = forwardRef(({
   }
 
   function finishEditing() {
-    if (editedContent.length < 0) return;
-    if (editedContent != message.content) onMessageEdited(message.id, editedContent);
+    if (editedContent?.length < 0) return;
+    if (editedContent != message.content) onMessageEdited(message.id, encryptString(editedContent, decryptionKey));
     disableEditMode();
   }
 
@@ -220,7 +231,7 @@ const Message = forwardRef(({
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
             <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-              {repliedMessage.content} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{attachment.filename}] </span>)}
+              {decryptedRepliedMessageContent} {decryptedRepliedMessageContent === undefined && <span className="text-destructive">Couldn't decrypt...</span>} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{attachment.filename}] </span>)}
             </span>
           </div>
         </div>
@@ -228,7 +239,7 @@ const Message = forwardRef(({
 
       <DeleteConfirmationDialog isShown={isDeleteConfirmationDialogShown} onConfirm={() => deleteMessage(true)} onCancel={() => setIsDeleteConfirmationDialogShown(false)} />      
 
-      <ContextMenu onOpenChange={setIsContextMenuShown}>
+      <ContextMenu>
         <ContextMenuTrigger onContextMenu={validateContextMenu} asChild>
           {/* Message block */}
           <div onMouseEnter={handleMouseEnter}
@@ -239,29 +250,30 @@ const Message = forwardRef(({
             <div className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">
                 <Username user={sender} />
-                <Tooltip onOpenChange={setIsCreationDateTooltipShown}>
+                <Tooltip>
                   <TooltipTrigger asChild>
                     {<span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px]">{formatDate(message.postDate)}</span>}
                   </TooltipTrigger>
                   <TooltipContent side="right">
-                    {isCreationDateTooltipShown && <span className="text-[12px]">{Moment(message.postDate).format("LLLL")}</span>}
+                    <span className="text-[12px]">{Moment(message.postDate).format("LLLL")}</span>
                   </TooltipContent>
                 </Tooltip>
                 {message.editDate && (<>
-                  <Separator className="min-h-5" orientation="vertical" />
-                  <Tooltip onOpenChange={setIsEditDateTooltipShown}>
+                  <Separator className="min-h-5 translate-y-[2px]" orientation="vertical" />
+                  <Tooltip>
                     <TooltipTrigger asChild>
-                      {<span className="text-slate-400 cursor-default text-[0.625rem] font-medium">edited {formatDate(message.editDate)}</span>}
+                      {<span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px] font-medium">edited {formatDate(message.editDate)}</span>}
                     </TooltipTrigger>
                     <TooltipContent side="right">
-                      {isEditDateTooltipShown && <span className="text-[12px]">{Moment(message.editDate).format("LLLL")}</span>}
+                      <span className="text-[12px]">{Moment(message.editDate).format("LLLL")}</span>
                     </TooltipContent>
                   </Tooltip>
                 </>)}
               </div>
               {!isEditMode && (
                 <span className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}>
-                  {formatText(message.content)}
+                  { decryptedContent && formatText(decryptedContent) }
+                  { !decryptedContent && <span className="text-destructive">Couldn't decrypt...</span> }
                 </span>
               )}
               {isEditMode && (
@@ -285,7 +297,7 @@ const Message = forwardRef(({
                 </div>
               )}
               
-              {message.attachments.length > 0 && <AttachmentsSection attachments={message.attachments} />}
+              {message.attachments.length > 0 && <AttachmentsSection decryptionKey={decryptionKey} attachments={message.attachments} />}
               {message.reactions.length > 0 && <ReactionBar className="message-context-menu-disabled"
                 onReactionAdded={addOrRemoveReaction}
                 onReactionRemoved={addOrRemoveReaction}
@@ -329,31 +341,33 @@ const Message = forwardRef(({
         </ContextMenuTrigger>
 
         <ContextMenuContent className="text-sm">
-          {isContextMenuShown && <>
-            <ContextMenuItem disabled={!controlsEnabled} onClick={handleReplyButtonClicked}>
-              <ReplyIcon className="h-4 w-4 mr-4" />
-              Reply
+          <ContextMenuItem disabled={!controlsEnabled} onClick={handleReplyButtonClicked}>
+            <ReplyIcon className="h-4 w-4 mr-4" />
+            Reply
+          </ContextMenuItem>
+          {sender && currentUser?.hexId == sender.hexId && (
+            <ContextMenuItem disabled={!controlsEnabled} onClick={() => enableEditMode()}>
+              <PencilIcon className="h-4 w-4 mr-4" />
+              Edit
             </ContextMenuItem>
-            {sender && currentUser?.hexId == sender.hexId && (
-              <ContextMenuItem disabled={!controlsEnabled} onClick={() => enableEditMode()}>
-                <PencilIcon className="h-4 w-4 mr-4" />
-                Edit
-              </ContextMenuItem>
-            )}
-            <ContextMenuItem onClick={() => copyMessage()}>
-              <CopyIcon className="h-4 w-4 mr-4" />
-              Copy text
+          )}
+          <ContextMenuItem onClick={() => copyMessage()}>
+            <CopyIcon className="h-4 w-4 mr-4" />
+            Copy text
+          </ContextMenuItem>
+          <ContextMenuItem onClick={() => copyEncryptedMessage()}>
+            <CodeIcon className="h-4 w-4 mr-4" />
+            Copy encrypted
+          </ContextMenuItem>
+          {sender && currentUser?.hexId == sender.hexId && (
+            <ContextMenuItem
+              disabled={!controlsEnabled}
+              onClick={() => setIsDeleteConfirmationDialogShown(true)}
+              className="text-destructive">
+              <Trash2Icon className="h-4 w-4 mr-4" />
+              Delete
             </ContextMenuItem>
-            {sender && currentUser?.hexId == sender.hexId && (
-              <ContextMenuItem
-                disabled={!controlsEnabled}
-                onClick={() => setIsDeleteConfirmationDialogShown(true)}
-                className="text-destructive">
-                <Trash2Icon className="h-4 w-4 mr-4" />
-                Delete
-              </ContextMenuItem>
-            )}
-          </>}
+          )}
         </ContextMenuContent>
       </ContextMenu>
     </div>

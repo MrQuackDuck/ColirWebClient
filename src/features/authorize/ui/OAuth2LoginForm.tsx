@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import {
   HubConnection,
@@ -24,13 +24,13 @@ function OAuth2LoginForm({
 }) {
   let [step, setStep] = useState(0);
   let [username, setUsername] = useState("");
-  let [connection, setConnection] = useState<HubConnection>();
-  let [proposedColors, setProposedColors] = useState<number[]>();
+  let [authConnection, setAuthConnection] = useState<HubConnection>();
+  let [proposedHexs, setProposedHexs] = useState<number[]>();
   let authorize = useContextSelector(AuthContext, c => c.authorize);
   let navigate = useNavigate();
 
   useEffect(() => {
-    setConnection(
+    setAuthConnection(
       new HubConnectionBuilder()
         .withUrl(`${API_URL}/Registration?queueToken=${queueToken}`)
         .configureLogging(LogLevel.Information)
@@ -39,16 +39,16 @@ function OAuth2LoginForm({
   }, []);
 
   // Registering handlers
-  useMemo(() => {
-    connection?.on("ReceiveHexsList", (response) => {
-      setProposedColors(response);
+  useEffect(() => {
+    authConnection?.on("ReceiveHexsList", (response) => {
+      setProposedHexs(response);
     });
-  }, [connection])
+  }, [authConnection])
 
   const usernameChosen = async (username) => {
     setUsername(username);
     const sendSignalAndProceedToNextStep = () => {
-      connection?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
+      authConnection?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
         .then((response) => {
           if (response.resultType === SignalRResultType.Error) throw Error();
           setStep(1);
@@ -60,8 +60,8 @@ function OAuth2LoginForm({
     };
 
     // Start the connection if not connected yet
-    if (connection?.state === HubConnectionState.Disconnected) {
-      return connection.start().then(() => {
+    if (authConnection?.state === HubConnectionState.Disconnected) {
+      return authConnection.start().then(() => {
         sendSignalAndProceedToNextStep();
       });
     }
@@ -71,22 +71,22 @@ function OAuth2LoginForm({
   };
 
   const regenerateHexs = () => {
-    connection?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
+    authConnection?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
       .then(response => {
         if (response.resultType === SignalRResultType.Error) throw Error;
-        setProposedColors(response.content as number[]);
+        setProposedHexs(response.content as number[]);
       })
       .catch(showErrorToast);
   }
 
   const colorChosen = (color) => {
-    connection?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
+    authConnection?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
       .then(() => finish())
       .catch(showErrorToast);
   };
 
   const finish = () => {
-    connection?.invoke<SignalRHubResponse<any>>("FinishRegistration")
+    authConnection?.invoke<SignalRHubResponse<any>>("FinishRegistration")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         let jwtToken = response.content["jwtToken"].toString();
@@ -111,7 +111,7 @@ function OAuth2LoginForm({
         <ChooseColirIdForm
           onProceed={colorChosen}
           onRegenerate={regenerateHexs}
-          colors={proposedColors ?? []}
+          colors={proposedHexs ?? []}
           onBack={() => setStep(0)}
         />
       )}

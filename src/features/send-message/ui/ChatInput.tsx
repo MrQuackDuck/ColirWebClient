@@ -4,7 +4,7 @@ import { Loader2, PaperclipIcon, PlugZapIcon, SendIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import React from "react";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
-import { cn } from "@/shared/lib/utils";
+import { cn, encryptFile, encryptString } from "@/shared/lib/utils";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import ReplySection from "./ReplySection";
 import { UserModel } from "@/entities/User/model/UserModel";
@@ -23,8 +23,10 @@ interface ChatInputProps {
 	messageToReply: MessageModel | null;
 	messageToReplyAuthor: UserModel | null;
 	className?: string;
+	encryptionKey: string;
 	onReplyCancelled: () => any;
 	onSizeChange: (height: number) => any;
+	onReplySectionClicked: () => any;
 	variant?: ChatInputVariant;
 }
 
@@ -33,9 +35,11 @@ function ChatInput({
 	messageToReply,
 	messageToReplyAuthor,
 	className,
+	encryptionKey,
 	onReplyCancelled,
 	onSizeChange,
 	variant = "default",
+	onReplySectionClicked
 }: ChatInputProps) {
 	let textAreaRef = useRef<any>();
   let fileInputRef = useRef<any>();
@@ -43,23 +47,22 @@ function ChatInput({
 	const documentRef = useRef(document);
 
 	useEffect(() => {
-		// Adding this event listener to focus on textarea when a user presses keys outside of it
-		documentRef.current.addEventListener("keydown", (e) => {
-			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.shiftKey) return;
-			if (document.activeElement?.tagName === "TEXTAREA" || document.activeElement?.tagName === "INPUT") return;
+		const handleKeyDown = (e) => {
+			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.keyCode == 16) return;
+			let focusedItemTagName = document.activeElement?.tagName;
+			if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || focusedItemTagName === "VIDEO") return;
 			if (!textAreaRef.current) return;
 			if (e.key === "Enter") e.preventDefault();
 			if (e.key == "Escape") onReplyCancelled();
 			textAreaRef.current.textArea.focus();
-		});
-
-		documentRef.current.addEventListener("dragover", (e) => {
+		};
+	
+		const handleDragOver = (e) => {
 			e.preventDefault();
-		});
-
-		documentRef.current.addEventListener("drop", (e) => {
+		};
+	
+		const handleDrop = (e) => {
 			e.preventDefault();
-
 			if (e.dataTransfer?.items) {
 				for (let i = 0; i < e.dataTransfer.items.length; i++) {
 					let item = e.dataTransfer.items[i];
@@ -71,20 +74,33 @@ function ChatInput({
 					}
 				}
 			}
-		})
+		};
+	
+		documentRef.current.addEventListener("keydown", handleKeyDown);
+		documentRef.current.addEventListener("dragover", handleDragOver);
+		documentRef.current.addEventListener("drop", handleDrop);
+	
+		// Cleanup function to prevent duplicate listeners
+		return () => {
+			documentRef.current.removeEventListener("keydown", handleKeyDown);
+			documentRef.current.removeEventListener("dragover", handleDragOver);
+			documentRef.current.removeEventListener("drop", handleDrop);
+		};
 	}, []);
 
-	function sendMessage() {
+	async function sendMessage() {
 		if (textAreaRef.current.textArea.disabled) return;
+		const encryptedFiles = files.length > 0 ? await Promise.all([...files].map((file) => encryptFile(file, encryptionKey))) : [];
+
 		onSend({
-			content: textAreaRef.current.textArea.value ?? "",
-			attachments: [...files],
+			content: encryptString(textAreaRef.current.textArea.value, encryptionKey) ?? "",
+			attachments: encryptedFiles,
 			replyMessageId: messageToReply?.id,
 		});
 		
 		setFiles([]);
 		textAreaRef.current.textArea.value = "";
-		textAreaRef.current.textArea.style.height = "43px";
+		textAreaRef.current.textArea.style.height = "42px";
 	}
 
 	function insertAt(index: number, str: string) {
@@ -165,7 +181,9 @@ function ChatInput({
 				{/* Top section (with reply and files) */}
 				<div ref={topAreaRef} className="flex flex-col bg-accent/80 w-full items-center rounded-t-[6px] gap-0.5">
 					<ReplySection
+						onClicked={onReplySectionClicked}
 						onReplyCancelled={onReplyCancelled}
+						decryptionKey={encryptionKey}
 						message={messageToReply}
 						sender={messageToReplyAuthor!}
 						className={messageToReply && variant == "default" ? '' : 'hidden'}
@@ -227,7 +245,7 @@ function ChatInput({
 								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"/>
 							<Separator orientation="vertical" />
 							<SendIcon
-								onClick={() => sendMessage()}
+								onClick={sendMessage}
 								strokeWidth={1.5}
 								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"/>
 						</div>

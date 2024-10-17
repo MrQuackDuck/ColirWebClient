@@ -93,7 +93,7 @@ const ReactionBar = (props: ReactionBarProps) => {
               {reactionElements.map((r) => 
                 <Reaction
                 key={r.symbol}
-                isActivated={false}
+                isActivated={r.isActivated}
                 count={r.count}
                 onReactionAdded={() => setCurrentReactionInDialog(r.symbol)}
                 onReactionRemoved={() => setCurrentReactionInDialog(r.symbol)}

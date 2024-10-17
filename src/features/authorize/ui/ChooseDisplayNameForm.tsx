@@ -29,17 +29,17 @@ function ChooseDisplayNameForm({onProceed, onBack, username}: {
   onBack: () => void;
   username?: string;
 }) {
-  function back(e) {
-    e.preventDefault();
-    onBack();
-  }
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: username ?? "",
     },
   });
+
+  function back(e) {
+    e.preventDefault();
+    onBack();
+  }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     onProceed(values.username);

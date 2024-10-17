@@ -10,9 +10,10 @@ import JoinedRoomsProvider from "@/entities/Room/lib/providers/JoinedRoomsProvid
 import { UsersProvider } from "@/entities/User/lib/providers/UsersProvider";
 import SelectedRoomProvider from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import { ChatConnectionsProvider } from "@/shared/lib/providers/ChatConnectionsProvider";
+import { EncryptionKeysProvider } from "@/shared/lib/providers/EncryptionKeysProvider";
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+  <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
     <LoadingProvider>
       <CurrentUserProvider>
         <UsersProvider>
@@ -21,7 +22,9 @@ createRoot(document.getElementById("root")!).render(
               <TooltipProvider>
                 <AuthProvider>
                   <ChatConnectionsProvider>
-                    <App />
+                    <EncryptionKeysProvider>
+                      <App />
+                    </EncryptionKeysProvider>
                   </ChatConnectionsProvider>
                 </AuthProvider>
               </TooltipProvider>
