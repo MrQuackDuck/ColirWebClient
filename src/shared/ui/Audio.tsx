@@ -41,6 +41,11 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
     }
   };
 
+  useEffect(() => {
+    if (autoplay && audioRef.current)
+      audioRef.current.play().catch(() => setIsError(true));
+  }, [audioRef]);
+
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
@@ -77,6 +82,7 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
   };
 
   const handleTimelineChange = (newTime: number[]) => {
+    if (isEnded) setIsEnded(false);
     const timeValue = newTime[0];
     setCurrentTime(timeValue);
     if (audioRef.current) {
@@ -105,7 +111,7 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
   if (isError) {
     return ( 
       <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
-        <VolumeXIcon className='mr-1' /> Couldn't load audio...
+        <VolumeXIcon className='h-5 w-5 mr-1' /> Couldn't load audio...
       </div>
     );
   }
@@ -115,7 +121,6 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
       <audio
         ref={audioRef}
         src={typeof src === 'string' ? src : undefined}
-        autoPlay={autoplay}
         onEnded={handleEnded}
       />
       <div className="flex flex-col gap-2">
@@ -128,7 +133,7 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
           className="w-full cursor-pointer"
         />
         <div className="flex gap-4 items-center justify-between">
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-1'>
             <Button className='h-7 w-7 hover:primary/20' variant="ghost" size="icon" onClick={togglePlay}>
               {(isPlaying && !isEnded) && <Pause className="h-4 w-4" />}
               {(!isPlaying && !isEnded) && <Play className="h-4 w-4" />}

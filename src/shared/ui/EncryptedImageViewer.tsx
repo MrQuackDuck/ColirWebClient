@@ -39,6 +39,14 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
     displayImage();
   }, [decryptionKey]);
 
+  if (!imageSrc) {
+    return (
+      <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
+          <ImageOffIcon className='mr-1' />Couldn't load image...
+        </div>
+    )
+  }
+
   return (<>
     <img onClick={() => setIsDialogOpen(true)} crossOrigin={isFirefox ? "anonymous" : undefined}
       ref={imgRef}
@@ -46,11 +54,6 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
       alt={''}
       onError={() => setImageSrc(null)}
       className="max-h-60 cursor-pointer" />
-    {!imageSrc &&
-      <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
-        <ImageOffIcon className='mr-1' />Couldn't decrypt...
-      </div>
-    }
 
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent className='focus-visible:outline-none closeButtonDisabled' onClick={event => event.stopPropagation()}>

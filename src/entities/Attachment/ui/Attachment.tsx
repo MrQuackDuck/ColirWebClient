@@ -34,6 +34,7 @@ const extensionToAttachmentTypeMap = {
   'webm': AttachmentType.VIDEO,
   'mov': AttachmentType.VIDEO,
   'mp3': AttachmentType.AUDIO,
+  'ogg': AttachmentType.AUDIO,
   'wav': AttachmentType.AUDIO,
 };
 

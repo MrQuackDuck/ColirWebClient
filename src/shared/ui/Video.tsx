@@ -42,6 +42,11 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
     };
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (autoplay && videoRef.current)
+      videoRef.current.play().catch(() => setIsError(true));
+  }, [videoRef]);
+
   const handleTimeUpdate = () => {
     if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
@@ -88,6 +93,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   };
 
   const handleTimelineChange = (newTime: number[]) => {
+    if (isEnded) setIsEnded(false);
     const timeValue = newTime[0];
     setCurrentTime(timeValue);
     if (videoRef.current) {
@@ -139,7 +145,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   if (isError) {
     return ( 
       <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
-        <VideoOffIcon className='mr-1' /> Couldn't decrypt...
+        <VideoOffIcon className='h-5 w-5 mr-1' /> Couldn't load video...
       </div>
     );
   }
@@ -162,9 +168,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
         tabIndex={0}
       />
       {controls && (
-        <div
-          className={`absolute flex flex-col gap-0.5 bottom-0 left-0 right-0 text-white p-1 transition-opacity duration-200 ${showControls ? 'opacity-100' : 'opacity-0'}`}
-        >
+        <div className={`absolute bg-background/50 flex flex-col gap-0.5 bottom-0 left-0 right-0 text-white p-0.5 transition-opacity duration-200 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
           <Slider
             value={[currentTime]}
             min={0}

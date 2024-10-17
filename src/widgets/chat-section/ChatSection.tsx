@@ -51,6 +51,7 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   let setMessages = useContextSelector(MessagesContext, m => m.setMessages);
   const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
+  let scrollAreaRef = useRef<HTMLDivElement | null>(null);
   const messageElementsRefs = useRef(new Map<number, HTMLDivElement>());
   const setMessageRef = useCallback((messageId: number) => (el: HTMLDivElement | null) => {
     if (el) messageElementsRefs.current.set(messageId, el);
@@ -62,35 +63,6 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
 
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
   let roomDecryptionKey = getEncryptionKey(room?.guid);
-
-  let scrollAreaRef = useRef<HTMLDivElement | null>(null);
-  const savedScrollTop = useRef<number>(0);
-
-  // Handle full-screen change event
-  useEffect(() => {
-    const handleFullScreenChange = () => {
-      if (document.fullscreenElement) {
-        // Save the current scroll position before entering full-screen mode
-        if (scrollAreaRef.current) {
-          savedScrollTop.current = scrollAreaRef.current.scrollTop;
-        }
-      } else {
-        // Restore the scroll position after exiting full-screen mode
-        if (scrollAreaRef.current) {
-          scrollAreaRef.current.scrollTop = savedScrollTop.current;
-        }
-      }
-    };
-
-    // Listen for full-screen changes
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullScreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullScreenChange);
-    };
-  }, []);
 
   // Other code
   let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
