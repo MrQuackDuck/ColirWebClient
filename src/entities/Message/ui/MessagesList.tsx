@@ -39,14 +39,15 @@ const MessagesList: React.FC<MessagesListProps> = ({
         const previousMessageDate = index > 0 ? new Date(filteredMessages[index - 1].postDate).getDate() : null;
         let needToInsertDater = index === 0 || currentMessageDate !== previousMessageDate;
         const sender = users.find(u => u.hexId === m.authorHexId)!;
-        const repliedMessageAuthor = m.repliedMessage ? users.find(u => u.hexId === m.repliedMessage?.authorHexId) : undefined;
+        const repliedMessageExists = filteredMessages.find(fm => fm.id === m.repliedMessageId);
+        const repliedMessageAuthor = repliedMessageExists ? users.find(u => u.hexId === m.repliedMessage?.authorHexId) : undefined;
 
         return (
           <div className="rounded-[6px] h-fit" key={m.id}>
             {needToInsertDater && <Dater date={m.postDate} />}
             <MessageListItem
               setMessagesRef={setMessageRef}
-              repliedMessage={m.repliedMessage}
+              repliedMessage={repliedMessageExists ? m.repliedMessage : undefined}
               repliedMessageAuthor={repliedMessageAuthor}
               controlsEnabled={controlsEnabled}
               decryptionKey={decryptionKey}

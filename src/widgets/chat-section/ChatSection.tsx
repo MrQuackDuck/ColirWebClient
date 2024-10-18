@@ -1,7 +1,7 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel"
 import { Button } from "@/shared/ui/Button"
 import { Separator } from "@/shared/ui/Separator"
-import { DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
+import { ArrowDown, DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../features/send-message/ui/ChatInput"
@@ -31,6 +31,7 @@ import { UsersContext } from "@/entities/User/lib/providers/UsersProvider"
 import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider"
 import MessagesList from "@/entities/Message/ui/MessagesList"
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
+import { cn } from "@/shared/lib/utils"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -69,7 +70,6 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
   let roomDecryptionKey = getEncryptionKey(room?.guid);
 
-  // Other code
   let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
   let chatConnections = useContextSelector(ChatConnectionsContext, c => c.chatConnections);
   let selectedRoomConnection = useMemo(() => chatConnections.find(c => c.roomGuid == room.guid), [chatConnections, room?.guid]);
@@ -147,6 +147,11 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     highlightMessage(repliedMessageId);
   }, []);
 
+  function isNearBottom(distance: number): boolean {
+    if (!scrollAreaRef.current) return false;
+    return scrollAreaRef.current && scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < distance;
+  }
+
   function replyCancelled() {
     setMessageToReply(null);
     setMessageToReplyAuthor(null);
@@ -159,14 +164,16 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     }
   }
 
-  function scrollToBottom() {
+  function scrollToBottom(isSmooth: boolean = false) {
     setTimeout(() => {
       if (!scrollAreaRef.current) return;
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      if (isSmooth) scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: 'smooth' });
+      else scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }, 0)
   }
 
   function scrollToMessage(messageId: number, repeatCall: boolean = true) {
+    if (filteredMessagesRef.current.find(m => m.id == messageId) == null) return;
     let messageRef = messageElementsRefs.current.get(messageId);
     if (messageRef) {
       messageRef.scrollIntoView({ block: "center" });
@@ -262,12 +269,11 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     
     let lastMessage = messages[messages.length - 1];
     let isMessageNew = Math.abs(Date.now() - new Date(lastMessage?.postDate).getTime()) < 2000;
-    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageNew && scrollAreaRef.current && scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < 100) ?? false;
+    let theLastMessageIsNewAndUserIsNearBottom: (() => boolean) = () => (isMessageNew && isNearBottom(300)) ?? false;
     let theLastMessageIsNewAndCurrentUserIsAuthor: (() => boolean) = () => isMessageNew && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
-    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor())
-      setTimeout(() => scrollToBottom(), 3);
+    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor()) setTimeout(() => scrollToBottom(), 10);
   }, [filteredMessages]);
 
   // Set chat variant based on the connection state
@@ -307,6 +313,27 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     setTimeout(() => scrollToBottom(), 0);
     setMessageToReply(null);
   }, [room]);
+
+  let [downButtonVisible, setDownButtonVisible] = useState(false);
+  function handleScroll() {
+    if (!scrollAreaRef.current) return;
+    let isNearBottom = scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < 2000;
+    setDownButtonVisible(!isNearBottom);
+  }
+
+  // Adding event listener for scrolling
+  useEffect(() => {
+    if (!scrollAreaRef.current) return;
+    scrollAreaRef.current.addEventListener("scroll", handleScroll);
+    return () => {
+      if (!scrollAreaRef.current) return;
+      scrollAreaRef.current.removeEventListener("scroll", handleScroll);
+    }
+  }, [scrollAreaRef.current]);
+
+  useEffect(() => {
+    if (isNearBottom(60) && messageToReply) scrollToBottom();
+  }, [messageToReply])
 
   let [currentPadding, setCurrentPadding] = useState<number>(0);
 
@@ -368,6 +395,10 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
         </ScrollArea>
+        <Button onClick={() => scrollToBottom(true)} variant={"outline"} size={'icon'} 
+          className={cn("z-10 transition-opacity duration-200 absolute bottom-8 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none" )}>
+          <ArrowDown className="h-4 w-4" />
+        </Button>
       </main>
 
       <ChatInput encryptionKey={roomDecryptionKey ?? ''} onReplySectionClicked={handleInputReplySectionClick} onSizeChange={setCurrentPadding} variant={currentChatVariant}  onReplyCancelled={replyCancelled} messageToReply={messageToReply} messageToReplyAuthor={messageToReplyAuthor} className="w-full" onSend={sendMessage}/>

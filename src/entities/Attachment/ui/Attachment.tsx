@@ -124,7 +124,13 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
     <ContextMenu>
       <ContextMenuTrigger>
       {attachmentType === AttachmentType.IMAGE &&
-        <EncryptedImageViewer imageUrl={`${SERVER_URL}/${attachment.path}`} alternativeText={decryptedFilename!} imgRef={imgRef} decryptionKey={decryptionKey} />
+        <EncryptedImageViewer
+          imageUrl={`${SERVER_URL}/${attachment.path}`}
+          alternativeText={decryptedFilename!}
+          fileName={decryptedFilename!}
+          imgRef={imgRef}
+          decryptionKey={decryptionKey}
+          sizeString={getSizeNormalized(attachment.sizeInBytes)}/>
       }
       {attachmentType == AttachmentType.VIDEO &&
         <EncryptedVideoPlayer 

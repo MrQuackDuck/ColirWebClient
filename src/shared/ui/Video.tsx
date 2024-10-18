@@ -209,6 +209,13 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
           </div>
         </div>
       )}
+      {
+        // Show a line on the left side which will hide the controls when hovered
+        isFullscreen && <div className='absolute left-0 top-0 h-full w-1.5'
+        onDoubleClick={toggleFullScreen}
+        onMouseEnter={() => setShowControls(false)}
+        onMouseLeave={() => setShowControls(true)}/>
+      }
     </div>
   );
 }
