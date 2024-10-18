@@ -21,7 +21,9 @@ function ReplySection({message, sender, className, decryptionKey, onReplyCancell
           <Username className="text-[12px]" user={sender} />
           <span className="max-w-screen-sm overflow-hidden text-ellipsis whitespace-nowrap">
             <span className="flex flex-row overflow-hidden text-ellipsis mr-1">{decryptedMessage}{decryptedMessage === undefined && <span className="text-destructive">Couldn't decrypt...</span>}</span>
-            {message?.attachments.map((attachment) => <span className="flex flex-row overflow-hidden text-ellipsis whitespace-nowrap flex-nowrap text-primary/70">[{attachment.filename}] </span>)}
+            <div className="flex flex-row gap-1">
+              {message?.attachments.map((attachment) => <span key={attachment.id} className="flex flex-row overflow-hidden text-ellipsis whitespace-nowrap flex-nowrap text-primary/70">[{decryptString(attachment.filename, decryptionKey)}] </span>)}
+            </div>
           </span>
         </div>
         <div className="flex flex-row pl-1 items-center text-[11px] gap-1 select-none">

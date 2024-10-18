@@ -61,6 +61,11 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
     return messages.filter(m => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
   }, [messages, room]);
 
+  const messageToReplyRef = useRef(messageToReply);
+  useEffect(() => {
+    messageToReplyRef.current = messageToReply;
+  }, [messageToReply]);
+
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
   let roomDecryptionKey = getEncryptionKey(room?.guid);
 
@@ -127,9 +132,14 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   }, [selectedRoomConnection]);
 
   const replyButtonClicked = useCallback((message: MessageModel) => {
+    if (messageToReplyRef.current?.id == message.id) {
+      replyCancelled();
+      return;
+    }
+
+    highlightMessage(message.id);
     setMessageToReply(message);
     setMessageToReplyAuthor(users.find(u => u.hexId == message.authorHexId) ?? null);
-    setTimeout(() => scrollToBottom(), 0);
   }, []);
 
   const handleReplySectionClick = useCallback((repliedMessageId: number) => {

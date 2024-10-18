@@ -42,8 +42,8 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
   if (!imageSrc) {
     return (
       <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
-          <ImageOffIcon className='mr-1' />Couldn't load image...
-        </div>
+        <ImageOffIcon className='mr-1' />Couldn't load image...
+      </div>
     )
   }
 

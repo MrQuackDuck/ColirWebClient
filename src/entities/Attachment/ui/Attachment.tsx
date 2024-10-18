@@ -6,7 +6,7 @@ import { CopyIcon, DownloadIcon, FileIcon } from 'lucide-react';
 import FileSaver from 'file-saver';
 import { Button } from '@/shared/ui/Button';
 import { isFirefox } from 'react-device-detect'
-import { cn, decryptFile } from '@/shared/lib/utils';
+import { cn, decryptFile, decryptString } from '@/shared/lib/utils';
 import EncryptedVideoPlayer from '@/shared/ui/EncryptedVideoPlayer';
 import { toast } from '@/shared/lib/hooks/useToast';
 import EncryptedImageViewer from '@/shared/ui/EncryptedImageViewer';
@@ -42,9 +42,10 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
   let [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
   let [isDownloading, setIsDownloading] = useState(false);
   let imgRef = useRef<HTMLImageElement>(null); // Needed for implementing copy to clipboard
+  let decryptedFilename = decryptString(attachment.filename, decryptionKey);
 
   function getAttachmentType() {
-    const extension = attachment.filename.split('.').pop()?.toLowerCase();
+    const extension = decryptedFilename?.split('.').pop()?.toLowerCase();
     if (!extension) return AttachmentType.DOCUMENT;
     
     return extensionToAttachmentTypeMap[extension] || AttachmentType.DOCUMENT;
@@ -61,7 +62,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
       // Decrypt the video
       const encryptedData = await response.blob();
       const decryptedBlob = await decryptFile(encryptedData, decryptionKey);
-      FileSaver.saveAs(decryptedBlob, attachment.filename);
+      FileSaver.saveAs(decryptedBlob, decryptedFilename ? decryptedFilename : attachment.filename);
     }
     finally {
       setIsDownloading(false);
@@ -70,7 +71,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
   
   useEffect(() => {
     setAttachmentType(getAttachmentType());
-  }, [attachment]);
+  }, [attachment, decryptionKey]);
 
   function getSizeNormalized(sizeInBytes) {
     const sizes = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb'];
@@ -123,13 +124,13 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
     <ContextMenu>
       <ContextMenuTrigger>
       {attachmentType === AttachmentType.IMAGE &&
-        <EncryptedImageViewer imageUrl={`${SERVER_URL}/${attachment.path}`} alternativeText={attachment.filename} imgRef={imgRef} decryptionKey={decryptionKey} />
+        <EncryptedImageViewer imageUrl={`${SERVER_URL}/${attachment.path}`} alternativeText={decryptedFilename!} imgRef={imgRef} decryptionKey={decryptionKey} />
       }
       {attachmentType == AttachmentType.VIDEO &&
         <EncryptedVideoPlayer 
           videoUrl={`${SERVER_URL}/${attachment.path}`}
           decryptionKey={decryptionKey}
-          fileName={attachment.filename}
+          fileName={decryptedFilename!}
           sizeString={getSizeNormalized(attachment.sizeInBytes)}
           onDownloadClick={downloadAttachment}
         />
@@ -138,7 +139,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
         <EncryptedAudioPlayer 
           audioUrl={`${SERVER_URL}/${attachment.path}`}
           decryptionKey={decryptionKey}
-          fileName={attachment.filename}
+          fileName={decryptedFilename!}
           sizeString={getSizeNormalized(attachment.sizeInBytes)}
           onDownloadClick={downloadAttachment}
         />
@@ -148,7 +149,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
           <div className='flex flex-row items-center gap-2'>
             <FileIcon className="text-primary/80"/>
             <div className='flex flex-col'>
-              <span className='text-sm text-primary/80'>{attachment.filename}</span>
+              <span className='text-sm text-primary/80'>{decryptedFilename ? decryptedFilename : <span className="text-destructive">Couldn't decrypt...</span>}</span>
               <span className='text-xs text-primary/50'>{getSizeNormalized(attachment.sizeInBytes)}</span>
             </div>
           </div>

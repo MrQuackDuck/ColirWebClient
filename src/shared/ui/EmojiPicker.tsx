@@ -1,5 +1,4 @@
-"use client";
-
+import { useState, useMemo, useEffect } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { SmileIcon, SmilePlusIcon } from "lucide-react";
 import { cn } from "../lib/utils";
@@ -8,7 +7,7 @@ import './EmojiPicker.css'
 import { ScrollArea } from "./ScrollArea";
 import emojiData from '../lib/emojis.json';
 import { Separator } from "./Separator";
-import { useState } from "react";
+import { Input } from "./Input";
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -18,11 +17,22 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchString, setSearchString] = useState('');
+
+  const filteredEmojiData = useMemo(() => {
+    const lowercaseSearch = searchString.toLowerCase();
+    return Object.fromEntries(
+      Object.entries(emojiData).map(([category, emojis]) => [
+        category,
+        emojis.filter(emoji => emoji.name.toLowerCase().includes(lowercaseSearch))
+      ])
+    );
+  }, [searchString]);
 
   function getButtonTrigger() {
     return (
-      <Button disabled={disabled} className="w-8 h-8" variant={"outline"} size={"icon"}>
+      <Button disabled={disabled} className="w-8 h-8" variant="outline" size="icon">
         <SmilePlusIcon className="text-primary/80 h-4 w-4" />
       </Button>
     );
@@ -34,27 +44,59 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
     );
   }
 
+  function handleClick(e, emoji) {
+    if (e && (e.which == 2 || e.button == 4 )) {
+      return;
+    }
+
+    onChange(emoji.value);
+  }
+
+  useEffect(() => {
+    if (!isOpen) setSearchString('');
+  }, [isOpen]);
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild className={cn(className)}>
         {asButton ? getButtonTrigger() : getDefaultTrigger()}
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] overflow-hidden p-4">
-        {isOpen && <ScrollArea className="h-[400px] text-[22px]">
-          <div className="flex flex-col h-full gap-1">
-          {Object.keys(emojiData).map((category) => (
-            <div key={category}>
-              <h4 className="capitalize">{category}</h4>
-              <Separator className="mt-0.5"/>
-              <div className="flex flex-wrap gap-1 pt-0.5">
-                {emojiData[category as keyof typeof emojiData].map((emoji) => (
-                  <Button key={emoji} onMouseUp={() => onChange(emoji)} variant={"ghost"} size={"icon"} className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]">{emoji}</Button>
+      <PopoverContent className="w-[300px] overflow-hidden p-2">
+        {isOpen && (
+          <>
+            <Input
+              className="w-full"
+              value={searchString}
+              onChange={(e) => setSearchString(e.target.value)}
+              placeholder="Find emoji"
+            />
+            <ScrollArea className="h-[400px] text-[22px] mt-1 p-2">
+              <div className="flex flex-col h-full gap-1">
+                {Object.entries(filteredEmojiData).map(([category, emojis]) => (
+                  emojis.length > 0 && (
+                    <div key={category}>
+                      <span className="capitalize text-base">{category}</span>
+                      <Separator className="mt-0.5" />
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        {emojis.map((emoji) => (
+                          <Button
+                            key={emoji.name}
+                            onClick={(e) => handleClick(e, emoji)}
+                            variant="ghost"
+                            size="icon"
+                            className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]"
+                          >
+                            {emoji.value}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )
                 ))}
               </div>
-            </div>
-          ))}
-          </div>
-        </ScrollArea>}
+            </ScrollArea>
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );

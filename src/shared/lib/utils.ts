@@ -50,7 +50,7 @@ export async function encryptFile(file: File, secretKey: string): Promise<File> 
 
   // Convert encrypted string back to Blob and create a new File
   const encryptedBlob = new Blob([encrypted], { type: file.type });
-  const encryptedFile = new File([encryptedBlob], file.name, { type: file.type });
+  const encryptedFile = new File([encryptedBlob], encryptString(file.name, secretKey), { type: file.type });
 
   return encryptedFile;
 }

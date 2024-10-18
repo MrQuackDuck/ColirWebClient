@@ -5,6 +5,7 @@ import { distinctUsers } from "@/entities/User/lib/distinctUsers";
 import { createContext, useContextSelector } from "use-context-selector";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
+import { showErrorToast } from "@/shared/lib/showErrorToast";
 
 export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
@@ -30,6 +31,10 @@ const JoinedRoomsProvider = ({ children }) => {
       currentUser.joinedRooms.forEach((room) => {
         RoomService.GetRoomInfo({ roomGuid: room.guid })
           .then((response) => {
+            if (!response.data) {
+              showErrorToast();
+            }
+
             setJoinedRooms((rooms) => [...rooms, response.data]);
             setUsers(prev => distinctUsers([...prev, ...response.data.joinedUsers]));
           })

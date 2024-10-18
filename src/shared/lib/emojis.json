@@ -1,1322 +1,5000 @@
 {
-  "smileys": [
-    "😀",
-    "😃",
-    "😄",
-    "😁",
-    "😆",
-    "😅",
-    "😂",
-    "🤣",
-    "🥲",
-    "🥹",
-    "😊",
-    "😇",
-    "🙂",
-    "🙃",
-    "😉",
-    "😌",
-    "😍",
-    "🥰",
-    "😘",
-    "😗",
-    "😙",
-    "😚",
-    "😋",
-    "😛",
-    "😝",
-    "😜",
-    "🤪",
-    "🤨",
-    "🧐",
-    "🤓",
-    "😎",
-    "🤩",
-    "🥳",
-    "😏",
-    "😒",
-    "😞",
-    "😔",
-    "😟",
-    "😕",
-    "🙁",
-    "☹️",
-    "😣",
-    "😖",
-    "😫",
-    "😩",
-    "🥺",
-    "😢",
-    "😭",
-    "😤",
-    "😠",
-    "😡",
-    "🤬",
-    "🤯",
-    "😳",
-    "🥵",
-    "🥶",
-    "😱",
-    "😨",
-    "😰",
-    "😥",
-    "😓",
-    "🫣",
-    "🤗",
-    "🫡",
-    "🤔",
-    "🫢",
-    "🤭",
-    "🤫",
-    "🤥",
-    "😶",
-    "😐",
-    "😑",
-    "😬",
-    "🫠",
-    "🙄",
-    "😯",
-    "😦",
-    "😧",
-    "😮",
-    "😲",
-    "🥱",
-    "😴",
-    "🤤",
-    "😪",
-    "😵",
-    "🫥",
-    "🤐",
-    "🥴",
-    "🤢",
-    "🤮",
-    "🤧",
-    "😷",
-    "🤒",
-    "🤕",
-    "🤑",
-    "🤠",
-    "😈",
-    "👿",
-    "👹",
-    "👺",
-    "🤡",
-    "💩",
-    "👻",
-    "💀",
-    "☠️",
-    "👽",
-    "👾",
-    "🤖",
-    "🎃",
-    "😺",
-    "😸",
-    "😹",
-    "😻",
-    "😼",
-    "😽",
-    "🙀",
-    "😿",
-    "😾"
+	"Smileys & Emotion": [
+    {
+      "value": "😂",
+      "name": "face with tears of joy :joy:"
+    },
+    {
+      "value": "😍",
+      "name": "smiling face with heart-eyes :heart_eyes:"
+    },
+    {
+      "value": "😭",
+      "name": "loudly crying face :sob:"
+    },
+    {
+      "value": "😊",
+      "name": "smiling face with smiling eyes :blush:"
+    },
+    {
+      "value": "😒",
+      "name": "unamused face :unamused:"
+    },
+    {
+      "value": "😘",
+      "name": "face blowing a kiss :kissing_heart:"
+    },
+    {
+      "value": "💕",
+      "name": "two hearts :two_hearts:"
+    },
+    {
+      "value": "😩",
+      "name": "weary face :weary:"
+    },
+    {
+      "value": "😔",
+      "name": "pensive face :pensive:"
+    },
+    {
+      "value": "😏",
+      "name": "smirking face :smirk:"
+    },
+    {
+      "value": "😁",
+      "name": "beaming face with smiling eyes :grin:"
+    },
+    {
+      "value": "😉",
+      "name": "winking face :wink:"
+    },
+    {
+      "value": "😌",
+      "name": "relieved face :relieved:"
+    },
+    {
+      "value": "😳",
+      "name": "flushed face :flushed:"
+    },
+    {
+      "value": "🙈",
+      "name": "see-no-evil monkey :see_no_evil:"
+    },
+    {
+      "value": "😢",
+      "name": "crying face :cry:"
+    },
+    {
+      "value": "😎",
+      "name": "smiling face with sunglasses :sunglasses:"
+    },
+    {
+      "value": "😅",
+      "name": "grinning face with sweat :sweat_smile:"
+    },
+    {
+      "value": "😴",
+      "name": "sleeping face :sleeping:"
+    },
+    {
+      "value": "😄",
+      "name": "grinning face with smiling eyes :smile:"
+    },
+    {
+      "value": "💜",
+      "name": "purple heart :purple_heart:"
+    },
+    {
+      "value": "💔",
+      "name": "broken heart :broken_heart:"
+    },
+    {
+      "value": "💯",
+      "name": "hundred points :hundred_points:"
+    },
+    {
+      "value": "😑",
+      "name": "expressionless face :expressionless:"
+    },
+    {
+      "value": "💖",
+      "name": "sparkling heart :sparkling_heart:"
+    },
+    {
+      "value": "💙",
+      "name": "blue heart :blue_heart:"
+    },
+    {
+      "value": "😕",
+      "name": "confused face :confused:"
+    },
+    {
+      "value": "😜",
+      "name": "winking face with tongue :stuck_out_tongue_winking_eye:"
+    },
+    {
+      "value": "😞",
+      "name": "disappointed face :disappointed:"
+    },
+    {
+      "value": "😋",
+      "name": "face savoring food :yum:"
+    },
+    {
+      "value": "😐",
+      "name": "neutral face :neutral_face:"
+    },
+    {
+      "value": "😪",
+      "name": "sleepy face :sleepy:"
+    },
+    {
+      "value": "💘",
+      "name": "heart with arrow :cupid:"
+    },
+    {
+      "value": "💗",
+      "name": "growing heart :heartpulse:"
+    },
+    {
+      "value": "💞",
+      "name": "revolving hearts :revolving_hearts:"
+    },
+    {
+      "value": "🙊",
+      "name": "speak-no-evil monkey :speak_no_evil:"
+    },
+    {
+      "value": "💋",
+      "name": "kiss mark :kiss:"
+    },
+    {
+      "value": "😱",
+      "name": "face screaming in fear :scream:"
+    },
+    {
+      "value": "😡",
+      "name": "pouting face :rage:"
+    },
+    {
+      "value": "😃",
+      "name": "grinning face with big eyes :smiley:"
+    },
+    {
+      "value": "😫",
+      "name": "tired face :tired_face:"
+    },
+    {
+      "value": "😝",
+      "name": "squinting face with tongue :stuck_out_tongue_closed_eyes:"
+    },
+    {
+      "value": "💀",
+      "name": "skull :skull:"
+    },
+    {
+      "value": "💛",
+      "name": "yellow heart :yellow_heart:"
+    },
+    {
+      "value": "😤",
+      "name": "face with steam from nose :triumph:"
+    },
+    {
+      "value": "😆",
+      "name": "grinning squinting face :laughing:"
+    },
+    {
+      "value": "😓",
+      "name": "downcast face with sweat :sweat:"
+    },
+    {
+      "value": "😻",
+      "name": "smiling cat with heart-eyes :heart_eyes_cat:"
+    },
+    {
+      "value": "😀",
+      "name": "grinning face :grinning:"
+    },
+    {
+      "value": "😷",
+      "name": "face with medical mask :mask:"
+    },
+    {
+      "value": "💚",
+      "name": "green heart :green_heart:"
+    },
+    {
+      "value": "😣",
+      "name": "persevering face :persevere:"
+    },
+    {
+      "value": "💓",
+      "name": "beating heart :heartbeat:"
+    },
+    {
+      "value": "😚",
+      "name": "kissing face with closed eyes :kissing_closed_eyes:"
+    },
+    {
+      "value": "😛",
+      "name": "face with tongue :stuck_out_tongue:"
+    },
+    {
+      "value": "😥",
+      "name": "sad but relieved face :disappointed_relieved:"
+    },
+    {
+      "value": "😇",
+      "name": "smiling face with halo :innocent:"
+    },
+    {
+      "value": "😖",
+      "name": "confounded face :confounded:"
+    },
+    {
+      "value": "😠",
+      "name": "angry face :angry:"
+    },
+    {
+      "value": "😬",
+      "name": "grimacing face :grimacing:"
+    },
+    {
+      "value": "😶",
+      "name": "face without mouth :no_mouth:"
+    },
+    {
+      "value": "💫",
+      "name": "dizzy :dizzy:"
+    },
+    {
+      "value": "💥",
+      "name": "collision :boom:"
+    },
+    {
+      "value": "💭",
+      "name": "thought balloon :thought_balloon:"
+    },
+    {
+      "value": "💩",
+      "name": "pile of poo :poop:"
+    },
+    {
+      "value": "😰",
+      "name": "anxious face with sweat :cold_sweat:"
+    },
+    {
+      "value": "😹",
+      "name": "cat with tears of joy :joy_cat:"
+    },
+    {
+      "value": "💦",
+      "name": "sweat droplets :sweat_drops:"
+    },
+    {
+      "value": "💤",
+      "name": "zzz :zzz:"
+    },
+    {
+      "value": "😟",
+      "name": "worried face :worried:"
+    },
+    {
+      "value": "😨",
+      "name": "fearful face :fearful:"
+    },
+    {
+      "value": "👻",
+      "name": "ghost :ghost:"
+    },
+    {
+      "value": "👽",
+      "name": "alien :alien:"
+    },
+    {
+      "value": "😙",
+      "name": "kissing face with smiling eyes :kissing_smiling_eyes:"
+    },
+    {
+      "value": "💟",
+      "name": "heart decoration :heart_decoration:"
+    },
+    {
+      "value": "💝",
+      "name": "heart with ribbon :gift_heart:"
+    },
+    {
+      "value": "😧",
+      "name": "anguished face :anguished:"
+    },
+    {
+      "value": "😵",
+      "name": "dizzy face :dizzy_face:"
+    },
+    {
+      "value": "😮",
+      "name": "face with open mouth :open_mouth:"
+    },
+    {
+      "value": "😯",
+      "name": "hushed face :hushed:"
+    },
+    {
+      "value": "😲",
+      "name": "astonished face :astonished:"
+    },
+    {
+      "value": "😿",
+      "name": "crying cat :crying_cat_face:"
+    },
+    {
+      "value": "🙉",
+      "name": "hear-no-evil monkey :hear_no_evil:"
+    },
+    {
+      "value": "💨",
+      "name": "dashing away :dash:"
+    },
+    {
+      "value": "💌",
+      "name": "love letter :love_letter:"
+    },
+    {
+      "value": "😦",
+      "name": "frowning face with open mouth :frowning:"
+    },
+    {
+      "value": "💣",
+      "name": "bomb :bomb:"
+    },
+    {
+      "value": "😈",
+      "name": "smiling face with horns :smiling_imp:"
+    },
+    {
+      "value": "👿",
+      "name": "angry face with horns :imp:"
+    },
+    {
+      "value": "😽",
+      "name": "kissing cat :kissing_cat:"
+    },
+    {
+      "value": "💢",
+      "name": "anger symbol :anger:"
+    },
+    {
+      "value": "💬",
+      "name": "speech balloon :speech_balloon:"
+    },
+    {
+      "value": "😼",
+      "name": "cat with wry smile :smirk_cat:"
+    },
+    {
+      "value": "😸",
+      "name": "grinning cat with smiling eyes :smile_cat:"
+    },
+    {
+      "value": "🙀",
+      "name": "weary cat :scream_cat:"
+    },
+    {
+      "value": "👾",
+      "name": "alien monster :space_invader:"
+    },
+    {
+      "value": "😗",
+      "name": "kissing face :kissing:"
+    },
+    {
+      "value": "😺",
+      "name": "grinning cat :smiley_cat:"
+    },
+    {
+      "value": "👹",
+      "name": "ogre :japanese_ogre:"
+    },
+    {
+      "value": "😾",
+      "name": "pouting cat :pouting_cat:"
+    },
+    {
+      "value": "👺",
+      "name": "goblin :japanese_goblin:"
+    },
+    {
+      "value": "☹",
+      "name": "frowning face :frowning_face:"
+    },
+    {
+      "value": "☠",
+      "name": "skull and crossbones :skull_crossbones:"
+    },
+    {
+      "value": "🙂",
+      "name": "slightly smiling face :slight_smile:"
+    },
+    {
+      "value": "🙁",
+      "name": "slightly frowning face :slightly_frowning_face:"
+    },
+    {
+      "value": "🗯",
+      "name": "right anger bubble :anger_right:"
+    },
+    {
+      "value": "🕳",
+      "name": "hole :hole:"
+    },
+    {
+      "value": "🗨",
+      "name": "left speech bubble :speech_left:"
+    },
+    {
+      "value": "☺",
+      "name": "smiling face :smiling_face:"
+    },
+    {
+      "value": "❣",
+      "name": "heart exclamation :heart_exclamation:"
+    },
+    {
+      "value": "❤",
+      "name": "red heart :red_heart:"
+    }
   ],
-  "people": [
-    "👶",
-    "👧",
-    "🧒",
-    "👦",
-    "👩",
-    "🧑",
-    "👨",
-    "👱",
-    "🧔",
-    "👵",
-    "🧓",
-    "👴",
-    "👲",
-    "👳",
-    "🧕",
-    "👮",
-    "👷",
-    "💂",
-    "🕵️",
-    "👰",
-    "🤵",
-    "👸",
-    "🫅",
-    "🤴",
-    "🥷",
-    "🦸",
-    "🦹",
-    "🤶",
-    "🎅",
-    "🧙",
-    "🧝",
-    "🧛",
-    "🧟",
-    "🧞",
-    "🧜",
-    "🧚",
-    "🧌",
-    "👼",
-    "🤰",
-    "🫄",
-    "🫃",
-    "🤱",
-    "🙇",
-    "💁",
-    "🙅",
-    "🙆",
-    "🙋",
-    "🧏",
-    "🤦",
-    "🤷",
-    "🙎",
-    "🙍",
-    "💇",
-    "💆",
-    "🧖",
-    "💅",
-    "🤳",
-    "💃",
-    "🕺",
-    "👯",
-    "🕴",
-    "🚶",
-    "🧎",
-    "🏃",
-    "🧍",
-    "👭",
-    "👬",
-    "👫",
-    "💑",
-    "💏",
-    "👪",
-    "👤",
-    "👥",
-    "🫂"
+  "People & Body": [
+    {
+      "value": "👌",
+      "name": "OK hand :ok_hand:"
+    },
+    {
+      "value": "👍",
+      "name": "thumbs up :thumbsup:"
+    },
+    {
+      "value": "🙏",
+      "name": "folded hands :pray:"
+    },
+    {
+      "value": "🙌",
+      "name": "raising hands :raised_hands:"
+    },
+    {
+      "value": "👀",
+      "name": "eyes :eyes:"
+    },
+    {
+      "value": "💁",
+      "name": "person tipping hand :information_desk_person:"
+    },
+    {
+      "value": "👏",
+      "name": "clapping hands :clap:"
+    },
+    {
+      "value": "✋",
+      "name": "raised hand :raised_hand:"
+    },
+    {
+      "value": "👉",
+      "name": "backhand index pointing right :point_right:"
+    },
+    {
+      "value": "👊",
+      "name": "oncoming fist :oncoming_fist:"
+    },
+    {
+      "value": "💪",
+      "name": "flexed biceps :muscle:"
+    },
+    {
+      "value": "👈",
+      "name": "backhand index pointing left :point_left:"
+    },
+    {
+      "value": "👋",
+      "name": "waving hand :wave:"
+    },
+    {
+      "value": "🙋",
+      "name": "person raising hand :raising_hand:"
+    },
+    {
+      "value": "👎",
+      "name": "thumbs down :thumbsdown:"
+    },
+    {
+      "value": "💃",
+      "name": "woman dancing :dancer:"
+    },
+    {
+      "value": "✊",
+      "name": "raised fist :fist:"
+    },
+    {
+      "value": "👇",
+      "name": "backhand index pointing down :point_down:"
+    },
+    {
+      "value": "🙅",
+      "name": "person gesturing NO :no_good:"
+    },
+    {
+      "value": "👅",
+      "name": "tongue :tongue:"
+    },
+    {
+      "value": "🙆",
+      "name": "person gesturing OK :ok_woman:"
+    },
+    {
+      "value": "🚶",
+      "name": "person walking :walking:"
+    },
+    {
+      "value": "👐",
+      "name": "open hands :open_hands:"
+    },
+    {
+      "value": "💅",
+      "name": "nail polish :nail_care:"
+    },
+    {
+      "value": "🙇",
+      "name": "person bowing :bow:"
+    },
+    {
+      "value": "👼",
+      "name": "baby angel :angel:"
+    },
+    {
+      "value": "👯",
+      "name": "people with bunny ears :dancers:"
+    },
+    {
+      "value": "🏃",
+      "name": "person running :runner:"
+    },
+    {
+      "value": "👫",
+      "name": "woman and man holding hands :couple:"
+    },
+    {
+      "value": "👆",
+      "name": "backhand index pointing up :point_up_2:"
+    },
+    {
+      "value": "👭",
+      "name": "women holding hands :two_women_holding_hands:"
+    },
+    {
+      "value": "👸",
+      "name": "princess :princess:"
+    },
+    {
+      "value": "💆",
+      "name": "person getting massage :massage:"
+    },
+    {
+      "value": "🙍",
+      "name": "person frowning :person_frowning:"
+    },
+    {
+      "value": "👄",
+      "name": "mouth :lips:"
+    },
+    {
+      "value": "💏",
+      "name": "kiss :couplekiss:"
+    },
+    {
+      "value": "💑",
+      "name": "couple with heart :couple_with_heart:"
+    },
+    {
+      "value": "🎅",
+      "name": "Santa Claus :santa:"
+    },
+    {
+      "value": "👶",
+      "name": "baby :baby:"
+    },
+    {
+      "value": "👣",
+      "name": "footprints :footprints:"
+    },
+    {
+      "value": "👨",
+      "name": "man :man:"
+    },
+    {
+      "value": "💂",
+      "name": "guard :guardsman:"
+    },
+    {
+      "value": "👧",
+      "name": "girl :girl:"
+    },
+    {
+      "value": "👩",
+      "name": "woman :woman:"
+    },
+    {
+      "value": "🏊",
+      "name": "person swimming :swimmer:"
+    },
+    {
+      "value": "👪",
+      "name": "family :family:"
+    },
+    {
+      "value": "💇",
+      "name": "person getting haircut :haircut:"
+    },
+    {
+      "value": "👦",
+      "name": "boy :boy:"
+    },
+    {
+      "value": "🙎",
+      "name": "person pouting :person_with_pouting_face:"
+    },
+    {
+      "value": "👵",
+      "name": "old woman :older_woman:"
+    },
+    {
+      "value": "👬",
+      "name": "men holding hands :two_men_holding_hands:"
+    },
+    {
+      "value": "👃",
+      "name": "nose :nose:"
+    },
+    {
+      "value": "👳",
+      "name": "person wearing turban :man_with_turban:"
+    },
+    {
+      "value": "👂",
+      "name": "ear :ear:"
+    },
+    {
+      "value": "👰",
+      "name": "bride with veil :bride_with_veil:"
+    },
+    {
+      "value": "👴",
+      "name": "old man :older_man:"
+    },
+    {
+      "value": "🏄",
+      "name": "person surfing :surfer:"
+    },
+    {
+      "value": "👮",
+      "name": "police officer :cop:"
+    },
+    {
+      "value": "👤",
+      "name": "bust in silhouette :bust_in_silhouette:"
+    },
+    {
+      "value": "👱",
+      "name": "person: blond hair :person_with_blond_hair:"
+    },
+    {
+      "value": "👲",
+      "name": "man with skullcap :man_with_gua_pi_mao:"
+    },
+    {
+      "value": "👥",
+      "name": "busts in silhouette :busts_in_silhouette:"
+    },
+    {
+      "value": "🛀",
+      "name": "person taking bath :bath:"
+    },
+    {
+      "value": "🏂",
+      "name": "snowboarder :snowboarder:"
+    },
+    {
+      "value": "🚴",
+      "name": "person biking :bicyclist:"
+    },
+    {
+      "value": "🚣",
+      "name": "person rowing boat :rowboat:"
+    },
+    {
+      "value": "👷",
+      "name": "construction worker :construction_worker:"
+    },
+    {
+      "value": "🏇",
+      "name": "horse racing :horse_racing:"
+    },
+    {
+      "value": "🚵",
+      "name": "person mountain biking :mountain_bicyclist:"
+    },
+    {
+      "value": "🕵",
+      "name": "detective :detective:"
+    },
+    {
+      "value": "🖖",
+      "name": "vulcan salute :vulcan_salute:"
+    },
+    {
+      "value": "🖕",
+      "name": "middle finger :middle_finger:"
+    },
+    {
+      "value": "🖐",
+      "name": "hand with fingers splayed :hand_with_fingers_splayed:"
+    },
+    {
+      "value": "✍",
+      "name": "writing hand :writing_hand:"
+    },
+    {
+      "value": "👁",
+      "name": "eye :eye:"
+    },
+    {
+      "value": "🏋",
+      "name": "person lifting weights :weightlifter:"
+    },
+    {
+      "value": "⛹",
+      "name": "person bouncing ball :basketballer:"
+    },
+    {
+      "value": "🕴",
+      "name": "man in suit levitating :man_in_suit:"
+    },
+    {
+      "value": "🏌",
+      "name": "person golfing :golfer:"
+    },
+    {
+      "value": "🛌",
+      "name": "person in bed :sleeping_accommodation:"
+    },
+    {
+      "value": "🗣",
+      "name": "speaking head :speaking_head:"
+    },
+    {
+      "value": "⛷",
+      "name": "skier :skier:"
+    },
+    {
+      "value": "✌",
+      "name": "victory hand :victory_hand:"
+    },
+    {
+      "value": "☝",
+      "name": "index pointing up :index_pointing_up:"
+    }
   ],
-  "gestures": [
-    "👋",
-    "🤚",
-    "✋",
-    "🖖",
-    "👌",
-    "🤌",
-    "🤏",
-    "✌️",
-    "🤞",
-    "🫰",
-    "🤟",
-    "🤘",
-    "🤙",
-    "👈",
-    "👉",
-    "👆",
-    "🖕",
-    "👇",
-    "👍",
-    "👎",
-    "✊",
-    "👊",
-    "🤛",
-    "🤜",
-    "👏",
-    "🙌",
-    "👐",
-    "🤲",
-    "🤝",
-    "🙏",
-    "💅",
-    "🤳",
-    "💪",
-    "🦾",
-    "🦵",
-    "🦿",
-    "🦶",
-    "👣",
-    "👂",
-    "🦻",
-    "👃",
-    "🫀",
-    "🫁",
-    "🧠",
-    "🦷",
-    "🦴",
-    "👀",
-    "👁",
-    "👅",
-    "👄",
-    "🫦",
-    "💋",
-    "🩸"
+  "Activities": [
+    {
+      "value": "✨",
+      "name": "sparkles :sparkles:"
+    },
+    {
+      "value": "🎉",
+      "name": "party popper :tada:"
+    },
+    {
+      "value": "🎈",
+      "name": "balloon :balloon:"
+    },
+    {
+      "value": "🎀",
+      "name": "ribbon :ribbon:"
+    },
+    {
+      "value": "⚽",
+      "name": "soccer ball :soccer:"
+    },
+    {
+      "value": "🎁",
+      "name": "wrapped gift :gift:"
+    },
+    {
+      "value": "🏀",
+      "name": "basketball :basketball:"
+    },
+    {
+      "value": "🎄",
+      "name": "Christmas tree :christmas_tree:"
+    },
+    {
+      "value": "🏆",
+      "name": "trophy :trophy:"
+    },
+    {
+      "value": "🎊",
+      "name": "confetti ball :confetti_ball:"
+    },
+    {
+      "value": "🏈",
+      "name": "american football :football:"
+    },
+    {
+      "value": "🔮",
+      "name": "crystal ball :crystal_ball:"
+    },
+    {
+      "value": "🎃",
+      "name": "jack-o-lantern :jack_o_lantern:"
+    },
+    {
+      "value": "🎮",
+      "name": "video game :video_game:"
+    },
+    {
+      "value": "🎆",
+      "name": "fireworks :fireworks:"
+    },
+    {
+      "value": "🎯",
+      "name": "direct hit :dart:"
+    },
+    {
+      "value": "🎨",
+      "name": "artist palette :artist_palette:"
+    },
+    {
+      "value": "🎐",
+      "name": "wind chime :wind_chime:"
+    },
+    {
+      "value": "🎭",
+      "name": "performing arts :performing_arts:"
+    },
+    {
+      "value": "🎇",
+      "name": "sparkler :sparkler:"
+    },
+    {
+      "value": "🎾",
+      "name": "tennis :tennis:"
+    },
+    {
+      "value": "⛳",
+      "name": "flag in hole :golf:"
+    },
+    {
+      "value": "🎣",
+      "name": "fishing pole :fishing_pole_and_fish:"
+    },
+    {
+      "value": "🎲",
+      "name": "game die :game_die:"
+    },
+    {
+      "value": "🎎",
+      "name": "Japanese dolls :dolls:"
+    },
+    {
+      "value": "🎱",
+      "name": "pool 8 ball :8ball:"
+    },
+    {
+      "value": "🎋",
+      "name": "tanabata tree :tanabata_tree:"
+    },
+    {
+      "value": "🎳",
+      "name": "bowling :bowling:"
+    },
+    {
+      "value": "🏉",
+      "name": "rugby football :rugby_football:"
+    },
+    {
+      "value": "🃏",
+      "name": "joker :black_joker:"
+    },
+    {
+      "value": "🎍",
+      "name": "pine decoration :bamboo:"
+    },
+    {
+      "value": "🎫",
+      "name": "ticket :ticket:"
+    },
+    {
+      "value": "🎏",
+      "name": "carp streamer :flags:"
+    },
+    {
+      "value": "🎿",
+      "name": "skis :ski:"
+    },
+    {
+      "value": "🎽",
+      "name": "running shirt :running_shirt_with_sash:"
+    },
+    {
+      "value": "🎑",
+      "name": "moon viewing ceremony :rice_scene:"
+    },
+    {
+      "value": "🎰",
+      "name": "slot machine :slot_machine:"
+    },
+    {
+      "value": "🎴",
+      "name": "flower playing cards :flower_playing_cards:"
+    },
+    {
+      "value": "🀄",
+      "name": "mahjong red dragon :mahjong:"
+    },
+    {
+      "value": "🖼",
+      "name": "framed picture :framed_picture:"
+    },
+    {
+      "value": "🕹",
+      "name": "joystick :joystick:"
+    },
+    {
+      "value": "🏅",
+      "name": "sports medal :medal:"
+    },
+    {
+      "value": "🎟",
+      "name": "admission tickets :admission_tickets:"
+    },
+    {
+      "value": "🎗",
+      "name": "reminder ribbon :reminder_ribbon:"
+    },
+    {
+      "value": "🎖",
+      "name": "military medal :military_medal:"
+    },
+    {
+      "value": "⛸",
+      "name": "ice skate :ice_skate:"
+    },
+    {
+      "value": "♠",
+      "name": "spade suit :spades:"
+    },
+    {
+      "value": "♥",
+      "name": "heart suit :hearts:"
+    },
+    {
+      "value": "♦",
+      "name": "diamond suit :diamonds:"
+    },
+    {
+      "value": "♣",
+      "name": "club suit :clubs:"
+    },
+    {
+      "value": "⚾",
+      "name": "baseball :baseball:"
+    }
   ],
-  "accessories": [
-    "🧳",
-    "🌂",
-    "🧵",
-    "🪡",
-    "🪢",
-    "🪭",
-    "🧶",
-    "👓",
-    "🕶",
-    "🥽",
-    "🥼",
-    "🦺",
-    "👔",
-    "👕",
-    "👖",
-    "🧣",
-    "🧤",
-    "🧥",
-    "🧦",
-    "👗",
-    "👘",
-    "🥻",
-    "🩱",
-    "🩲",
-    "🩳",
-    "👙",
-    "👚",
-    "👛",
-    "👜",
-    "👝",
-    "🎒",
-    "👞",
-    "👟",
-    "🥾",
-    "🥿",
-    "👠",
-    "👡",
-    "🩰",
-    "👢",
-    "👑",
-    "👒",
-    "🎩",
-    "🎓",
-    "🧢",
-    "🪖",
-    "💄",
-    "💍",
-    "💼"
+  "Symbols": [
+    {
+      "value": "♻",
+      "name": "recycling symbol :recycle:"
+    },
+    {
+      "value": "✅",
+      "name": "check mark button :white_check_mark:"
+    },
+    {
+      "value": "➡",
+      "name": "right arrow :arrow_right:"
+    },
+    {
+      "value": "🔴",
+      "name": "red circle :red_circle:"
+    },
+    {
+      "value": "🔞",
+      "name": "no one under eighteen :underage:"
+    },
+    {
+      "value": "❌",
+      "name": "cross mark :x:"
+    },
+    {
+      "value": "❗",
+      "name": "exclamation mark :exclamation:"
+    },
+    {
+      "value": "🆗",
+      "name": "OK button :ok:"
+    },
+    {
+      "value": "🔝",
+      "name": "TOP arrow :top:"
+    },
+    {
+      "value": "🔸",
+      "name": "small orange diamond :small_orange_diamond:"
+    },
+    {
+      "value": "⭕",
+      "name": "hollow red circle :o:"
+    },
+    {
+      "value": "⏩",
+      "name": "fast-forward button :fast_forward:"
+    },
+    {
+      "value": "🚮",
+      "name": "litter in bin sign :put_litter_in_its_place:"
+    },
+    {
+      "value": "🚫",
+      "name": "prohibited :no_entry_sign:"
+    },
+    {
+      "value": "🆘",
+      "name": "SOS button :sos:"
+    },
+    {
+      "value": "🛅",
+      "name": "left luggage :left_luggage:"
+    },
+    {
+      "value": "🆒",
+      "name": "COOL button :cool:"
+    },
+    {
+      "value": "❓",
+      "name": "question mark :question:"
+    },
+    {
+      "value": "🔙",
+      "name": "BACK arrow :back:"
+    },
+    {
+      "value": "🔵",
+      "name": "blue circle :blue_circle:"
+    },
+    {
+      "value": "⚫",
+      "name": "black circle :black_circle:"
+    },
+    {
+      "value": "⚪",
+      "name": "white circle :white_circle:"
+    },
+    {
+      "value": "🛃",
+      "name": "customs :customs:"
+    },
+    {
+      "value": "🔃",
+      "name": "clockwise vertical arrows :arrows_clockwise:"
+    },
+    {
+      "value": "🆙",
+      "name": "UP! button :up:"
+    },
+    {
+      "value": "🔹",
+      "name": "small blue diamond :small_blue_diamond:"
+    },
+    {
+      "value": "🚼",
+      "name": "baby symbol :baby_symbol:"
+    },
+    {
+      "value": "🆕",
+      "name": "NEW button :new:"
+    },
+    {
+      "value": "🆓",
+      "name": "FREE button :free:"
+    },
+    {
+      "value": "❕",
+      "name": "white exclamation mark :grey_exclamation:"
+    },
+    {
+      "value": "↖",
+      "name": "up-left arrow :arrow_upper_left:"
+    },
+    {
+      "value": "🔜",
+      "name": "SOON arrow :soon:"
+    },
+    {
+      "value": "🔁",
+      "name": "repeat button :repeat:"
+    },
+    {
+      "value": "🈹",
+      "name": "Japanese discount button :u5272:"
+    },
+    {
+      "value": "♋",
+      "name": "Cancer :cancer:"
+    },
+    {
+      "value": "🔱",
+      "name": "trident emblem :trident:"
+    },
+    {
+      "value": "↕",
+      "name": "up-down arrow :arrow_up_down:"
+    },
+    {
+      "value": "🔘",
+      "name": "radio button :radio_button:"
+    },
+    {
+      "value": "➰",
+      "name": "curly loop :curly_loop:"
+    },
+    {
+      "value": "🔄",
+      "name": "counterclockwise arrows button :arrows_counterclockwise:"
+    },
+    {
+      "value": "〰",
+      "name": "wavy dash :wavy_dash:"
+    },
+    {
+      "value": "⏪",
+      "name": "fast reverse button :rewind:"
+    },
+    {
+      "value": "🔺",
+      "name": "red triangle pointed up :small_red_triangle:"
+    },
+    {
+      "value": "🔆",
+      "name": "bright button :high_brightness:"
+    },
+    {
+      "value": "➕",
+      "name": "plus sign :heavy_plus_sign:"
+    },
+    {
+      "value": "🔻",
+      "name": "red triangle pointed down :small_red_triangle_down:"
+    },
+    {
+      "value": "📛",
+      "name": "name badge :name_badge:"
+    },
+    {
+      "value": "⛔",
+      "name": "no entry :no_entry:"
+    },
+    {
+      "value": "♒",
+      "name": "Aquarius :aquarius:"
+    },
+    {
+      "value": "💠",
+      "name": "diamond with a dot :diamond_shape_with_a_dot_inside:"
+    },
+    {
+      "value": "♈",
+      "name": "Aries :aries:"
+    },
+    {
+      "value": "🚺",
+      "name": "women’s room :womens:"
+    },
+    {
+      "value": "♏",
+      "name": "Scorpio :scorpius:"
+    },
+    {
+      "value": "➖",
+      "name": "minus sign :heavy_minus_sign:"
+    },
+    {
+      "value": "♐",
+      "name": "Sagittarius :sagittarius:"
+    },
+    {
+      "value": "🔷",
+      "name": "large blue diamond :large_blue_diamond:"
+    },
+    {
+      "value": "♌",
+      "name": "Leo :leo:"
+    },
+    {
+      "value": "♊",
+      "name": "Gemini :gemini:"
+    },
+    {
+      "value": "🔶",
+      "name": "large orange diamond :large_orange_diamond:"
+    },
+    {
+      "value": "♉",
+      "name": "Taurus :taurus:"
+    },
+    {
+      "value": "♓",
+      "name": "Pisces :pisces:"
+    },
+    {
+      "value": "♑",
+      "name": "Capricorn :capricorn:"
+    },
+    {
+      "value": "❎",
+      "name": "cross mark button :negative_squared_cross_mark:"
+    },
+    {
+      "value": "❔",
+      "name": "white question mark :grey_question:"
+    },
+    {
+      "value": "🔰",
+      "name": "Japanese symbol for beginner :beginner:"
+    },
+    {
+      "value": "🔛",
+      "name": "ON! arrow :on:"
+    },
+    {
+      "value": "🆔",
+      "name": "ID button :id:"
+    },
+    {
+      "value": "㊙",
+      "name": "Japanese secret button :secret:"
+    },
+    {
+      "value": "♎",
+      "name": "Libra :libra:"
+    },
+    {
+      "value": "♍",
+      "name": "Virgo :virgo:"
+    },
+    {
+      "value": "🔼",
+      "name": "upwards button :arrow_up_small:"
+    },
+    {
+      "value": "🔲",
+      "name": "black square button :black_square_button:"
+    },
+    {
+      "value": "📴",
+      "name": "mobile phone off :mobile_phone_off:"
+    },
+    {
+      "value": "㊗",
+      "name": "Japanese congratulations button :congratulations:"
+    },
+    {
+      "value": "🔳",
+      "name": "white square button :white_square_button:"
+    },
+    {
+      "value": "➿",
+      "name": "double curly loop :loop:"
+    },
+    {
+      "value": "ℹ",
+      "name": "information :information_source:"
+    },
+    {
+      "value": "🆚",
+      "name": "VS button :vs:"
+    },
+    {
+      "value": "🔚",
+      "name": "END arrow :end:"
+    },
+    {
+      "value": "◾",
+      "name": "black medium-small square :black_medium_small_square:"
+    },
+    {
+      "value": "🔯",
+      "name": "dotted six-pointed star :six_pointed_star:"
+    },
+    {
+      "value": "🚹",
+      "name": "men’s room :mens:"
+    },
+    {
+      "value": "⏫",
+      "name": "fast up button :arrow_double_up:"
+    },
+    {
+      "value": "▫",
+      "name": "white small square :white_small_square:"
+    },
+    {
+      "value": "🔟",
+      "name": "keycap: 10 :keycap_ten:"
+    },
+    {
+      "value": "📶",
+      "name": "antenna bars :signal_strength:"
+    },
+    {
+      "value": "◼",
+      "name": "black medium square :black_medium_square:"
+    },
+    {
+      "value": "🔅",
+      "name": "dim button :low_brightness:"
+    },
+    {
+      "value": "⏬",
+      "name": "fast down button :arrow_double_down:"
+    },
+    {
+      "value": "🔽",
+      "name": "downwards button :arrow_down_small:"
+    },
+    {
+      "value": "⬜",
+      "name": "white large square :white_large_square:"
+    },
+    {
+      "value": "♿",
+      "name": "wheelchair symbol :wheelchair:"
+    },
+    {
+      "value": "🏧",
+      "name": "ATM sign :atm:"
+    },
+    {
+      "value": "🎦",
+      "name": "cinema :cinema:"
+    },
+    {
+      "value": "🉐",
+      "name": "Japanese bargain button :ideograph_advantage:"
+    },
+    {
+      "value": "🆖",
+      "name": "NG button :ng:"
+    },
+    {
+      "value": "🚾",
+      "name": "water closet :wc:"
+    },
+    {
+      "value": "🔂",
+      "name": "repeat single button :repeat_one:"
+    },
+    {
+      "value": "📵",
+      "name": "no mobile phones :no_mobile_phones:"
+    },
+    {
+      "value": "🚭",
+      "name": "no smoking :no_smoking:"
+    },
+    {
+      "value": "⬛",
+      "name": "black large square :black_large_square:"
+    },
+    {
+      "value": "⛎",
+      "name": "Ophiuchus :ophiuchus:"
+    },
+    {
+      "value": "🚷",
+      "name": "no pedestrians :no_pedestrians:"
+    },
+    {
+      "value": "📳",
+      "name": "vibration mode :vibration_mode:"
+    },
+    {
+      "value": "🈳",
+      "name": "Japanese vacancy button :u7a7a:"
+    },
+    {
+      "value": "🆎",
+      "name": "AB button (blood type) :ab:"
+    },
+    {
+      "value": "◽",
+      "name": "white medium-small square :white_medium_small_square:"
+    },
+    {
+      "value": "🆑",
+      "name": "CL button :cl:"
+    },
+    {
+      "value": "🈺",
+      "name": "Japanese open for business button :u55b6:"
+    },
+    {
+      "value": "🚻",
+      "name": "restroom :restroom:"
+    },
+    {
+      "value": "🈶",
+      "name": "Japanese not free of charge button :u6709:"
+    },
+    {
+      "value": "🈸",
+      "name": "Japanese application button :u7533:"
+    },
+    {
+      "value": "🈷",
+      "name": "Japanese monthly amount button :u6708:"
+    },
+    {
+      "value": "🔢",
+      "name": "input numbers :input_numbers:"
+    },
+    {
+      "value": "🈲",
+      "name": "Japanese prohibited button :u7981:"
+    },
+    {
+      "value": "🈵",
+      "name": "Japanese no vacancy button :u6e80:"
+    },
+    {
+      "value": "🚸",
+      "name": "children crossing :children_crossing:"
+    },
+    {
+      "value": "🉑",
+      "name": "Japanese acceptable button :accept:"
+    },
+    {
+      "value": "🈴",
+      "name": "Japanese passing grade button :u5408:"
+    },
+    {
+      "value": "🔀",
+      "name": "shuffle tracks button :twisted_rightwards_arrows:"
+    },
+    {
+      "value": "🚰",
+      "name": "potable water :potable_water:"
+    },
+    {
+      "value": "🔤",
+      "name": "input latin letters :abc:"
+    },
+    {
+      "value": "🚯",
+      "name": "no littering :do_not_litter:"
+    },
+    {
+      "value": "➗",
+      "name": "division sign :heavy_division_sign:"
+    },
+    {
+      "value": "🔠",
+      "name": "input latin uppercase :capital_abcd:"
+    },
+    {
+      "value": "🔣",
+      "name": "input symbols :symbols:"
+    },
+    {
+      "value": "🔡",
+      "name": "input latin lowercase :abcd:"
+    },
+    {
+      "value": "🈁",
+      "name": "Japanese here button :koko:"
+    },
+    {
+      "value": "🛂",
+      "name": "passport control :passport_control:"
+    },
+    {
+      "value": "🚱",
+      "name": "non-potable water :non-potable_water:"
+    },
+    {
+      "value": "🛄",
+      "name": "baggage claim :baggage_claim:"
+    },
+    {
+      "value": "🚳",
+      "name": "no bicycles :no_bicycles:"
+    },
+    {
+      "value": "⚜",
+      "name": "fleur-de-lis :fleur-de-lis:"
+    },
+    {
+      "value": "⚛",
+      "name": "atom symbol :atom:"
+    },
+    {
+      "value": "☯",
+      "name": "yin yang :yin_yang:"
+    },
+    {
+      "value": "☮",
+      "name": "peace symbol :peace:"
+    },
+    {
+      "value": "☣",
+      "name": "biohazard :biohazard:"
+    },
+    {
+      "value": "☢",
+      "name": "radioactive :radioactive:"
+    },
+    {
+      "value": "⏺",
+      "name": "record button :record_button:"
+    },
+    {
+      "value": "⏹",
+      "name": "stop button :stop_button:"
+    },
+    {
+      "value": "⏸",
+      "name": "pause button :pause_button:"
+    },
+    {
+      "value": "⏯",
+      "name": "play or pause button :play_pause:"
+    },
+    {
+      "value": "⏮",
+      "name": "last track button :track_previous:"
+    },
+    {
+      "value": "⏭",
+      "name": "next track button :track_next:"
+    },
+    {
+      "value": "↔",
+      "name": "left-right arrow :left_right_arrow:"
+    },
+    {
+      "value": "©",
+      "name": "copyright :copyright:"
+    },
+    {
+      "value": "®",
+      "name": "registered :registered:"
+    },
+    {
+      "value": "™",
+      "name": "trade mark :tm:"
+    },
+    {
+      "value": "#⃣",
+      "name": "keycap: # :hash:"
+    },
+    {
+      "value": "*⃣",
+      "name": "keycap: # :asterisk:"
+    },
+    {
+      "value": "0⃣",
+      "name": "keycap: 0 :zero:"
+    },
+    {
+      "value": "1⃣",
+      "name": "keycap: 1 :one:"
+    },
+    {
+      "value": "2⃣",
+      "name": "keycap: 2 :two:"
+    },
+    {
+      "value": "3⃣",
+      "name": "keycap: 3 :three:"
+    },
+    {
+      "value": "4⃣",
+      "name": "keycap: 4 :four:"
+    },
+    {
+      "value": "5⃣",
+      "name": "keycap: 5 :five:"
+    },
+    {
+      "value": "6⃣",
+      "name": "keycap: 6 :six:"
+    },
+    {
+      "value": "7⃣",
+      "name": "keycap: 7 :seven:"
+    },
+    {
+      "value": "8⃣",
+      "name": "keycap: 8 :eight:"
+    },
+    {
+      "value": "9⃣",
+      "name": "keycap: 9 :nine:"
+    },
+    {
+      "value": "⚠",
+      "name": "warning :warning:"
+    },
+    {
+      "value": "⬆",
+      "name": "up arrow :up_arrow:"
+    },
+    {
+      "value": "↗",
+      "name": "up-right arrow :upright_arrow:"
+    },
+    {
+      "value": "↘",
+      "name": "down-right arrow :downright_arrow:"
+    },
+    {
+      "value": "⬇",
+      "name": "down arrow :down_arrow:"
+    },
+    {
+      "value": "↙",
+      "name": "down-left arrow :downleft_arrow:"
+    },
+    {
+      "value": "⬅",
+      "name": "left arrow :left_arrow:"
+    },
+    {
+      "value": "↩",
+      "name": "right arrow curving left :right_arrow_curving_left:"
+    },
+    {
+      "value": "↪",
+      "name": "left arrow curving right :left_arrow_curving_right:"
+    },
+    {
+      "value": "⤴",
+      "name": "right arrow curving up :right_arrow_curving_up:"
+    },
+    {
+      "value": "⤵",
+      "name": "right arrow curving down :right_arrow_curving_down:"
+    },
+    {
+      "value": "▶",
+      "name": "play button :play_button:"
+    },
+    {
+      "value": "◀",
+      "name": "reverse button :reverse_button:"
+    },
+    {
+      "value": "⏏",
+      "name": "eject button :eject_button:"
+    },
+    {
+      "value": "⚕",
+      "name": "medical symbol :medical_symbol:"
+    },
+    {
+      "value": "♾",
+      "name": "infinity :infinity:"
+    },
+    {
+      "value": "☑",
+      "name": "check box with check :check_box_with_check:"
+    },
+    {
+      "value": "✔",
+      "name": "check mark :check_mark:"
+    },
+    {
+      "value": "✖",
+      "name": "multiplication sign :multiplication_sign:"
+    },
+    {
+      "value": "〽",
+      "name": "part alternation mark :part_alternation_mark:"
+    },
+    {
+      "value": "✳",
+      "name": "eight-spoked asterisk :eightspoked_asterisk:"
+    },
+    {
+      "value": "✴",
+      "name": "eight-pointed star :eightpointed_star:"
+    },
+    {
+      "value": "❇",
+      "name": "sparkle :sparkle:"
+    },
+    {
+      "value": "‼",
+      "name": "double exclamation mark :double_exclamation_mark:"
+    },
+    {
+      "value": "⁉",
+      "name": "exclamation question mark :exclamation_question_mark:"
+    },
+    {
+      "value": "🅰",
+      "name": "A button (blood type) :A_button_blood_type:"
+    },
+    {
+      "value": "🅱",
+      "name": "B button (blood type) :B_button_blood_type:"
+    },
+    {
+      "value": "Ⓜ",
+      "name": "circled M :circled_M:"
+    },
+    {
+      "value": "🅾",
+      "name": "O button (blood type) :O_button_blood_type:"
+    },
+    {
+      "value": "🅿",
+      "name": "P button :P_button:"
+    },
+    {
+      "value": "🈂",
+      "name": "Japanese service charge button :Japanese_service_charge_button:"
+    },
+    {
+      "value": "🈯",
+      "name": "Japanese reserved button :Japanese_reserved_button:"
+    },
+    {
+      "value": "🈚",
+      "name": "Japanese free of charge button :Japanese_free_of_charge_button:"
+    },
+    {
+      "value": "▪",
+      "name": "black small square :black_small_square:"
+    }
   ],
-  "animals": [
-    "🐶",
-    "🐱",
-    "🐭",
-    "🐹",
-    "🐰",
-    "🦊",
-    "🐻",
-    "🐼",
-    "🐨",
-    "🐯",
-    "🦁",
-    "🐮",
-    "🐷",
-    "🐽",
-    "🐸",
-    "🐵",
-    "🙈",
-    "🙉",
-    "🙊",
-    "🐒",
-    "🐔",
-    "🐧",
-    "🐦",
-    "🐤",
-    "🐣",
-    "🐥",
-    "🦆",
-    "🦅",
-    "🦉",
-    "🦇",
-    "🐺",
-    "🐗",
-    "🐴",
-    "🦄",
-    "🐝",
-    "🪱",
-    "🐛",
-    "🦋",
-    "🐌",
-    "🐞",
-    "🐜",
-    "🪰",
-    "🪲",
-    "🪳",
-    "🦟",
-    "🦗",
-    "🕷",
-    "🕸",
-    "🦂",
-    "🐢",
-    "🐍",
-    "🦎",
-    "🦖",
-    "🦕",
-    "🐙",
-    "🦑",
-    "🦐",
-    "🦞",
-    "🦀",
-    "🪸",
-    "🐡",
-    "🐠",
-    "🐟",
-    "🐬",
-    "🐳",
-    "🐋",
-    "🦈",
-    "🐊",
-    "🐅",
-    "🐆",
-    "🦓",
-    "🦍",
-    "🦧",
-    "🦣",
-    "🐘",
-    "🦛",
-    "🦏",
-    "🐪",
-    "🐫",
-    "🦒",
-    "🦘",
-    "🦬",
-    "🐃",
-    "🐂",
-    "🐄",
-    "🐎",
-    "🐖",
-    "🐏",
-    "🐑",
-    "🦙",
-    "🐐",
-    "🦌",
-    "🐕",
-    "🐩",
-    "🦮",
-    "🐈",
-    "🪶",
-    "🐓",
-    "🦃",
-    "🦤",
-    "🦚",
-    "🦜",
-    "🦢",
-    "🦩",
-    "🕊",
-    "🐇",
-    "🦝",
-    "🦨",
-    "🦡",
-    "🦫",
-    "🦦",
-    "🦥",
-    "🐁",
-    "🐀",
-    "🐿",
-    "🦔",
-    "🐾",
-    "🐉",
-    "🐲",
-    "🌵",
-    "🎄",
-    "🌲",
-    "🌳",
-    "🌴",
-    "🪹",
-    "🪺",
-    "🪵",
-    "🌱",
-    "🌿",
-    "☘️",
-    "🍀",
-    "🎍",
-    "🪴",
-    "🎋",
-    "🍃",
-    "🍂",
-    "🍁",
-    "🍄",
-    "🐚",
-    "🪨",
-    "🌾",
-    "💐",
-    "🌷",
-    "🪷",
-    "🌹",
-    "🥀",
-    "🌺",
-    "🌸",
-    "🪻",
-    "🌼",
-    "🌻",
-    "🌞",
-    "🌝",
-    "🌛",
-    "🌜",
-    "🌚",
-    "🌕",
-    "🌖",
-    "🌗",
-    "🌘",
-    "🌑",
-    "🌒",
-    "🌓",
-    "🌔",
-    "🌙",
-    "🌎",
-    "🌍",
-    "🌏",
-    "🪐",
-    "💫",
-    "⭐️",
-    "🌟",
-    "✨",
-    "💥",
-    "🔥",
-    "🌪",
-    "🌈",
-    "🌤",
-    "⛅️",
-    "🌥",
-    "🌦",
-    "🌧",
-    "🌩",
-    "🌨",
-    "⛄️",
-    "🌬",
-    "💨",
-    "💧",
-    "💦",
-    "🫧",
-    "🌊"
+  "Objects": [
+    {
+      "value": "🎶",
+      "name": "musical notes :notes:"
+    },
+    {
+      "value": "📷",
+      "name": "camera :camera:"
+    },
+    {
+      "value": "👑",
+      "name": "crown :crown:"
+    },
+    {
+      "value": "🎧",
+      "name": "headphone :headphones:"
+    },
+    {
+      "value": "🔫",
+      "name": "pistol :gun:"
+    },
+    {
+      "value": "🎵",
+      "name": "musical note :musical_note:"
+    },
+    {
+      "value": "💎",
+      "name": "gem stone :gem:"
+    },
+    {
+      "value": "🎤",
+      "name": "microphone :microphone:"
+    },
+    {
+      "value": "🎥",
+      "name": "movie camera :movie_camera:"
+    },
+    {
+      "value": "💰",
+      "name": "money bag :moneybag:"
+    },
+    {
+      "value": "💍",
+      "name": "ring :ring:"
+    },
+    {
+      "value": "💸",
+      "name": "money with wings :money_with_wings:"
+    },
+    {
+      "value": "🎬",
+      "name": "clapper board :clapper:"
+    },
+    {
+      "value": "🎼",
+      "name": "musical score :musical_score:"
+    },
+    {
+      "value": "🎸",
+      "name": "guitar :guitar:"
+    },
+    {
+      "value": "📲",
+      "name": "mobile phone with arrow :calling:"
+    },
+    {
+      "value": "📱",
+      "name": "mobile phone :iphone:"
+    },
+    {
+      "value": "📹",
+      "name": "video camera :video_camera:"
+    },
+    {
+      "value": "🚬",
+      "name": "cigarette :smoking:"
+    },
+    {
+      "value": "📕",
+      "name": "closed book :closed_book:"
+    },
+    {
+      "value": "💉",
+      "name": "syringe :syringe:"
+    },
+    {
+      "value": "📺",
+      "name": "television :tv:"
+    },
+    {
+      "value": "💊",
+      "name": "pill :pill:"
+    },
+    {
+      "value": "💿",
+      "name": "optical disk :cd:"
+    },
+    {
+      "value": "💄",
+      "name": "lipstick :lipstick:"
+    },
+    {
+      "value": "📝",
+      "name": "memo :memo:"
+    },
+    {
+      "value": "🔊",
+      "name": "speaker high volume :loud_sound:"
+    },
+    {
+      "value": "📚",
+      "name": "books :books:"
+    },
+    {
+      "value": "📢",
+      "name": "loudspeaker :loudspeaker:"
+    },
+    {
+      "value": "🎓",
+      "name": "graduation cap :mortar_board:"
+    },
+    {
+      "value": "👠",
+      "name": "high-heeled shoe :high_heel:"
+    },
+    {
+      "value": "🔑",
+      "name": "key :key:"
+    },
+    {
+      "value": "👙",
+      "name": "bikini :bikini:"
+    },
+    {
+      "value": "✏",
+      "name": "pencil :pencil2:"
+    },
+    {
+      "value": "📞",
+      "name": "telephone receiver :telephone_receiver:"
+    },
+    {
+      "value": "💵",
+      "name": "dollar banknote :dollar:"
+    },
+    {
+      "value": "📖",
+      "name": "open book :book:"
+    },
+    {
+      "value": "💻",
+      "name": "laptop :computer:"
+    },
+    {
+      "value": "💡",
+      "name": "light bulb :bulb:"
+    },
+    {
+      "value": "🔐",
+      "name": "locked with key :closed_lock_with_key:"
+    },
+    {
+      "value": "👓",
+      "name": "glasses :eyeglasses:"
+    },
+    {
+      "value": "📍",
+      "name": "round pushpin :round_pushpin:"
+    },
+    {
+      "value": "👟",
+      "name": "running shoe :athletic_shoe:"
+    },
+    {
+      "value": "🚿",
+      "name": "shower :shower:"
+    },
+    {
+      "value": "🎩",
+      "name": "top hat :tophat:"
+    },
+    {
+      "value": "🔋",
+      "name": "battery :battery:"
+    },
+    {
+      "value": "🗿",
+      "name": "moai :moyai:"
+    },
+    {
+      "value": "📣",
+      "name": "megaphone :mega:"
+    },
+    {
+      "value": "👗",
+      "name": "dress :dress:"
+    },
+    {
+      "value": "🔗",
+      "name": "link :link:"
+    },
+    {
+      "value": "📌",
+      "name": "pushpin :pushpin:"
+    },
+    {
+      "value": "🔌",
+      "name": "electric plug :electric_plug:"
+    },
+    {
+      "value": "📻",
+      "name": "radio :radio:"
+    },
+    {
+      "value": "🔒",
+      "name": "locked :lock:"
+    },
+    {
+      "value": "📥",
+      "name": "inbox tray :inbox_tray:"
+    },
+    {
+      "value": "🔨",
+      "name": "hammer :hammer:"
+    },
+    {
+      "value": "👖",
+      "name": "jeans :jeans:"
+    },
+    {
+      "value": "🎹",
+      "name": "musical keyboard :musical_keyboard:"
+    },
+    {
+      "value": "🔓",
+      "name": "unlocked :unlock:"
+    },
+    {
+      "value": "✒",
+      "name": "black nib :black_nib:"
+    },
+    {
+      "value": "💲",
+      "name": "heavy dollar sign :heavy_dollar_sign:"
+    },
+    {
+      "value": "👔",
+      "name": "necktie :necktie:"
+    },
+    {
+      "value": "📀",
+      "name": "dvd :dvd:"
+    },
+    {
+      "value": "👕",
+      "name": "t-shirt :shirt:"
+    },
+    {
+      "value": "🔔",
+      "name": "bell :bell:"
+    },
+    {
+      "value": "🚪",
+      "name": "door :door:"
+    },
+    {
+      "value": "📩",
+      "name": "envelope with arrow :envelope_with_arrow:"
+    },
+    {
+      "value": "🎷",
+      "name": "saxophone :saxophone:"
+    },
+    {
+      "value": "👒",
+      "name": "woman’s hat :womans_hat:"
+    },
+    {
+      "value": "👞",
+      "name": "man’s shoe :mans_shoe:"
+    },
+    {
+      "value": "👜",
+      "name": "handbag :handbag:"
+    },
+    {
+      "value": "🎺",
+      "name": "trumpet :trumpet:"
+    },
+    {
+      "value": "🚽",
+      "name": "toilet :toilet:"
+    },
+    {
+      "value": "🎻",
+      "name": "violin :violin:"
+    },
+    {
+      "value": "💳",
+      "name": "credit card :credit_card:"
+    },
+    {
+      "value": "👛",
+      "name": "purse :purse:"
+    },
+    {
+      "value": "📅",
+      "name": "calendar :date:"
+    },
+    {
+      "value": "👘",
+      "name": "kimono :kimono:"
+    },
+    {
+      "value": "🔎",
+      "name": "magnifying glass tilted right :mag_right:"
+    },
+    {
+      "value": "🔍",
+      "name": "magnifying glass tilted left :mag:"
+    },
+    {
+      "value": "📦",
+      "name": "package :package:"
+    },
+    {
+      "value": "📆",
+      "name": "tear-off calendar :calendar:"
+    },
+    {
+      "value": "👢",
+      "name": "woman’s boot :boot:"
+    },
+    {
+      "value": "🎒",
+      "name": "backpack :school_satchel:"
+    },
+    {
+      "value": "💷",
+      "name": "pound banknote :pound:"
+    },
+    {
+      "value": "👡",
+      "name": "woman’s sandal :sandal:"
+    },
+    {
+      "value": "💼",
+      "name": "briefcase :briefcase:"
+    },
+    {
+      "value": "📰",
+      "name": "newspaper :newspaper:"
+    },
+    {
+      "value": "🔦",
+      "name": "flashlight :flashlight:"
+    },
+    {
+      "value": "💽",
+      "name": "computer disk :minidisc:"
+    },
+    {
+      "value": "📓",
+      "name": "notebook :notebook:"
+    },
+    {
+      "value": "🔕",
+      "name": "bell with slash :no_bell:"
+    },
+    {
+      "value": "📈",
+      "name": "chart increasing :chart_with_upwards_trend:"
+    },
+    {
+      "value": "📡",
+      "name": "satellite antenna :satellite:"
+    },
+    {
+      "value": "💶",
+      "name": "euro banknote :euro:"
+    },
+    {
+      "value": "👚",
+      "name": "woman’s clothes :womans_clothes:"
+    },
+    {
+      "value": "📒",
+      "name": "ledger :ledger:"
+    },
+    {
+      "value": "📼",
+      "name": "videocassette :vhs:"
+    },
+    {
+      "value": "💴",
+      "name": "yen banknote :yen:"
+    },
+    {
+      "value": "🔇",
+      "name": "muted speaker :mute:"
+    },
+    {
+      "value": "📎",
+      "name": "paperclip :paperclip:"
+    },
+    {
+      "value": "🔭",
+      "name": "telescope :telescope:"
+    },
+    {
+      "value": "📘",
+      "name": "blue book :blue_book:"
+    },
+    {
+      "value": "📮",
+      "name": "postbox :postbox:"
+    },
+    {
+      "value": "📧",
+      "name": "e-mail :e-mail:"
+    },
+    {
+      "value": "🔩",
+      "name": "nut and bolt :nut_and_bolt:"
+    },
+    {
+      "value": "🏮",
+      "name": "red paper lantern :izakaya_lantern:"
+    },
+    {
+      "value": "📬",
+      "name": "open mailbox with raised flag :mailbox_with_mail:"
+    },
+    {
+      "value": "📉",
+      "name": "chart decreasing :chart_with_downwards_trend:"
+    },
+    {
+      "value": "📗",
+      "name": "green book :green_book:"
+    },
+    {
+      "value": "📋",
+      "name": "clipboard :clipboard:"
+    },
+    {
+      "value": "🛁",
+      "name": "bathtub :bathtub:"
+    },
+    {
+      "value": "📜",
+      "name": "scroll :scroll:"
+    },
+    {
+      "value": "🔧",
+      "name": "wrench :wrench:"
+    },
+    {
+      "value": "📄",
+      "name": "page facing up :page_facing_up:"
+    },
+    {
+      "value": "📊",
+      "name": "bar chart :bar_chart:"
+    },
+    {
+      "value": "🔬",
+      "name": "microscope :microscope:"
+    },
+    {
+      "value": "🔖",
+      "name": "bookmark :bookmark:"
+    },
+    {
+      "value": "📑",
+      "name": "bookmark tabs :bookmark_tabs:"
+    },
+    {
+      "value": "👝",
+      "name": "clutch bag :pouch:"
+    },
+    {
+      "value": "📃",
+      "name": "page with curl :page_with_curl:"
+    },
+    {
+      "value": "📠",
+      "name": "fax machine :fax:"
+    },
+    {
+      "value": "💱",
+      "name": "currency exchange :currency_exchange:"
+    },
+    {
+      "value": "🔉",
+      "name": "speaker medium volume :sound:"
+    },
+    {
+      "value": "💹",
+      "name": "chart increasing with yen :chart:"
+    },
+    {
+      "value": "💾",
+      "name": "floppy disk :floppy_disk:"
+    },
+    {
+      "value": "🔈",
+      "name": "speaker low volume :speaker:"
+    },
+    {
+      "value": "📨",
+      "name": "incoming envelope :incoming_envelope:"
+    },
+    {
+      "value": "📙",
+      "name": "orange book :orange_book:"
+    },
+    {
+      "value": "📐",
+      "name": "triangular ruler :triangular_ruler:"
+    },
+    {
+      "value": "📔",
+      "name": "notebook with decorative cover :notebook_with_decorative_cover:"
+    },
+    {
+      "value": "📯",
+      "name": "postal horn :postal_horn:"
+    },
+    {
+      "value": "📏",
+      "name": "straight ruler :straight_ruler:"
+    },
+    {
+      "value": "📟",
+      "name": "pager :pager:"
+    },
+    {
+      "value": "🔏",
+      "name": "locked with pen :lock_with_ink_pen:"
+    },
+    {
+      "value": "📤",
+      "name": "outbox tray :outbox_tray:"
+    },
+    {
+      "value": "📫",
+      "name": "closed mailbox with raised flag :mailbox:"
+    },
+    {
+      "value": "📂",
+      "name": "open file folder :open_file_folder:"
+    },
+    {
+      "value": "📁",
+      "name": "file folder :file_folder:"
+    },
+    {
+      "value": "📇",
+      "name": "card index :card_index:"
+    },
+    {
+      "value": "📪",
+      "name": "closed mailbox with lowered flag :mailbox_closed:"
+    },
+    {
+      "value": "📭",
+      "name": "open mailbox with lowered flag :mailbox_with_no_mail:"
+    },
+    {
+      "value": "🕶",
+      "name": "sunglasses :dark_sunglasses:"
+    },
+    {
+      "value": "⚱",
+      "name": "funeral urn :funeral_urn:"
+    },
+    {
+      "value": "⚰",
+      "name": "coffin :coffin:"
+    },
+    {
+      "value": "⚙",
+      "name": "gear :gear:"
+    },
+    {
+      "value": "⚗",
+      "name": "alembic :alembic:"
+    },
+    {
+      "value": "⚖",
+      "name": "balance scale :scales:"
+    },
+    {
+      "value": "⚔",
+      "name": "crossed swords :crossed_swords:"
+    },
+    {
+      "value": "⌨",
+      "name": "keyboard :keyboard:"
+    },
+    {
+      "value": "🛡",
+      "name": "shield :shield:"
+    },
+    {
+      "value": "🛠",
+      "name": "hammer and wrench :hammer_and_wrench:"
+    },
+    {
+      "value": "🛏",
+      "name": "bed :bed:"
+    },
+    {
+      "value": "🛍",
+      "name": "shopping bags :shopping_bags:"
+    },
+    {
+      "value": "🛋",
+      "name": "couch and lamp :couch_and_lamp:"
+    },
+    {
+      "value": "🗳",
+      "name": "ballot box with ballot :ballot_box:"
+    },
+    {
+      "value": "🗡",
+      "name": "dagger :dagger:"
+    },
+    {
+      "value": "🗞",
+      "name": "rolled-up newspaper :rolledup_newspaper:"
+    },
+    {
+      "value": "🗝",
+      "name": "old key :old_key:"
+    },
+    {
+      "value": "🗜",
+      "name": "clamp :compression:"
+    },
+    {
+      "value": "🗓",
+      "name": "spiral calendar :spiral_calendar:"
+    },
+    {
+      "value": "🗒",
+      "name": "spiral notepad :spiral_notepad:"
+    },
+    {
+      "value": "🗑",
+      "name": "wastebasket :wastebasket:"
+    },
+    {
+      "value": "🗄",
+      "name": "file cabinet :file_cabinet:"
+    },
+    {
+      "value": "🗃",
+      "name": "card file box :card_file_box:"
+    },
+    {
+      "value": "🗂",
+      "name": "card index dividers :card_index_dividers:"
+    },
+    {
+      "value": "🖲",
+      "name": "trackball :trackball:"
+    },
+    {
+      "value": "🖱",
+      "name": "computer mouse :computer_mouse:"
+    },
+    {
+      "value": "🖨",
+      "name": "printer :printer:"
+    },
+    {
+      "value": "🖥",
+      "name": "desktop computer :desktop_computer:"
+    },
+    {
+      "value": "🖍",
+      "name": "crayon :crayon:"
+    },
+    {
+      "value": "🖌",
+      "name": "paintbrush :paintbrush:"
+    },
+    {
+      "value": "🖋",
+      "name": "fountain pen :fountain_pen:"
+    },
+    {
+      "value": "🖊",
+      "name": "pen :pen:"
+    },
+    {
+      "value": "🖇",
+      "name": "linked paperclips :linked_paperclips:"
+    },
+    {
+      "value": "🕯",
+      "name": "candle :candle:"
+    },
+    {
+      "value": "📽",
+      "name": "film projector :film_projector:"
+    },
+    {
+      "value": "📸",
+      "name": "camera with flash :camera_with_flash:"
+    },
+    {
+      "value": "🏷",
+      "name": "label :label:"
+    },
+    {
+      "value": "🎞",
+      "name": "film frames :film_frames:"
+    },
+    {
+      "value": "🎛",
+      "name": "control knobs :control_knobs:"
+    },
+    {
+      "value": "🎚",
+      "name": "level slider :level_slider:"
+    },
+    {
+      "value": "🎙",
+      "name": "studio microphone :studio_microphone:"
+    },
+    {
+      "value": "⛓",
+      "name": "chains :chains:"
+    },
+    {
+      "value": "⛏",
+      "name": "pick :pick:"
+    },
+    {
+      "value": "⚒",
+      "name": "hammer and pick :hammer_and_pick:"
+    },
+    {
+      "value": "⛑",
+      "name": "rescue worker’s helmet :rescue_worker’s_helmet:"
+    },
+    {
+      "value": "☎",
+      "name": "telephone :telephone:"
+    },
+    {
+      "value": "✉",
+      "name": "envelope :envelope:"
+    },
+    {
+      "value": "✂",
+      "name": "scissors :scissors:"
+    }
   ],
-  "food": [
-    "🍏",
-    "🍎",
-    "🍐",
-    "🍊",
-    "🍋",
-    "🍌",
-    "🍉",
-    "🍇",
-    "🍓",
-    "🫐",
-    "🍈",
-    "🍒",
-    "🍑",
-    "🥭",
-    "🍍",
-    "🥥",
-    "🥝",
-    "🍅",
-    "🍆",
-    "🥑",
-    "🥦",
-    "🫛",
-    "🥬",
-    "🥒",
-    "🌶",
-    "🫑",
-    "🌽",
-    "🥕",
-    "🫒",
-    "🧄",
-    "🧅",
-    "🫚",
-    "🥔",
-    "🍠",
-    "🫘",
-    "🥐",
-    "🥯",
-    "🍞",
-    "🥖",
-    "🥨",
-    "🧀",
-    "🥚",
-    "🍳",
-    "🧈",
-    "🥞",
-    "🧇",
-    "🥓",
-    "🥩",
-    "🍗",
-    "🍖",
-    "🦴",
-    "🌭",
-    "🍔",
-    "🍟",
-    "🍕",
-    "🥪",
-    "🥙",
-    "🧆",
-    "🌮",
-    "🌯",
-    "🥗",
-    "🥘",
-    "🫕",
-    "🥫",
-    "🍝",
-    "🍜",
-    "🍲",
-    "🍛",
-    "🍣",
-    "🍱",
-    "🥟",
-    "🦪",
-    "🍤",
-    "🍙",
-    "🍚",
-    "🍘",
-    "🍥",
-    "🥠",
-    "🥮",
-    "🍢",
-    "🍡",
-    "🍧",
-    "🍨",
-    "🍦",
-    "🥧",
-    "🧁",
-    "🍰",
-    "🎂",
-    "🍮",
-    "🍭",
-    "🍬",
-    "🍫",
-    "🍿",
-    "🍩",
-    "🍪",
-    "🌰",
-    "🥜",
-    "🍯",
-    "🥛",
-    "🍼",
-    "🫖",
-    "☕️",
-    "🍵",
-    "🧃",
-    "🥤",
-    "🧋",
-    "🫙",
-    "🍶",
-    "🍺",
-    "🍻",
-    "🥂",
-    "🍷",
-    "🫗",
-    "🥃",
-    "🍸",
-    "🍹",
-    "🧉",
-    "🍾",
-    "🧊",
-    "🥄",
-    "🍴",
-    "🍽",
-    "🥣",
-    "🥡",
-    "🥢",
-    "🧂"
+  "Animals & Nature": [
+    {
+      "value": "🌸",
+      "name": "cherry blossom :cherry_blossom:"
+    },
+    {
+      "value": "🌹",
+      "name": "rose :rose:"
+    },
+    {
+      "value": "🍃",
+      "name": "leaf fluttering in wind :leaves:"
+    },
+    {
+      "value": "🐧",
+      "name": "penguin :penguin:"
+    },
+    {
+      "value": "🍀",
+      "name": "four leaf clover :four_leaf_clover:"
+    },
+    {
+      "value": "🌺",
+      "name": "hibiscus :hibiscus:"
+    },
+    {
+      "value": "🌴",
+      "name": "palm tree :palm_tree:"
+    },
+    {
+      "value": "🌻",
+      "name": "sunflower :sunflower:"
+    },
+    {
+      "value": "💐",
+      "name": "bouquet :bouquet:"
+    },
+    {
+      "value": "🐶",
+      "name": "dog face :dog:"
+    },
+    {
+      "value": "🌿",
+      "name": "herb :herb:"
+    },
+    {
+      "value": "🍂",
+      "name": "fallen leaf :fallen_leaf:"
+    },
+    {
+      "value": "🌷",
+      "name": "tulip :tulip:"
+    },
+    {
+      "value": "🐱",
+      "name": "cat face :cat:"
+    },
+    {
+      "value": "🌵",
+      "name": "cactus :cactus:"
+    },
+    {
+      "value": "🍁",
+      "name": "maple leaf :maple_leaf:"
+    },
+    {
+      "value": "🌼",
+      "name": "blossom :blossom:"
+    },
+    {
+      "value": "🐷",
+      "name": "pig face :pig:"
+    },
+    {
+      "value": "🐝",
+      "name": "honeybee :bee:"
+    },
+    {
+      "value": "🐼",
+      "name": "panda :panda_face:"
+    },
+    {
+      "value": "🐾",
+      "name": "paw prints :feet:"
+    },
+    {
+      "value": "🐰",
+      "name": "rabbit face :rabbit:"
+    },
+    {
+      "value": "🐍",
+      "name": "snake :snake:"
+    },
+    {
+      "value": "🐢",
+      "name": "turtle :turtle:"
+    },
+    {
+      "value": "🐸",
+      "name": "frog :frog:"
+    },
+    {
+      "value": "🐣",
+      "name": "hatching chick :hatching_chick:"
+    },
+    {
+      "value": "🐻",
+      "name": "bear :bear:"
+    },
+    {
+      "value": "🐯",
+      "name": "tiger face :tiger:"
+    },
+    {
+      "value": "🌾",
+      "name": "sheaf of rice :ear_of_rice:"
+    },
+    {
+      "value": "🐙",
+      "name": "octopus :octopus:"
+    },
+    {
+      "value": "🐳",
+      "name": "spouting whale :whale:"
+    },
+    {
+      "value": "🐬",
+      "name": "dolphin :dolphin:"
+    },
+    {
+      "value": "🐥",
+      "name": "front-facing baby chick :hatched_chick:"
+    },
+    {
+      "value": "🐒",
+      "name": "monkey :monkey:"
+    },
+    {
+      "value": "🐘",
+      "name": "elephant :elephant:"
+    },
+    {
+      "value": "🌱",
+      "name": "seedling :seedling:"
+    },
+    {
+      "value": "🐦",
+      "name": "bird :bird:"
+    },
+    {
+      "value": "🐐",
+      "name": "goat :goat:"
+    },
+    {
+      "value": "🐠",
+      "name": "tropical fish :tropical_fish:"
+    },
+    {
+      "value": "🌲",
+      "name": "evergreen tree :evergreen_tree:"
+    },
+    {
+      "value": "🐽",
+      "name": "pig nose :pig_nose:"
+    },
+    {
+      "value": "🐟",
+      "name": "fish :fish:"
+    },
+    {
+      "value": "🐨",
+      "name": "koala :koala:"
+    },
+    {
+      "value": "🐛",
+      "name": "bug :bug:"
+    },
+    {
+      "value": "🐴",
+      "name": "horse face :horse:"
+    },
+    {
+      "value": "🐵",
+      "name": "monkey face :monkey_face:"
+    },
+    {
+      "value": "🐺",
+      "name": "wolf :wolf:"
+    },
+    {
+      "value": "🐮",
+      "name": "cow face :cow:"
+    },
+    {
+      "value": "🐔",
+      "name": "chicken :chicken:"
+    },
+    {
+      "value": "🐋",
+      "name": "whale :whale2:"
+    },
+    {
+      "value": "🌳",
+      "name": "deciduous tree :deciduous_tree:"
+    },
+    {
+      "value": "🐉",
+      "name": "dragon :dragon:"
+    },
+    {
+      "value": "🐹",
+      "name": "hamster :hamster:"
+    },
+    {
+      "value": "🐭",
+      "name": "mouse face :mouse:"
+    },
+    {
+      "value": "🐤",
+      "name": "baby chick :baby_chick:"
+    },
+    {
+      "value": "🐑",
+      "name": "ewe :sheep:"
+    },
+    {
+      "value": "🐎",
+      "name": "horse :racehorse:"
+    },
+    {
+      "value": "🐓",
+      "name": "rooster :rooster:"
+    },
+    {
+      "value": "🐇",
+      "name": "rabbit :rabbit2:"
+    },
+    {
+      "value": "🐞",
+      "name": "lady beetle :beetle:"
+    },
+    {
+      "value": "🐊",
+      "name": "crocodile :crocodile:"
+    },
+    {
+      "value": "🐕",
+      "name": "dog :dog2:"
+    },
+    {
+      "value": "🐈",
+      "name": "cat :cat2:"
+    },
+    {
+      "value": "🐚",
+      "name": "spiral shell :shell:"
+    },
+    {
+      "value": "🐩",
+      "name": "poodle :poodle:"
+    },
+    {
+      "value": "💮",
+      "name": "white flower :white_flower:"
+    },
+    {
+      "value": "🐜",
+      "name": "ant :ant:"
+    },
+    {
+      "value": "🐲",
+      "name": "dragon face :dragon_face:"
+    },
+    {
+      "value": "🐌",
+      "name": "snail :snail:"
+    },
+    {
+      "value": "🐫",
+      "name": "two-hump camel :camel:"
+    },
+    {
+      "value": "🐪",
+      "name": "camel :dromedary_camel:"
+    },
+    {
+      "value": "🐄",
+      "name": "cow :cow2:"
+    },
+    {
+      "value": "🐖",
+      "name": "pig :pig2:"
+    },
+    {
+      "value": "🐀",
+      "name": "rat :rat:"
+    },
+    {
+      "value": "🐏",
+      "name": "ram :ram:"
+    },
+    {
+      "value": "🐅",
+      "name": "tiger :tiger2:"
+    },
+    {
+      "value": "🐗",
+      "name": "boar :boar:"
+    },
+    {
+      "value": "🐂",
+      "name": "ox :ox:"
+    },
+    {
+      "value": "🐡",
+      "name": "blowfish :blowfish:"
+    },
+    {
+      "value": "🐆",
+      "name": "leopard :leopard:"
+    },
+    {
+      "value": "🐃",
+      "name": "water buffalo :water_buffalo:"
+    },
+    {
+      "value": "🐁",
+      "name": "mouse :mouse2:"
+    },
+    {
+      "value": "🏵",
+      "name": "rosette :rosette:"
+    },
+    {
+      "value": "☘",
+      "name": "shamrock :shamrock:"
+    },
+    {
+      "value": "🕸",
+      "name": "spider web :spider_web:"
+    },
+    {
+      "value": "🕷",
+      "name": "spider :spider:"
+    },
+    {
+      "value": "🕊",
+      "name": "dove :dove:"
+    },
+    {
+      "value": "🐿",
+      "name": "chipmunk :chipmunk:"
+    }
   ],
-  "sports": [
-    "⚽️",
-    "🏀",
-    "🏈",
-    "⚾️",
-    "🥎",
-    "🎾",
-    "🏐",
-    "🏉",
-    "🥏",
-    "🎱",
-    "🪀",
-    "🏓",
-    "🏸",
-    "🏒",
-    "🏑",
-    "🥍",
-    "🏏",
-    "🪃",
-    "🥅",
-    "⛳️",
-    "🪁",
-    "🏹",
-    "🎣",
-    "🤿",
-    "🥊",
-    "🥋",
-    "🎽",
-    "🛹",
-    "🛼",
-    "🛷",
-    "🥌",
-    "🎿",
-    "🏂",
-    "🪂",
-    "🏋️",
-    "🤼",
-    "🤸",
-    "⛹️",
-    "🤺",
-    "🤾",
-    "🏌️",
-    "🏇",
-    "🧘",
-    "🏄",
-    "🏊",
-    "🤽",
-    "🚣",
-    "🧗",
-    "🚵",
-    "🚴",
-    "🏆",
-    "🥇",
-    "🥈",
-    "🥉",
-    "🏅",
-    "🎖",
-    "🏵",
-    "🎗",
-    "🎫",
-    "🎟",
-    "🎪",
-    "🤹",
-    "🎭",
-    "🩰",
-    "🎨",
-    "🎬",
-    "🎤",
-    "🎧",
-    "🎼",
-    "🎹",
-    "🥁",
-    "🪘",
-    "🎷",
-    "🎺",
-    "🪗",
-    "🎸",
-    "🪕",
-    "🎻",
-    "🎲",
-    "🎯",
-    "🎳",
-    "🎮",
-    "🎰"
+  "Travel & Places": [
+    {
+      "value": "🔥",
+      "name": "fire :fire:"
+    },
+    {
+      "value": "🌚",
+      "name": "new moon face :new_moon_with_face:"
+    },
+    {
+      "value": "🌟",
+      "name": "glowing star :star2:"
+    },
+    {
+      "value": "🌞",
+      "name": "sun with face :sun_with_face:"
+    },
+    {
+      "value": "⭐",
+      "name": "star :star:"
+    },
+    {
+      "value": "☁",
+      "name": "cloud :cloud:"
+    },
+    {
+      "value": "🌈",
+      "name": "rainbow :rainbow:"
+    },
+    {
+      "value": "🌙",
+      "name": "crescent moon :crescent_moon:"
+    },
+    {
+      "value": "🌍",
+      "name": "globe showing Europe-Africa :earth_africa:"
+    },
+    {
+      "value": "⚓",
+      "name": "anchor :anchor:"
+    },
+    {
+      "value": "⚡",
+      "name": "high voltage :zap:"
+    },
+    {
+      "value": "🌎",
+      "name": "globe showing Americas :earth_americas:"
+    },
+    {
+      "value": "🌝",
+      "name": "full moon face :full_moon_with_face:"
+    },
+    {
+      "value": "🌊",
+      "name": "water wave :ocean:"
+    },
+    {
+      "value": "🌀",
+      "name": "cyclone :cyclone:"
+    },
+    {
+      "value": "🚀",
+      "name": "rocket :rocket:"
+    },
+    {
+      "value": "☔",
+      "name": "umbrella with rain drops :umbrella:"
+    },
+    {
+      "value": "🌏",
+      "name": "globe showing Asia-Australia :earth_asia:"
+    },
+    {
+      "value": "⛄",
+      "name": "snowman without snow :snowman:"
+    },
+    {
+      "value": "⛅",
+      "name": "sun behind cloud :partly_sunny:"
+    },
+    {
+      "value": "🌌",
+      "name": "milky way :milky_way:"
+    },
+    {
+      "value": "🚨",
+      "name": "police car light :rotating_light:"
+    },
+    {
+      "value": "🚗",
+      "name": "automobile :automobile:"
+    },
+    {
+      "value": "🚦",
+      "name": "vertical traffic light :vertical_traffic_light:"
+    },
+    {
+      "value": "🌠",
+      "name": "shooting star :stars:"
+    },
+    {
+      "value": "💧",
+      "name": "droplet :droplet:"
+    },
+    {
+      "value": "🏡",
+      "name": "house with garden :house_with_garden:"
+    },
+    {
+      "value": "🌅",
+      "name": "sunrise :sunrise:"
+    },
+    {
+      "value": "🚘",
+      "name": "oncoming automobile :oncoming_automobile:"
+    },
+    {
+      "value": "🌛",
+      "name": "first quarter moon face :first_quarter_moon_with_face:"
+    },
+    {
+      "value": "🌃",
+      "name": "night with stars :night_with_stars:"
+    },
+    {
+      "value": "🌑",
+      "name": "new moon :new_moon:"
+    },
+    {
+      "value": "🏠",
+      "name": "house :house:"
+    },
+    {
+      "value": "🌜",
+      "name": "last quarter moon face :last_quarter_moon_with_face:"
+    },
+    {
+      "value": "🌕",
+      "name": "full moon :full_moon:"
+    },
+    {
+      "value": "⛽",
+      "name": "fuel pump :fuelpump:"
+    },
+    {
+      "value": "⌚",
+      "name": "watch :watch:"
+    },
+    {
+      "value": "⏰",
+      "name": "alarm clock :alarm_clock:"
+    },
+    {
+      "value": "🌒",
+      "name": "waxing crescent moon :waxing_crescent_moon:"
+    },
+    {
+      "value": "🚙",
+      "name": "sport utility vehicle :blue_car:"
+    },
+    {
+      "value": "🌓",
+      "name": "first quarter moon :first_quarter_moon:"
+    },
+    {
+      "value": "🌔",
+      "name": "waxing gibbous moon :waxing_gibbous_moon:"
+    },
+    {
+      "value": "🚲",
+      "name": "bicycle :bike:"
+    },
+    {
+      "value": "🌘",
+      "name": "waning crescent moon :waning_crescent_moon:"
+    },
+    {
+      "value": "🌗",
+      "name": "last quarter moon :last_quarter_moon:"
+    },
+    {
+      "value": "🌖",
+      "name": "waning gibbous moon :waning_gibbous_moon:"
+    },
+    {
+      "value": "🌄",
+      "name": "sunrise over mountains :sunrise_over_mountains:"
+    },
+    {
+      "value": "🌋",
+      "name": "volcano :volcano:"
+    },
+    {
+      "value": "💒",
+      "name": "wedding :wedding:"
+    },
+    {
+      "value": "🏪",
+      "name": "convenience store :convenience_store:"
+    },
+    {
+      "value": "⛵",
+      "name": "sailboat :sailboat:"
+    },
+    {
+      "value": "🗽",
+      "name": "Statue of Liberty :statue_of_liberty:"
+    },
+    {
+      "value": "🌇",
+      "name": "sunset :city_sunset:"
+    },
+    {
+      "value": "⏳",
+      "name": "hourglass not done :hourglass_flowing_sand:"
+    },
+    {
+      "value": "🚌",
+      "name": "bus :bus:"
+    },
+    {
+      "value": "🚂",
+      "name": "locomotive :steam_locomotive:"
+    },
+    {
+      "value": "🏥",
+      "name": "hospital :hospital:"
+    },
+    {
+      "value": "🌐",
+      "name": "globe with meridians :globe_with_meridians:"
+    },
+    {
+      "value": "🕕",
+      "name": "six o’clock :clock6:"
+    },
+    {
+      "value": "🚔",
+      "name": "oncoming police car :oncoming_police_car:"
+    },
+    {
+      "value": "🌂",
+      "name": "closed umbrella :closed_umbrella:"
+    },
+    {
+      "value": "⛪",
+      "name": "church :church:"
+    },
+    {
+      "value": "🏢",
+      "name": "office building :office:"
+    },
+    {
+      "value": "🏩",
+      "name": "love hotel :love_hotel:"
+    },
+    {
+      "value": "🗻",
+      "name": "mount fuji :mount_fuji:"
+    },
+    {
+      "value": "⌛",
+      "name": "hourglass done :hourglass:"
+    },
+    {
+      "value": "🏫",
+      "name": "school :school:"
+    },
+    {
+      "value": "🌆",
+      "name": "cityscape at dusk :cityscape_at_dusk:"
+    },
+    {
+      "value": "🎡",
+      "name": "ferris wheel :ferris_wheel:"
+    },
+    {
+      "value": "💈",
+      "name": "barber pole :barber:"
+    },
+    {
+      "value": "🎢",
+      "name": "roller coaster :roller_coaster:"
+    },
+    {
+      "value": "🗼",
+      "name": "Tokyo tower :tokyo_tower:"
+    },
+    {
+      "value": "🚢",
+      "name": "ship :ship:"
+    },
+    {
+      "value": "🚒",
+      "name": "fire engine :fire_engine:"
+    },
+    {
+      "value": "🕦",
+      "name": "eleven-thirty :clock1130:"
+    },
+    {
+      "value": "🚓",
+      "name": "police car :police_car:"
+    },
+    {
+      "value": "🌉",
+      "name": "bridge at night :bridge_at_night:"
+    },
+    {
+      "value": "🚖",
+      "name": "oncoming taxi :oncoming_taxi:"
+    },
+    {
+      "value": "🚑",
+      "name": "ambulance :ambulance:"
+    },
+    {
+      "value": "⛺",
+      "name": "tent :tent:"
+    },
+    {
+      "value": "💺",
+      "name": "seat :seat:"
+    },
+    {
+      "value": "🚕",
+      "name": "taxi :taxi:"
+    },
+    {
+      "value": "🎪",
+      "name": "circus tent :circus_tent:"
+    },
+    {
+      "value": "🏰",
+      "name": "castle :european_castle:"
+    },
+    {
+      "value": "🌁",
+      "name": "foggy :foggy:"
+    },
+    {
+      "value": "🚁",
+      "name": "helicopter :helicopter:"
+    },
+    {
+      "value": "🚍",
+      "name": "oncoming bus :oncoming_bus:"
+    },
+    {
+      "value": "🏤",
+      "name": "post office :european_post_office:"
+    },
+    {
+      "value": "🎠",
+      "name": "carousel horse :carousel_horse:"
+    },
+    {
+      "value": "🕛",
+      "name": "twelve o’clock :clock12:"
+    },
+    {
+      "value": "🚧",
+      "name": "construction :construction:"
+    },
+    {
+      "value": "🕒",
+      "name": "three o’clock :clock3:"
+    },
+    {
+      "value": "🏬",
+      "name": "department store :department_store:"
+    },
+    {
+      "value": "🚚",
+      "name": "delivery truck :truck:"
+    },
+    {
+      "value": "🚃",
+      "name": "railway car :railway_car:"
+    },
+    {
+      "value": "🚤",
+      "name": "speedboat :speedboat:"
+    },
+    {
+      "value": "🕐",
+      "name": "one o’clock :clock1:"
+    },
+    {
+      "value": "🕑",
+      "name": "two o’clock :clock2:"
+    },
+    {
+      "value": "🚄",
+      "name": "high-speed train :bullettrain_side:"
+    },
+    {
+      "value": "🏨",
+      "name": "hotel :hotel:"
+    },
+    {
+      "value": "🚜",
+      "name": "tractor :tractor:"
+    },
+    {
+      "value": "⛲",
+      "name": "fountain :fountain:"
+    },
+    {
+      "value": "🚇",
+      "name": "metro :metro:"
+    },
+    {
+      "value": "🕓",
+      "name": "four o’clock :clock4:"
+    },
+    {
+      "value": "🕔",
+      "name": "five o’clock :clock5:"
+    },
+    {
+      "value": "🚉",
+      "name": "station :station:"
+    },
+    {
+      "value": "🏦",
+      "name": "bank :bank:"
+    },
+    {
+      "value": "🚛",
+      "name": "articulated lorry :articulated_lorry:"
+    },
+    {
+      "value": "🕙",
+      "name": "ten o’clock :clock10:"
+    },
+    {
+      "value": "🕘",
+      "name": "nine o’clock :clock9:"
+    },
+    {
+      "value": "🚅",
+      "name": "bullet train :bullettrain_front:"
+    },
+    {
+      "value": "🚐",
+      "name": "minibus :minibus:"
+    },
+    {
+      "value": "🚊",
+      "name": "tram :tram:"
+    },
+    {
+      "value": "🕗",
+      "name": "eight o’clock :clock8:"
+    },
+    {
+      "value": "🚥",
+      "name": "horizontal traffic light :traffic_light:"
+    },
+    {
+      "value": "🏯",
+      "name": "Japanese castle :japanese_castle:"
+    },
+    {
+      "value": "🕚",
+      "name": "eleven o’clock :clock11:"
+    },
+    {
+      "value": "🕖",
+      "name": "seven o’clock :clock7:"
+    },
+    {
+      "value": "🏣",
+      "name": "Japanese post office :post_office:"
+    },
+    {
+      "value": "🗾",
+      "name": "map of Japan :japan:"
+    },
+    {
+      "value": "🚋",
+      "name": "tram car :train:"
+    },
+    {
+      "value": "🚎",
+      "name": "trolleybus :trolleybus:"
+    },
+    {
+      "value": "🏭",
+      "name": "factory :factory:"
+    },
+    {
+      "value": "🚆",
+      "name": "train :train2:"
+    },
+    {
+      "value": "🕜",
+      "name": "one-thirty :clock130:"
+    },
+    {
+      "value": "🚈",
+      "name": "light rail :light_rail:"
+    },
+    {
+      "value": "🕤",
+      "name": "nine-thirty :clock930:"
+    },
+    {
+      "value": "🚏",
+      "name": "bus stop :busstop:"
+    },
+    {
+      "value": "🕝",
+      "name": "two-thirty :clock230:"
+    },
+    {
+      "value": "🚝",
+      "name": "monorail :monorail:"
+    },
+    {
+      "value": "🕧",
+      "name": "twelve-thirty :clock1230:"
+    },
+    {
+      "value": "🕥",
+      "name": "ten-thirty :clock1030:"
+    },
+    {
+      "value": "🕟",
+      "name": "four-thirty :clock430:"
+    },
+    {
+      "value": "🚞",
+      "name": "mountain railway :mountain_railway:"
+    },
+    {
+      "value": "🕞",
+      "name": "three-thirty :clock330:"
+    },
+    {
+      "value": "🕢",
+      "name": "seven-thirty :clock730:"
+    },
+    {
+      "value": "🕠",
+      "name": "five-thirty :clock530:"
+    },
+    {
+      "value": "🚡",
+      "name": "aerial tramway :aerial_tramway:"
+    },
+    {
+      "value": "🕣",
+      "name": "eight-thirty :clock830:"
+    },
+    {
+      "value": "🕡",
+      "name": "six-thirty :clock630:"
+    },
+    {
+      "value": "🚠",
+      "name": "mountain cableway :mountain_cableway:"
+    },
+    {
+      "value": "🚟",
+      "name": "suspension railway :suspension_railway:"
+    },
+    {
+      "value": "🛢",
+      "name": "oil drum :oil_drum:"
+    },
+    {
+      "value": "🛎",
+      "name": "bellhop bell :bellhop_bell:"
+    },
+    {
+      "value": "🕰",
+      "name": "mantelpiece clock :mantelpiece_clock:"
+    },
+    {
+      "value": "🌡",
+      "name": "thermometer :thermometer:"
+    },
+    {
+      "value": "🛳",
+      "name": "passenger ship :passenger_ship:"
+    },
+    {
+      "value": "🛰",
+      "name": "satellite :satellite:"
+    },
+    {
+      "value": "🛬",
+      "name": "airplane arrival :airplane_arriving:"
+    },
+    {
+      "value": "🛫",
+      "name": "airplane departure :airplane_departure:"
+    },
+    {
+      "value": "🛩",
+      "name": "small airplane :small_airplane:"
+    },
+    {
+      "value": "🛥",
+      "name": "motor boat :motor_boat:"
+    },
+    {
+      "value": "🛤",
+      "name": "railway track :railway_track:"
+    },
+    {
+      "value": "🛣",
+      "name": "motorway :motorway:"
+    },
+    {
+      "value": "🗺",
+      "name": "world map :world_map:"
+    },
+    {
+      "value": "🏟",
+      "name": "stadium :stadium:"
+    },
+    {
+      "value": "🏞",
+      "name": "national park :national_park:"
+    },
+    {
+      "value": "🏝",
+      "name": "desert island :desert_island:"
+    },
+    {
+      "value": "🏜",
+      "name": "desert :desert:"
+    },
+    {
+      "value": "🏛",
+      "name": "classical building :classical_building:"
+    },
+    {
+      "value": "🏚",
+      "name": "derelict house :derelict_house:"
+    },
+    {
+      "value": "🏙",
+      "name": "cityscape :cityscape:"
+    },
+    {
+      "value": "🏘",
+      "name": "houses :houses:"
+    },
+    {
+      "value": "🏗",
+      "name": "building construction :building_construction:"
+    },
+    {
+      "value": "🏖",
+      "name": "beach with umbrella :beach_with_umbrella:"
+    },
+    {
+      "value": "🏕",
+      "name": "camping :camping:"
+    },
+    {
+      "value": "🏔",
+      "name": "snow-capped mountain :snowcapped_mountain:"
+    },
+    {
+      "value": "🏎",
+      "name": "racing car :racing_car:"
+    },
+    {
+      "value": "🏍",
+      "name": "motorcycle :motorcycle:"
+    },
+    {
+      "value": "☄",
+      "name": "comet :comet:"
+    },
+    {
+      "value": "🌬",
+      "name": "wind face :wind_blowing_face:"
+    },
+    {
+      "value": "🌫",
+      "name": "fog :fog:"
+    },
+    {
+      "value": "🌪",
+      "name": "tornado :tornado:"
+    },
+    {
+      "value": "🌩",
+      "name": "cloud with lightning :cloud_with_lightning:"
+    },
+    {
+      "value": "🌨",
+      "name": "cloud with snow :cloud_with_snow:"
+    },
+    {
+      "value": "🌧",
+      "name": "cloud with rain :cloud_with_rain:"
+    },
+    {
+      "value": "🌦",
+      "name": "sun behind rain cloud :sun_behind_rain_cloud:"
+    },
+    {
+      "value": "🌥",
+      "name": "sun behind large cloud :sun_behind_large_cloud:"
+    },
+    {
+      "value": "🌤",
+      "name": "sun behind small cloud :sun_behind_small_cloud:"
+    },
+    {
+      "value": "⛱",
+      "name": "umbrella on ground :beach_umbrella:"
+    },
+    {
+      "value": "⏲",
+      "name": "timer clock :timer_clock:"
+    },
+    {
+      "value": "⏱",
+      "name": "stopwatch :stopwatch:"
+    },
+    {
+      "value": "⛴",
+      "name": "ferry :ferry:"
+    },
+    {
+      "value": "⛰",
+      "name": "mountain :mountain:"
+    },
+    {
+      "value": "⛩",
+      "name": "shinto shrine :shinto_shrine:"
+    },
+    {
+      "value": "⛈",
+      "name": "cloud with lightning and rain :cloud_with_lightning_and_rain:"
+    },
+    {
+      "value": "♨",
+      "name": "hot springs :hot_springs:"
+    },
+    {
+      "value": "✈",
+      "name": "airplane :airplane:"
+    },
+    {
+      "value": "☀",
+      "name": "sun :sun:"
+    },
+    {
+      "value": "☂",
+      "name": "umbrella :umbrella:"
+    },
+    {
+      "value": "❄",
+      "name": "snowflake :snowflake:"
+    },
+    {
+      "value": "☃",
+      "name": "snowman :snowman:"
+    }
   ],
-  "travel": [
-    "🚗",
-    "🚕",
-    "🚙",
-    "🚌",
-    "🚎",
-    "🏎",
-    "🚓",
-    "🚑",
-    "🚒",
-    "🚐",
-    "🛻",
-    "🚚",
-    "🚛",
-    "🚜",
-    "🦯",
-    "🦽",
-    "🦼",
-    "🛴",
-    "🚲",
-    "🛵",
-    "🏍",
-    "🛺",
-    "🚨",
-    "🚔",
-    "🚍",
-    "🚘",
-    "🚖",
-    "🛞",
-    "🚡",
-    "🚠",
-    "🚟",
-    "🚃",
-    "🚋",
-    "🚞",
-    "🚝",
-    "🚄",
-    "🚅",
-    "🚈",
-    "🚂",
-    "🚆",
-    "🚇",
-    "🚊",
-    "🚉",
-    "✈️",
-    "🛫",
-    "🛬",
-    "🛩",
-    "💺",
-    "🛰",
-    "🚀",
-    "🛸",
-    "🚁",
-    "🛶",
-    "⛵️",
-    "🚤",
-    "🛥",
-    "🛳",
-    "🚢",
-    "⚓️",
-    "🛟",
-    "🪝",
-    "⛽️",
-    "🚧",
-    "🚦",
-    "🚥",
-    "🚏",
-    "🗺",
-    "🗿",
-    "🗽",
-    "🗼",
-    "🏰",
-    "🏯",
-    "🏟",
-    "🎡",
-    "🎢",
-    "🛝",
-    "🎠",
-    "⛲️",
-    "🏖",
-    "🏝",
-    "🏜",
-    "🌋",
-    "🏔",
-    "🗻",
-    "🏕",
-    "⛺️",
-    "🛖",
-    "🏠",
-    "🏡",
-    "🏘",
-    "🏚",
-    "🏗",
-    "🏭",
-    "🏢",
-    "🏬",
-    "🏣",
-    "🏤",
-    "🏥",
-    "🏦",
-    "🏨",
-    "🏪",
-    "🏫",
-    "🏩",
-    "💒",
-    "🏛",
-    "⛪️",
-    "🕌",
-    "🕍",
-    "🛕",
-    "🕋",
-    "🛤",
-    "🛣",
-    "🗾",
-    "🎑",
-    "🏞",
-    "🌅",
-    "🌄",
-    "🌠",
-    "🎇",
-    "🎆",
-    "🌇",
-    "🌆",
-    "🏙",
-    "🌃",
-    "🌌",
-    "🌉",
-    "🌁"
+  "Food & Drink": [
+    {
+      "value": "🍕",
+      "name": "pizza :pizza:"
+    },
+    {
+      "value": "🍻",
+      "name": "clinking beer mugs :beers:"
+    },
+    {
+      "value": "🎂",
+      "name": "birthday cake :birthday:"
+    },
+    {
+      "value": "☕",
+      "name": "hot beverage :coffee:"
+    },
+    {
+      "value": "🔪",
+      "name": "kitchen knife :kitchen_knife:"
+    },
+    {
+      "value": "🍟",
+      "name": "french fries :fries:"
+    },
+    {
+      "value": "🍩",
+      "name": "doughnut :doughnut:"
+    },
+    {
+      "value": "🍭",
+      "name": "lollipop :lollipop:"
+    },
+    {
+      "value": "🍓",
+      "name": "strawberry :strawberry:"
+    },
+    {
+      "value": "🍌",
+      "name": "banana :banana:"
+    },
+    {
+      "value": "🍉",
+      "name": "watermelon :watermelon:"
+    },
+    {
+      "value": "🍆",
+      "name": "eggplant :eggplant:"
+    },
+    {
+      "value": "🍴",
+      "name": "fork and knife :fork_and_knife:"
+    },
+    {
+      "value": "🍺",
+      "name": "beer mug :beer:"
+    },
+    {
+      "value": "🍷",
+      "name": "wine glass :wine_glass:"
+    },
+    {
+      "value": "🍹",
+      "name": "tropical drink :tropical_drink:"
+    },
+    {
+      "value": "🍑",
+      "name": "peach :peach:"
+    },
+    {
+      "value": "🍒",
+      "name": "cherries :cherries:"
+    },
+    {
+      "value": "🍬",
+      "name": "candy :candy:"
+    },
+    {
+      "value": "🍔",
+      "name": "hamburger :hamburger:"
+    },
+    {
+      "value": "🍦",
+      "name": "soft ice cream :icecream:"
+    },
+    {
+      "value": "🍍",
+      "name": "pineapple :pineapple:"
+    },
+    {
+      "value": "🍫",
+      "name": "chocolate bar :chocolate_bar:"
+    },
+    {
+      "value": "🍇",
+      "name": "grapes :grapes:"
+    },
+    {
+      "value": "🍸",
+      "name": "cocktail glass :cocktail:"
+    },
+    {
+      "value": "🍰",
+      "name": "shortcake :cake:"
+    },
+    {
+      "value": "🍪",
+      "name": "cookie :cookie:"
+    },
+    {
+      "value": "🍄",
+      "name": "mushroom :mushroom:"
+    },
+    {
+      "value": "🍎",
+      "name": "red apple :apple:"
+    },
+    {
+      "value": "🍊",
+      "name": "tangerine :tangerine:"
+    },
+    {
+      "value": "🍗",
+      "name": "poultry leg :poultry_leg:"
+    },
+    {
+      "value": "🍧",
+      "name": "shaved ice :shaved_ice:"
+    },
+    {
+      "value": "🍋",
+      "name": "lemon :lemon:"
+    },
+    {
+      "value": "🍼",
+      "name": "baby bottle :baby_bottle:"
+    },
+    {
+      "value": "🍝",
+      "name": "spaghetti :spaghetti:"
+    },
+    {
+      "value": "🍥",
+      "name": "fish cake with swirl :fish_cake:"
+    },
+    {
+      "value": "🍜",
+      "name": "steaming bowl :ramen:"
+    },
+    {
+      "value": "🌽",
+      "name": "ear of corn :corn:"
+    },
+    {
+      "value": "🍳",
+      "name": "cooking :cooking:"
+    },
+    {
+      "value": "🍱",
+      "name": "bento box :bento:"
+    },
+    {
+      "value": "🍞",
+      "name": "bread :bread:"
+    },
+    {
+      "value": "🍵",
+      "name": "teacup without handle :tea:"
+    },
+    {
+      "value": "🍚",
+      "name": "cooked rice :rice:"
+    },
+    {
+      "value": "🍏",
+      "name": "green apple :green_apple:"
+    },
+    {
+      "value": "🍤",
+      "name": "fried shrimp :fried_shrimp:"
+    },
+    {
+      "value": "🍣",
+      "name": "sushi :sushi:"
+    },
+    {
+      "value": "🍨",
+      "name": "ice cream :ice_cream:"
+    },
+    {
+      "value": "🍅",
+      "name": "tomato :tomato:"
+    },
+    {
+      "value": "🌰",
+      "name": "chestnut :chestnut:"
+    },
+    {
+      "value": "🍖",
+      "name": "meat on bone :meat_on_bone:"
+    },
+    {
+      "value": "🍲",
+      "name": "pot of food :stew:"
+    },
+    {
+      "value": "🍯",
+      "name": "honey pot :honey_pot:"
+    },
+    {
+      "value": "🍮",
+      "name": "custard :custard:"
+    },
+    {
+      "value": "🍛",
+      "name": "curry rice :curry:"
+    },
+    {
+      "value": "🍐",
+      "name": "pear :pear:"
+    },
+    {
+      "value": "🍡",
+      "name": "dango :dango:"
+    },
+    {
+      "value": "🍙",
+      "name": "rice ball :rice_ball:"
+    },
+    {
+      "value": "🍈",
+      "name": "melon :melon:"
+    },
+    {
+      "value": "🍢",
+      "name": "oden :oden:"
+    },
+    {
+      "value": "🍠",
+      "name": "roasted sweet potato :sweet_potato:"
+    },
+    {
+      "value": "🍶",
+      "name": "sake :sake:"
+    },
+    {
+      "value": "🍘",
+      "name": "rice cracker :rice_cracker:"
+    },
+    {
+      "value": "🍽",
+      "name": "fork and knife with plate :fork_and_knife_with_plate:"
+    },
+    {
+      "value": "🌶",
+      "name": "hot pepper :hot_pepper:"
+    }
   ],
-  "objects": [
-    "⌚️",
-    "📱",
-    "📲",
-    "💻",
-    "🖥",
-    "🖨",
-    "🖱",
-    "🖲",
-    "🕹",
-    "🗜",
-    "💽",
-    "💾",
-    "💿",
-    "📀",
-    "📼",
-    "📷",
-    "📸",
-    "📹",
-    "🎥",
-    "📽",
-    "🎞",
-    "📞",
-    "☎️",
-    "📟",
-    "📠",
-    "📺",
-    "📻",
-    "🎙",
-    "🎚",
-    "🎛",
-    "🧭",
-    "⏰",
-    "🕰",
-    "⌛️",
-    "⏳",
-    "📡",
-    "🔋",
-    "🪫",
-    "🔌",
-    "💡",
-    "🔦",
-    "🕯",
-    "🪔",
-    "🧯",
-    "🛢",
-    "🛍️",
-    "💸",
-    "💵",
-    "💴",
-    "💶",
-    "💷",
-    "🪙",
-    "💰",
-    "💳",
-    "💎",
-    "🪜",
-    "🧰",
-    "🪛",
-    "🔧",
-    "🔨",
-    "🛠",
-    "⛏",
-    "🪚",
-    "🔩",
-    "🪤",
-    "🧱",
-    "🧲",
-    "🔫",
-    "💣",
-    "🧨",
-    "🪓",
-    "🔪",
-    "🗡",
-    "🛡",
-    "🚬",
-    "🪦",
-    "🏺",
-    "🔮",
-    "📿",
-    "🧿",
-    "🪬",
-    "💈",
-    "🔭",
-    "🔬",
-    "🕳",
-    "🩹",
-    "🩺",
-    "🩻",
-    "🩼",
-    "💊",
-    "💉",
-    "🩸",
-    "🧬",
-    "🦠",
-    "🧫",
-    "🧪",
-    "🌡",
-    "🧹",
-    "🪠",
-    "🧺",
-    "🧻",
-    "🚽",
-    "🚰",
-    "🚿",
-    "🛁",
-    "🛀",
-    "🧼",
-    "🪥",
-    "🪒",
-    "🧽",
-    "🪣",
-    "🧴",
-    "🛎",
-    "🔑",
-    "🗝",
-    "🚪",
-    "🪑",
-    "🛋",
-    "🛏",
-    "🛌",
-    "🧸",
-    "🪆",
-    "🖼",
-    "🪞",
-    "🪟",
-    "🛍",
-    "🛒",
-    "🎁",
-    "🎈",
-    "🎏",
-    "🎀",
-    "🪄",
-    "🪅",
-    "🎊",
-    "🎉",
-    "🪩",
-    "🎎",
-    "🏮",
-    "🎐",
-    "🧧",
-    "✉️",
-    "📩",
-    "📨",
-    "📧",
-    "💌",
-    "📥",
-    "📤",
-    "📦",
-    "🏷",
-    "🪧",
-    "📪",
-    "📫",
-    "📬",
-    "📭",
-    "📮",
-    "📯",
-    "📜",
-    "📃",
-    "📄",
-    "📑",
-    "🧾",
-    "📊",
-    "📈",
-    "📉",
-    "🗒",
-    "🗓",
-    "📆",
-    "📅",
-    "🗑",
-    "🪪",
-    "📇",
-    "🗃",
-    "🗳",
-    "🗄",
-    "📋",
-    "📁",
-    "📂",
-    "🗂",
-    "🗞",
-    "📰",
-    "📓",
-    "📔",
-    "📒",
-    "📕",
-    "📗",
-    "📘",
-    "📙",
-    "📚",
-    "📖",
-    "🔖",
-    "🧷",
-    "🔗",
-    "📎",
-    "🖇",
-    "📐",
-    "📏",
-    "🧮",
-    "📌",
-    "📍",
-    "🖊",
-    "🖋",
-    "🖌",
-    "🖍",
-    "📝",
-    "🔍",
-    "🔎",
-    "🔏",
-    "🔐",
-    "🔒",
-    "🔓"
-  ],
-  "hearts": [
-    "🧡",
-    "💛",
-    "💚",
-    "💙",
-    "💜",
-    "🖤",
-    "🤍",
-    "🤎",
-    "💔",
-    "💕",
-    "💞",
-    "💓",
-    "💗",
-    "💖",
-    "💘",
-    "💝"
-  ],
-  "flags": [
-    "🏳️",
-    "🏴",
-    "🏁",
-    "🚩",
-    "🇦🇫",
-    "🇦🇽",
-    "🇦🇱",
-    "🇩🇿",
-    "🇦🇸",
-    "🇦🇩",
-    "🇦🇴",
-    "🇦🇮",
-    "🇦🇶",
-    "🇦🇬",
-    "🇦🇷",
-    "🇦🇲",
-    "🇦🇼",
-    "🇦🇺",
-    "🇦🇹",
-    "🇦🇿",
-    "🇧🇸",
-    "🇧🇭",
-    "🇧🇩",
-    "🇧🇧",
-    "🇧🇾",
-    "🇧🇪",
-    "🇧🇿",
-    "🇧🇯",
-    "🇧🇲",
-    "🇧🇹",
-    "🇧🇴",
-    "🇧🇦",
-    "🇧🇼",
-    "🇧🇷",
-    "🇮🇴",
-    "🇻🇬",
-    "🇧🇳",
-    "🇧🇬",
-    "🇧🇫",
-    "🇧🇮",
-    "🇰🇭",
-    "🇨🇲",
-    "🇨🇦",
-    "🇮🇨",
-    "🇨🇻",
-    "🇧🇶",
-    "🇰🇾",
-    "🇨🇫",
-    "🇹🇩",
-    "🇨🇱",
-    "🇨🇳",
-    "🇨🇽",
-    "🇨🇨",
-    "🇨🇴",
-    "🇰🇲",
-    "🇨🇬",
-    "🇨🇩",
-    "🇨🇰",
-    "🇨🇷",
-    "🇨🇮",
-    "🇭🇷",
-    "🇨🇺",
-    "🇨🇼",
-    "🇨🇾",
-    "🇨🇿",
-    "🇩🇰",
-    "🇩🇯",
-    "🇩🇲",
-    "🇩🇴",
-    "🇪🇨",
-    "🇪🇬",
-    "🇸🇻",
-    "🇬🇶",
-    "🇪🇷",
-    "🇪🇪",
-    "🇪🇹",
-    "🇪🇺",
-    "🇫🇰",
-    "🇫🇴",
-    "🇫🇯",
-    "🇫🇮",
-    "🇫🇷",
-    "🇬🇫",
-    "🇵🇫",
-    "🇹🇫",
-    "🇬🇦",
-    "🇬🇲",
-    "🇬🇪",
-    "🇩🇪",
-    "🇬🇭",
-    "🇬🇮",
-    "🇬🇷",
-    "🇬🇱",
-    "🇬🇩",
-    "🇬🇵",
-    "🇬🇺",
-    "🇬🇹",
-    "🇬🇬",
-    "🇬🇳",
-    "🇬🇼",
-    "🇬🇾",
-    "🇭🇹",
-    "🇭🇳",
-    "🇭🇰",
-    "🇭🇺",
-    "🇮🇸",
-    "🇮🇳",
-    "🇮🇩",
-    "🇮🇷",
-    "🇮🇶",
-    "🇮🇪",
-    "🇮🇲",
-    "🇮🇱",
-    "🇮🇹",
-    "🇯🇲",
-    "🇯🇵",
-    "🎌",
-    "🇯🇪",
-    "🇯🇴",
-    "🇰🇿",
-    "🇰🇪",
-    "🇰🇮",
-    "🇽🇰",
-    "🇰🇼",
-    "🇰🇬",
-    "🇱🇦",
-    "🇱🇻",
-    "🇱🇧",
-    "🇱🇸",
-    "🇱🇷",
-    "🇱🇾",
-    "🇱🇮",
-    "🇱🇹",
-    "🇱🇺",
-    "🇲🇴",
-    "🇲🇰",
-    "🇲🇬",
-    "🇲🇼",
-    "🇲🇾",
-    "🇲🇻",
-    "🇲🇱",
-    "🇲🇹",
-    "🇲🇭",
-    "🇲🇶",
-    "🇲🇷",
-    "🇲🇺",
-    "🇾🇹",
-    "🇲🇽",
-    "🇫🇲",
-    "🇲🇩",
-    "🇲🇨",
-    "🇲🇳",
-    "🇲🇪",
-    "🇲🇸",
-    "🇲🇦",
-    "🇲🇿",
-    "🇲🇲",
-    "🇳🇦",
-    "🇳🇷",
-    "🇳🇵",
-    "🇳🇱",
-    "🇳🇨",
-    "🇳🇿",
-    "🇳🇮",
-    "🇳🇪",
-    "🇳🇬",
-    "🇳🇺",
-    "🇳🇫",
-    "🇰🇵",
-    "🇲🇵",
-    "🇳🇴",
-    "🇴🇲",
-    "🇵🇰",
-    "🇵🇼",
-    "🇵🇸",
-    "🇵🇦",
-    "🇵🇬",
-    "🇵🇾",
-    "🇵🇪",
-    "🇵🇭",
-    "🇵🇳",
-    "🇵🇱",
-    "🇵🇹",
-    "🇵🇷",
-    "🇶🇦",
-    "🇷🇪",
-    "🇷🇴",
-    "🇷🇺",
-    "🇷🇼",
-    "🇼🇸",
-    "🇸🇲",
-    "🇸🇦",
-    "🇸🇳",
-    "🇷🇸",
-    "🇸🇨",
-    "🇸🇱",
-    "🇸🇬",
-    "🇸🇽",
-    "🇸🇰",
-    "🇸🇮",
-    "🇬🇸",
-    "🇸🇧",
-    "🇸🇴",
-    "🇿🇦",
-    "🇰🇷",
-    "🇸🇸",
-    "🇪🇸",
-    "🇱🇰",
-    "🇧🇱",
-    "🇸🇭",
-    "🇰🇳",
-    "🇱🇨",
-    "🇵🇲",
-    "🇻🇨",
-    "🇸🇩",
-    "🇸🇷",
-    "🇸🇿",
-    "🇸🇪",
-    "🇨🇭",
-    "🇸🇾",
-    "🇹🇼",
-    "🇹🇯",
-    "🇹🇿",
-    "🇹🇭",
-    "🇹🇱",
-    "🇹🇬",
-    "🇹🇰",
-    "🇹🇴",
-    "🇹🇹",
-    "🇹🇳",
-    "🇹🇷",
-    "🇹🇲",
-    "🇹🇨",
-    "🇹🇻",
-    "🇻🇮",
-    "🇺🇬",
-    "🇺🇦",
-    "🇦🇪",
-    "🇬🇧",
-    "🇺🇳",
-    "🇺🇸",
-    "🇺🇾",
-    "🇺🇿",
-    "🇻🇺",
-    "🇻🇦",
-    "🇻🇪",
-    "🇻🇳",
-    "🇼🇫",
-    "🇪🇭",
-    "🇾🇪",
-    "🇿🇲",
-    "🇿🇼"
+  "Flags": [
+    {
+      "value": "🇺🇸",
+      "name": "flag: United States :us:"
+    },
+    {
+      "value": "🇫🇷",
+      "name": "flag: France :fr:"
+    },
+    {
+      "value": "🇮🇹",
+      "name": "flag: Italy :it:"
+    },
+    {
+      "value": "🇬🇧",
+      "name": "flag: United Kingdom :gb:"
+    },
+    {
+      "value": "🏁",
+      "name": "chequered flag :checkered_flag:"
+    },
+    {
+      "value": "🚩",
+      "name": "triangular flag :triangular_flag_on_post:"
+    },
+    {
+      "value": "🇩🇪",
+      "name": "flag: Germany :ger:"
+    },
+    {
+      "value": "🎌",
+      "name": "crossed flags :crossed_flags:"
+    },
+    {
+      "value": "🇯🇵",
+      "name": "flag: Japan :jp:"
+    },
+    {
+      "value": "🇷🇺",
+      "name": "flag: Russia :ru:"
+    },
+    {
+      "value": "🇰🇷",
+      "name": "flag: South Korea :ko:"
+    },
+    {
+      "value": "🇨🇳",
+      "name": "flag: China :cn:"
+    },
+    {
+      "value": "🏴",
+      "name": "black flag :flag_black:"
+    },
+    {
+      "value": "🏳",
+      "name": "white flag :flag_white:"
+    },
+    {
+      "value": "🇦🇨",
+      "name": "flag: Ascension Island :flag_ac:"
+    },
+    {
+      "value": "🇦🇩",
+      "name": "flag: Andorra :flag_ad:"
+    },
+    {
+      "value": "🇦🇪",
+      "name": "flag: United Arab Emirates :flag_ae:"
+    },
+    {
+      "value": "🇦🇫",
+      "name": "flag: Afghanistan :flag_af:"
+    },
+    {
+      "value": "🇦🇬",
+      "name": "flag: Antigua & Barbuda :flag_ag:"
+    },
+    {
+      "value": "🇦🇮",
+      "name": "flag: Anguilla :flag_ai:"
+    },
+    {
+      "value": "🇦🇱",
+      "name": "flag: Albania :flag_al:"
+    },
+    {
+      "value": "🇦🇲",
+      "name": "flag: Armenia :flag_am:"
+    },
+    {
+      "value": "🇦🇴",
+      "name": "flag: Angola :flag-ao:"
+    },
+    {
+      "value": "🇦🇶",
+      "name": "flag: Antarctica :flag-aq:"
+    },
+    {
+      "value": "🇦🇷",
+      "name": "flag: Argentina :flag-ar:"
+    },
+    {
+      "value": "🇦🇸",
+      "name": "flag: American Samoa :flag-as:"
+    },
+    {
+      "value": "🇦🇹",
+      "name": "flag: Austria :flag-at:"
+    },
+    {
+      "value": "🇦🇺",
+      "name": "flag: Australia :flag-au:"
+    },
+    {
+      "value": "🇦🇼",
+      "name": "flag: Aruba :flag-aw:"
+    },
+    {
+      "value": "🇦🇽",
+      "name": "flag: Åland Islands :flag-ax:"
+    },
+    {
+      "value": "🇦🇿",
+      "name": "flag: Azerbaijan :flag-az:"
+    },
+    {
+      "value": "🇧🇦",
+      "name": "flag: Bosnia & Herzegovina :flag-ba:"
+    },
+    {
+      "value": "🇧🇧",
+      "name": "flag: Barbados :flag-bb:"
+    },
+    {
+      "value": "🇧🇩",
+      "name": "flag: Bangladesh :flag-bd:"
+    },
+    {
+      "value": "🇧🇪",
+      "name": "flag: Belgium :flag-be:"
+    },
+    {
+      "value": "🇧🇫",
+      "name": "flag: Burkina Faso :flag-bf:"
+    },
+    {
+      "value": "🇧🇬",
+      "name": "flag: Bulgaria :flag-bg:"
+    },
+    {
+      "value": "🇧🇭",
+      "name": "flag: Bahrain :flag-bh:"
+    },
+    {
+      "value": "🇧🇮",
+      "name": "flag: Burundi :flag-bi:"
+    },
+    {
+      "value": "🇧🇯",
+      "name": "flag: Benin :flag-bj:"
+    },
+    {
+      "value": "🇧🇱",
+      "name": "flag: St. Barthélemy :flag-bl:"
+    },
+    {
+      "value": "🇧🇲",
+      "name": "flag: Bermuda :flag-bm:"
+    },
+    {
+      "value": "🇧🇳",
+      "name": "flag: Brunei :flag-bn:"
+    },
+    {
+      "value": "🇧🇴",
+      "name": "flag: Bolivia :flag-bo:"
+    },
+    {
+      "value": "🇧🇶",
+      "name": "flag: Caribbean Netherlands :flag-bq:"
+    },
+    {
+      "value": "🇧🇷",
+      "name": "flag: Brazil :flag-br:"
+    },
+    {
+      "value": "🇧🇸",
+      "name": "flag: Bahamas :flag-bs:"
+    },
+    {
+      "value": "🇧🇹",
+      "name": "flag: Bhutan :flag-bt:"
+    },
+    {
+      "value": "🇧🇻",
+      "name": "flag: Bouvet Island :flag-bv:"
+    },
+    {
+      "value": "🇧🇼",
+      "name": "flag: Botswana :flag-bw:"
+    },
+    {
+      "value": "🇧🇾",
+      "name": "flag: Belarus :flag-by:"
+    },
+    {
+      "value": "🇧🇿",
+      "name": "flag: Belize :flag-bz:"
+    },
+    {
+      "value": "🇨🇦",
+      "name": "flag: Canada :flag-ca:"
+    },
+    {
+      "value": "🇨🇨",
+      "name": "flag: Cocos (Keeling) Islands :flag-cc:"
+    },
+    {
+      "value": "🇨🇩",
+      "name": "flag: Congo - Kinshasa :flag-cd:"
+    },
+    {
+      "value": "🇨🇫",
+      "name": "flag: Central African Republic :flag-cf:"
+    },
+    {
+      "value": "🇨🇬",
+      "name": "flag: Congo - Brazzaville :flag-cg:"
+    },
+    {
+      "value": "🇨🇭",
+      "name": "flag: Switzerland :flag-ch:"
+    },
+    {
+      "value": "🇨🇮",
+      "name": "flag: Côte d’Ivoire :flag-ci:"
+    },
+    {
+      "value": "🇨🇰",
+      "name": "flag: Cook Islands :flag-ck:"
+    },
+    {
+      "value": "🇨🇱",
+      "name": "flag: Chile :flag-cl:"
+    },
+    {
+      "value": "🇨🇲",
+      "name": "flag: Cameroon :flag-cm:"
+    },
+    {
+      "value": "🇨🇳",
+      "name": "flag: China :flag-cn:"
+    },
+    {
+      "value": "🇨🇴",
+      "name": "flag: Colombia :flag-co:"
+    },
+    {
+      "value": "🇨🇵",
+      "name": "flag: Clipperton Island :flag-cp:"
+    },
+    {
+      "value": "🇨🇷",
+      "name": "flag: Costa Rica :flag-cr:"
+    },
+    {
+      "value": "🇨🇺",
+      "name": "flag: Cuba :flag-cu:"
+    },
+    {
+      "value": "🇨🇻",
+      "name": "flag: Cape Verde :flag-cv:"
+    },
+    {
+      "value": "🇨🇼",
+      "name": "flag: Curaçao :flag-cw:"
+    },
+    {
+      "value": "🇨🇽",
+      "name": "flag: Christmas Island :flag-cx:"
+    },
+    {
+      "value": "🇨🇾",
+      "name": "flag: Cyprus :flag-cy:"
+    },
+    {
+      "value": "🇨🇿",
+      "name": "flag: Czechia :flag-cz:"
+    },
+    {
+      "value": "🇩🇪",
+      "name": "flag: Germany :flag-de:"
+    },
+    {
+      "value": "🇩🇬",
+      "name": "flag: Diego Garcia :flag-dg:"
+    },
+    {
+      "value": "🇩🇯",
+      "name": "flag: Djibouti :flag-dj:"
+    },
+    {
+      "value": "🇩🇰",
+      "name": "flag: Denmark :flag-dk:"
+    },
+    {
+      "value": "🇩🇲",
+      "name": "flag: Dominica :flag-dm:"
+    },
+    {
+      "value": "🇩🇴",
+      "name": "flag: Dominican Republic :flag-do:"
+    },
+    {
+      "value": "🇩🇿",
+      "name": "flag: Algeria :flag-dz:"
+    },
+    {
+      "value": "🇪🇦",
+      "name": "flag: Ceuta & Melilla :flag-ea:"
+    },
+    {
+      "value": "🇪🇨",
+      "name": "flag: Ecuador :flag-ec:"
+    },
+    {
+      "value": "🇪🇪",
+      "name": "flag: Estonia :flag-ee:"
+    },
+    {
+      "value": "🇪🇬",
+      "name": "flag: Egypt :flag-eg:"
+    },
+    {
+      "value": "🇪🇭",
+      "name": "flag: Western Sahara :flag-eh:"
+    },
+    {
+      "value": "🇪🇷",
+      "name": "flag: Eritrea :flag-er:"
+    },
+    {
+      "value": "🇪🇸",
+      "name": "flag: Spain :flag-es:"
+    },
+    {
+      "value": "🇪🇹",
+      "name": "flag: Ethiopia :flag-et:"
+    },
+    {
+      "value": "🇪🇺",
+      "name": "flag: European Union :flag-eu:"
+    },
+    {
+      "value": "🇫🇮",
+      "name": "flag: Finland :flag-fi:"
+    },
+    {
+      "value": "🇫🇯",
+      "name": "flag: Fiji :flag-fj:"
+    },
+    {
+      "value": "🇫🇰",
+      "name": "flag: Falkland Islands :flag-fk:"
+    },
+    {
+      "value": "🇫🇲",
+      "name": "flag: Micronesia :flag-fm:"
+    },
+    {
+      "value": "🇫🇴",
+      "name": "flag: Faroe Islands :flag-fo:"
+    },
+    {
+      "value": "🇫🇷",
+      "name": "flag: France :flag-fr:"
+    },
+    {
+      "value": "🇬🇦",
+      "name": "flag: Gabon :flag-ga:"
+    },
+    {
+      "value": "🇬🇧",
+      "name": "flag: United Kingdom :flag-gb:"
+    },
+    {
+      "value": "🇬🇩",
+      "name": "flag: Grenada :flag-gd:"
+    },
+    {
+      "value": "🇬🇪",
+      "name": "flag: Georgia :flag-ge:"
+    },
+    {
+      "value": "🇬🇫",
+      "name": "flag: French Guiana :flag-gf:"
+    },
+    {
+      "value": "🇬🇬",
+      "name": "flag: Guernsey :flag-gg:"
+    },
+    {
+      "value": "🇬🇭",
+      "name": "flag: Ghana :flag-gh:"
+    },
+    {
+      "value": "🇬🇮",
+      "name": "flag: Gibraltar :flag-gi:"
+    },
+    {
+      "value": "🇬🇱",
+      "name": "flag: Greenland :flag-gl:"
+    },
+    {
+      "value": "🇬🇲",
+      "name": "flag: Gambia :flag-gm:"
+    },
+    {
+      "value": "🇬🇳",
+      "name": "flag: Guinea :flag-gn:"
+    },
+    {
+      "value": "🇬🇵",
+      "name": "flag: Guadeloupe :flag-gp:"
+    },
+    {
+      "value": "🇬🇶",
+      "name": "flag: Equatorial Guinea :flag-gq:"
+    },
+    {
+      "value": "🇬🇷",
+      "name": "flag: Greece :flag-gr:"
+    },
+    {
+      "value": "🇬🇸",
+      "name": "flag: South Georgia & South Sandwich Islands :flag-gs:"
+    },
+    {
+      "value": "🇬🇹",
+      "name": "flag: Guatemala :flag-gt:"
+    },
+    {
+      "value": "🇬🇺",
+      "name": "flag: Guam :flag-gu:"
+    },
+    {
+      "value": "🇬🇼",
+      "name": "flag: Guinea-Bissau :flag-gw:"
+    },
+    {
+      "value": "🇬🇾",
+      "name": "flag: Guyana :flag-gy:"
+    },
+    {
+      "value": "🇭🇰",
+      "name": "flag: Hong Kong SAR China :flag-hk:"
+    },
+    {
+      "value": "🇭🇲",
+      "name": "flag: Heard & McDonald Islands :flag-hm:"
+    },
+    {
+      "value": "🇭🇳",
+      "name": "flag: Honduras :flag-hn:"
+    },
+    {
+      "value": "🇭🇷",
+      "name": "flag: Croatia :flag-hr:"
+    },
+    {
+      "value": "🇭🇹",
+      "name": "flag: Haiti :flag-ht:"
+    },
+    {
+      "value": "🇭🇺",
+      "name": "flag: Hungary :flag-hu:"
+    },
+    {
+      "value": "🇮🇨",
+      "name": "flag: Canary Islands :flag-ic:"
+    },
+    {
+      "value": "🇮🇩",
+      "name": "flag: Indonesia :flag-id:"
+    },
+    {
+      "value": "🇮🇪",
+      "name": "flag: Ireland :flag-ie:"
+    },
+    {
+      "value": "🇮🇱",
+      "name": "flag: Israel :flag-il:"
+    },
+    {
+      "value": "🇮🇲",
+      "name": "flag: Isle of Man :flag-im:"
+    },
+    {
+      "value": "🇮🇳",
+      "name": "flag: India :flag-in:"
+    },
+    {
+      "value": "🇮🇴",
+      "name": "flag: British Indian Ocean Territory :flag-io:"
+    },
+    {
+      "value": "🇮🇶",
+      "name": "flag: Iraq :flag-iq:"
+    },
+    {
+      "value": "🇮🇷",
+      "name": "flag: Iran :flag-ir:"
+    },
+    {
+      "value": "🇮🇸",
+      "name": "flag: Iceland :flag-is:"
+    },
+    {
+      "value": "🇮🇹",
+      "name": "flag: Italy :flag-it:"
+    },
+    {
+      "value": "🇯🇪",
+      "name": "flag: Jersey :flag-je:"
+    },
+    {
+      "value": "🇯🇲",
+      "name": "flag: Jamaica :flag-jm:"
+    },
+    {
+      "value": "🇯🇴",
+      "name": "flag: Jordan :flag-jo:"
+    },
+    {
+      "value": "🇯🇵",
+      "name": "flag: Japan :flag-jp:"
+    },
+    {
+      "value": "🇰🇪",
+      "name": "flag: Kenya :flag-ke:"
+    },
+    {
+      "value": "🇰🇬",
+      "name": "flag: Kyrgyzstan :flag-kg:"
+    },
+    {
+      "value": "🇰🇭",
+      "name": "flag: Cambodia :flag-kh:"
+    },
+    {
+      "value": "🇰🇮",
+      "name": "flag: Kiribati :flag-ki:"
+    },
+    {
+      "value": "🇰🇲",
+      "name": "flag: Comoros :flag-km:"
+    },
+    {
+      "value": "🇰🇳",
+      "name": "flag: St. Kitts & Nevis :flag-kn:"
+    },
+    {
+      "value": "🇰🇵",
+      "name": "flag: North Korea :flag-kp:"
+    },
+    {
+      "value": "🇰🇷",
+      "name": "flag: South Korea :flag-kr:"
+    },
+    {
+      "value": "🇰🇼",
+      "name": "flag: Kuwait :flag-kw:"
+    },
+    {
+      "value": "🇰🇾",
+      "name": "flag: Cayman Islands :flag-ky:"
+    },
+    {
+      "value": "🇰🇿",
+      "name": "flag: Kazakhstan :flag-kz:"
+    },
+    {
+      "value": "🇱🇦",
+      "name": "flag: Laos :flag-la:"
+    },
+    {
+      "value": "🇱🇧",
+      "name": "flag: Lebanon :flag-lb:"
+    },
+    {
+      "value": "🇱🇨",
+      "name": "flag: St. Lucia :flag-lc:"
+    },
+    {
+      "value": "🇱🇮",
+      "name": "flag: Liechtenstein :flag-li:"
+    },
+    {
+      "value": "🇱🇰",
+      "name": "flag: Sri Lanka :flag-lk:"
+    },
+    {
+      "value": "🇱🇷",
+      "name": "flag: Liberia :flag-lr:"
+    },
+    {
+      "value": "🇱🇸",
+      "name": "flag: Lesotho :flag-ls:"
+    },
+    {
+      "value": "🇱🇹",
+      "name": "flag: Lithuania :flag-lt:"
+    },
+    {
+      "value": "🇱🇺",
+      "name": "flag: Luxembourg :flag-lu:"
+    },
+    {
+      "value": "🇱🇻",
+      "name": "flag: Latvia :flag-lv:"
+    },
+    {
+      "value": "🇱🇾",
+      "name": "flag: Libya :flag-ly:"
+    },
+    {
+      "value": "🇲🇦",
+      "name": "flag: Morocco :flag-ma:"
+    },
+    {
+      "value": "🇲🇨",
+      "name": "flag: Monaco :flag-mc:"
+    },
+    {
+      "value": "🇲🇩",
+      "name": "flag: Moldova :flag-md:"
+    },
+    {
+      "value": "🇲🇪",
+      "name": "flag: Montenegro :flag-me:"
+    },
+    {
+      "value": "🇲🇫",
+      "name": "flag: St. Martin :flag-mf:"
+    },
+    {
+      "value": "🇲🇬",
+      "name": "flag: Madagascar :flag-mg:"
+    },
+    {
+      "value": "🇲🇭",
+      "name": "flag: Marshall Islands :flag-mh:"
+    },
+    {
+      "value": "🇲🇰",
+      "name": "flag: North Macedonia :flag-mk:"
+    },
+    {
+      "value": "🇲🇱",
+      "name": "flag: Mali :flag-ml:"
+    },
+    {
+      "value": "🇲🇲",
+      "name": "flag: Myanmar (Burma) :flag-mm:"
+    },
+    {
+      "value": "🇲🇳",
+      "name": "flag: Mongolia :flag-mn:"
+    },
+    {
+      "value": "🇲🇴",
+      "name": "flag: Macao SAR China :flag-mo:"
+    },
+    {
+      "value": "🇲🇵",
+      "name": "flag: Northern Mariana Islands :flag-mp:"
+    },
+    {
+      "value": "🇲🇶",
+      "name": "flag: Martinique :flag-mq:"
+    },
+    {
+      "value": "🇲🇷",
+      "name": "flag: Mauritania :flag-mr:"
+    },
+    {
+      "value": "🇲🇸",
+      "name": "flag: Montserrat :flag-ms:"
+    },
+    {
+      "value": "🇲🇹",
+      "name": "flag: Malta :flag-mt:"
+    },
+    {
+      "value": "🇲🇺",
+      "name": "flag: Mauritius :flag-mu:"
+    },
+    {
+      "value": "🇲🇻",
+      "name": "flag: Maldives :flag-mv:"
+    },
+    {
+      "value": "🇲🇼",
+      "name": "flag: Malawi :flag-mw:"
+    },
+    {
+      "value": "🇲🇽",
+      "name": "flag: Mexico :flag-mx:"
+    },
+    {
+      "value": "🇲🇾",
+      "name": "flag: Malaysia :flag-my:"
+    },
+    {
+      "value": "🇲🇿",
+      "name": "flag: Mozambique :flag-mz:"
+    },
+    {
+      "value": "🇳🇦",
+      "name": "flag: Namibia :flag-na:"
+    },
+    {
+      "value": "🇳🇨",
+      "name": "flag: New Caledonia :flag-nc:"
+    },
+    {
+      "value": "🇳🇪",
+      "name": "flag: Niger :flag-ne:"
+    },
+    {
+      "value": "🇳🇫",
+      "name": "flag: Norfolk Island :flag-nf:"
+    },
+    {
+      "value": "🇳🇬",
+      "name": "flag: Nigeria :flag-ng:"
+    },
+    {
+      "value": "🇳🇮",
+      "name": "flag: Nicaragua :flag-ni:"
+    },
+    {
+      "value": "🇳🇱",
+      "name": "flag: Netherlands :flag-nl:"
+    },
+    {
+      "value": "🇳🇴",
+      "name": "flag: Norway :flag-no:"
+    },
+    {
+      "value": "🇳🇵",
+      "name": "flag: Nepal :flag-np:"
+    },
+    {
+      "value": "🇳🇷",
+      "name": "flag: Nauru :flag-nr:"
+    },
+    {
+      "value": "🇳🇺",
+      "name": "flag: Niue :flag-nu:"
+    },
+    {
+      "value": "🇳🇿",
+      "name": "flag: New Zealand :flag-nz:"
+    },
+    {
+      "value": "🇴🇲",
+      "name": "flag: Oman :flag-om:"
+    },
+    {
+      "value": "🇵🇦",
+      "name": "flag: Panama :flag-pa:"
+    },
+    {
+      "value": "🇵🇪",
+      "name": "flag: Peru :flag-pe:"
+    },
+    {
+      "value": "🇵🇫",
+      "name": "flag: French Polynesia :flag-pf:"
+    },
+    {
+      "value": "🇵🇬",
+      "name": "flag: Papua New Guinea :flag-pg:"
+    },
+    {
+      "value": "🇵🇭",
+      "name": "flag: Philippines :flag-ph:"
+    },
+    {
+      "value": "🇵🇰",
+      "name": "flag: Pakistan :flag-pk:"
+    },
+    {
+      "value": "🇵🇱",
+      "name": "flag: Poland :flag-pl:"
+    },
+    {
+      "value": "🇵🇲",
+      "name": "flag: St. Pierre & Miquelon :flag-pm:"
+    },
+    {
+      "value": "🇵🇳",
+      "name": "flag: Pitcairn Islands :flag-pn:"
+    },
+    {
+      "value": "🇵🇷",
+      "name": "flag: Puerto Rico :flag-pr:"
+    },
+    {
+      "value": "🇵🇸",
+      "name": "flag: Palestinian Territories :flag-ps:"
+    },
+    {
+      "value": "🇵🇹",
+      "name": "flag: Portugal :flag-pt:"
+    },
+    {
+      "value": "🇵🇼",
+      "name": "flag: Palau :flag-pw:"
+    },
+    {
+      "value": "🇵🇾",
+      "name": "flag: Paraguay :flag-py:"
+    },
+    {
+      "value": "🇶🇦",
+      "name": "flag: Qatar :flag-qa:"
+    },
+    {
+      "value": "🇷🇪",
+      "name": "flag: Réunion :flag-re:"
+    },
+    {
+      "value": "🇷🇴",
+      "name": "flag: Romania :flag-ro:"
+    },
+    {
+      "value": "🇷🇸",
+      "name": "flag: Serbia :flag-rs:"
+    },
+    {
+      "value": "🇷🇺",
+      "name": "flag: Russia :flag-ru:"
+    },
+    {
+      "value": "🇷🇼",
+      "name": "flag: Rwanda :flag-rw:"
+    },
+    {
+      "value": "🇸🇦",
+      "name": "flag: Saudi Arabia :flag-sa:"
+    },
+    {
+      "value": "🇸🇧",
+      "name": "flag: Solomon Islands :flag-sb:"
+    },
+    {
+      "value": "🇸🇨",
+      "name": "flag: Seychelles :flag-sc:"
+    },
+    {
+      "value": "🇸🇩",
+      "name": "flag: Sudan :flag-sd:"
+    },
+    {
+      "value": "🇸🇪",
+      "name": "flag: Sweden :flag-se:"
+    },
+    {
+      "value": "🇸🇬",
+      "name": "flag: Singapore :flag-sg:"
+    },
+    {
+      "value": "🇸🇭",
+      "name": "flag: St. Helena :flag-sh:"
+    },
+    {
+      "value": "🇸🇮",
+      "name": "flag: Slovenia :flag-si:"
+    },
+    {
+      "value": "🇸🇯",
+      "name": "flag: Svalbard & Jan Mayen :flag-sj:"
+    },
+    {
+      "value": "🇸🇰",
+      "name": "flag: Slovakia :flag-sk:"
+    },
+    {
+      "value": "🇸🇱",
+      "name": "flag: Sierra Leone :flag-sl:"
+    },
+    {
+      "value": "🇸🇲",
+      "name": "flag: San Marino :flag-sm:"
+    },
+    {
+      "value": "🇸🇳",
+      "name": "flag: Senegal :flag-sn:"
+    },
+    {
+      "value": "🇸🇴",
+      "name": "flag: Somalia :flag-so:"
+    },
+    {
+      "value": "🇸🇷",
+      "name": "flag: Suriname :flag-sr:"
+    },
+    {
+      "value": "🇸🇸",
+      "name": "flag: South Sudan :flag-ss:"
+    },
+    {
+      "value": "🇸🇹",
+      "name": "flag: São Tomé & Príncipe :flag-st:"
+    },
+    {
+      "value": "🇸🇻",
+      "name": "flag: El Salvador :flag-sv:"
+    },
+    {
+      "value": "🇸🇽",
+      "name": "flag: Sint Maarten :flag-sx:"
+    },
+    {
+      "value": "🇸🇾",
+      "name": "flag: Syria :flag-sy:"
+    },
+    {
+      "value": "🇸🇿",
+      "name": "flag: Eswatini :flag-sz:"
+    },
+    {
+      "value": "🇹🇦",
+      "name": "flag: Tristan da Cunha :flag-ta:"
+    },
+    {
+      "value": "🇹🇨",
+      "name": "flag: Turks & Caicos Islands :flag-tc:"
+    },
+    {
+      "value": "🇹🇩",
+      "name": "flag: Chad :flag-td:"
+    },
+    {
+      "value": "🇹🇫",
+      "name": "flag: French Southern Territories :flag-tf:"
+    },
+    {
+      "value": "🇹🇬",
+      "name": "flag: Togo :flag-tg:"
+    },
+    {
+      "value": "🇹🇭",
+      "name": "flag: Thailand :flag-th:"
+    },
+    {
+      "value": "🇹🇯",
+      "name": "flag: Tajikistan :flag-tj:"
+    },
+    {
+      "value": "🇹🇰",
+      "name": "flag: Tokelau :flag-tk:"
+    },
+    {
+      "value": "🇹🇱",
+      "name": "flag: Timor-Leste :flag-tl:"
+    },
+    {
+      "value": "🇹🇲",
+      "name": "flag: Turkmenistan :flag-tm:"
+    },
+    {
+      "value": "🇹🇳",
+      "name": "flag: Tunisia :flag-tn:"
+    },
+    {
+      "value": "🇹🇴",
+      "name": "flag: Tonga :flag-to:"
+    },
+    {
+      "value": "🇹🇷",
+      "name": "flag: Turkey :flag-tr:"
+    },
+    {
+      "value": "🇹🇹",
+      "name": "flag: Trinidad & Tobago :flag-tt:"
+    },
+    {
+      "value": "🇹🇻",
+      "name": "flag: Tuvalu :flag-tv:"
+    },
+    {
+      "value": "🇹🇼",
+      "name": "flag: Taiwan :flag-tw:"
+    },
+    {
+      "value": "🇹🇿",
+      "name": "flag: Tanzania :flag-tz:"
+    },
+    {
+      "value": "🇺🇦",
+      "name": "flag: Ukraine :flag-ua:"
+    },
+    {
+      "value": "🇺🇬",
+      "name": "flag: Uganda :flag-ug:"
+    },
+    {
+      "value": "🇺🇲",
+      "name": "flag: U.S. Outlying Islands :flag-um:"
+    },
+    {
+      "value": "🇺🇸",
+      "name": "flag: United States :flag-us:"
+    },
+    {
+      "value": "🇺🇾",
+      "name": "flag: Uruguay :flag-uy:"
+    },
+    {
+      "value": "🇺🇿",
+      "name": "flag: Uzbekistan :flag-uz:"
+    },
+    {
+      "value": "🇻🇦",
+      "name": "flag: Vatican City :flag-va:"
+    },
+    {
+      "value": "🇻🇨",
+      "name": "flag: St. Vincent & Grenadines :flag-vc:"
+    },
+    {
+      "value": "🇻🇪",
+      "name": "flag: Venezuela :flag-ve:"
+    },
+    {
+      "value": "🇻🇬",
+      "name": "flag: British Virgin Islands :flag-vg:"
+    },
+    {
+      "value": "🇻🇮",
+      "name": "flag: U.S. Virgin Islands :flag-vi:"
+    },
+    {
+      "value": "🇻🇳",
+      "name": "flag: Vietnam :flag-vn:"
+    },
+    {
+      "value": "🇻🇺",
+      "name": "flag: Vanuatu :flag_vu:"
+    },
+    {
+      "value": "🇼🇫",
+      "name": "flag: Wallis & Futuna :flag_wf:"
+    },
+    {
+      "value": "🇼🇸",
+      "name": "flag: Samoa :flag_ws:"
+    },
+    {
+      "value": "🇽🇰",
+      "name": "flag: Kosovo :flag_xk:"
+    },
+    {
+      "value": "🇾🇪",
+      "name": "flag: Yemen :flag_ye:"
+    },
+    {
+      "value": "🇾🇹",
+      "name": "flag: Mayotte :flag_yt:"
+    },
+    {
+      "value": "🇿🇦",
+      "name": "flag: South Africa :flag_za:"
+    },
+    {
+      "value": "🇿🇲",
+      "name": "flag: Zambia :flag_zm:"
+    },
+    {
+      "value": "🇿🇼",
+      "name": "flag: Zimbabwe :flag_zw:"
+    }
   ]
 }

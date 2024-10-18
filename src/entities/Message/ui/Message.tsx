@@ -231,7 +231,7 @@ const Message = forwardRef(({
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
             <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-              {decryptedRepliedMessageContent} {decryptedRepliedMessageContent === undefined && <span className="text-destructive">Couldn't decrypt...</span>} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{attachment.filename}] </span>)}
+              {decryptedRepliedMessageContent} {decryptedRepliedMessageContent === undefined && <span className="text-destructive">Couldn't decrypt...</span>} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{decryptString(attachment.filename, decryptionKey)}] </span>)}
             </span>
           </div>
         </div>
@@ -245,7 +245,7 @@ const Message = forwardRef(({
           <div onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             ref={ref}
-            className={`flex flex-col justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-3px] outline-2 outline-primary/80
+            className={`flex flex-col mx-[1px] justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-1px] outline-2 outline-primary/80
               ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}>
             <div className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">

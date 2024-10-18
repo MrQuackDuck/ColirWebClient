@@ -37,10 +37,10 @@ function ThemeButton({}: Props) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => setTheme("light")}>
-            Light
+            <SunIcon className="mr-2 h-4 w-4" /> Light
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setTheme("dark")}>
-            Dark
+            <MoonIcon className="mr-2 h-4 w-4" /> Dark
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
