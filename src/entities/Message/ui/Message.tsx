@@ -320,7 +320,7 @@ const Message = forwardRef(({
                     )}
                   </>
                 )}
-                <EmojiPicker asButton onChange={addOrRemoveReaction} />
+                <EmojiPicker disabled={!controlsEnabled} asButton onChange={addOrRemoveReaction} />
                 {sender && currentUser?.hexId == sender.hexId && (
                   <>
                     {!isButtonDeleteConfirmationShown && (
