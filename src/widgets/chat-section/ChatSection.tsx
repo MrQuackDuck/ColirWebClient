@@ -32,6 +32,7 @@ import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsPr
 import MessagesList from "@/entities/Message/ui/MessagesList"
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
 import { cn } from "@/shared/lib/utils"
+import { useResponsibility } from "@/shared/lib/hooks/useResponsibility"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -61,6 +62,7 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   const filteredMessages = useMemo(() => {
     return messages.filter(m => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
   }, [messages, room]);
+  let { isDesktop } = useResponsibility();
 
   const messageToReplyRef = useRef(messageToReply);
   useEffect(() => {
@@ -343,12 +345,12 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
 
   if (!room) return <></>;
   return (
-    <div className="flex flex-col w-[300%] max-h-full h-full">
+    <div className="flex flex-col max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
-        <Button onClick={openAside} className={`hidden ${classes.openAsideBtn}`} variant={"ghost"} size={"icon"}>
+        {!isDesktop && <Button onClick={openAside} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
           <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
-        </Button>
-        <div className="w-full flex flex-row justify-between flex-wrap gap-1 items-center select-none">
+        </Button>}
+        <div className="w-full flex flex-row justify-between flex-nowrap gap-1 items-center select-none">
           <div className="flex flex-row items-center select-none gap-2.5">
             <DollarSignIcon className="text-slate-400 h-[1.125rem] min-w-[1.125] max-w-[1.125]" />
             <span className="text-ellipsis text-nowrap max-w-[40%] overflow-hidden">{room.name}</span>
@@ -363,13 +365,14 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
                     {room.joinedUsers.map(u => <div key={u.hexId} className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
                 </div>
+                {!isDesktop && <StorageBar className="w-full" room={room} />}
               </PopoverContent>
             </Popover>
             <Separator className="min-h-5" orientation="vertical"/>
-            <span className="text-[14px] text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown date={room.expiryDate}/>}</span>
+            <span className="text-[14px] text-ellipsis whitespace-nowrap overflow-hidden text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown className="whitespace-nowrap" date={room.expiryDate}/>}</span>
           </div>
           <div className="flex flex-row gap-2.5">
-            <StorageBar room={room} />
+            {isDesktop && <StorageBar room={room} />}
           </div>
         </div>
       </header>

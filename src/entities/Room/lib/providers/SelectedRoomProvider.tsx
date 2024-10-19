@@ -16,6 +16,10 @@ const SelectedRoomProvider = ({ children }) => {
   const [selectedRoom, setSelectedRoom] = useState<RoomModel>(joinedRooms?.[0]);
 
   useEffect(() => {
+    if (!selectedRoom || joinedRooms.length == 1) setSelectedRoom(joinedRooms[0]);
+  }, [joinedRooms]);
+
+  useEffect(() => {
     let currentRoom = joinedRooms?.find(room => room.guid === selectedRoom?.guid);
     if (currentRoom) setSelectedRoom(currentRoom);
   }, [joinedRooms]);

@@ -1,7 +1,7 @@
 import RoomTabsList from "@/entities/Room/ui/RoomTabsList";
 import { Button } from "@/shared/ui/Button";
 import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
@@ -14,7 +14,6 @@ function Aside() {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
   let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
-  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
 
   function onJoinedOrCreatedRoom(room: RoomModel) {
@@ -22,10 +21,6 @@ function Aside() {
     setNewRoomModalOpened(false);
     setSelectedRoom(room);
   }
-
-  useEffect(() => {
-    if (!selectedRoom || joinedRooms.length == 1) setSelectedRoom(joinedRooms[0]);
-  }, [joinedRooms]);
 
   return (
     <div className="flex flex-col gap-2.5 w-[100%] h-[100%] p-2.5 pb-0">

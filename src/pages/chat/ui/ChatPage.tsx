@@ -31,6 +31,8 @@ import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomP
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
+import { useResponsibility } from "@/shared/lib/hooks/useResponsibility";
 
 function ChatPage() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
@@ -46,6 +48,7 @@ function ChatPage() {
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
   let getJwt = useJwt();
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
+  let { isDesktop } = useResponsibility();
 
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;
@@ -248,7 +251,7 @@ function ChatPage() {
 
   return (
     <>
-      <Sheet open={asideOpen} onOpenChange={setAsideOpen}>
+      {!isDesktop && <Sheet open={asideOpen} onOpenChange={setAsideOpen}>
         <SheetContent side={"left"}>
           <SheetHeader>
             <SheetTitle>Manage rooms</SheetTitle>
@@ -258,15 +261,23 @@ function ChatPage() {
           </SheetHeader>
           <Aside/>
         </SheetContent>
-      </Sheet>
+      </Sheet>}
       <div className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
-        <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5 ${classes.asideSection}`}>
+        {isDesktop && <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5`}>
           <Aside/>
           <Separator orientation="vertical" />
-        </div>
-        <ChatSection
-          setAsideVisibility={setAsideOpen}
-          room={selectedRoom}/>
+        </div>}
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel className="pr-1" minSize={40}>
+            <ChatSection setAsideVisibility={setAsideOpen} room={selectedRoom}/>
+          </ResizablePanel>
+          {isDesktop && <>
+            <ResizableHandle withHandle/>
+            <ResizablePanel minSize={20}>
+              <div className="bg-background-secondary h-full">hello</div>
+            </ResizablePanel>
+          </>}
+        </ResizablePanelGroup>
       </div>
     </>
   );

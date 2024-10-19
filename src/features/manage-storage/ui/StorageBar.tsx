@@ -13,9 +13,11 @@ import { Progress } from "@/shared/ui/Progress";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
+import { cn } from "@/shared/lib/utils";
 
 interface StorageBarProps {
   room: RoomModel;
+  className?: string;
 }
 
 function StorageBar(props: StorageBarProps) {
@@ -63,7 +65,7 @@ function StorageBar(props: StorageBarProps) {
   return (<>
     <Popover>
       <PopoverTrigger asChild>
-        <div className="w-56 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden">
+        <div className={cn("w-56 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden", props.className)}>
           <div className="h-full bg-foreground" style={{ width: `${(props.room.usedMemoryInBytes / (props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)) * 100}%` }} />
           <Trash2Icon className="absolute top-[5px] left-1.5 mix-blend-difference w-3.5 h-3.5 text-white" />
           <div className="absolute inset-0 flex items-center justify-center text-white mix-blend-difference text-[12px] font-medium">
