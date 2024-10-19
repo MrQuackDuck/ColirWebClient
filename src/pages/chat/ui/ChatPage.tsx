@@ -274,7 +274,7 @@ function ChatPage() {
           {isDesktop && <>
             <ResizableHandle withHandle/>
             <ResizablePanel minSize={20}>
-              <div className="bg-background-secondary h-full">hello</div>
+              <div className="bg-background-secondary h-full">Voice Chat Section</div>
             </ResizablePanel>
           </>}
         </ResizablePanelGroup>
