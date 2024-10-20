@@ -1,7 +1,7 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel"
 import { Button } from "@/shared/ui/Button"
 import { Separator } from "@/shared/ui/Separator"
-import { ArrowDown, DollarSignIcon, PanelRightCloseIcon } from "lucide-react"
+import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../features/send-message/ui/ChatInput"
@@ -37,9 +37,10 @@ import { useResponsibility } from "@/shared/lib/hooks/useResponsibility"
 interface ChatSectionProps {
   room: RoomModel;
   setAsideVisibility: (isVisible: boolean) => any | null;
+  setVoiceChatSectionVisibility: (isVisible: boolean) => any | null;
 }
 
-function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
+function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
   let users = useContextSelector(UsersContext, c => c.users);
@@ -342,13 +343,17 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
   function openAside() {
     setAsideVisibility(true);
   }
+  
+  function openVoiceChatSection() {
+    setVoiceChatSectionVisibility(true);
+  }
 
   if (!room) return <></>;
   return (
     <div className="flex flex-col max-h-full h-full">
       <header className="flex flex-row items-center pb-2 gap-1">
         {!isDesktop && <Button onClick={openAside} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
-          <PanelRightCloseIcon strokeWidth={2.5} className="h-5 w-5 text-slate-400" />
+          <PanelRightCloseIcon className="h-5 w-5 text-slate-400" />
         </Button>}
         <div className="w-full flex flex-row justify-between flex-nowrap gap-1 items-center select-none">
           <div className="flex flex-row items-center select-none gap-2.5">
@@ -373,6 +378,9 @@ function ChatSection({ room, setAsideVisibility }: ChatSectionProps) {
           </div>
           <div className="flex flex-row gap-2.5">
             {isDesktop && <StorageBar room={room} />}
+            {!isDesktop && <Button onClick={openVoiceChatSection} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
+              <PanelLeftCloseIcon className="h-5 w-5 text-slate-400" />
+            </Button>}
           </div>
         </div>
       </header>
