@@ -104,12 +104,12 @@ function ChatPage() {
           </div>
         }
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel id="chatSectionPanel" order={1} defaultSize={80} minSize={40}>
+          <ResizablePanel id="chatSectionPanel" order={1} defaultSize={75} minSize={40}>
             <ChatSection setAsideVisibility={setAsideOpen} setVoiceChatSectionVisibility={setVoiceChatSectionOpen} room={selectedRoom}/>
           </ResizablePanel>
           {isDesktop && <>
             <ResizableHandle id="handle" className="mx-2.5" withHandle/>
-            <ResizablePanel id="voiceChatSectionPanel" order={2} defaultSize={20} minSize={20}>
+            <ResizablePanel id="voiceChatSectionPanel" order={2} defaultSize={25} minSize={20}>
               <VoiceChatSection/>
             </ResizablePanel>
           </>}
