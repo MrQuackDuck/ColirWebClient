@@ -9,7 +9,7 @@ import { TooltipProvider } from "@/shared/ui/Tooltip";
 import JoinedRoomsProvider from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 import { UsersProvider } from "@/entities/User/lib/providers/UsersProvider";
 import SelectedRoomProvider from "@/entities/Room/lib/providers/SelectedRoomProvider";
-import { ChatConnectionsProvider } from "@/shared/lib/providers/ChatConnectionsProvider";
+import { ChatConnectionsProvider } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
 import { EncryptionKeysProvider } from "@/shared/lib/providers/EncryptionKeysProvider";
 
 createRoot(document.getElementById("root")!).render(

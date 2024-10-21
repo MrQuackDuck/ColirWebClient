@@ -225,6 +225,7 @@ const Message = forwardRef(({
 
   return (
     <div className={`flex flex-col justify-between my-0.5 mt-1`}>
+      {/* Reply section */}
       {repliedMessage && (
         <div onClick={handleReplySectionClicked} className="inline-flex w-fit max-h-5 flex-row cursor-pointer hover:underline px-2 pb-[2px] justify-between items-center rounded-t-[6px]">
           <div className="flex flex-row max-h-5 overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">

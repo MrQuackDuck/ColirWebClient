@@ -11,6 +11,8 @@ import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsPro
 import { MessagesProvider } from "@/entities/Message/lib/providers/MessagesProvider";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
+import { VoiceChatControlsProvider } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
 
 function App() {
   let isLoading = useContextSelector(LoadingContext, c => c.isLoading);
@@ -37,11 +39,15 @@ function App() {
     <BrowserRouter>
       <Header/>
       <MessagesProvider>
-        <Routes>
-          {getRoutes()}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        {isLoading && <Loader />}
+        <VoiceChatConnectionsProvider>
+          <VoiceChatControlsProvider>
+            <Routes>
+              {getRoutes()}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            {isLoading && <Loader />}
+          </VoiceChatControlsProvider>
+        </VoiceChatConnectionsProvider>
       </MessagesProvider>
       <Toaster />
     </BrowserRouter>

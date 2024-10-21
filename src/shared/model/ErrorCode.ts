@@ -20,5 +20,6 @@ export enum ErrorCode {
   UserNotFound,
   YouAreNotAuthorOfMessage,
   YouAreNotAuthorOfReaction,
-  YouAreNotConnectedToVoiceChannel
+  YouAreNotConnectedToVoiceChannel,
+  YouAreAlreadyConnectedToVoiceChannel,
 }

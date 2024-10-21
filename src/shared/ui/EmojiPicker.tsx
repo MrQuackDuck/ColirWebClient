@@ -1,13 +1,18 @@
-import { useState, useMemo, useEffect } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import { SmileIcon, SmilePlusIcon } from "lucide-react";
-import { cn } from "../lib/utils";
-import { Button } from "./Button";
-import './EmojiPicker.css'
-import { ScrollArea } from "./ScrollArea";
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/Popover';
+import { SmileIcon, SmilePlusIcon } from 'lucide-react';
+import { cn } from '../lib/utils';
+import { Button } from './Button';
+import './EmojiPicker.css';
+import { ScrollArea } from './ScrollArea';
 import emojiData from '../lib/emojis.json';
-import { Separator } from "./Separator";
-import { Input } from "./Input";
+import { Separator } from './Separator';
+import { Input } from './Input';
+
+interface Emoji {
+  name: string;
+  value: string;
+}
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -19,6 +24,7 @@ interface EmojiPickerProps {
 export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchString, setSearchString] = useState('');
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const filteredEmojiData = useMemo(() => {
     const lowercaseSearch = searchString.toLowerCase();
@@ -29,6 +35,14 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
       ])
     );
   }, [searchString]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTop = 0;
+      }
+    }
+  }, [isOpen]);
 
   function getButtonTrigger() {
     return (
@@ -44,17 +58,12 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
     );
   }
 
-  function handleClick(e, emoji) {
-    if (e && (e.which == 2 || e.button == 4 )) {
-      return;
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>, emoji: Emoji) {
+    if (e.button === 1) {
+      return; // Middle click, do nothing
     }
-
     onChange(emoji.value);
   }
-
-  useEffect(() => {
-    if (!isOpen) setSearchString('');
-  }, [isOpen]);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -70,7 +79,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
               onChange={(e) => setSearchString(e.target.value)}
               placeholder="Find emoji"
             />
-            <ScrollArea className="h-[400px] text-[22px] mt-1 p-2">
+            <ScrollArea ref={scrollAreaRef} className="h-[400px] text-[22px] mt-1 p-2">
               <div className="flex flex-col h-full gap-1">
                 {Object.entries(filteredEmojiData).map(([category, emojis]) => (
                   emojis.length > 0 && (

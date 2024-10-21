@@ -1,5 +1,5 @@
 import { Separator } from "@/shared/ui/Separator";
-import ChatSection from "../../../widgets/chat-section/ChatSection";
+import ChatSection from "../../../widgets/chat-section/ui/ChatSection";
 import { useEffect, useState } from "react";
 import classes from "./ChatPage.module.css";
 import {
@@ -19,11 +19,13 @@ import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsPro
 import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider";
+import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
 import { useResponsibility } from "@/shared/lib/hooks/useResponsibility";
 import { useChatConnection } from "../lib/hooks/useChatConnection";
 import VoiceChatSection from "@/widgets/voice-chat-section/ui/VoiceChatSection";
+import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
+import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 
 function ChatPage() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
@@ -31,6 +33,8 @@ function ChatPage() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let chatConnections = useContextSelector(ChatConnectionsContext, c => c.chatConnections);
   let setChatConnections = useContextSelector(ChatConnectionsContext, c => c.setChatConnections);
+  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
+  let setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.setVoiceChatConnections);
   let setMessages = useContextSelector(MessagesContext, c => c.setMessages);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
@@ -39,7 +43,7 @@ function ChatPage() {
   let [voiceChatSectionOpen, setVoiceChatSectionOpen] = useState<boolean>(false); // For mobile devices
   let { isDesktop } = useResponsibility();
 
-  const { startConnection } = useChatConnection(
+  const { startChatConnection } = useChatConnection(
     currentUser,
     joinedRooms,
     setJoinedRooms,
@@ -50,16 +54,34 @@ function ChatPage() {
     setSelectedRoom
   );
 
-  // Starts the SignalR connection for each room
+  const { startVoiceConnection } = useVoiceChatConnection(
+    currentUser,
+    joinedRooms,
+    selectedRoom,
+    setVoiceChatConnections
+  );
+
+  // Starts a SignalR connection for each room's text chat
   useEffect(() => {
     let mappedConnections: string[] = [];
     chatConnections.map((c) => {
       if (chatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
       if (mappedConnections.includes(c.roomGuid)) return;
       mappedConnections.push(c.roomGuid);
-      startConnection(c.roomGuid, c.connection);
+      startChatConnection(c.roomGuid, c.connection);
     });
   }, [chatConnections.length]);
+
+  // Starts a SignalR connection for each room's voice chat
+  useEffect(() => {
+    let mappedConnections: string[] = [];
+    voiceChatConnections.map((c) => {
+      if (voiceChatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
+      if (mappedConnections.includes(c.roomGuid)) return;
+      mappedConnections.push(c.roomGuid);
+      startVoiceConnection(c.roomGuid, c.connection);
+    });
+  }, [voiceChatConnections.length]);
 
   return (
     <>
@@ -75,17 +97,19 @@ function ChatPage() {
         </SheetContent>
       </Sheet>}
       <div className={`flex flex-row items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
-        {isDesktop && <div className={`flex flex-row w-[100%] h-[100%] max-w-[250px] p-2.5`}>
-          <Aside/>
-          <Separator orientation="vertical" />
-        </div>}
+        {isDesktop && 
+          <div className={`flex flex-row flex-shrink-0 w-full h-full max-w-[280px] p-2.5`}>
+            <Aside/>
+            <Separator orientation="vertical" />
+          </div>
+        }
         <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={80} minSize={40}>
+          <ResizablePanel id="chatSectionPanel" order={1} defaultSize={80} minSize={40}>
             <ChatSection setAsideVisibility={setAsideOpen} setVoiceChatSectionVisibility={setVoiceChatSectionOpen} room={selectedRoom}/>
           </ResizablePanel>
           {isDesktop && <>
-            <ResizableHandle className="mx-2.5" withHandle/>
-            <ResizablePanel defaultSize={20} minSize={20}>
+            <ResizableHandle id="handle" className="mx-2.5" withHandle/>
+            <ResizablePanel id="voiceChatSectionPanel" order={2} defaultSize={20} minSize={20}>
               <VoiceChatSection/>
             </ResizablePanel>
           </>}

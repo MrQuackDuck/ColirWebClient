@@ -4,7 +4,7 @@ import { Separator } from "@/shared/ui/Separator"
 import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react"
 import Countdown from 'react-countdown'
 import classes from './ChatSection.module.css'
-import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../features/send-message/ui/ChatInput"
+import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput"
 import { MessageModel } from "@/entities/Message/model/MessageModel"
 import { showErrorToast } from "@/shared/lib/showErrorToast"
 import { ScrollArea } from "@/shared/ui/ScrollArea"
@@ -28,7 +28,7 @@ import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvid
 import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider"
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider"
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider"
-import { ChatConnectionsContext } from "@/shared/lib/providers/ChatConnectionsProvider"
+import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider"
 import MessagesList from "@/entities/Message/ui/MessagesList"
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
 import { cn } from "@/shared/lib/utils"

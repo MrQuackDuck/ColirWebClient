@@ -17,7 +17,7 @@ interface EncryptedImageViewerProps {
 function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef, fileName, sizeString }: EncryptedImageViewerProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const isGif = fileName.toLowerCase().endsWith('.gif');
+  const isGif = fileName?.toLowerCase()?.endsWith('.gif');
   const [isLoading, setIsLoading] = useState(false);
 
   async function decryptAndDisplayImage() {

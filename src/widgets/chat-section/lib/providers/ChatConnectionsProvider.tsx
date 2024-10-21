@@ -1,5 +1,4 @@
-// ChatConnectionsProvider.tsx
-import { ChatConnection } from '@/shared/model/ChatConnection';
+import { ChatConnection } from '@/widgets/chat-section/models/ChatConnection';
 import React, { useState } from 'react';
 import { createContext } from 'use-context-selector';
 

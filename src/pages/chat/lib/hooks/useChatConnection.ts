@@ -42,7 +42,7 @@ export const useChatConnection = (
     setUsers((prevUsers) => [...prevUsers.filter((u) => usersToKeep.find(userHex => userHex == u.hexId))]);
   };
 
-  const startConnection = (roomGuid: string, connection: HubConnection) => {
+  const startChatConnection = (roomGuid: string, connection: HubConnection) => {
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
@@ -214,5 +214,5 @@ export const useChatConnection = (
     verifyUsersPresenceOnAllRooms();
   }, [joinedRooms]);
 
-  return { startConnection };
+  return { startChatConnection };
 };

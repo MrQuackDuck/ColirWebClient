@@ -9,6 +9,7 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 import { useContextSelector } from "use-context-selector";
 import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
+import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
 
 function Aside() {
   let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
@@ -23,29 +24,34 @@ function Aside() {
   }
 
   return (
-    <div className="flex flex-col gap-2.5 w-[100%] h-[100%] p-2.5 pb-0">
-      <Button
-        className="h-19"
-        onClick={() => setNewRoomModalOpened(true)}
-        variant={"secondary"}
-      >
-        <PlusIcon className="mr-1 h-4 w-4" /> New Room
-      </Button>
-      <RoomTabsList
-        onMarkAsReadClicked={() => {}}
-        onSettingsClicked={() => {}}
-      />
+    <div className="flex gap-1 w-full h-full p-2.5 pb-0">
+      <div className="flex flex-col w-full h-full gap-2.5">
+        <Button
+          className="h-19"
+          onClick={() => setNewRoomModalOpened(true)}
+          variant={"secondary"}
+        >
+          <PlusIcon className="mr-1 h-4 w-4" /> New Room
+        </Button>
+        <RoomTabsList
+          onMarkAsReadClicked={() => {}}
+          onSettingsClicked={() => {}}
+        />
 
-      <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>
-        <DialogContent>
-          <DialogTitle className="hidden" />
-          <DialogDescription className="hidden" />
-          <JoinOrCreateRoom
-            onJoinedRoom={(r) => onJoinedOrCreatedRoom(r)}
-            onRoomCreated={(r) => onJoinedOrCreatedRoom(r)}
-          />
-        </DialogContent>
-      </Dialog>
+        <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>
+          <DialogContent>
+            <DialogTitle className="hidden" />
+            <DialogDescription className="hidden" />
+            <JoinOrCreateRoom
+              onJoinedRoom={(r) => onJoinedOrCreatedRoom(r)}
+              onRoomCreated={(r) => onJoinedOrCreatedRoom(r)}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="h-full">
+        <VoiceChatControls/>
+      </div>
     </div>
   );
 }
