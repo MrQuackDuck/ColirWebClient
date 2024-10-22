@@ -5,6 +5,7 @@ import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProv
 import { cn } from "@/shared/lib/utils";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 import { useEffect } from "react";
+import { HubConnectionState } from "@microsoft/signalr";
 
 function VoiceChatControls() {
   const isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
@@ -24,14 +25,14 @@ function VoiceChatControls() {
   }
 
   useEffect(() => {
-    if (joinedVoiceConnection) {
+    if (joinedVoiceConnection && joinedVoiceConnection.connection.state == HubConnectionState.Connected) {
       if (isMuted) joinedVoiceConnection.connection.invoke("MuteSelf");
       else joinedVoiceConnection.connection.invoke("UnmuteSelf");
     }
   }, [isMuted]);
 
   useEffect(() => {
-    if (joinedVoiceConnection) {
+    if (joinedVoiceConnection && joinedVoiceConnection.connection.state == HubConnectionState.Connected) {
       if (isDeafened) joinedVoiceConnection.connection.invoke("DeafenSelf");
       else joinedVoiceConnection.connection.invoke("UndeafenSelf");
     }
