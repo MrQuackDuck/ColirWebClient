@@ -1,22 +1,22 @@
 import { Button } from '@/shared/ui/Button'
 import { Collapsible, CollapsibleContent } from '@/shared/ui/Collapsible';
-import { ChevronUpIcon, HeadphoneOff, MicIcon, MicOffIcon, Plug2Icon, UnplugIcon, Volume2Icon } from 'lucide-react'
+import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from 'lucide-react'
 import { useState } from 'react';
 import { VoiceChatConnection } from '../model/VoiceChatConnection';
 import { cn } from '@/shared/lib/utils';
 import { useContextSelector } from 'use-context-selector';
 import { UsersContext } from '@/entities/User/lib/providers/UsersProvider';
-import Username from '@/entities/User/ui/Username';
+import VoiceChatUser from './VoiceChatUser';
 
-interface VoiceChannelProps {
+interface VoiceChatProps {
   roomName: string;
   voiceChatConnection: VoiceChatConnection;
   isJoined: boolean;
-  joinVoiceChannel: (voiceChatConnection: VoiceChatConnection) => void;
-  leaveVoiceChannel: (voiceChatConnection: VoiceChatConnection) => void;
+  joinVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
+  leaveVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
 }
 
-function VoiceChannel(props: VoiceChannelProps) {
+function VoiceChat(props: VoiceChatProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const users = useContextSelector(UsersContext, (c) => c.users);
 
@@ -24,13 +24,13 @@ function VoiceChannel(props: VoiceChannelProps) {
     setIsCollapsed(!isCollapsed);
   }
 
-  function joinVoiceChannel() {
-    props.joinVoiceChannel(props.voiceChatConnection);
+  function joinVoiceChat() {
+    props.joinVoiceChat(props.voiceChatConnection);
   }
 
-  function joinOrLeaveVoiceChannel() {
-    if (props.isJoined) props.leaveVoiceChannel(props.voiceChatConnection);
-    else joinVoiceChannel();
+  function joinOrLeaveVoiceChat() {
+    if (props.isJoined) props.leaveVoiceChat(props.voiceChatConnection);
+    else joinVoiceChat();
   }
 
   return (
@@ -38,12 +38,12 @@ function VoiceChannel(props: VoiceChannelProps) {
       <div className="flex items-center">
         <div className="flex flex-grow items-center select-none gap-1.5 min-w-0">
           <Volume2Icon className="w-4 h-4 mr-0.5 flex-shrink-0 text-slate-400"/>
-          <span onClick={joinVoiceChannel} className='text-sm cursor-pointer hover:underline font-medium overflow-hidden text-ellipsis whitespace-nowrap'>
+          <span onClick={joinVoiceChat} className='text-sm cursor-pointer hover:underline font-medium overflow-hidden text-ellipsis whitespace-nowrap'>
             {props.roomName}
           </span>
         </div>
         <Button
-          onClick={joinOrLeaveVoiceChannel}
+          onClick={joinOrLeaveVoiceChat}
           className="w-8 h-8 flex-shrink-0 ml-2"
           variant="ghost"
           size="icon">  
@@ -62,15 +62,9 @@ function VoiceChannel(props: VoiceChannelProps) {
       </div>
       <Collapsible open={!isCollapsed} onOpenChange={setIsCollapsed}>
         <CollapsibleContent asChild>
-          <div className='flex flex-col'>
+          <div className='flex flex-col pt-1'>
             {props.voiceChatConnection.joinedUsers.map((user) => (
-              <div key={user.hexId} className="flex p-1 items-center justify-between gap-2">
-                <Username user={users.find(u => u.hexId == user.hexId)} />
-                <div className='flex flex-row gap-1 text-slate-400'>
-                  { user.isMuted ? <MicOffIcon className="w-5 h-5"/> : <MicIcon className="w-5 h-5"/> }
-                  { user.isDeafened && <HeadphoneOff className="w-5 h-5"/> }
-                </div>
-              </div>
+              <VoiceChatUser key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}/>
             ))}
           </div>
         </CollapsibleContent>
@@ -79,4 +73,4 @@ function VoiceChannel(props: VoiceChannelProps) {
   )
 }
 
-export default VoiceChannel
+export default VoiceChat

@@ -366,7 +366,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
               </PopoverTrigger>
               <PopoverContent className="flex flex-col w-fit">
                 <span className="text-base">Members</span>
-                <span className="text-sm text-slate-400">Here are displayed members of the room</span>
+                <span className="text-sm text-slate-400">Here are displayed members of the room.</span>
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
                     {room.joinedUsers.map(u => <div key={u.hexId} className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
                 </div>
