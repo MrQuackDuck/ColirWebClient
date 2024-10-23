@@ -6,7 +6,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 import { VoiceChatControlsContext } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
-import VoiceChat from "./VoiceChannel";
+import VoiceChat from "./VoiceChat";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { Loader2 } from "lucide-react";
 
@@ -23,7 +23,7 @@ function VoiceChatSection() {
   let joinVoiceChat = (connection: VoiceChatConnection) => {
     if (!connection || connection.roomGuid == joinedVoiceConnection?.roomGuid) return;
 
-    // Leave current voice channel
+    // Leave the current voice channel
     if (joinedVoiceConnection) leaveVoiceChat(joinedVoiceConnection);
     if (connection.connection.state != HubConnectionState.Connected) {
       showErrorToast("An error occurred during joining!", "Connection issues with the server.");
@@ -60,6 +60,7 @@ function VoiceChatSection() {
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
           roomName={joinedRooms.find(r => r.guid == joinedVoiceConnection.roomGuid)?.name!} />}
+      
       {selectedRoomVoiceChat && (joinedVoiceConnection ? joinedVoiceConnection.roomGuid != selectedRoomVoiceChat?.roomGuid : true) && 
         <VoiceChat
           isJoined={joinedVoiceConnection != undefined && joinedVoiceConnection.roomGuid == selectedRoomVoiceChat.roomGuid}
