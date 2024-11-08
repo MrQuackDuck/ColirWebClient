@@ -9,6 +9,11 @@ import { VoiceChatControlsContext } from "@/features/manage-voice-controls/lib/p
 import VoiceChat from "./VoiceChat";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
+import { decryptString, encryptString } from "@/shared/lib/utils";
+import { blobToString } from "../lib/blobToString";
+import { stringToBlob } from "../lib/stringToBlob";
 
 function VoiceChatSection() {
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
@@ -18,38 +23,189 @@ function VoiceChatSection() {
   let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
   let selectedRoomVoiceChat = voiceChatConnections.find(c => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
   let isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
+  let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
   let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<number[]>([]);
 
-  let joinVoiceChat = (connection: VoiceChatConnection) => {
+  let isMutedRef = useRef(isMuted);
+  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
+
+  let isDeafenedRef = useRef(isDeafened);
+  useEffect(() => { isDeafenedRef.current = isDeafened; }, [isDeafened]);
+
+  let joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
+  useEffect(() => { joinedVoiceConnectionRef.current = joinedVoiceConnection; }, [joinedVoiceConnection]);
+
+  let mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  let mediaStreamRef = useRef<MediaStream | null>(null);
+
+  async function startRecording() {
+    // Clean up any existing streams and recorders
+    await cleanupMediaStream();
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+        }
+      });
+
+      mediaStreamRef.current = stream;
+      const mediaRecorder = new MediaRecorder(stream, {
+        audioBitsPerSecond: 256000,
+      });
+      mediaRecorderRef.current = mediaRecorder;
+
+      let audioChunks: Blob[] = [];
+
+      mediaRecorder.addEventListener("dataavailable", event => {
+        audioChunks.push(event.data);
+      });
+
+      mediaRecorder.addEventListener("stop", async () => {
+        if (audioChunks.length === 0) return;
+        
+        let audioBlob = new Blob(audioChunks);
+        if (!joinedVoiceConnectionRef.current) return;
+
+        let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
+        let blobAsString = await blobToString(audioBlob);
+
+        joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>(
+          "SendVoiceSignal", 
+          encryptString(blobAsString, encryptionKey)
+        );
+
+        if (isMutedRef.current || !joinedVoiceConnectionRef.current) return;
+
+        // Reset audio chunks
+        audioChunks = [];
+
+        // Only start a new recording if we still have an active connection
+        if (mediaRecorderRef.current === mediaRecorder) {
+          mediaRecorder.start();
+          setTimeout(() => {
+            if (mediaRecorderRef.current === mediaRecorder) {
+              mediaRecorder.stop();
+            }
+          }, 200);
+        }
+      });
+
+      mediaRecorder.start();
+      setTimeout(() => {
+        if (mediaRecorderRef.current === mediaRecorder) {
+          mediaRecorder.stop();
+        }
+      }, 200);
+    } catch (error) {
+      showErrorToast("An error occurred!", "Failed to get the permission to record audio.");
+      setIsMuted(true);
+    }
+  }
+
+  async function cleanupMediaStream() {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    }
+
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+    }
+
+    mediaRecorderRef.current = null;
+  }
+
+  function stopRecording() {
+    cleanupMediaStream();
+  }
+
+  const joinVoiceChat = async (connection: VoiceChatConnection) => {
     if (!connection || connection.roomGuid == joinedVoiceConnection?.roomGuid) return;
 
-    // Leave the current voice channel
-    if (joinedVoiceConnection) leaveVoiceChat(joinedVoiceConnection);
+    // Clean up previous connection
+    if (joinedVoiceConnection) {
+      await leaveVoiceChat(joinedVoiceConnection);
+    }
+
     if (connection.connection.state != HubConnectionState.Connected) {
       showErrorToast("An error occurred during joining!", "Connection issues with the server.");
       return;
     }
-
-    connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened)
-      .then((response) => {
-        if (response.error) throw new Error(response.error.errorCodeAsString);
-        setJoinedVoiceConnection(connection);
-      });
-  }
-
-  let leaveVoiceChat = (connection: VoiceChatConnection) => {
-    if (!connection) return;
-    setJoinedVoiceConnection(undefined);
-    if (connection.connection.state != HubConnectionState.Connected) {
-      showErrorToast("An error occurred during leaving!", "Connection issues with the server.");
+ 
+    const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
+    if (response.error) {
+      showErrorToast("Join Error", "Failed to join voice chat");
+      console.error("Error joining voice chat:", response.error.errorCodeAsString);
       return;
     }
 
-    connection.connection.invoke<SignalRHubResponse<undefined>>("Leave")
-      .then((response) => {
-        if (response.error) throw new Error(response.error.errorCodeAsString);
+    // Remove any existing voice signal handlers
+    connection.connection.off("ReceiveVoiceSignal");
+
+    // Handle incoming voice signal
+    connection.connection.on("ReceiveVoiceSignal", async ({ issuerId, data }) => {
+      if (isDeafenedRef.current) return;
+      if (!joinedVoiceConnectionRef.current) return;
+      let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
+
+      let audioBlob = await stringToBlob(decryptString(data, encryptionKey)!);
+      let audioURL = URL.createObjectURL(audioBlob);
+      setCurrentlyTalkingUsers(prev => {
+        if (!prev.includes(issuerId)) return [...prev, issuerId];
+        return prev;
       });
-  }
+      const audio = new Audio(audioURL);
+      await audio.play();
+      audio.onended = () => setCurrentlyTalkingUsers(prev => prev.filter(id => id != issuerId));
+      URL.revokeObjectURL(audioURL); // Clean up the URL after playing
+    });
+
+    setJoinedVoiceConnection(connection);
+    if (!isMuted) {
+      await startRecording();
+    }
+  };
+
+  const leaveVoiceChat = async (connection: VoiceChatConnection) => {
+    if (!connection) return;
+    
+    await cleanupMediaStream();
+    
+    // Remove the voice signal handler
+    connection.connection.off("ReceiveVoiceSignal");
+
+    if (connection.connection.state != HubConnectionState.Connected) {
+      showErrorToast("An error occurred during leaving!", "Connection issues with the server.");
+      setJoinedVoiceConnection(undefined);
+      return;
+    }
+
+    try {
+      const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Leave");
+      if (response.error) throw new Error(response.error.errorCodeAsString);
+    } catch (error) {
+      console.error("Error leaving voice chat:", error);
+      showErrorToast("Leave Error", "Failed to leave voice chat");
+    } finally {
+      setJoinedVoiceConnection(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (isMuted) stopRecording();
+    if (!isMuted && joinedVoiceConnectionRef.current) startRecording();
+  }, [isMuted]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      cleanupMediaStream();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col h-full gap-2 pt-1.5">
@@ -59,6 +215,7 @@ function VoiceChatSection() {
           voiceChatConnection={joinedVoiceConnection}
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
+          currentlyTalkingUsers={currentlyTalkingUsers}
           roomName={joinedRooms.find(r => r.guid == joinedVoiceConnection.roomGuid)?.name!} />}
       
       {selectedRoomVoiceChat && (joinedVoiceConnection ? joinedVoiceConnection.roomGuid != selectedRoomVoiceChat?.roomGuid : true) && 
@@ -72,10 +229,9 @@ function VoiceChatSection() {
       {(!joinedVoiceConnection && !selectedRoomVoiceChat) && 
         <div className="flex justify-center items-center w-full h-full">
           <Loader2 className='relative w-4 h-4 z-10 animate-spin m-auto'/>
-        </div>
-      }
+        </div>}
     </div>
-  )
+  );
 }
 
-export default VoiceChatSection
+export default VoiceChatSection;

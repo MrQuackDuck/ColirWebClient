@@ -10,16 +10,17 @@ interface VoiceChatUserProps {
   voiceChatUser: VoiceChatUserModel;
   user?: UserModel;
   className?: string;
+  isTalking?: boolean;
 }
 
-function VoiceChatUser({voiceChatUser, user, className}: VoiceChatUserProps) {
+function VoiceChatUser({isTalking, voiceChatUser, user, className}: VoiceChatUserProps) {
   const whiteHex = 16777215;
   const { colorString } = useAdaptiveColor(user ? user.hexId : whiteHex);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex p-2 cursor-pointer transition-colors duration-150 hover:bg-secondary items-center justify-between gap-2 rounded-sm select-none">
+        <div className={cn("flex p-2 cursor-pointer transition-colors duration-150 hover:bg-secondary items-center justify-between gap-2 rounded-sm select-none", isTalking && "outline")}>
           <span
             style={{ color: colorString }}
             className={cn("cursor-pointer text-ellipsis text-sm", className)}>

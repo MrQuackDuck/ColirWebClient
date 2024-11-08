@@ -14,6 +14,7 @@ interface VoiceChatProps {
   isJoined: boolean;
   joinVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
   leaveVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
+  currentlyTalkingUsers?: number[];
 }
 
 function VoiceChat(props: VoiceChatProps) {
@@ -64,7 +65,7 @@ function VoiceChat(props: VoiceChatProps) {
         <CollapsibleContent asChild>
           <div className='flex flex-col pt-1'>
             {props.voiceChatConnection.joinedUsers.map((user) => (
-              <VoiceChatUser key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}/>
+              <VoiceChatUser isTalking={props.currentlyTalkingUsers?.includes(user.hexId)} key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}/>
             ))}
           </div>
         </CollapsibleContent>

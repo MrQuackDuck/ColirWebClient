@@ -36,7 +36,10 @@ const JoinedRoomsProvider = ({ children }) => {
             }
 
             setJoinedRooms((rooms) => [...rooms, response.data]);
-            setUsers(prev => distinctUsers([...prev, ...response.data.joinedUsers]));
+            setUsers(prev => {
+              if (!response.data) return prev;
+              return distinctUsers([...prev, ...response.data.joinedUsers])
+            });
           })
           .catch((e) => console.error(e.response));
       });
