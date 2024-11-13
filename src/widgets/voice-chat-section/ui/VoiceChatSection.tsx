@@ -14,6 +14,7 @@ import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProv
 import { decryptString, encryptString } from "@/shared/lib/utils";
 import { blobToString } from "../lib/blobToString";
 import { stringToBlob } from "../lib/stringToBlob";
+import { UserAudioTrack } from "../model/UserAudioTrack";
 
 function VoiceChatSection() {
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
@@ -40,70 +41,99 @@ function VoiceChatSection() {
   let mediaRecorderRef = useRef<MediaRecorder | null>(null);
   let mediaStreamRef = useRef<MediaStream | null>(null);
 
+  let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
+
   async function startRecording() {
     // Clean up any existing streams and recorders
     await cleanupMediaStream();
 
+    let stream: MediaStream;
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
         }
       });
+    } catch (error) {
+      showErrorToast("An error occurred!", "Failed to get the permission to record audio.");
+      setIsMuted(true);
+      return;
+    }
 
-      mediaStreamRef.current = stream;
-      const mediaRecorder = new MediaRecorder(stream, {
-        audioBitsPerSecond: 256000,
-      });
-      mediaRecorderRef.current = mediaRecorder;
+    mediaStreamRef.current = stream;
+    const mediaRecorder = new MediaRecorder(stream, {
+      audioBitsPerSecond: 128000,
+    });
+    mediaRecorderRef.current = mediaRecorder;
 
-      let audioChunks: Blob[] = [];
+    let audioChunks: Blob[] = [];
 
-      mediaRecorder.addEventListener("dataavailable", event => {
-        audioChunks.push(event.data);
-      });
+    mediaRecorder.addEventListener("dataavailable", event => {
+      audioChunks.push(event.data);
+    });
 
-      mediaRecorder.addEventListener("stop", async () => {
-        if (audioChunks.length === 0) return;
-        
-        let audioBlob = new Blob(audioChunks);
-        if (!joinedVoiceConnectionRef.current) return;
+    mediaRecorder.addEventListener("stop", async () => {
+      if (audioChunks.length === 0) return;
+      
+      let audioBlob = new Blob(audioChunks);
+      if (!joinedVoiceConnectionRef.current) return;
 
-        let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
-        let blobAsString = await blobToString(audioBlob);
+      let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
+      let blobAsString = await blobToString(audioBlob);
 
+      if (!await isAudioTooQuiet(audioBlob)) {
         joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>(
           "SendVoiceSignal", 
           encryptString(blobAsString, encryptionKey)
         );
+      }
 
-        if (isMutedRef.current || !joinedVoiceConnectionRef.current) return;
+      if (isMutedRef.current || !joinedVoiceConnectionRef.current) return;
 
-        // Reset audio chunks
-        audioChunks = [];
+      // Reset audio chunks
+      audioChunks = [];
 
-        // Only start a new recording if we still have an active connection
-        if (mediaRecorderRef.current === mediaRecorder) {
-          mediaRecorder.start();
-          setTimeout(() => {
-            if (mediaRecorderRef.current === mediaRecorder) {
-              mediaRecorder.stop();
-            }
-          }, 200);
-        }
-      });
+      // Only start a new recording if we still have an active connection
+      if (mediaRecorderRef.current === mediaRecorder) {
+        mediaRecorder.start();
+        setTimeout(() => {
+          if (mediaRecorderRef.current === mediaRecorder) {
+            mediaRecorder.stop();
+          }
+        }, 300);
+      }
+    });
 
-      mediaRecorder.start();
-      setTimeout(() => {
-        if (mediaRecorderRef.current === mediaRecorder) {
-          mediaRecorder.stop();
-        }
-      }, 200);
-    } catch (error) {
-      showErrorToast("An error occurred!", "Failed to get the permission to record audio.");
-      setIsMuted(true);
+    mediaRecorder.start();
+    setTimeout(() => {
+      if (mediaRecorderRef.current === mediaRecorder) {
+        mediaRecorder.stop();
+      }
+    }, 300);
+  }
+
+  async function isAudioTooQuiet(audioChunk: Blob, threshold = -50): Promise<boolean> {
+    const arrayBuffer = await audioChunk.arrayBuffer();
+    const audioContext = new AudioContext();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    const channelData = audioBuffer.getChannelData(0);
+    
+    // Calculate RMS (Root Mean Square) value
+    let sum = 0;
+    for (let i = 0; i < channelData.length; i++) {
+        sum += channelData[i] * channelData[i];
     }
+    const rms = Math.sqrt(sum / channelData.length);
+    
+    // Convert to dB
+    const db = 20 * Math.log10(rms);
+    
+    // Clean up
+    audioContext.close();
+    
+    return db < threshold;
   }
 
   async function cleanupMediaStream() {
@@ -150,17 +180,18 @@ function VoiceChatSection() {
     connection.connection.on("ReceiveVoiceSignal", async ({ issuerId, data }) => {
       if (isDeafenedRef.current) return;
       if (!joinedVoiceConnectionRef.current) return;
+      if (joinedVoiceConnectionRef.current.joinedUsers.find(u => u.hexId == issuerId)?.isMuted) return;
       let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
 
       let audioBlob = await stringToBlob(decryptString(data, encryptionKey)!);
       let audioURL = URL.createObjectURL(audioBlob);
-      setCurrentlyTalkingUsers(prev => {
-        if (!prev.includes(issuerId)) return [...prev, issuerId];
-        return prev;
-      });
       const audio = new Audio(audioURL);
+      
+      setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio }]);
       await audio.play();
-      audio.onended = () => setCurrentlyTalkingUsers(prev => prev.filter(id => id != issuerId));
+      audio.onended = () => {
+        setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.track != audio));
+      }
       URL.revokeObjectURL(audioURL); // Clean up the URL after playing
     });
 
@@ -169,6 +200,10 @@ function VoiceChatSection() {
       await startRecording();
     }
   };
+
+  useEffect(() => {
+    setCurrentlyTalkingUsers(currentlyPlayingAudioTracks.map(track => track.userHexId));
+  }, [currentlyPlayingAudioTracks]);
 
   const leaveVoiceChat = async (connection: VoiceChatConnection) => {
     if (!connection) return;

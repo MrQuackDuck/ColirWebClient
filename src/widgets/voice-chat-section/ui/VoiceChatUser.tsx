@@ -20,14 +20,14 @@ function VoiceChatUser({isTalking, voiceChatUser, user, className}: VoiceChatUse
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className={cn("flex p-2 cursor-pointer transition-colors duration-150 hover:bg-secondary items-center justify-between gap-2 rounded-sm select-none", isTalking && "outline")}>
+        <div className="flex p-2 cursor-pointer transition-colors duration-150 hover:bg-secondary items-center justify-between gap-2 rounded-sm select-none">
           <span
             style={{ color: colorString }}
             className={cn("cursor-pointer text-ellipsis text-sm", className)}>
             {user ? user.username : "Unknown User"}
           </span>
           <div className='flex flex-row gap-1 text-slate-400'>
-            { voiceChatUser.isMuted ? <MicOffIcon className="w-5 h-5"/> : <MicIcon className="w-5 h-5"/> }
+            { voiceChatUser.isMuted ? <MicOffIcon className="w-5 h-5"/> : <MicIcon className={cn("w-5 h-5 transition-colors duration-75", isTalking && "text-lime-600")}/> }
             { voiceChatUser.isDeafened && <HeadphoneOff className="w-5 h-5"/> }
           </div>
         </div>
