@@ -11,9 +11,10 @@ interface VoiceChatUserProps {
   user?: UserModel;
   className?: string;
   isTalking?: boolean;
+  couldDecrypt?: boolean;
 }
 
-function VoiceChatUser({isTalking, voiceChatUser, user, className}: VoiceChatUserProps) {
+function VoiceChatUser({voiceChatUser, user, isTalking, couldDecrypt, className}: VoiceChatUserProps) {
   const whiteHex = 16777215;
   const { colorString } = useAdaptiveColor(user ? user.hexId : whiteHex);
 
@@ -27,7 +28,11 @@ function VoiceChatUser({isTalking, voiceChatUser, user, className}: VoiceChatUse
             {user ? user.username : "Unknown User"}
           </span>
           <div className='flex flex-row gap-1 text-slate-400'>
-            { voiceChatUser.isMuted ? <MicOffIcon className="w-5 h-5"/> : <MicIcon className={cn("w-5 h-5 transition-colors duration-75", isTalking && "text-lime-600")}/> }
+            { voiceChatUser.isMuted ? <MicOffIcon className="w-5 h-5"/> : 
+              <MicIcon 
+                className={cn("w-5 h-5 transition-colors duration-75",
+                  isTalking && couldDecrypt && "text-lime-600",
+                  isTalking && !couldDecrypt && "text-destructive")}/> }
             { voiceChatUser.isDeafened && <HeadphoneOff className="w-5 h-5"/> }
           </div>
         </div>

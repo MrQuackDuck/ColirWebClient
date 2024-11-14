@@ -16,8 +16,11 @@ import { blobToString } from "../lib/blobToString";
 import { stringToBlob } from "../lib/stringToBlob";
 import { UserAudioTrack } from "../model/UserAudioTrack";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
+import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 
 function VoiceChatSection() {
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
   let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
@@ -28,7 +31,7 @@ function VoiceChatSection() {
   let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
   let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
-  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<number[]>([]);
+  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
   const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
 
   let isMutedRef = useRef(isMuted);
@@ -37,8 +40,17 @@ function VoiceChatSection() {
   let isDeafenedRef = useRef(isDeafened);
   useEffect(() => { isDeafenedRef.current = isDeafened; }, [isDeafened]);
 
+  let currentUserRef = useRef(currentUser);
+  useEffect(() => { currentUserRef.current = currentUser; }, [currentUser]);
+
   let joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   useEffect(() => { joinedVoiceConnectionRef.current = joinedVoiceConnection; }, [joinedVoiceConnection]);
+  
+  const keyChangeTrigger = useContextSelector(EncryptionKeysContext, c => c.changeTrigger);
+  const joinedVoiceKeyRef = useRef<string>(getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "");
+  useEffect(() => {
+    joinedVoiceKeyRef.current = getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "";
+  }, [keyChangeTrigger, joinedVoiceConnection]);
 
   let mediaRecorderRef = useRef<MediaRecorder | null>(null);
   let mediaStreamRef = useRef<MediaStream | null>(null);
@@ -50,6 +62,10 @@ function VoiceChatSection() {
 
   useEffect(() => {
     currentlyPlayingAudioTracks.forEach(track => {
+      if (track.userHexId == currentUserRef.current?.hexId) {
+        track.track.volume = 0;
+        return;
+      }
       track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : 1;
     });
   }, [userVolumes]);
@@ -89,12 +105,13 @@ function VoiceChatSection() {
       if (audioChunks.length === 0) return;
       
       let audioBlob = new Blob(audioChunks);
+      
       if (!joinedVoiceConnectionRef.current) return;
 
       let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
       let blobAsString = await blobToString(audioBlob);
 
-      if (!await isAudioTooQuiet(audioBlob)) {
+      if (!await isAudioTooQuiet(audioBlob)) {        
         joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>(
           "SendVoiceSignal", 
           encryptString(blobAsString, encryptionKey)
@@ -188,14 +205,30 @@ function VoiceChatSection() {
       if (isDeafenedRef.current) return;
       if (!joinedVoiceConnectionRef.current) return;
       if (joinedVoiceConnectionRef.current.joinedUsers.find(u => u.hexId == issuerId)?.isMuted) return;
-      let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
+      let decryptionKey = joinedVoiceKeyRef.current;
 
-      let audioBlob = await stringToBlob(decryptString(data, encryptionKey)!);
+      let decryptedAudio = decryptString(data, decryptionKey);
+      
+      if (decryptedAudio == undefined) {
+        // Imitate a silent audio track for 300ms
+        setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: new Audio(), couldDecrypt: false }]);
+        setTimeout(() => {
+          setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.userHexId != issuerId));
+        }, 300);
+        return;
+      }
+
+      let audioBlob = await stringToBlob(decryptedAudio);
       let audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
       
-      setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio }]);
+      setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio, couldDecrypt: true }]);
       audio.volume = userVolumesRef.current[issuerId] != undefined ? userVolumesRef.current[issuerId] / 100 : 1;
+
+      if (issuerId == currentUserRef.current?.hexId) {
+        audio.volume = 0;
+      }
+
       await audio.play();
       audio.onended = () => {
         setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.track != audio));
@@ -210,7 +243,7 @@ function VoiceChatSection() {
   };
 
   useEffect(() => {
-    setCurrentlyTalkingUsers(currentlyPlayingAudioTracks.map(track => track.userHexId));
+    setCurrentlyTalkingUsers(currentlyPlayingAudioTracks.map(track => ({ userHexId: track.userHexId, couldDecrypt: track.couldDecrypt })));
   }, [currentlyPlayingAudioTracks]);
 
   const leaveVoiceChat = async (connection: VoiceChatConnection) => {

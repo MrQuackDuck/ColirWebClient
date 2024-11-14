@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib/utils';
 import { useContextSelector } from 'use-context-selector';
 import { UsersContext } from '@/entities/User/lib/providers/UsersProvider';
 import VoiceChatUser from './VoiceChatUser';
+import { CurrentlyTalkingUser } from '../model/CurrentlyTalkingUser';
 
 interface VoiceChatProps {
   roomName: string;
@@ -14,7 +15,7 @@ interface VoiceChatProps {
   isJoined: boolean;
   joinVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
   leaveVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
-  currentlyTalkingUsers?: number[];
+  currentlyTalkingUsers?: CurrentlyTalkingUser[];
 }
 
 function VoiceChat(props: VoiceChatProps) {
@@ -65,7 +66,9 @@ function VoiceChat(props: VoiceChatProps) {
         <CollapsibleContent asChild>
           <div className='flex flex-col pt-1'>
             {props.voiceChatConnection.joinedUsers.map((user) => (
-              <VoiceChatUser isTalking={props.currentlyTalkingUsers?.includes(user.hexId)} key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}/>
+              <VoiceChatUser key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}
+               isTalking={props.currentlyTalkingUsers?.some(t => t.userHexId == user.hexId)}
+               couldDecrypt={props.currentlyTalkingUsers?.find(t => t.userHexId == user.hexId)?.couldDecrypt} />
             ))}
           </div>
         </CollapsibleContent>

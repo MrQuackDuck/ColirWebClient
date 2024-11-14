@@ -61,10 +61,10 @@ const UserPopup = React.memo(function UserPopup({
       <div className="text-sm text-primary/80">
         <p><span className="font-medium">Colir ID</span>: {user ? decimalToHexString(user.hexId) : "Unknown"}</p>
         <p><span className="font-medium">Registration Date</span>: {formatDate(user?.registrationDate)}</p>
-        <div className="flex flex-row items-center gap-1 pt-1">
+        {currentUser?.hexId != user?.hexId && <div className="flex flex-row items-center gap-1 pt-1">
           <p className="font-semibold flex-shrink-0">Volume:</p>
           <Slider value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={handleSliderChange} step={0.1} />
-        </div>
+        </div>}
       </div>
       {kickButtonDisplayed && (
         <Button 
