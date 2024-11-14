@@ -43,11 +43,14 @@ function VoiceChatSection() {
   let mediaRecorderRef = useRef<MediaRecorder | null>(null);
   let mediaStreamRef = useRef<MediaStream | null>(null);
 
+  const userVolumesRef = useRef(userVolumes);
+  useEffect(() => { userVolumesRef.current = userVolumes; }, [userVolumes]);
+
   let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
 
   useEffect(() => {
     currentlyPlayingAudioTracks.forEach(track => {
-      track.track.volume = userVolumes[track.userHexId] ? userVolumes[track.userHexId] / 100 : 1;
+      track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : 1;
     });
   }, [userVolumes]);
 
@@ -192,7 +195,7 @@ function VoiceChatSection() {
       const audio = new Audio(audioURL);
       
       setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio }]);
-      audio.volume = userVolumes[issuerId] ? userVolumes[issuerId] / 100 : 1;
+      audio.volume = userVolumesRef.current[issuerId] != undefined ? userVolumesRef.current[issuerId] / 100 : 1;
       await audio.play();
       audio.onended = () => {
         setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.track != audio));

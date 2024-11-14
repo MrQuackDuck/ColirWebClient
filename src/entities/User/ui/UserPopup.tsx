@@ -50,6 +50,10 @@ const UserPopup = React.memo(function UserPopup({
     return givenDate.format("MM/DD/YYYY");
   }
 
+  function handleSliderChange(value: number[]) {
+    setVolumeForUser(user?.hexId!, value[0]);
+  }
+
   return (
     <>
       <p style={{ color: colorString }}>{user?.username ?? "Unknown User"}</p>
@@ -59,7 +63,7 @@ const UserPopup = React.memo(function UserPopup({
         <p><span className="font-medium">Registration Date</span>: {formatDate(user?.registrationDate)}</p>
         <div className="flex flex-row items-center gap-1 pt-1">
           <p className="font-semibold flex-shrink-0">Volume:</p>
-          <Slider value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={volume => setVolumeForUser(user?.hexId!, volume[0])} step={0.1} />
+          <Slider value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={handleSliderChange} step={0.1} />
         </div>
       </div>
       {kickButtonDisplayed && (
