@@ -11,6 +11,7 @@ import { UsersProvider } from "@/entities/User/lib/providers/UsersProvider";
 import SelectedRoomProvider from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import { ChatConnectionsProvider } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
 import { EncryptionKeysProvider } from "@/shared/lib/providers/EncryptionKeysProvider";
+import { UsersVolumeProvider } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
@@ -23,7 +24,9 @@ createRoot(document.getElementById("root")!).render(
                 <AuthProvider>
                   <ChatConnectionsProvider>
                     <EncryptionKeysProvider>
-                      <App />
+                      <UsersVolumeProvider>
+                        <App />
+                      </UsersVolumeProvider>
                     </EncryptionKeysProvider>
                   </ChatConnectionsProvider>
                 </AuthProvider>

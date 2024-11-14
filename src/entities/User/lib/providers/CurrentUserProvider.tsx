@@ -13,6 +13,7 @@ export const CurrentUserContext = createContext<{
 }>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser:() => Promise.resolve() });
 
 const CurrentUserProvider = ({ children }) => {
+  const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const setUser = (user: DetailedUserModel) => {
     setCurrentUser(user);
     setToLocalStorage("currentUser", user);
@@ -33,7 +34,6 @@ const CurrentUserProvider = ({ children }) => {
     }
   }
 
-  const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const [ currentUser, setCurrentUser ] = useState<DetailedUserModel | null>(getUser());
 
   const updateCurrentUser = async () => {

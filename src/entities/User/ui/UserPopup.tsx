@@ -12,6 +12,7 @@ import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomP
 import { useContextSelector } from "use-context-selector";
 import { CurrentUserContext } from "../lib/providers/CurrentUserProvider";
 import { Slider } from "@/shared/ui/Slider";
+import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 
 interface UserPopupProps {
   user?: UserModel;
@@ -25,6 +26,8 @@ const UserPopup = React.memo(function UserPopup({
   const currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   const selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   const [isKickConfirmationShown, setIsKickConfirmationShown] = useState(false);
+  const setVolumeForUser = useContextSelector(UsersVolumeContext, c => c.setVolumeForUser);
+  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
 
   const kickButtonDisplayed: boolean = 
     currentUser?.hexId === selectedRoom?.owner?.hexId && // Only the owner can kick
@@ -56,7 +59,7 @@ const UserPopup = React.memo(function UserPopup({
         <p><span className="font-medium">Registration Date</span>: {formatDate(user?.registrationDate)}</p>
         <div className="flex flex-row items-center gap-1 pt-1">
           <p className="font-semibold flex-shrink-0">Volume:</p>
-          <Slider defaultValue={[50]} step={0.1} />
+          <Slider value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={volume => setVolumeForUser(user?.hexId!, volume[0])} step={0.1} />
         </div>
       </div>
       {kickButtonDisplayed && (

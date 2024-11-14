@@ -15,6 +15,7 @@ import { decryptString, encryptString } from "@/shared/lib/utils";
 import { blobToString } from "../lib/blobToString";
 import { stringToBlob } from "../lib/stringToBlob";
 import { UserAudioTrack } from "../model/UserAudioTrack";
+import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 
 function VoiceChatSection() {
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
@@ -28,6 +29,7 @@ function VoiceChatSection() {
   let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
   let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<number[]>([]);
+  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
 
   let isMutedRef = useRef(isMuted);
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
@@ -42,6 +44,12 @@ function VoiceChatSection() {
   let mediaStreamRef = useRef<MediaStream | null>(null);
 
   let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
+
+  useEffect(() => {
+    currentlyPlayingAudioTracks.forEach(track => {
+      track.track.volume = userVolumes[track.userHexId] ? userVolumes[track.userHexId] / 100 : 1;
+    });
+  }, [userVolumes]);
 
   async function startRecording() {
     // Clean up any existing streams and recorders
@@ -99,18 +107,14 @@ function VoiceChatSection() {
       if (mediaRecorderRef.current === mediaRecorder) {
         mediaRecorder.start();
         setTimeout(() => {
-          if (mediaRecorderRef.current === mediaRecorder) {
-            mediaRecorder.stop();
-          }
+          if (mediaRecorderRef.current === mediaRecorder) mediaRecorder.stop();
         }, 300);
       }
     });
 
     mediaRecorder.start();
     setTimeout(() => {
-      if (mediaRecorderRef.current === mediaRecorder) {
-        mediaRecorder.stop();
-      }
+      if (mediaRecorderRef.current === mediaRecorder) mediaRecorder.stop();
     }, 300);
   }
 
@@ -188,6 +192,7 @@ function VoiceChatSection() {
       const audio = new Audio(audioURL);
       
       setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio }]);
+      audio.volume = userVolumes[issuerId] ? userVolumes[issuerId] / 100 : 1;
       await audio.play();
       audio.onended = () => {
         setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.track != audio));
