@@ -18,6 +18,8 @@ import { UserAudioTrack } from "../model/UserAudioTrack";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { playJoinSound } from "../lib/playJoinSound";
+import { playLeaveSound } from "../lib/playLeaveSound";
 
 function VoiceChatSection() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
@@ -108,7 +110,7 @@ function VoiceChatSection() {
       
       if (!joinedVoiceConnectionRef.current) return;
 
-      let encryptionKey = getEncryptionKey(joinedVoiceConnectionRef.current.roomGuid) ?? "";
+      let encryptionKey = joinedVoiceKeyRef.current;
       let blobAsString = await blobToString(audioBlob);
 
       if (!await isAudioTooQuiet(audioBlob)) {        
@@ -197,6 +199,8 @@ function VoiceChatSection() {
       return;
     }
 
+    playJoinSound();
+
     // Remove any existing voice signal handlers
     connection.connection.off("ReceiveVoiceSignal");
 
@@ -253,6 +257,8 @@ function VoiceChatSection() {
     
     // Remove the voice signal handler
     connection.connection.off("ReceiveVoiceSignal");
+
+    playLeaveSound();
 
     if (connection.connection.state != HubConnectionState.Connected) {
       showErrorToast("An error occurred during leaving!", "Connection issues with the server.");

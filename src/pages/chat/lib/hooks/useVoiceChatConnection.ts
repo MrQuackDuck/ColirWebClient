@@ -2,6 +2,8 @@ import { API_URL } from "@/shared/api";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
+import { playJoinSound } from "@/widgets/voice-chat-section/lib/playJoinSound";
+import { playLeaveSound } from "@/widgets/voice-chat-section/lib/playLeaveSound";
 import { VoiceChatConnection } from "@/widgets/voice-chat-section/model/VoiceChatConnection";
 import { VoiceChatUser } from "@/widgets/voice-chat-section/model/VoiceChatUser";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
@@ -43,6 +45,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserJoined", (user: VoiceChatUser) => {
+            if (user.hexId !== currentUser.hexId) playJoinSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
@@ -52,6 +55,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserLeft", (userHexId: number) => {
+            if (userHexId !== currentUser.hexId) playLeaveSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
