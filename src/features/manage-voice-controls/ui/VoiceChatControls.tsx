@@ -6,6 +6,9 @@ import { cn } from "@/shared/lib/utils";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 import { useEffect } from "react";
 import { HubConnectionState } from "@microsoft/signalr";
+import { prepareUnmuteSound } from "../lib/prepareUnmuteSound";
+import { prepareUndeafenSound } from "../lib/prepareUndeafenSound";
+import { prepareDeafenSound } from "../lib/prepareDeafenSound";
 
 function VoiceChatControls() {
   const isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
@@ -17,11 +20,17 @@ function VoiceChatControls() {
   function toggleMute() {
     if (isDeafened) setIsDeafened(false);
     setIsMuted(!isMuted);
+
+    if (isMuted) prepareUnmuteSound().then(play => play());
+    else prepareUnmuteSound().then(play => play());
   }
 
   function toggleDeafen() {
     if (!isDeafened) setIsMuted(true);
     setIsDeafened(!isDeafened);
+
+    if (isDeafened) prepareUndeafenSound().then(play => play());
+    else prepareDeafenSound().then(play => play());
   }
 
   useEffect(() => {

@@ -18,8 +18,8 @@ import { UserAudioTrack } from "../model/UserAudioTrack";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { playJoinSound } from "../lib/playJoinSound";
-import { playLeaveSound } from "../lib/playLeaveSound";
+import { prepareJoinSound } from "../lib/prepareJoinSound";
+import { prepareLeaveSound } from "../lib/prepareLeaveSound";
 
 function VoiceChatSection() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
@@ -191,6 +191,8 @@ function VoiceChatSection() {
       showErrorToast("An error occurred during joining!", "Connection issues with the server.");
       return;
     }
+
+    let playJoinSound = await prepareJoinSound();
  
     const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
     if (response.error) {
@@ -258,10 +260,11 @@ function VoiceChatSection() {
     // Remove the voice signal handler
     connection.connection.off("ReceiveVoiceSignal");
 
-    playLeaveSound();
+    let playLeaveSound = await prepareLeaveSound();
 
     if (connection.connection.state != HubConnectionState.Connected) {
       showErrorToast("An error occurred during leaving!", "Connection issues with the server.");
+      playLeaveSound();
       setJoinedVoiceConnection(undefined);
       return;
     }
@@ -273,6 +276,7 @@ function VoiceChatSection() {
       console.error("Error leaving voice chat:", error);
       showErrorToast("Leave Error", "Failed to leave voice chat");
     } finally {
+      playLeaveSound();
       setJoinedVoiceConnection(undefined);
     }
   };
