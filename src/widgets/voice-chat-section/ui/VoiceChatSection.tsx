@@ -18,8 +18,9 @@ import { UserAudioTrack } from "../model/UserAudioTrack";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { prepareJoinSound } from "../lib/prepareJoinSound";
-import { prepareLeaveSound } from "../lib/prepareLeaveSound";
+import useSound from 'use-sound';
+import leaveAudio from "../../../assets/audio/leave.mp3";
+import { usePlayJoinSound } from "@/shared/lib/hooks/usePlayJoinSound";
 
 function VoiceChatSection() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
@@ -35,6 +36,8 @@ function VoiceChatSection() {
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
   let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
   const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
+  const playJoinSound = usePlayJoinSound();
+  const [playLeaveSound] = useSound(leaveAudio, { volume: 0.5 });
 
   let isMutedRef = useRef(isMuted);
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
@@ -191,8 +194,6 @@ function VoiceChatSection() {
       showErrorToast("An error occurred during joining!", "Connection issues with the server.");
       return;
     }
-
-    let playJoinSound = await prepareJoinSound();
  
     const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
     if (response.error) {
@@ -201,7 +202,7 @@ function VoiceChatSection() {
       return;
     }
 
-    playJoinSound();
+    setTimeout(() => playJoinSound(), 25);
 
     // Remove any existing voice signal handlers
     connection.connection.off("ReceiveVoiceSignal");
@@ -243,9 +244,7 @@ function VoiceChatSection() {
     });
 
     setJoinedVoiceConnection(connection);
-    if (!isMuted) {
-      await startRecording();
-    }
+    if (!isMuted) await startRecording();
   };
 
   useEffect(() => {
@@ -259,8 +258,6 @@ function VoiceChatSection() {
     
     // Remove the voice signal handler
     connection.connection.off("ReceiveVoiceSignal");
-
-    let playLeaveSound = await prepareLeaveSound();
 
     if (connection.connection.state != HubConnectionState.Connected) {
       showErrorToast("An error occurred during leaving!", "Connection issues with the server.");

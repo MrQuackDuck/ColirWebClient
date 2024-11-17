@@ -146,6 +146,9 @@ dependencies:
   use-context-selector:
     specifier: ^2.0.0
     version: 2.0.0(react@18.3.1)(scheduler@0.23.2)
+  use-sound:
+    specifier: ^4.0.3
+    version: 4.0.3(react@18.3.1)
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -2967,6 +2970,10 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
+  /howler@2.2.4:
+    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
+    dev: false
+
   /html-url-attributes@3.0.0:
     resolution: {integrity: sha512-/sXbVCWayk6GDVg3ctOX6nxaVj7So40FcFAnWlWGNAB1LpYKcV5Cd10APjPjW80O7zYW2MsjBV4zZ7IZO5fVow==}
     dev: false
@@ -4612,6 +4619,15 @@ packages:
       detect-node-es: 1.1.0
       react: 18.3.1
       tslib: 2.6.3
+    dev: false
+
+  /use-sound@4.0.3(react@18.3.1):
+    resolution: {integrity: sha512-L205pEUFIrLsGYsCUKHQVCt0ajs//YQOFbEQeNwaWaqQj3y3st4SuR+rvpMHLmv8hgTcfUFlvMQawZNI3OE18w==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      howler: 2.2.4
+      react: 18.3.1
     dev: false
 
   /util-deprecate@1.0.2:

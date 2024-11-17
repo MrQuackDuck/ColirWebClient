@@ -2,12 +2,12 @@ import { API_URL } from "@/shared/api";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
-import { prepareJoinSound } from "@/widgets/voice-chat-section/lib/prepareJoinSound";
-import { prepareLeaveSound } from "@/widgets/voice-chat-section/lib/prepareLeaveSound";
 import { VoiceChatConnection } from "@/widgets/voice-chat-section/model/VoiceChatConnection";
 import { VoiceChatUser } from "@/widgets/voice-chat-section/model/VoiceChatUser";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useEffect, useRef } from "react";
+import joinAudio from "../../../../assets/audio/join.mp3";
+import leaveAudio from "../../../../assets/audio/leave.mp3";
 
 export const useVoiceChatConnection = (
   currentUser,
@@ -18,6 +18,18 @@ export const useVoiceChatConnection = (
   const getJwt = useJwt();
   const joinedRoomsRef = useRef(joinedRooms);
   const selectedRoomRef = useRef(selectedRoom);
+
+  const playJoinSound = () => {
+    let audio = new Audio(joinAudio);
+    audio.volume = 0.5;
+    audio.play();
+  };
+
+  const playLeaveSound = () => {
+    let audio = new Audio(leaveAudio);
+    audio.volume = 0.5;
+    audio.play();
+  }
 
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;
@@ -45,7 +57,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserJoined", (user: VoiceChatUser) => {
-            if (user.hexId !== currentUser.hexId) prepareJoinSound().then(play => play());
+            if (user.hexId !== currentUser.hexId) playJoinSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
@@ -55,7 +67,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserLeft", (userHexId: number) => {
-            if (userHexId !== currentUser.hexId) prepareLeaveSound().then(play => play());
+            if (userHexId !== currentUser.hexId) playLeaveSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;

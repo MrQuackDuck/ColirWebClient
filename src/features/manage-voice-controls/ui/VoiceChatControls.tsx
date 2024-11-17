@@ -5,10 +5,13 @@ import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProv
 import { cn } from "@/shared/lib/utils";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 import { useEffect } from "react";
+import useSound from 'use-sound';
 import { HubConnectionState } from "@microsoft/signalr";
-import { prepareUnmuteSound } from "../lib/prepareUnmuteSound";
-import { prepareUndeafenSound } from "../lib/prepareUndeafenSound";
-import { prepareDeafenSound } from "../lib/prepareDeafenSound";
+import muteAudio from "../../../assets/audio/mute.mp3";
+import unmuteAudio from "../../../assets/audio/unmute.mp3";
+import deafenAudio from "../../../assets/audio/deafen.mp3";
+import undeafenAudio from "../../../assets/audio/undeafen.mp3";
+
 
 function VoiceChatControls() {
   const isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
@@ -17,20 +20,25 @@ function VoiceChatControls() {
   const setIsDeafened = useContextSelector(VoiceChatControlsContext, c => c.setIsDeafened);
   const joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
 
+  const [playMuteSound] = useSound(muteAudio, { volume: 0.5 });
+  const [playUnmuteSound] = useSound(unmuteAudio, { volume: 0.5 });
+  const [playDeafenSound] = useSound(deafenAudio, { volume: 0.5 });
+  const [playUndeafenSound] = useSound(undeafenAudio, { volume: 0.5 });
+
   function toggleMute() {
+    if (isMuted) setTimeout(() => playUnmuteSound(), 25);
+    else playMuteSound();
+
     if (isDeafened) setIsDeafened(false);
     setIsMuted(!isMuted);
-
-    if (isMuted) prepareUnmuteSound().then(play => play());
-    else prepareUnmuteSound().then(play => play());
   }
 
   function toggleDeafen() {
     if (!isDeafened) setIsMuted(true);
     setIsDeafened(!isDeafened);
 
-    if (isDeafened) prepareUndeafenSound().then(play => play());
-    else prepareDeafenSound().then(play => play());
+    if (isDeafened) playUndeafenSound();
+    else playDeafenSound();
   }
 
   useEffect(() => {
