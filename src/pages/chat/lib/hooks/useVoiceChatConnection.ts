@@ -13,10 +13,12 @@ export const useVoiceChatConnection = (
   currentUser,
   joinedRooms,
   selectedRoom,
+  joinedVoiceConnection,
   setVoiceChatConnections: React.Dispatch<React.SetStateAction<VoiceChatConnection[]>>
 ) => {
   const getJwt = useJwt();
   const joinedRoomsRef = useRef(joinedRooms);
+  const joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   const selectedRoomRef = useRef(selectedRoom);
 
   const playJoinSound = () => {
@@ -33,8 +35,9 @@ export const useVoiceChatConnection = (
 
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;
+    joinedVoiceConnectionRef.current = joinedVoiceConnection
     selectedRoomRef.current = selectedRoom;
-  }, [joinedRooms, selectedRoom]);
+  }, [joinedRooms, joinedVoiceConnection, selectedRoom]);
 
   const startVoiceConnection = (roomGuid: string, connection: HubConnection) => {
     if (!joinedRooms || !currentUser) return;
@@ -57,7 +60,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserJoined", (user: VoiceChatUser) => {
-            if (user.hexId !== currentUser.hexId) playJoinSound();
+            if (user.hexId !== currentUser.hexId && joinedVoiceConnectionRef.current) playJoinSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
@@ -67,7 +70,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserLeft", (userHexId: number) => {
-            if (userHexId !== currentUser.hexId) playLeaveSound();
+            if (userHexId !== currentUser.hexId && joinedVoiceConnectionRef.current) playLeaveSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;

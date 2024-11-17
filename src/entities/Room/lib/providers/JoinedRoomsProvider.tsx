@@ -18,16 +18,14 @@ export const JoinedRoomsContext = createContext<{
 });
 
 const JoinedRoomsProvider = ({ children }) => {
-  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
   const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
 
   useEffect(() => {
-    if (!currentUser) return;
-
-    updateCurrentUser().then(() => {
+    updateCurrentUser().then(currentUser => {
+      if (!currentUser) return;
       currentUser.joinedRooms.forEach((room) => {
         RoomService.GetRoomInfo({ roomGuid: room.guid })
           .then((response) => {

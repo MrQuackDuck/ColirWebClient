@@ -26,9 +26,9 @@ function VoiceChatSection() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
+  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
   let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
-  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
   let selectedRoomVoiceChat = voiceChatConnections.find(c => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
   let isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
   let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);

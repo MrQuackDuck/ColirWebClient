@@ -21,7 +21,7 @@ import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
-import { useResponsibility } from "@/shared/lib/hooks/useResponsibility";
+import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { useChatConnection } from "../lib/hooks/useChatConnection";
 import VoiceChatSection from "@/widgets/voice-chat-section/ui/VoiceChatSection";
 import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
@@ -34,6 +34,7 @@ function ChatPage() {
   let chatConnections = useContextSelector(ChatConnectionsContext, c => c.chatConnections);
   let setChatConnections = useContextSelector(ChatConnectionsContext, c => c.setChatConnections);
   let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
+  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
   let setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.setVoiceChatConnections);
   let setMessages = useContextSelector(MessagesContext, c => c.setMessages);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
@@ -41,7 +42,7 @@ function ChatPage() {
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
   let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
   let [voiceChatSectionOpen, setVoiceChatSectionOpen] = useState<boolean>(false); // For mobile devices
-  let { isDesktop } = useResponsibility();
+  let { isDesktop } = useResponsiveness();
 
   const { startChatConnection } = useChatConnection(
     currentUser,
@@ -58,6 +59,7 @@ function ChatPage() {
     currentUser,
     joinedRooms,
     selectedRoom,
+    joinedVoiceConnection,
     setVoiceChatConnections
   );
 

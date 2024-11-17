@@ -112,6 +112,12 @@ function RoomTab({
     setDeleteConfirmationOpened(true);
   }
 
+  function cancelDelete(e) {
+    e.preventDefault();
+    setDeleteConfirmationOpened(false);
+    setRoomSettingsOpened(true);
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -147,7 +153,7 @@ function RoomTab({
         <ContextMenuTrigger asChild>
           <button
             onClick={onClick}
-            className={`w-[100%] flex items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
+            className={`flex items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
             hover:bg-accent hover:text-accent-foreground h-9 px-2 ${
               isSelected ? "bg-accent" : null
             }`}
@@ -221,7 +227,7 @@ function RoomTab({
                       <FormLabel>Encryption Key</FormLabel>
                       <div className="relative flex items-center">
                         <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                        <FormControl><Input type="password" autoComplete="new-password" id="encryptionKey" placeholder="something-secret-here" className="pl-7" {...field}/></FormControl>
+                        <FormControl><Input type="text" id="encryptionKey" placeholder="something-secret-here" className="pl-7 encryptionKey" {...field}/></FormControl>
                       </div>
                       <FormDescription className="text-slate-500 text-sm">
                         Enter the key used to encrypt/decrypt messages across the
@@ -259,8 +265,8 @@ function RoomTab({
                 This action will delete everything about this room.<br/>This action can’t be undone.
               </span>
               <div className="pt-2 flex flex-row gap-2">
-                <Button onClick={() => setDeleteConfirmationOpened(false)} className="w-[100%]" variant={"outline"}>Cancel</Button>
-                <Button onClick={() => deleteRoom()} className="w-[100%]" variant={"destructive"}>Confirm</Button>
+                <Button onClick={cancelDelete} className="w-[100%]" variant={"outline"}>Cancel</Button>
+                <Button onClick={deleteRoom} className="w-[100%]" variant={"destructive"}>Confirm</Button>
               </div>
             </CardContent>
           </Card>

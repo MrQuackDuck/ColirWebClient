@@ -25,7 +25,7 @@ function Aside() {
 
   return (
     <div className="flex gap-1 w-full h-full p-2.5 pb-0">
-      <div className="flex flex-col w-full h-full gap-2.5">
+      <div className="flex flex-col h-full w-full overflow-hidden gap-2.5">
         <Button
           className="h-19"
           onClick={() => setNewRoomModalOpened(true)}
@@ -49,7 +49,7 @@ function Aside() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="h-full">
+      <div className="h-full shrink-0">
         <VoiceChatControls/>
       </div>
     </div>

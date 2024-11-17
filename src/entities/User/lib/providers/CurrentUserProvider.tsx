@@ -9,8 +9,8 @@ export const CurrentUserContext = createContext<{
   currentUser: DetailedUserModel | null;
   setUser: (user: DetailedUserModel) => void;
   removeUser: () => void;
-  updateCurrentUser: () => Promise<void>;
-}>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser:() => Promise.resolve() });
+  updateCurrentUser: () => Promise<DetailedUserModel | undefined>;
+}>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser:() => Promise.resolve(undefined) });
 
 const CurrentUserProvider = ({ children }) => {
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
@@ -36,14 +36,26 @@ const CurrentUserProvider = ({ children }) => {
 
   const [ currentUser, setCurrentUser ] = useState<DetailedUserModel | null>(getUser());
 
-  const updateCurrentUser = async () => {
-    return await UserService.GetAccountInfo()
-      .then(response => setUser(response.data))
-      .catch(e => {
-        if (e.code == "ERR_NETWORK") showErrorToast("Couldn't update the user info", "The server is not available. Please try again later.");
-        else showErrorToast("Couldn't update the user info", e.message);
-      });
-  }
+  const updateCurrentUser = (): Promise<DetailedUserModel | undefined> => {
+    return new Promise((resolve, reject) => {
+      UserService.GetAccountInfo()
+        .then((response) => {
+          setUser(response.data);
+          resolve(response.data);
+        })
+        .catch((e) => {
+          if (e.code === "ERR_NETWORK") {
+            showErrorToast(
+              "Couldn't update the user info",
+              "The server is not available. Please try again later."
+            );
+          } else {
+            showErrorToast("Couldn't update the user info", e.message);
+          }
+          reject(e);
+        });
+    });
+  };  
 
   return (
     <CurrentUserContext.Provider

@@ -32,7 +32,7 @@ import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/Cha
 import MessagesList from "@/entities/Message/ui/MessagesList"
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
 import { cn } from "@/shared/lib/utils"
-import { useResponsibility } from "@/shared/lib/hooks/useResponsibility"
+import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -63,7 +63,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   const filteredMessages = useMemo(() => {
     return messages.filter(m => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
   }, [messages, room]);
-  let { isDesktop } = useResponsibility();
+  let { isDesktop } = useResponsiveness();
 
   const messageToReplyRef = useRef(messageToReply);
   useEffect(() => {

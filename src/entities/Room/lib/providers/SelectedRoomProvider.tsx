@@ -20,6 +20,7 @@ const SelectedRoomProvider = ({ children }) => {
   }, [joinedRooms]);
 
   useEffect(() => {
+    if (!joinedRooms) return;
     let currentRoom = joinedRooms?.find(room => room.guid === selectedRoom?.guid);
     if (currentRoom) setSelectedRoom(currentRoom);
   }, [joinedRooms]);

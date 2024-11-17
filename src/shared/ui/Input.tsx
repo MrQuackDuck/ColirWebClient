@@ -8,24 +8,23 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false)
-
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword)
-    }
+    // If the input is for encryption key, we need to show the password toggle button and hide the password by default
+    const [showPassword, setShowPassword] = React.useState(className?.includes("encryptionKey") ? false : true);
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     return (
       <div className="relative w-full">
         <input
-          type={type === "password" && showPassword ? "text" : type}
+          type={type}
           className={cn(
             "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            !showPassword && "discText",
             className
           )}
           ref={ref}
           {...props}
         />
-        {type === "password" && (
+        {className?.includes("encryptionKey") && (
           <Button
             type="button"
             variant="ghost"
