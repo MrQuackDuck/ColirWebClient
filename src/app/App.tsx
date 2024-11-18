@@ -13,6 +13,7 @@ import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 import { VoiceChatControlsProvider } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
+import SettingsPage from "@/pages/settings/ui/SettingsPage";
 
 function App() {
   let isLoading = useContextSelector(LoadingContext, c => c.isLoading);
@@ -46,6 +47,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
             {isLoading && <Loader />}
+            <SettingsPage/>
           </VoiceChatControlsProvider>
         </VoiceChatConnectionsProvider>
       </MessagesProvider>

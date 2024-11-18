@@ -1,5 +1,4 @@
 import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/shared/ui/Separator";
 import GoogleLogoIcon from "@/shared/ui/GoogleLogoIcon";
@@ -9,6 +8,7 @@ import { UserIcon } from "lucide-react";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
+import { Button } from "@/shared/ui/Button";
 
 function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChosen : () => void}) {
   let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);

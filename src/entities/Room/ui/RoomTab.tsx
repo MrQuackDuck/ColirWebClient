@@ -81,7 +81,7 @@ function RoomTab({
         if (selectedRoom?.guid == room.guid && newRooms.length > 0) setSelectedRoom(newRooms[0]);
         setLeaveConfirmationOpened(false);
       })
-      .catch(() => showErrorToast("Oops!", "We weren't able to make leave you from the room."))
+      .catch(() => showErrorToast("Oops!", "We weren't able to make you leave from the room."))
   }
 
   function copyGuid() {
