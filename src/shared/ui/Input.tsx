@@ -2,14 +2,15 @@ import * as React from "react"
 import { cn } from "@/shared/lib/utils"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "./Button"
+import classes from "./Input.module.css"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
-    // If the input is for encryption key, we need to show the password toggle button and hide the password by default
-    const [showPassword, setShowPassword] = React.useState(className?.includes("encryptionKey") ? false : true);
+    // If the input is for a password, we need to show the toggle button and hide the password by default
+    const [showPassword, setShowPassword] = React.useState(className?.includes("password") ? false : true);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     return (
@@ -18,13 +19,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-            !showPassword && "discText",
+            !showPassword && classes.discText,
             className
           )}
           ref={ref}
           {...props}
         />
-        {className?.includes("encryptionKey") && (
+        {className?.includes("password") && (
           <Button
             type="button"
             variant="ghost"

@@ -34,11 +34,6 @@ a:hover {
   all: revert;
 }
 
-.discText {
-  text-security: disc;
-  -webkit-text-security: disc;
-}
-
 #root {
   display: flex;
   flex-direction: column;
