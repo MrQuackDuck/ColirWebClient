@@ -24,7 +24,7 @@ function AccountSettings() {
         {currentUser &&
           <div className="flex flex-col gap-1.5">
             <span className="text-sm font-medium">Username</span>
-            <Input className="-translate-x-[1px]" placeholder="Username" value={currentUser.username} />
+            <Input className="-translate-x-[1px]" placeholder="Username" onChange={() => {}} value={currentUser.username} />
             <span className="text-slate-500 text-sm">Name that is displayed to everyone</span>
           </div>
         }

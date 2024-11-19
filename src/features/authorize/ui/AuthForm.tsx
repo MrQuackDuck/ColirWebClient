@@ -10,6 +10,7 @@ import { cn } from "@/shared/lib/utils";
 import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 
 type AuthorizationType = "Anonymous" | "Google" | "GitHub" | null;
 
@@ -21,6 +22,7 @@ function AuthForm({className}: {className?: string}) {
   let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
   let authorize = useContextSelector(AuthContext, c => c.authorize);
   const navigate = useNavigate();
+  const updateRooms = useContextSelector(JoinedRoomsContext, c => c.updateRooms);
 
   useEffect(() => {
     enableLoading();
@@ -33,15 +35,13 @@ function AuthForm({className}: {className?: string}) {
           setQueueToken(response.data.queueToken);
           setAuthType(authType);
         }
-        else if ('jwtToken' in response.data && 'refreshToken' in response.data)
-          {
-            authorize(response.data.jwtToken, response.data.refreshToken);
-          }
+        else if ('jwtToken' in response.data && 'refreshToken' in response.data) authorize(response.data.jwtToken, response.data.refreshToken);
       })
       .catch(() => {
         navigate("/");
       })
       .finally(() => {
+        updateRooms();
         disableLoading();
       });
     }

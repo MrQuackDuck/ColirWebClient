@@ -11,10 +11,12 @@ export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
   isThereAnyJoinedRoom: boolean;
   setJoinedRooms: React.Dispatch<React.SetStateAction<RoomModel[]>>;
+  updateRooms: () => void;
 }>({
   joinedRooms: [] as RoomModel[],
   setJoinedRooms: () => {},
   isThereAnyJoinedRoom: false,
+  updateRooms: () => {},
 });
 
 const JoinedRoomsProvider = ({ children }) => {
@@ -23,7 +25,7 @@ const JoinedRoomsProvider = ({ children }) => {
   const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
 
-  useEffect(() => {
+  function updateRooms() {
     updateCurrentUser().then(currentUser => {
       if (!currentUser) return;
       currentUser.joinedRooms.forEach((room) => {
@@ -42,6 +44,10 @@ const JoinedRoomsProvider = ({ children }) => {
           .catch((e) => console.error(e.response));
       });
     });
+  }
+
+  useEffect(() => {
+    updateRooms();
   }, []);
 
   useEffect(() => {
@@ -50,7 +56,7 @@ const JoinedRoomsProvider = ({ children }) => {
   }, [joinedRooms]);
 
   return (
-    <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom }}>
+    <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom, updateRooms }}>
       {children}
     </JoinedRoomsContext.Provider>
   );

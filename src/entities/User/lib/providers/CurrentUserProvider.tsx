@@ -18,23 +18,23 @@ const CurrentUserProvider = ({ children }) => {
     setCurrentUser(user);
     setToLocalStorage("currentUser", user);
   }
-  
-  const removeUser = () => {
-    removeFromLocalStorage("currentUser");
-    setCurrentUser(null);
-  }
 
   const getUser = () => {
     try {
       return getFromLocalStorage<DetailedUserModel>("currentUser")
     }
     catch {
-      removeUser();
+      removeFromLocalStorage("currentUser");
       return null;
     }
   }
 
   const [ currentUser, setCurrentUser ] = useState<DetailedUserModel | null>(getUser());
+
+  const removeUser = () => {
+    removeFromLocalStorage("currentUser");
+    setCurrentUser(null);
+  }
 
   const updateCurrentUser = (): Promise<DetailedUserModel | undefined> => {
     return new Promise((resolve, reject) => {
