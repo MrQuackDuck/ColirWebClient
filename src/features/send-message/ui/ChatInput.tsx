@@ -50,7 +50,7 @@ function ChatInput({
 		const handleKeyDown = (e) => {
 			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.keyCode == 16 || e.keyCode == 9 || e.keyCode == 32) return;
 			let focusedItemTagName = document.activeElement?.tagName;
-			if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || focusedItemTagName === "VIDEO") return;
+			if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || (focusedItemTagName === "VIDEO" && e.keyCode == 32)) return;
 			if (!textAreaRef.current) return;
 			if (e.key === "Enter") e.preventDefault();
 			if (e.key == "Escape") onReplyCancelled();

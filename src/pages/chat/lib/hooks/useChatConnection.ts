@@ -180,6 +180,26 @@ export const useChatConnection = (
             return [...prevRooms];
           });
         });
+
+        connection.on("UserRenamed", ({ hexId, newName }) => {
+          setUsers((prevUsers) => {
+            return prevUsers.map((u) => {
+              if (u.hexId == hexId) {
+                return { ...u, username: newName };
+              }
+              return u;
+            });
+          });
+
+          setJoinedRooms((prevRooms) => {
+            prevRooms.forEach((r) => {
+              r.joinedUsers.forEach((u) => {
+                if (u.hexId == hexId) u.username = newName;
+              });
+            });
+            return [...prevRooms];
+          });
+        });
       })
       .catch((e) => {
         showErrorToast(

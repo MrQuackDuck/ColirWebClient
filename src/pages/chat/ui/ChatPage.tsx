@@ -35,6 +35,7 @@ function ChatPage() {
   let setChatConnections = useContextSelector(ChatConnectionsContext, c => c.setChatConnections);
   let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
   let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
+  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
   let setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.setVoiceChatConnections);
   let setMessages = useContextSelector(MessagesContext, c => c.setMessages);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
@@ -60,6 +61,7 @@ function ChatPage() {
     joinedRooms,
     selectedRoom,
     joinedVoiceConnection,
+    setJoinedVoiceConnection,
     setVoiceChatConnections
   );
 

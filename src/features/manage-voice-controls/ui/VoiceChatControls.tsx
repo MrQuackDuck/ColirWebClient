@@ -57,13 +57,13 @@ function VoiceChatControls() {
 
   return (
     <div className="flex flex-col gap-2">
-      <Button onClick={toggleMute} variant={"ghost"} className="w-8 h-8" size={'icon'}>
+      <Button onClick={toggleMute} variant={"ghost"} className="w-8 h-8 focus-visible:ring-offset-0" size={'icon'}>
         <span className={cn("transition-colors duration-100", isMuted && "text-destructive", !isMuted && "text-slate-400")}>
           {isMuted && <MicOffIcon strokeWidth={1.7} className="text-destructive w-6 h-6" />}
           {!isMuted && <MicIcon strokeWidth={1.7} className="text-slate-400 w-6 h-6" />}
         </span>
       </Button>
-      <Button onClick={toggleDeafen} variant={"ghost"} className="w-8 h-8" size={'icon'}>
+      <Button onClick={toggleDeafen} variant={"ghost"} className="w-8 h-8 focus-visible:ring-offset-0" size={'icon'}>
         <span className={cn("transition-colors duration-100", isDeafened && "text-destructive", !isDeafened && "text-slate-400")}>
           {isDeafened && <HeadphoneOff strokeWidth={1.7} className="w-6 h-6" />}
           {!isDeafened && <Headphones strokeWidth={1.7} className="w-6 h-6" />}

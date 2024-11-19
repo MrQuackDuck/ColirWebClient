@@ -1,5 +1,5 @@
 import { useState } from "react"
-import ColorElement from "./ColorElement"
+import HexId from "./HexId"
 
 function ListHexSelector({colors, onSelected} : {colors: number[], onSelected: (color: number) => void}) {
   let [selectedColor, setSelectedColor] = useState<number>(colors[0]);
@@ -10,7 +10,7 @@ function ListHexSelector({colors, onSelected} : {colors: number[], onSelected: (
   }
 
   return (<>
-    {colors.map(c => <ColorElement key={c} onSelected={() => onHexSelected(c)} isSelected={selectedColor == c} color={c} />)}
+    {colors.map(c => <HexId key={c} onSelected={() => onHexSelected(c)} isSelected={selectedColor == c} color={c} />)}
   </>)
 }
 

@@ -1,11 +1,11 @@
 .settingsPage {
-    padding: 0px calc(8.5vw + 1.25rem);;
-    padding-top: 6rem;
+    padding: 2rem calc(16vw + 1.25rem);;
+    padding-top: 5rem;
 }
 
 @media screen and (max-width: 700px) {
     .settingsPage {
-        padding-top: 5rem;
+        padding-top: 4rem;
         padding-left: 15px;
         padding-right: 15px;
     }

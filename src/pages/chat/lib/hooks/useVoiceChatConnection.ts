@@ -14,6 +14,7 @@ export const useVoiceChatConnection = (
   joinedRooms,
   selectedRoom,
   joinedVoiceConnection,
+  setJoinedVoiceConnection,
   setVoiceChatConnections: React.Dispatch<React.SetStateAction<VoiceChatConnection[]>>
 ) => {
   const getJwt = useJwt();
@@ -115,6 +116,17 @@ export const useVoiceChatConnection = (
               if (!connectionToUpdate) return prevConnections;
               let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
               if (user) user.isDeafened = false;
+              return [...prevConnections];
+            });
+          });
+
+          connection.onclose(() => {
+            if (joinedVoiceConnectionRef.current.roomGuid === roomGuid) setJoinedVoiceConnection(null);
+
+            setVoiceChatConnections((prevConnections) => {
+              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+              if (!connectionToUpdate) return prevConnections;
+              connectionToUpdate.joinedUsers = [];
               return [...prevConnections];
             });
           });

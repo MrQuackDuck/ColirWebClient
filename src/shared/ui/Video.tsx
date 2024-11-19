@@ -168,7 +168,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
         tabIndex={0}
       />
       {controls && (
-        <div className={`absolute bg-background/50 flex flex-col gap-0.5 bottom-0 left-0 right-0 text-white p-0.5 transition-opacity duration-200 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute bg-background/50 flex flex-col gap-0.5 bottom-0 left-0 right-0 text-primary p-0.5 transition-opacity duration-200 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
           <Slider
             value={[currentTime]}
             min={0}
