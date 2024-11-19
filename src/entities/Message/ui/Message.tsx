@@ -232,7 +232,7 @@ const Message = forwardRef(({
             <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
             <Username className="text-[11px]" user={repliedMessageAuthor} />
             <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-              {decryptedRepliedMessageContent} {decryptedRepliedMessageContent === undefined && <span className="text-destructive">Couldn't decrypt...</span>} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{decryptString(attachment.filename, decryptionKey)}] </span>)}
+              <span>{decryptedRepliedMessageContent}</span> {decryptedRepliedMessageContent === undefined && <span className="text-destructive">Couldn't decrypt...</span>} {repliedMessage.attachments.map((attachment) => <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">[{decryptString(attachment.filename, decryptionKey)}] </span>)}
             </span>
           </div>
         </div>
@@ -285,7 +285,7 @@ const Message = forwardRef(({
                     autoFocus
                     placeholder="Edit the message"
                     className="flex items-center w-full rounded-md border border-input bg-background py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 resize-none
-          ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   />
                   <Button onClick={disableEditMode} className="w-10 h-10" variant={"outline"} size={"icon"}>
                     <PencilOffIcon className="text-primary/80 h-4 w-4" />

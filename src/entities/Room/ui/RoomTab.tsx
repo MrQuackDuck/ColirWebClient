@@ -104,6 +104,8 @@ function RoomTab({
   function closeSettings(e) {
     e.preventDefault();
     setRoomSettingsOpened(false);
+    // Resetting the unapplied changes
+    setTimeout(() => form.reset({ roomName: room.name, encryptionKey: roomEncryptionKey || "" }), 100)
   }
 
   function openDeleteConfirmation(e) {

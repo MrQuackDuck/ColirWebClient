@@ -21,7 +21,7 @@ const Username = React.memo(function Username({
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTrigger>
+      <PopoverTrigger className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1">
         <Tooltip>
           <TooltipTrigger asChild>
             <span
