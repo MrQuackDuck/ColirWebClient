@@ -76,8 +76,8 @@ const ReactionBar = (props: ReactionBarProps) => {
                 symbol={r.symbol}/>
             </span>
           </TooltipTrigger>
-          <TooltipContent>
-            <Button onClick={() => openDialog(r.symbol)} variant={"link"} className="h-2 text-[12px] p-0 leading-0">Who reacted?</Button>
+          <TooltipContent tabIndex={-1}>
+            <Button tabIndex={-1} onClick={() => openDialog(r.symbol)} variant={"link"} className="h-2 text-[12px] p-0 leading-0">Who reacted?</Button>
           </TooltipContent>
         </Tooltip>
       ))}

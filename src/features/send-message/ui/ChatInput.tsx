@@ -48,7 +48,7 @@ function ChatInput({
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
-			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.keyCode == 16) return;
+			if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.keyCode == 16 || e.keyCode == 9 || e.keyCode == 32) return;
 			let focusedItemTagName = document.activeElement?.tagName;
 			if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || focusedItemTagName === "VIDEO") return;
 			if (!textAreaRef.current) return;
@@ -202,9 +202,12 @@ function ChatInput({
 
 					{variant === "default" && (<>
 						<PaperclipIcon
+							tabIndex={0}
               onClick={() => fileInputRef.current.click()}
+							onKeyDown={(e) => e.keyCode == 32 && fileInputRef.current.click()}
 							strokeWidth={1.5}
-							className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform"
+							className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform
+								rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
 						/>
             <input onChange={fileSelected} multiple={true} className="hidden" ref={fileInputRef} type="file" />
 					</>)}
@@ -245,9 +248,12 @@ function ChatInput({
 								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"/>
 							<Separator orientation="vertical" />
 							<SendIcon
+								tabIndex={0}
 								onClick={sendMessage}
+								onKeyDown={(e) => e.keyCode == 32 && sendMessage()}
 								strokeWidth={1.5}
-								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"/>
+								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform
+									rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"/>
 						</div>
 					)}
 				</div>

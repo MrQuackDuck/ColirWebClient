@@ -355,7 +355,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
         {!isDesktop && <Button onClick={openAside} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
           <PanelRightCloseIcon className="h-5 w-5 text-slate-400" />
         </Button>}
-        <div className="w-full flex flex-row justify-between flex-nowrap gap-1 items-center select-none">
+        <div className="w-full flex flex-row justify-between flex-nowrap gap-1 items-center select-none overflow-hidden">
           <div className="flex flex-row overflow-hidden items-center select-none gap-2.5">
             <DollarSignIcon className="text-slate-400 min-w-[1.125rem] max-w-[1.125rem] h-[1.125rem]" />
             <span className="text-ellipsis text-nowrap max-w-[40%] overflow-hidden">{room.name}</span>
@@ -374,17 +374,19 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
               </PopoverContent>
             </Popover>
             <Separator className="min-h-5" orientation="vertical"/>
-            <span className="text-[14px] min-w-[155px] max-w-[155px] text-ellipsis whitespace-nowrap overflow-hidden text-slate-500">Expires in: {room.expiryDate == null ? "Never" : <Countdown className="whitespace-nowrap" date={room.expiryDate}/>}</span>
+            <span className={cn("text-[14px] text-ellipsis whitespace-nowrap overflow-hidden text-slate-500", isDesktop && "min-w-[155px] max-w-[155px]")}>
+              Expires in: {room.expiryDate == null ? "Never" : <Countdown className="whitespace-nowrap" date={room.expiryDate}/>}
+            </span>
           </div>
-          <div className="w-fit flex-shrink">
+          <div className="w-fit flex-shrink-0">
             {isDesktop && <StorageBar className="w-56 max-w-56" room={room} />}
-            {!isDesktop &&
-              <Button onClick={openVoiceChatSection} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
-                <PanelLeftCloseIcon className="h-5 w-5 text-slate-400" />
-              </Button>
-            }
           </div>
         </div>
+        {!isDesktop &&
+            <Button onClick={openVoiceChatSection} variant={"ghost"} size={"icon"} className="flex-shrink-0 min-w-10 min-h-10">
+              <PanelLeftCloseIcon className="h-5 w-5 text-slate-400" />
+            </Button>
+        }
       </header>
       <Separator orientation="horizontal"/>
 

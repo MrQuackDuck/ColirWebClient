@@ -15,7 +15,9 @@ const Reaction = forwardRef((props: ReactionProps, ref: any) => {
   }
 
   return (
-    <div ref={ref} onClick={reactionClicked} className={`flex flex-row w-min ${props.isActivated ? "bg-accent/100 border-primary/40" : "bg-accent/50 border-primary/20"} text-sm hover:bg-primary/10 gap-1.5 px-1.5 py-[1px] border rounded-[6px] leading-5 select-none cursor-pointer`}>
+    <div
+      tabIndex={0} ref={ref} onClick={reactionClicked} onKeyDown={(e) => e.keyCode == 32 && reactionClicked()}
+      className={`flex flex-row w-min ${props.isActivated ? "bg-accent/100 border-primary/40" : "bg-accent/50 border-primary/20"} text-sm hover:bg-primary/10 gap-1.5 px-1.5 py-[1px] border rounded-[6px] leading-5 select-none cursor-pointer`}>
       <span className="text-[12px]">{props.symbol}</span>
       <span className={`${props.isActivated ? "text-primary/80" : "text-primary/70" } font-semibold`}>{props.count}</span>
     </div>

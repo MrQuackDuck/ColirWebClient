@@ -243,9 +243,7 @@ const Message = forwardRef(({
       <ContextMenu>
         <ContextMenuTrigger onContextMenu={validateContextMenu} asChild>
           {/* Message block */}
-          <div onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            ref={ref}
+          <div tabIndex={0} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ref}
             className={`flex flex-col mx-[1px] justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-1px] outline-2 outline-primary/80
               ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}>
             <div className="flex flex-col w-full my-1 rounded-[6px]">

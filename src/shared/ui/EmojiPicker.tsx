@@ -54,7 +54,8 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
 
   function getDefaultTrigger() {
     return (
-      <SmileIcon className="h-6 w-6 stroke-slate-400/80 hover:stroke-slate-400/100 text-muted-foreground hover:text-foreground transition" />
+      <SmileIcon className="h-6 w-6 stroke-slate-400/80 hover:stroke-slate-400/100 text-muted-foreground hover:text-foreground transition
+        rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1" />
     );
   }
 
@@ -67,7 +68,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild className={cn(className)}>
+      <PopoverTrigger tabIndex={0} asChild className={cn(className)} onKeyUp={(e) => e.keyCode == 32 && setIsOpen(!isOpen)}>
         {asButton ? getButtonTrigger() : getDefaultTrigger()}
       </PopoverTrigger>
       <PopoverContent className="w-[300px] overflow-hidden p-2">
@@ -93,7 +94,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
                             onClick={(e) => handleClick(e, emoji)}
                             variant="ghost"
                             size="icon"
-                            className="p-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-[1.2rem]"
+                            className="p-0 rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-[1.2rem]"
                           >
                             {emoji.value}
                           </Button>

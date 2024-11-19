@@ -23,6 +23,8 @@ interface StorageBarProps {
 function StorageBar(props: StorageBarProps) {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let getJwt = useJwt();
+
+  let [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   let [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
   let [isClearingDialogOpen, setIsClearingDialogOpen] = useState<boolean>(false);
   let [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
@@ -63,9 +65,9 @@ function StorageBar(props: StorageBarProps) {
   }
 
   return (<>
-    <Popover>
-      <PopoverTrigger asChild>
-        <div className={cn("w-full min-w-36 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden", props.className)}>
+    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+      <PopoverTrigger tabIndex={0} asChild onKeyDown={(e) => e.keyCode == 32 && setIsPopoverOpen(!isPopoverOpen)}>
+        <div className={cn("w-full focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 min-w-36 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden", props.className)}>
           <div className="h-full bg-foreground" style={{ width: `${(props.room.usedMemoryInBytes / (props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)) * 100}%` }} />
           <Trash2Icon className="absolute top-[5px] left-1.5 mix-blend-difference w-3.5 h-3.5 text-white" />
           <div className="absolute inset-0 flex items-center justify-center text-white mix-blend-difference text-[12px] font-medium">

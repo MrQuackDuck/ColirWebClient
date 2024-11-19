@@ -31,8 +31,8 @@ export default class RoomService {
   }
 
   static async GetLastTimeReadChat(model: GetLastTimeReadChatModel): Promise<AxiosResponse<Date>> {
-    return await $api.get("/Room/GetLastTimeReadChatModel", {params: {
-      model: model
+    return await $api.get("/Room/GetLastTimeReadChat", {params: {
+      roomGuid: model.roomGuid
     }});
   }
 

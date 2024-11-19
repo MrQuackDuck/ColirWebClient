@@ -88,7 +88,7 @@ function ChatPage() {
   return (
     <>
       {!isDesktop && <Sheet open={asideOpen} onOpenChange={setAsideOpen}>
-        <SheetContent side={"left"}>
+        <SheetContent forceMount side={"left"}>
           <SheetHeader>
             <SheetTitle>Manage rooms</SheetTitle>
             <SheetDescription className="text-left px-2.5">
@@ -118,7 +118,7 @@ function ChatPage() {
         </ResizablePanelGroup>
       </div>
       {!isDesktop && <Sheet open={voiceChatSectionOpen} onOpenChange={setVoiceChatSectionOpen}>
-        <SheetContent side={"right"}>
+        <SheetContent forceMount side={"right"}>
           <SheetTitle className="hidden" />
           <SheetDescription className="hidden"/>
           <VoiceChatSection/>
