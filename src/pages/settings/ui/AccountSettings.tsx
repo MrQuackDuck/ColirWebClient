@@ -1,5 +1,7 @@
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { toast } from "@/shared/lib/hooks/useToast";
+import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/Button";
 import HexId from "@/shared/ui/HexId";
 import { Input } from "@/shared/ui/Input";
@@ -9,6 +11,7 @@ import { useContextSelector } from "use-context-selector"
 
 function AccountSettings() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let { isDesktop } = useResponsiveness();
 
   function handleHexClick() {
     navigator.clipboard.writeText(currentUser!.hexId!.toString()!);
@@ -22,7 +25,7 @@ function AccountSettings() {
     <div className="flex flex-col gap-3.5">
       <span className="text-3xl font-semibold">Account</span>
       <Separator/>
-      <div className="flex flex-col gap-3.5 max-w-[50%]">
+      <div className={cn("flex flex-col gap-3.5", isDesktop && "max-w-[50%]")}>
         {currentUser?.hexId && 
           <div className="flex flex-col gap-1.5">
             <span className="text-sm font-medium">Colir Id (aka. Hex Id)</span>

@@ -207,7 +207,7 @@ function ChatInput({
 							onKeyDown={(e) => e.keyCode == 32 && fileInputRef.current.click()}
 							strokeWidth={1.5}
 							className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform
-								rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
+								rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring"
 						/>
             <input onChange={fileSelected} multiple={true} className="hidden" ref={fileInputRef} type="file" />
 					</>)}
@@ -253,7 +253,7 @@ function ChatInput({
 								onKeyDown={(e) => e.keyCode == 32 && sendMessage()}
 								strokeWidth={1.5}
 								className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform
-									rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"/>
+									rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring"/>
 						</div>
 					)}
 				</div>

@@ -5,13 +5,16 @@ import { createContext } from 'use-context-selector';
 export const MessagesContext = createContext<{
   messages: MessageModel[];
   setMessages: React.Dispatch<React.SetStateAction<MessageModel[]>>;
-}>({ messages: [] as MessageModel[], setMessages: () => {} });
+  unreadReplies: MessageModel[];
+  setUnreadReplies: React.Dispatch<React.SetStateAction<MessageModel[]>>;
+}>({ messages: [] as MessageModel[], setMessages: () => {}, unreadReplies: [] as MessageModel[], setUnreadReplies: () => {} });
 
 export const MessagesProvider = ({ children }) => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
+  const [unreadReplies, setUnreadReplies] = useState<MessageModel[]>([]);
 
   return (
-    <MessagesContext.Provider value={{ messages, setMessages }}>
+    <MessagesContext.Provider value={{ messages, setMessages, unreadReplies, setUnreadReplies }}>
       {children}
     </MessagesContext.Provider>
   );

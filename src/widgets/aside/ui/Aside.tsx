@@ -33,10 +33,7 @@ function Aside() {
         >
           <PlusIcon className="mr-1 h-4 w-4" /> New Room
         </Button>
-        <RoomTabsList
-          onMarkAsReadClicked={() => {}}
-          onSettingsClicked={() => {}}
-        />
+        <RoomTabsList/>
 
         <Dialog open={newRoomModalOpened} onOpenChange={setNewRoomModalOpened}>
           <DialogContent>

@@ -33,7 +33,7 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import React from "react";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
-import { decryptString, encryptString } from "@/shared/lib/utils";
+import { cn, decryptString, encryptString } from "@/shared/lib/utils";
 import { toast } from "@/shared/lib/hooks/useToast";
 
 interface MessageProps {
@@ -49,6 +49,7 @@ interface MessageProps {
   onMessageEdited: (messageId: number, newContent: string) => any;
   onReplyButtonClicked: (message: MessageModel) => any;
   onReplySectionClicked: (messageId: number) => any;
+  onObserved: (messageId: number) => any;
 }
 
 const Message = forwardRef(({
@@ -64,6 +65,7 @@ const Message = forwardRef(({
   onMessageEdited,
   onReplyButtonClicked,
   onReplySectionClicked,
+  onObserved,
 }: MessageProps, ref: any) => {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let [isButtonDeleteConfirmationShown, setIsButtonDeleteConfirmationShown] = useState<boolean>(false);
@@ -74,6 +76,35 @@ const Message = forwardRef(({
   let textAreaRef = useRef<any>();
   let decryptedContent: string | undefined = decryptString(message.content, decryptionKey);
   let decryptedRepliedMessageContent = repliedMessage ? decryptString(repliedMessage.content, decryptionKey) : undefined;
+  let isReplyToCurrentUser = repliedMessage && repliedMessage.authorHexId == currentUser?.hexId;
+  const messageContentRef = useRef<HTMLDivElement>(null);
+
+  // Intersection observer to track if the message is visible in the viewport
+  useEffect(() => {
+    const currentMessageRef = messageContentRef.current;
+    
+    if (!currentMessageRef) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) onObserved(message.id);
+        });
+      },
+      {
+        root: null, // use the viewport
+        rootMargin: '0px', // no margin
+        threshold: 0.1 // trigger when at least 10% of the message is visible
+      }
+    );
+
+    observer.observe(currentMessageRef);
+
+    // Cleanup function to remove observer
+    return () => {
+      if (currentMessageRef) observer.unobserve(currentMessageRef);
+    };
+  }, [message.id]);
 
   function copyMessage() {
     navigator.clipboard.writeText(decryptedContent ?? "Couldn't decrypt...");
@@ -244,9 +275,9 @@ const Message = forwardRef(({
         <ContextMenuTrigger onContextMenu={validateContextMenu} asChild>
           {/* Message block */}
           <div tabIndex={0} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ref}
-            className={`flex flex-col mx-[1px] justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-1px] outline-2 outline-primary/80
-              ${classes["hover-parent"]} ${isEditMode && "bg-accent/80"} ${repliedMessage ? "py-[0.080rem]" : "py-0.5"}`}>
-            <div className="flex flex-col w-full my-1 rounded-[6px]">
+            className={cn(`flex flex-col mx-[1px] justify-between px-2 rounded-[6px] hover:bg-accent/80 outline-offset-[-1px] outline-2 outline-primary/80`,
+              classes["hover-parent"], isEditMode && "bg-accent/80", repliedMessage ? "py-[0.080rem]" : "py-0.5", isReplyToCurrentUser && "bg-secondary/30 border-l-[3px] border-[#1890D3] box-border")}>
+            <div ref={messageContentRef} className="flex flex-col w-full my-1 rounded-[6px]">
               <div className="flex row items-center gap-1.5">
                 <Username user={sender} />
                 <Tooltip>

@@ -52,12 +52,13 @@ function RoomTab({
   isSelected,
   onClick,
   onMarkAsReadClicked,
+  unreadRepliesCount,
 }: {
   room: RoomModel;
   isSelected: boolean;
   onClick: () => void;
-  onSettingsClicked: () => void;
-  onMarkAsReadClicked: () => void;
+  onMarkAsReadClicked: (room: RoomModel) => void;
+  unreadRepliesCount: number;
 }) {
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false)
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
@@ -155,13 +156,17 @@ function RoomTab({
         <ContextMenuTrigger asChild>
           <button
             onClick={onClick}
-            className={`flex items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
+            className={`flex gap-0.5 justify-between items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
             hover:bg-accent hover:text-accent-foreground h-9 px-2 ${
               isSelected ? "bg-accent" : null
-            }`}
-          >
-            <DollarSignIcon className="text-slate-400 h-4 min-w-4 max-w-4 mr-2" />
-            <span className="text-popover-foreground text-ellipsis text-nowrap inline-block overflow-hidden max-w-[100%]">{room.name}</span>
+            }`}>
+            <div className="flex overflow-hidden items-center whitespace-nowrap">
+              <DollarSignIcon className="text-slate-400 h-4 min-w-4 max-w-4 mr-2" />
+              <span className="text-popover-foreground text-ellipsis text-nowrap inline-block overflow-hidden max-w-[100%]">{room.name}</span>
+            </div>
+            {unreadRepliesCount > 0 &&
+              <span className="flex text-white rounded-full bg-destructive justify-center items-center shrink-0 w-4 h-4 text-[12px]">{unreadRepliesCount}</span>
+            }
           </button>
         </ContextMenuTrigger>
         <ContextMenuContent>
@@ -171,7 +176,7 @@ function RoomTab({
           <ContextMenuItem onClick={() => copyGuid()}>
             <CopyIcon className="mr-2 h-4 w-4" /> Copy GUID
           </ContextMenuItem>
-          <ContextMenuItem onClick={onMarkAsReadClicked}>
+          <ContextMenuItem onClick={() => onMarkAsReadClicked(room)}>
             <MailCheckIcon className="mr-2 h-4 w-4" /> Mark as Read
           </ContextMenuItem>
           <ContextMenuItem onClick={() => setLeaveConfirmationOpened(true)}>

@@ -33,6 +33,7 @@ import MessagesList from "@/entities/Message/ui/MessagesList"
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider"
 import { cn } from "@/shared/lib/utils"
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness"
+import RoomService from "@/entities/Room/api/RoomService"
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -52,6 +53,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let messages = useContextSelector(MessagesContext, m => m.messages);
   let setMessages = useContextSelector(MessagesContext, m => m.setMessages);
+  let unreadReplies = useContextSelector(MessagesContext, c => c.unreadReplies);
+  let setUnreadReplies = useContextSelector(MessagesContext, c => c.setUnreadReplies);
   const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
   let scrollAreaRef = useRef<HTMLDivElement | null>(null);
@@ -111,6 +114,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     replyCancelled();
     selectedRoomConnection?.connection.send("SendMessage", model)
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
+    
+    RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid, lastTimeRead: new Date() });
   }
 
   const addReaction = useCallback((messageId: number, reaction: string) => {
@@ -218,8 +223,9 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   
     selectedRoomConnection?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
       .then(response => {
+        if (!response?.content) return;
         setMessages(prevMessages => distinctMessages([...response.content, ...prevMessages])); // Add new messages to the top
-  
+
         if (response.content.length < countToLoad) {
           setRoomsWithNoMoreMessagesToLoad(prev => [...prev, room.guid]);
         }
@@ -348,6 +354,13 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     setVoiceChatSectionVisibility(true);
   }
 
+  function handleMessageObserved(id: number) {
+    if (unreadReplies.find(m => m.id == id)) {
+      RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid, lastTimeRead: unreadReplies.find(m => m.id == id)?.postDate ?? new Date() });
+      setUnreadReplies(prev => prev.filter(m => m.id != id));
+    }
+  }
+
   if (!room) return <></>;
   return (
     <div className="flex flex-col max-h-full h-full">
@@ -366,7 +379,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
               </PopoverTrigger>
               <PopoverContent className="flex flex-col w-fit">
                 <span className="text-base">Members</span>
-                <span className="text-sm text-slate-400">Here are displayed members of the room.</span>
+                <span className="text-sm text-slate-400">Here are displayed the members of the room.</span>
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
                     {room.joinedUsers.map(u => <div key={u.hexId} className="flex flex-row items-center gap-1.5"><Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} /></div>)}
                 </div>
@@ -406,6 +419,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
               replyButtonClicked={replyButtonClicked}
               handleReplySectionClick={handleReplySectionClick}
               setMessageRef={setMessageRef}
+              onMessageObserved={handleMessageObserved}
             />
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection}/>}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>

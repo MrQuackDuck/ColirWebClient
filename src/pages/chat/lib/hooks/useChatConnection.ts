@@ -3,12 +3,12 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { API_URL } from "@/shared/api";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { GetLastMessagesModel } from "@/entities/Message/model/request/GetLastMessagesModel";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { showInfoToast } from "@/shared/lib/showInfoToast";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
+import pingAudio from "../../../../assets/audio/ping.mp3";
 
 export const useChatConnection = (
   currentUser,
@@ -16,6 +16,7 @@ export const useChatConnection = (
   setJoinedRooms,
   setChatConnections,
   setMessages,
+  setUnreadReplies,
   setUsers,
   selectedRoom,
   setSelectedRoom
@@ -28,6 +29,12 @@ export const useChatConnection = (
     joinedRoomsRef.current = joinedRooms;
     selectedRoomRef.current = selectedRoom;
   }, [joinedRooms, selectedRoom]);
+  
+  const playPingSound = () => {
+    let audio = new Audio(pingAudio);
+    audio.volume = 0.5;
+    audio.play();
+  };
 
   const verifyUsersPresenceOnAllRooms = () => {
     if (!joinedRoomsRef.current || !currentUser) return;
@@ -48,19 +55,54 @@ export const useChatConnection = (
 
     connection.start()
       .then(() => {
-        // Getting last messages
-        let request: GetLastMessagesModel = { count: 20, skipCount: 0 };
-        connection
-          .invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", request)
-          .then((response) => {
-            setMessages((prevMessages) =>
-              distinctMessages([...prevMessages, ...response.content])
-            );
+        // Getting the last message
+        connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 1, skipCount: 0 })
+          .then((lastMessageResponse) => {
+            // Getting possible unread messages
+            connection.invoke<SignalRHubResponse<MessageModel[]>>("GetUnreadRepliesAsync")
+              .then((unreadRepliedResponse) => {
+                // If there any unread messages, fetch the whole range of messages from the first unread to the last message
+                if (unreadRepliedResponse.content.length > 0) {
+                  setUnreadReplies(prevUnreadReplies => [...prevUnreadReplies, ...unreadRepliedResponse.content]);
+                  let lastMessage = lastMessageResponse.content[0];
+                  let firstUnreadMessage = unreadRepliedResponse.content[0];
+                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id })
+                    .then((response) => {
+                      setMessages((prevMessages) => {
+                        if (!response?.content) return prevMessages;
+                        return distinctMessages([...prevMessages, ...response.content]);
+                      });
+                    });
+                }
+                // If not just fetch the last 50 messages
+                else {
+                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 50, skipCount: 0 })
+                    .then((response) => {
+                      setMessages((prevMessages) => {
+                        if (!response?.content) return prevMessages;
+                        return distinctMessages([...prevMessages, ...response.content]);
+                      });
+                    });
+                }
+              });
           });
 
         // Set up all the event listeners
-        connection.on("ReceiveMessage", (message: MessageModel) => setMessages((prevMessages) => [...prevMessages, message]));
-        connection.on("MessageDeleted", (messageId: number) => setMessages((prevMessages) => [...prevMessages.filter((m) => m.id != messageId)]));
+        connection.on("ReceiveMessage", (message: MessageModel) => {
+          // Add message to the unread replies if it's a reply to the current user and it's not in the current room
+          if (message.repliedMessage && message.repliedMessage.authorHexId == currentUser.hexId && selectedRoomRef?.current?.guid != message.roomGuid) {
+            setUnreadReplies((prevUnreadReplies) => [...prevUnreadReplies, message]);
+            playPingSound();
+          }
+
+          setMessages((prevMessages) => [...prevMessages, message])
+        });
+
+        connection.on("MessageDeleted", (messageId: number) => {
+          setUnreadReplies((prevUnreadReplies) => prevUnreadReplies.filter((m) => m.id != messageId));
+          setMessages((prevMessages) => [...prevMessages.filter((m) => m.id != messageId)])
+        });
+
         connection.on("MessageEdited", (message: MessageModel) =>
           setMessages((prevMessages) => {
             return prevMessages.map((m) =>

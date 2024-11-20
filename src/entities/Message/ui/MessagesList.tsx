@@ -17,6 +17,7 @@ interface MessagesListProps {
   replyButtonClicked: (message: MessageModel) => void;
   handleReplySectionClick: (messageId: number) => void;
   setMessageRef: (messageId: number) => (el: HTMLDivElement | null) => void;
+  onMessageObserved: (messageId: number) => any;
 }
 
 const MessagesList: React.FC<MessagesListProps> = ({
@@ -30,7 +31,8 @@ const MessagesList: React.FC<MessagesListProps> = ({
   editMessage,
   replyButtonClicked,
   handleReplySectionClick,
-  setMessageRef
+  setMessageRef,
+  onMessageObserved
 }) => {
   return (
     <>
@@ -59,6 +61,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
               onReplySectionClicked={handleReplySectionClick}
               message={m}
               sender={sender}
+              onObserved={onMessageObserved}
             />
           </div>
         );

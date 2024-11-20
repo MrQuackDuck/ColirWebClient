@@ -10,6 +10,10 @@ import {
   SheetTitle,
 } from "@/shared/ui/Sheet";
 import {
+  SheetWithUnmountableContent,
+  SheetContent as SheetContentWithUnmountableContent,
+} from "@/shared/ui/SheetWithUnmountableContent"
+import {
   HubConnectionState,
 } from "@microsoft/signalr";
 import Aside from "@/widgets/aside/ui/Aside";
@@ -26,6 +30,8 @@ import { useChatConnection } from "../lib/hooks/useChatConnection";
 import VoiceChatSection from "@/widgets/voice-chat-section/ui/VoiceChatSection";
 import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
+import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
+import FocusLock from 'react-focus-lock';
 
 function ChatPage() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
@@ -38,6 +44,7 @@ function ChatPage() {
   let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
   let setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.setVoiceChatConnections);
   let setMessages = useContextSelector(MessagesContext, c => c.setMessages);
+  let setUnreadReplies = useContextSelector(MessagesContext, c => c.setUnreadReplies);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
   let setUsers = useContextSelector(UsersContext, c => c.setUsers);
@@ -51,6 +58,7 @@ function ChatPage() {
     setJoinedRooms,
     setChatConnections,
     setMessages,
+    setUnreadReplies,
     setUsers,
     selectedRoom,
     setSelectedRoom
@@ -118,13 +126,16 @@ function ChatPage() {
           </>}
         </ResizablePanelGroup>
       </div>
-      {!isDesktop && <Sheet open={voiceChatSectionOpen} onOpenChange={setVoiceChatSectionOpen}>
-        <SheetContent side={"right"}>
-          <SheetTitle className="hidden" />
-          <SheetDescription className="hidden"/>
-          <VoiceChatSection/>
-        </SheetContent>
-      </Sheet>}
+      {!isDesktop && <SheetWithUnmountableContent orientation="right" open={voiceChatSectionOpen} onOpenClose={setVoiceChatSectionOpen}>
+        <SheetContentWithUnmountableContent>
+          <FocusLock disabled={!voiceChatSectionOpen} onDeactivation={() => setVoiceChatSectionOpen(false)}>
+            <div className="flex flex-col" onKeyDown={e => (e.key === "Escape") && setVoiceChatSectionOpen(false)}>
+              <VoiceChatSection/>
+              <VoiceChatControls className="flex-row mx-auto"/>
+            </div>
+          </FocusLock>
+        </SheetContentWithUnmountableContent>
+      </SheetWithUnmountableContent>}
     </>
   );
 }

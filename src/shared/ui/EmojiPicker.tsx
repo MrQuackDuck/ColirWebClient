@@ -55,7 +55,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
   function getDefaultTrigger() {
     return (
       <SmileIcon className="h-6 w-6 stroke-slate-400/80 hover:stroke-slate-400/100 text-muted-foreground hover:text-foreground transition
-        rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1" />
+        rounded-full overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring" />
     );
   }
 
@@ -71,7 +71,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
       <PopoverTrigger tabIndex={0} asChild className={cn(className)} onKeyUp={(e) => e.keyCode == 32 && setIsOpen(!isOpen)}>
         {asButton ? getButtonTrigger() : getDefaultTrigger()}
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] overflow-hidden p-2">
+      <PopoverContent className="w-[305px] overflow-hidden p-2">
         {isOpen && (
           <>
             <Input
@@ -84,7 +84,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
               <div className="flex flex-col h-full gap-1">
                 {Object.entries(filteredEmojiData).map(([category, emojis]) => (
                   emojis.length > 0 && (
-                    <div key={category}>
+                    <div className='px-1' key={category}>
                       <span className="capitalize text-base">{category}</span>
                       <Separator className="mt-0.5" />
                       <div className="flex flex-wrap gap-1 pt-0.5">
@@ -94,7 +94,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
                             onClick={(e) => handleClick(e, emoji)}
                             variant="ghost"
                             size="icon"
-                            className="p-0 rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-[1.2rem]"
+                            className="p-0 rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring text-[1.2rem]"
                           >
                             {emoji.value}
                           </Button>

@@ -14,6 +14,7 @@ import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
 import { cn } from "@/shared/lib/utils";
+import { useTheme } from "@/shared/lib/providers/ThemeProvider";
 
 interface StorageBarProps {
   room: RoomModel;
@@ -23,6 +24,7 @@ interface StorageBarProps {
 function StorageBar(props: StorageBarProps) {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let getJwt = useJwt();
+  let { theme } = useTheme();
 
   let [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   let [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
@@ -70,7 +72,7 @@ function StorageBar(props: StorageBarProps) {
         <div className={cn("w-full focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 min-w-36 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden", props.className)}>
           <div className="h-full bg-foreground" style={{ width: `${(props.room.usedMemoryInBytes / (props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)) * 100}%` }} />
           <Trash2Icon className="absolute top-[5px] left-1.5 mix-blend-difference w-3.5 h-3.5 text-white" />
-          <div className="absolute inset-0 flex items-center justify-center text-white mix-blend-difference text-[12px] font-medium">
+          <div className={cn("absolute inset-0 flex items-center justify-center text-white mix-blend-difference text-[12px]", theme == "dark" && "font-medium")}>
             {bytesToMB(props.room.usedMemoryInBytes)} / {bytesToMB(props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)} MB used
           </div>
         </div>

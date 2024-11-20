@@ -3,32 +3,35 @@ import { RoomModel } from "../model/RoomModel";
 import RoomTab from "./RoomTab";
 import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
+import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider";
+import RoomService from "../api/RoomService";
 
-function RoomTabsList({
-  onMarkAsReadClicked,
-  onSettingsClicked
-}: {
-  onMarkAsReadClicked: (room: RoomModel) => any;
-  onSettingsClicked: (room: RoomModel) => any;
-}) {
+function RoomTabsList() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
   let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
   let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
+  let unreadReplied = useContextSelector(MessagesContext, c => c.unreadReplies);
+  let setUnreadReplied = useContextSelector(MessagesContext, c => c.setUnreadReplies);
 
   function selectRoom(room: RoomModel) {
     setSelectedRoom(room);
+  }
+
+  function handleMarkAsRead(room: RoomModel) {
+    RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid, lastTimeRead: new Date() });
+    setUnreadReplied(prev => prev.filter(m => m.roomGuid != room.guid));
   }
 
   return (
     <div className="flex flex-col gap-2">
       {joinedRooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
         <RoomTab
+          unreadRepliesCount={unreadReplied.filter(m => m.roomGuid == r.guid).length}
           key={r.guid}
           onClick={() => selectRoom(r)}
           isSelected={r.guid == selectedRoom?.guid}
           room={r}
-          onSettingsClicked={onSettingsClicked(r)}
-          onMarkAsReadClicked={onMarkAsReadClicked(r)}
+          onMarkAsReadClicked={handleMarkAsRead}
         />
       ))}
     </div>

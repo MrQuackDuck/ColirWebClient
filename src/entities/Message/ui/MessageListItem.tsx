@@ -18,6 +18,7 @@ interface MessageListItemProps {
   onMessageEdited: (messageId: number, newContent: string) => any;
   onReplyButtonClicked: (message: MessageModel) => any;
   onReplySectionClicked: (messageId: number) => any;
+  onObserved: (messageId: number) => any;
 }
 
 class MessageListItem extends React.Component<MessageListItemProps> {
@@ -54,6 +55,7 @@ class MessageListItem extends React.Component<MessageListItemProps> {
         onMessageEdited={this.props.onMessageEdited}
         onReplyButtonClicked={this.props.onReplyButtonClicked}
         onReplySectionClicked={this.props.onReplySectionClicked}
+        onObserved={this.props.onObserved}
       />
     );
   }

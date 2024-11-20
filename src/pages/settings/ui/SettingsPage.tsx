@@ -2,7 +2,6 @@ import { Button } from "@/shared/ui/Button";
 import { cn } from "@/shared/lib/utils";
 import { useContextSelector } from "use-context-selector";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
-import FocusLock from 'react-focus-lock';
 import { BarChart3Icon, GlobeIcon, ImportIcon, MegaphoneIcon, UserIcon, Volume2Icon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
@@ -12,6 +11,7 @@ import Tab from "@/shared/ui/Tab";
 import HeaderTab from "@/shared/ui/HeaderTab";
 import AccountSettings from "./AccountSettings";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
+import FocusLock from 'react-focus-lock';
 
 enum SettingsTabs {
 	Account = "account",

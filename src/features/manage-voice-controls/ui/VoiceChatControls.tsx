@@ -12,8 +12,11 @@ import unmuteAudio from "../../../assets/audio/unmute.mp3";
 import deafenAudio from "../../../assets/audio/deafen.mp3";
 import undeafenAudio from "../../../assets/audio/undeafen.mp3";
 
+interface VoiceChatControlsProps {
+  className?: string;
+}
 
-function VoiceChatControls() {
+function VoiceChatControls({ className }: VoiceChatControlsProps) {
   const isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
   const setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
   const isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
@@ -56,7 +59,7 @@ function VoiceChatControls() {
   }, [isDeafened]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={cn("flex flex-col gap-2", className)}>
       <Button onClick={toggleMute} variant={"ghost"} className="w-8 h-8 focus-visible:ring-offset-0" size={'icon'}>
         <span className={cn("transition-colors duration-100", isMuted && "text-destructive", !isMuted && "text-slate-400")}>
           {isMuted && <MicOffIcon strokeWidth={1.7} className="text-destructive w-6 h-6" />}

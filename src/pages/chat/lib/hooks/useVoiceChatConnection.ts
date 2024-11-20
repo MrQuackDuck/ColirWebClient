@@ -61,7 +61,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserJoined", (user: VoiceChatUser) => {
-            if (user.hexId !== currentUser.hexId && joinedVoiceConnectionRef.current) playJoinSound();
+            if (user.hexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playJoinSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
@@ -71,7 +71,7 @@ export const useVoiceChatConnection = (
           });
 
           connection.on("UserLeft", (userHexId: number) => {
-            if (userHexId !== currentUser.hexId && joinedVoiceConnectionRef.current) playLeaveSound();
+            if (userHexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playLeaveSound();
             setVoiceChatConnections((prevConnections) => {
               let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
               if (!connectionToUpdate) return prevConnections;
