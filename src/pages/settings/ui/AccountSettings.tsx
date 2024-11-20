@@ -1,4 +1,5 @@
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { toast } from "@/shared/lib/hooks/useToast";
 import { Button } from "@/shared/ui/Button";
 import HexId from "@/shared/ui/HexId";
 import { Input } from "@/shared/ui/Input";
@@ -9,6 +10,14 @@ import { useContextSelector } from "use-context-selector"
 function AccountSettings() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
 
+  function handleHexClick() {
+    navigator.clipboard.writeText(currentUser!.hexId!.toString()!);
+    toast({
+      title: "Copied!",
+      description: "Hex copied to the clipboard successfully!",
+    });
+  }
+
   return (
     <div className="flex flex-col gap-3.5">
       <span className="text-3xl font-semibold">Account</span>
@@ -16,8 +25,8 @@ function AccountSettings() {
       <div className="flex flex-col gap-3.5 max-w-[50%]">
         {currentUser?.hexId && 
           <div className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium">Colir Id</span>
-            <HexId className="w-fit text-primary font-semibold" color={currentUser?.hexId} />
+            <span className="text-sm font-medium">Colir Id (aka. Hex Id)</span>
+            <HexId onSelected={handleHexClick} className="w-fit text-primary font-semibold" color={currentUser?.hexId} />
             <span className="text-slate-500 text-sm">*It can’t be changed</span>
           </div>
         }

@@ -25,7 +25,7 @@ function ThemeButton({}: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild onFocusCapture={e => e.preventDefault()}>
         <Button
-          className="h-9 w-9 focus: focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="h-9 w-9 focus-visible:ring-0 focus-visible:ring-offset-0"
           variant={"outline"}
           size={"icon"}
         >
