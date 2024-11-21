@@ -8,7 +8,7 @@ import { JoinRoomModel } from "../model/request/JoinRoomModel";
 import { KickMemberModel } from "../model/request/KickMemberModel";
 import { LeaveRoomModel } from "../model/request/LeaveRoomModel";
 import { RenameRoomModel } from "../model/request/RenameRoomModel";
-import { UpdateLastTimeReadChatModel } from "../model/request/UpdateLastTimeReadChatModel";
+import { UpdateLastReadMessageModel } from "../model/request/UpdateLastReadMessageModel";
 import $api from "@/shared/api";
 
 export default class RoomService {
@@ -36,8 +36,8 @@ export default class RoomService {
     }});
   }
 
-  static async UpdateLastTimeReadChat(model: UpdateLastTimeReadChatModel): Promise<AxiosResponse<void>> {
-    return await $api.put("/Room/UpdateLastTimeReadChat", model);
+  static async UpdateLastReadMessage(model: UpdateLastReadMessageModel): Promise<AxiosResponse<void>> {
+    return await $api.put("/Room/UpdateLastReadMessage", model);
   }
 
   static async KickMember(model: KickMemberModel): Promise<AxiosResponse<void>> {

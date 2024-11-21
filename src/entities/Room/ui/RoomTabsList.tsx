@@ -18,7 +18,7 @@ function RoomTabsList() {
   }
 
   function handleMarkAsRead(room: RoomModel) {
-    RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid });
+    RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
     setUnreadReplied(prev => prev.filter(m => m.roomGuid != room.guid));
   }
 

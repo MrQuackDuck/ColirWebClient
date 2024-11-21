@@ -115,7 +115,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     selectedRoomConnection?.connection.send("SendMessage", model)
       .catch(e => showErrorToast("Couldn't deliver the message.", e.message));
     
-    RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid, lastTimeRead: new Date() });
+    RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
   }
 
   const addReaction = useCallback((messageId: number, reaction: string) => {
@@ -321,7 +321,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   useEffect(() => {
     setTimeout(() => scrollToBottom(), 0);
     setMessageToReply(null);
-  }, [room]);
+  }, [room.guid]);
 
   let [downButtonVisible, setDownButtonVisible] = useState(false);
   function handleScroll() {
@@ -356,7 +356,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
   function handleMessageObserved(id: number) {
     if (unreadReplies.find(m => m.id == id)) {
-      RoomService.UpdateLastTimeReadChat({ roomGuid: room.guid, lastTimeRead: unreadReplies.find(m => m.id == id)?.postDate ?? new Date() });
+      RoomService.UpdateLastReadMessage({ roomGuid: room.guid, messageId: id });
       setUnreadReplies(prev => prev.filter(m => m.id != id));
     }
   }

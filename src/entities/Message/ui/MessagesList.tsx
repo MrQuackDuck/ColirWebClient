@@ -71,6 +71,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
 };
 
 const arePropsEqual = (prevProps: MessagesListProps, nextProps: MessagesListProps) => {
+  console.log(isEqual(prevProps.users, nextProps.users))
   return (
     isEqual(prevProps.filteredMessages, nextProps.filteredMessages) &&
     isEqual(prevProps.users, nextProps.users) &&
@@ -82,7 +83,8 @@ const arePropsEqual = (prevProps: MessagesListProps, nextProps: MessagesListProp
     prevProps.editMessage === nextProps.editMessage &&
     prevProps.replyButtonClicked === nextProps.replyButtonClicked &&
     prevProps.handleReplySectionClick === nextProps.handleReplySectionClick &&
-    prevProps.setMessageRef === nextProps.setMessageRef
+    prevProps.setMessageRef === nextProps.setMessageRef &&
+    prevProps.onMessageObserved === nextProps.onMessageObserved
   );
 };
 

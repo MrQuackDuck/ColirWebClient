@@ -226,22 +226,22 @@ export const useChatConnection = (
           });
         });
 
-        connection.on("UserRenamed", ({ hexId, newName }) => {          
+        connection.on("UserRenamed", ({ hexId, newName }) => { 
+          console.log(hexId, newName); 
           setUsers((prevUsers) => {
-            return prevUsers.map((u) => {
-              if (u.hexId == hexId) return { ...u, username: newName };
-              return u;
-            });
+            if (prevUsers.find((u) => u.hexId == hexId)?.username == newName) return prevUsers;
+            return prevUsers.map((u) => 
+              u.hexId == hexId ? { ...u, username: newName } : u
+            );
           });
-
-          setJoinedRooms((prevRooms) => {
-            prevRooms.forEach((r) => {
-              r.joinedUsers.forEach((u) => {
-                if (u.hexId == hexId) u.username = newName;
-              });
-            });
-            return [...prevRooms];
-          });
+          setJoinedRooms((prevRooms) => 
+            prevRooms.map(room => ({
+              ...room, 
+              joinedUsers: room.joinedUsers.map(u => 
+                u.hexId == hexId ? { ...u, username: newName } : u
+              )
+            }))
+          );
         });
       })
       .catch((e) => {
