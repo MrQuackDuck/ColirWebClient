@@ -2,27 +2,40 @@ import UserService from "@/entities/User/api/UserService";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { toast } from "@/shared/lib/hooks/useToast";
-import { cn } from "@/shared/lib/utils";
+import { cn, decimalToHexString } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/Button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import HexId from "@/shared/ui/HexId";
 import { Input } from "@/shared/ui/Input";
 import { Separator } from "@/shared/ui/Separator"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SaveAllIcon, Trash2Icon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useContextSelector } from "use-context-selector"
 import { z } from "zod";
+import AccountDeleteConfirmationDialog from "./AccountDeleteConfirmationDialog";
+import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
+import { SaveAllIcon, Trash2Icon } from "lucide-react";
+import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 
 const formSchema = z.object({
   username: z.string().min(2, "Username has to be at least 2 characters long!").max(50)
 })
 
-function AccountSettings() {
+interface AccountSettingsProps {
+  dialogOpenClosed: (newState: boolean) => void;
+}
+
+function AccountSettings(props: AccountSettingsProps) {
   let { isDesktop } = useResponsiveness();
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
+  let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
+  let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
+  let setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, c => c.setIsOpen);
+  let logOut = useContextSelector(AuthContext, c => c.logOut);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +53,7 @@ function AccountSettings() {
   }, [currentUser, form]);
 
   function handleHexClick() {
-    navigator.clipboard.writeText(currentUser!.hexId!.toString()!);
+    navigator.clipboard.writeText(decimalToHexString(currentUser!.hexId));
     toast({
       title: "Copied!",
       description: "Hex copied to the clipboard successfully!",
@@ -62,6 +75,32 @@ function AccountSettings() {
 
   function resetForm() {
     form.reset();
+  }
+
+  function handleDeleteButton() {
+    setIsDeleteDialogOpen(true);
+    props.dialogOpenClosed(true);
+  }
+
+  function handleDeleteConfirmation() {
+    setIsSettingsOpen(false);
+    enableLoading();
+    setIsDeleteDialogOpen(false);
+    props.dialogOpenClosed(false);
+    UserService.DeleteAccount()
+      .then(() => {
+        disableLoading();
+        logOut();
+        toast({
+          title: "Deleted!",
+          description: "The account was deleted successfully!",
+        });
+      });
+  }
+
+  function handleCancel() {
+    setIsDeleteDialogOpen(false);
+    props.dialogOpenClosed(false);
   }
 
   return (
@@ -91,9 +130,11 @@ function AccountSettings() {
             <Button disabled={!form.formState.isDirty} type="submit"><SaveAllIcon className="mr-2 h-4 w-4"/> Save</Button>
             <Button disabled={!form.formState.isDirty} type="button" onClick={resetForm} variant={"outline"}>Reset</Button>
           </div>
-          <Button className="w-fit" variant={"destructive"}><Trash2Icon className="mr-2 h-4 w-4"/>Delete account</Button>
+          <Button onClick={handleDeleteButton} className="w-fit" variant={"destructive"}><Trash2Icon className="mr-2 h-4 w-4"/>Delete account</Button>
         </form>
       </Form>
+
+      <AccountDeleteConfirmationDialog hexId={currentUser?.hexId ?? 0} isShown={isDeleteDialogOpen} onConfirm={handleDeleteConfirmation} onCancel={handleCancel} />
     </div>
   )
 }

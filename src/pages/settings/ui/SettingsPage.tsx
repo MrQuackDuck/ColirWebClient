@@ -100,7 +100,7 @@ function SettingsPage() {
 					</div>
 					<Separator className="h-full" orientation="vertical"/>
 					<div className="w-full pl-4 pr-12 pt-5">
-						{ selectedTab == SettingsTabs.Account && <AccountSettings/> }
+						{ selectedTab == SettingsTabs.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} /> }
 					</div>
 				</div>
 

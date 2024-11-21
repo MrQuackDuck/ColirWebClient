@@ -226,8 +226,7 @@ export const useChatConnection = (
           });
         });
 
-        connection.on("UserRenamed", ({ hexId, newName }) => { 
-          console.log(hexId, newName); 
+        connection.on("UserRenamed", ({ hexId, newName }) => {
           setUsers((prevUsers) => {
             if (prevUsers.find((u) => u.hexId == hexId)?.username == newName) return prevUsers;
             return prevUsers.map((u) => 
@@ -243,12 +242,37 @@ export const useChatConnection = (
             }))
           );
         });
+
+        connection.on("UserDeleted", (hexId) => {
+          setJoinedRooms((prevRooms) => {
+            let target = prevRooms.find((r) => r.guid == roomGuid);
+            if (target) target.joinedUsers = target.joinedUsers.filter((u) => u.hexId != hexId);
+            return [...prevRooms];
+          });
+        });
       })
       .catch((e) => {
         showErrorToast(
           `Couldn't connect to the room`,
           `We weren't able to establish a connection. Error: ${e}.`
         );
+      });
+
+      connection.onclose(() => {
+        connection.off("ReceiveMessage");
+        connection.off("MessageDeleted");
+        connection.off("MessageEdited");
+        connection.off("MessageGotReaction");
+        connection.off("MessageLostReaction");
+        connection.off("UserJoined");
+        connection.off("UserLeft");
+        connection.off("UserKicked");
+        connection.off("RoomRenamed");
+        connection.off("RoomDeleted");
+        connection.off("RoomSizeChanged");
+        connection.off("RoomCleared");
+        connection.off("UserRenamed");
+        connection.off("UserDeleted");
       });
   };
 

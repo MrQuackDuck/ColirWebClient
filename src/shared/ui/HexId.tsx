@@ -1,6 +1,6 @@
 import { useAdaptiveColor } from '../lib/hooks/useAdaptiveColor';
 import { cn } from '../lib/utils';
-import classes from './ColorElement.module.css'
+import classes from './HexId.module.css'
 
 interface ColorElementProps {
   color: number;

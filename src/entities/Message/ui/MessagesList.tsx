@@ -71,7 +71,6 @@ const MessagesList: React.FC<MessagesListProps> = ({
 };
 
 const arePropsEqual = (prevProps: MessagesListProps, nextProps: MessagesListProps) => {
-  console.log(isEqual(prevProps.users, nextProps.users))
   return (
     isEqual(prevProps.filteredMessages, nextProps.filteredMessages) &&
     isEqual(prevProps.users, nextProps.users) &&

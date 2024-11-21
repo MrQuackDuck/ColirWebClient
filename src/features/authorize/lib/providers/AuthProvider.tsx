@@ -26,8 +26,8 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
-    removeUser();
     setJoinedRooms([]);
+    removeUser();
     setIsAuthorized(false);
     removeFromLocalStorage("jwtToken");
     removeFromLocalStorage("refreshToken");
