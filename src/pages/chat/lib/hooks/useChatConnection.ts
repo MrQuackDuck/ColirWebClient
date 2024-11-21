@@ -9,17 +9,20 @@ import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { showInfoToast } from "@/shared/lib/showInfoToast";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
 import pingAudio from "../../../../assets/audio/ping.mp3";
+import { DetailedUserModel } from '@/entities/User/model/DetailedUserModel';
+import { RoomModel } from '@/entities/Room/model/RoomModel';
+import { ChatConnection } from '@/widgets/chat-section/models/ChatConnection';
 
 export const useChatConnection = (
-  currentUser,
-  joinedRooms,
-  setJoinedRooms,
-  setChatConnections,
-  setMessages,
-  setUnreadReplies,
-  setUsers,
-  selectedRoom,
-  setSelectedRoom
+  currentUser: DetailedUserModel | null,
+  joinedRooms: RoomModel[],
+  setJoinedRooms: React.Dispatch<React.SetStateAction<RoomModel[]>>,
+  setChatConnections: React.Dispatch<React.SetStateAction<ChatConnection[]>>,
+  setMessages: React.Dispatch<React.SetStateAction<MessageModel[]>>,
+  setUnreadReplies: React.Dispatch<React.SetStateAction<MessageModel[]>>,
+  setUsers: React.Dispatch<React.SetStateAction<UserModel[]>>,
+  selectedRoom: RoomModel,
+  setSelectedRoom: React.Dispatch<React.SetStateAction<RoomModel>>
 ) => {
   const getJwt = useJwt();
   const joinedRoomsRef = useRef(joinedRooms);
@@ -223,12 +226,10 @@ export const useChatConnection = (
           });
         });
 
-        connection.on("UserRenamed", ({ hexId, newName }) => {
+        connection.on("UserRenamed", ({ hexId, newName }) => {          
           setUsers((prevUsers) => {
             return prevUsers.map((u) => {
-              if (u.hexId == hexId) {
-                return { ...u, username: newName };
-              }
+              if (u.hexId == hexId) return { ...u, username: newName };
               return u;
             });
           });
