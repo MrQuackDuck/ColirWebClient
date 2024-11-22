@@ -37,7 +37,6 @@ function VoiceSettings() {
         .map(device => device.label)
       );
       
-      // Important: Stop all tracks in the stream
       stream.getTracks().forEach(track => track.stop());
     } catch (error) {
       console.error('Error accessing media devices:', error);
