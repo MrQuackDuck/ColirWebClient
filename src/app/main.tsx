@@ -13,6 +13,7 @@ import { ChatConnectionsProvider } from "@/widgets/chat-section/lib/providers/Ch
 import { EncryptionKeysProvider } from "@/shared/lib/providers/EncryptionKeysProvider";
 import { UsersVolumeProvider } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { SettingsOpenCloseProvider } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
+import VoiceSettingsProvider from "@/shared/lib/providers/VoiceSettingsProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
@@ -27,7 +28,9 @@ createRoot(document.getElementById("root")!).render(
                     <EncryptionKeysProvider>
                       <UsersVolumeProvider>
                         <SettingsOpenCloseProvider>
-                          <App />
+                          <VoiceSettingsProvider>
+                            <App />
+                          </VoiceSettingsProvider>
                         </SettingsOpenCloseProvider>
                       </UsersVolumeProvider>
                     </EncryptionKeysProvider>
