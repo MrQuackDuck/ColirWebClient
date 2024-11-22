@@ -12,6 +12,11 @@ import HeaderTab from "@/shared/ui/HeaderTab";
 import AccountSettings from "./AccountSettings";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import FocusLock from 'react-focus-lock';
+import VoiceSettings from "./VoiceSettings";
+import NotificationsSettings from "./NotificationsSettings";
+import StatisticsSettings from "./StatisticsSettings";
+import LanguageSettings from "./LanguageSettings";
+import ImportExportSettings from "./ImportExportSettings";
 
 enum SettingsTabs {
 	Account = "account",
@@ -101,6 +106,11 @@ function SettingsPage() {
 					<Separator className="h-full" orientation="vertical"/>
 					<div className="w-full pl-4 pr-12 pt-5">
 						{ selectedTab == SettingsTabs.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} /> }
+						{ selectedTab == SettingsTabs.VoiceSettings && <VoiceSettings /> }
+						{ selectedTab == SettingsTabs.Notifications && <NotificationsSettings /> }
+						{ selectedTab == SettingsTabs.Statistics && <StatisticsSettings /> }
+						{ selectedTab == SettingsTabs.Language && <LanguageSettings /> }
+						{ selectedTab == SettingsTabs.ImportExport && <ImportExportSettings /> }
 					</div>
 				</div>
 
