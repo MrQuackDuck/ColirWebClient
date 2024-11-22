@@ -87,7 +87,7 @@ function SettingsPage() {
 							<UserIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Account
 						</Tab>
 						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.VoiceSettings} onClick={() => setSelectedTab(SettingsTabs.VoiceSettings)}>
-							<Volume2Icon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Voice settings
+							<Volume2Icon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Voice Settings
 						</Tab>
 						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.Notifications} onClick={() => setSelectedTab(SettingsTabs.Notifications)}>
 							<MegaphoneIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Notifications & Sounds

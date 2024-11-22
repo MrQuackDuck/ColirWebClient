@@ -130,7 +130,7 @@ function AccountSettings(props: AccountSettingsProps) {
             <Button disabled={!form.formState.isDirty} type="submit"><SaveAllIcon className="mr-2 h-4 w-4"/> Save</Button>
             <Button disabled={!form.formState.isDirty} type="button" onClick={resetForm} variant={"outline"}>Reset</Button>
           </div>
-          <Button onClick={handleDeleteButton} className="w-fit" variant={"destructive"}><Trash2Icon className="mr-2 h-4 w-4"/>Delete account</Button>
+          <Button onClick={handleDeleteButton} className="w-fit" variant={"destructive"}><Trash2Icon className="mr-2 h-4 w-4"/> Delete account</Button>
         </form>
       </Form>
 

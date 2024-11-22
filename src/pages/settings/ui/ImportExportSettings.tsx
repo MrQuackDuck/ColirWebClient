@@ -1,16 +1,15 @@
-import { useResponsiveness } from '@/shared/lib/hooks/useResponsiveness';
-import { cn } from '@/shared/lib/utils';
+import { Button } from '@/shared/ui/Button';
 import { Separator } from '@/shared/ui/Separator'
+import { FileCodeIcon, ImportIcon } from 'lucide-react';
 
 function ImportExportSettings() {
-  let { isDesktop } = useResponsiveness();
-
   return (
     <div className="flex flex-col gap-3.5">
       <span className="text-3xl font-semibold">Import/Export Settings</span>
       <Separator />
-      <div className={cn("flex flex-col gap-3.5", isDesktop && "max-w-[50%]")}>
-        Here
+      <div className="flex flex-row gap-1.5">
+        <Button variant={"default"}><FileCodeIcon className="mr-2 h-4 w-4"/> Export settings</Button>
+        <Button variant={"outline"}><ImportIcon className="mr-2 h-4 w-4"/> Import settings</Button>
       </div>
     </div>
   )
