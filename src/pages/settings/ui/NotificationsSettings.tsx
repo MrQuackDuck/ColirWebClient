@@ -5,7 +5,7 @@ import { Slider } from '@/shared/ui/Slider';
 function NotificationsSettings() {
   return (
     <div className="flex flex-col gap-3.5 max-w-[48rem]">
-      <span className="text-3xl font-semibold">Notifiocations & Sounds</span>
+      <span className="text-3xl font-semibold">Notifications & Sounds</span>
       <Separator />
       <div className="flex flex-row gap-3.5">
         <div className='w-full flex flex-col gap-2'>

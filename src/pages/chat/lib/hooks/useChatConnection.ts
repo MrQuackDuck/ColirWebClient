@@ -79,7 +79,7 @@ export const useChatConnection = (
                 }
                 // If not just fetch the last 50 messages
                 else {
-                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 50, skipCount: 0 })
+                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 })
                     .then((response) => {
                       setMessages((prevMessages) => {
                         if (!response?.content) return prevMessages;
