@@ -14,6 +14,7 @@ import { EncryptionKeysProvider } from "@/shared/lib/providers/EncryptionKeysPro
 import { UsersVolumeProvider } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { SettingsOpenCloseProvider } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 import VoiceSettingsProvider from "@/shared/lib/providers/VoiceSettingsProvider";
+import NotificationsSettingsProvider from "@/shared/lib/providers/NotificationsSettingsProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
@@ -29,7 +30,9 @@ createRoot(document.getElementById("root")!).render(
                       <UsersVolumeProvider>
                         <SettingsOpenCloseProvider>
                           <VoiceSettingsProvider>
-                            <App />
+                            <NotificationsSettingsProvider>
+                              <App />
+                            </NotificationsSettingsProvider>
                           </VoiceSettingsProvider>
                         </SettingsOpenCloseProvider>
                       </UsersVolumeProvider>

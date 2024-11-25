@@ -18,38 +18,64 @@ import { UserAudioTrack } from "../model/UserAudioTrack";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import useSound from 'use-sound';
-import leaveAudio from "../../../assets/audio/leave.mp3";
 import { usePlayJoinSound } from "@/shared/lib/hooks/usePlayJoinSound";
+import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
+import { usePlayLeaveSound } from "@/shared/lib/hooks/usePlayLeaveSound";
 
 function VoiceChatSection() {
   let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
-  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
-  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
-  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
-  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
-  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
-  let selectedRoomVoiceChat = voiceChatConnections.find(c => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
-  let isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
-  let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
-  let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
-  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
-  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
-  const playJoinSound = usePlayJoinSound();
-  const [playLeaveSound] = useSound(leaveAudio, { volume: 0.5 });
-
-  let isMutedRef = useRef(isMuted);
-  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
-
-  let isDeafenedRef = useRef(isDeafened);
-  useEffect(() => { isDeafenedRef.current = isDeafened; }, [isDeafened]);
-
   let currentUserRef = useRef(currentUser);
   useEffect(() => { currentUserRef.current = currentUser; }, [currentUser]);
 
+  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
+  
+  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
+
+  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
   let joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   useEffect(() => { joinedVoiceConnectionRef.current = joinedVoiceConnection; }, [joinedVoiceConnection]);
+  
+  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
+  
+  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
+  
+  let selectedRoomVoiceChat = voiceChatConnections.find(c => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
+  
+  let isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
+  let isMutedRef = useRef(isMuted);
+  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
+  
+  let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
+  
+  let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
+  let isDeafenedRef = useRef(isDeafened);
+  useEffect(() => { isDeafenedRef.current = isDeafened; }, [isDeafened]);
+
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
+  
+  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
+  const userVolumesRef = useRef(userVolumes);
+  useEffect(() => { userVolumesRef.current = userVolumes; }, [userVolumes]);
+
+  const voiceInputDevice = useContextSelector(VoiceSettingsContext, c => c.voiceInputDevice);
+  const voiceInputDeviceRef = useRef(voiceInputDevice);
+  useEffect(() => { voiceInputDeviceRef.current = voiceInputDevice; }, [voiceInputDevice]);
+
+  const voiceOutputDevice = useContextSelector(VoiceSettingsContext, c => c.voiceOutputDevice);
+  const voiceOutputDeviceRef = useRef(voiceOutputDevice);
+  useEffect(() => { voiceOutputDeviceRef.current = voiceOutputDevice; }, [voiceOutputDevice]);
+
+  const voiceInputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceInputVolume);
+  const voiceInputVolumeRef = useRef(voiceInputVolume);
+  useEffect(() => { voiceInputVolumeRef.current = voiceInputVolume; }, [voiceInputVolume]);
+
+  const voiceOutputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceOutputVolume);
+  const voiceOutputVolumeRef = useRef(voiceOutputVolume);
+  useEffect(() => { voiceOutputVolumeRef.current = voiceOutputVolume; }, [voiceOutputVolume]);
+  
+  const playJoinSound = usePlayJoinSound();
+  const playLeaveSound = usePlayLeaveSound();
   
   const keyChangeTrigger = useContextSelector(EncryptionKeysContext, c => c.changeTrigger);
   const joinedVoiceKeyRef = useRef<string>(getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "");
@@ -59,9 +85,6 @@ function VoiceChatSection() {
 
   let mediaRecorderRef = useRef<MediaRecorder | null>(null);
   let mediaStreamRef = useRef<MediaStream | null>(null);
-
-  const userVolumesRef = useRef(userVolumes);
-  useEffect(() => { userVolumesRef.current = userVolumes; }, [userVolumes]);
 
   let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
 
@@ -182,28 +205,7 @@ function VoiceChatSection() {
     cleanupMediaStream();
   }
 
-  const joinVoiceChat = async (connection: VoiceChatConnection) => {
-    if (!connection || connection.roomGuid == joinedVoiceConnection?.roomGuid) return;
-
-    // Clean up previous connection
-    if (joinedVoiceConnection) {
-      await leaveVoiceChat(joinedVoiceConnection);
-    }
-
-    if (connection.connection.state != HubConnectionState.Connected) {
-      showErrorToast("An error occurred during joining!", "Connection issues with the server.");
-      return;
-    }
- 
-    const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
-    if (response.error) {
-      showErrorToast("Join Error", "Failed to join voice chat");
-      console.error("Error joining voice chat:", response.error.errorCodeAsString);
-      return;
-    }
-
-    setTimeout(() => playJoinSound(), 25);
-
+  const setUpConnectionHandlers = (connection: VoiceChatConnection) => {
     // Remove any existing voice signal handlers
     connection.connection.off("ReceiveVoiceSignal");
 
@@ -230,11 +232,17 @@ function VoiceChatSection() {
       const audio = new Audio(audioURL);
       
       setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio, couldDecrypt: true }]);
-      audio.volume = userVolumesRef.current[issuerId] != undefined ? userVolumesRef.current[issuerId] / 100 : 1;
 
-      if (issuerId == currentUserRef.current?.hexId) {
-        audio.volume = 0;
-      }
+      let settingsOutputCoefficient = voiceOutputVolumeRef.current / 100;
+
+      audio.volume = userVolumesRef.current[issuerId] != undefined 
+        ? (userVolumesRef.current[issuerId] / 100) * settingsOutputCoefficient
+        : settingsOutputCoefficient;
+      
+      if (voiceOutputDeviceRef.current) audio.setSinkId(voiceOutputDeviceRef.current);
+
+      // If the issuer is the current user, set the volume to 0
+      if (issuerId == currentUserRef.current?.hexId) audio.volume = 0;
 
       await audio.play();
       audio.onended = () => {
@@ -242,6 +250,31 @@ function VoiceChatSection() {
       }
       URL.revokeObjectURL(audioURL); // Clean up the URL after playing
     });
+  }
+
+  const joinVoiceChat = async (connection: VoiceChatConnection) => {
+    if (!connection || connection.roomGuid == joinedVoiceConnection?.roomGuid) return;
+
+    // Clean up previous connection
+    if (joinedVoiceConnection) {
+      await leaveVoiceChat(joinedVoiceConnection);
+    }
+
+    if (connection.connection.state != HubConnectionState.Connected) {
+      showErrorToast("An error occurred during joining!", "Connection issues with the server.");
+      return;
+    }
+ 
+    const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
+    if (response.error) {
+      showErrorToast("Join Error", "Failed to join voice chat");
+      console.error("Error joining voice chat:", response.error.errorCodeAsString);
+      return;
+    }
+
+    setTimeout(() => playJoinSound(), 25);
+
+    setUpConnectionHandlers(connection);
 
     setJoinedVoiceConnection(connection);
     if (!isMuted) await startRecording();
@@ -283,10 +316,14 @@ function VoiceChatSection() {
     if (!isMuted && joinedVoiceConnectionRef.current) startRecording();
   }, [isMuted]);
 
-  // Cleanup on unmount
   useEffect(() => {
+    if (joinedVoiceConnectionRef.current && !isMuted) {
+      setUpConnectionHandlers(joinedVoiceConnectionRef.current);
+      startRecording();
+    }
+
     return () => {
-      cleanupMediaStream();
+      stopRecording();
     };
   }, []);
 

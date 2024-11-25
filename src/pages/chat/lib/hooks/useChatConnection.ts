@@ -12,6 +12,8 @@ import pingAudio from "../../../../assets/audio/ping.mp3";
 import { DetailedUserModel } from '@/entities/User/model/DetailedUserModel';
 import { RoomModel } from '@/entities/Room/model/RoomModel';
 import { ChatConnection } from '@/widgets/chat-section/models/ChatConnection';
+import { useContextSelector } from 'use-context-selector';
+import { NotificationsSettingsContext } from '@/shared/lib/providers/NotificationsSettingsProvider';
 
 export const useChatConnection = (
   currentUser: DetailedUserModel | null,
@@ -28,14 +30,27 @@ export const useChatConnection = (
   const joinedRoomsRef = useRef(joinedRooms);
   const selectedRoomRef = useRef(selectedRoom);
 
+  const pingSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.pingVolume);
+  const pingSoundVolumeRef = useRef(pingSoundVolume);
+  useEffect(() => {
+    pingSoundVolumeRef.current = pingSoundVolume;
+  });
+
+  const isPingSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isPingSoundDisabled);
+  const isPingSoundDisabledRef = useRef(isPingSoundDisabled);
+  useEffect(() => {
+    isPingSoundDisabledRef.current = isPingSoundDisabled;
+  });
+
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;
     selectedRoomRef.current = selectedRoom;
   }, [joinedRooms, selectedRoom]);
   
   const playPingSound = () => {
+    if (isPingSoundDisabledRef.current) return
     let audio = new Audio(pingAudio);
-    audio.volume = 0.5;
+    audio.volume = pingSoundVolumeRef.current / 100;
     audio.play();
   };
 
