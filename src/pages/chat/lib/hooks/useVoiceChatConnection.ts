@@ -8,6 +8,8 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { useEffect, useRef } from "react";
 import joinAudio from "../../../../assets/audio/join.mp3";
 import leaveAudio from "../../../../assets/audio/leave.mp3";
+import { useContextSelector } from "use-context-selector";
+import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
 
 export const useVoiceChatConnection = (
   currentUser,
@@ -21,10 +23,21 @@ export const useVoiceChatConnection = (
   const joinedRoomsRef = useRef(joinedRooms);
   const joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   const selectedRoomRef = useRef(selectedRoom);
+  const joinSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.joinLeaveVolume);
+  const isJoinLeaveSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isJoinLeaveSoundDisabled);
+
+  const joinSoundVolumeRef = useRef(joinSoundVolume);
+  const isJoinLeaveSoundDisabledRef = useRef(isJoinLeaveSoundDisabled);
+
+  useEffect(() => {
+    joinSoundVolumeRef.current = joinSoundVolume;
+    isJoinLeaveSoundDisabledRef.current = isJoinLeaveSoundDisabled;
+  }, [joinSoundVolume, isJoinLeaveSoundDisabled]);
 
   const playJoinSound = () => {
+    if (isJoinLeaveSoundDisabledRef.current) return;
     let audio = new Audio(joinAudio);
-    audio.volume = 0.5;
+    audio.volume = joinSoundVolumeRef.current / 100;
     audio.play();
   };
 

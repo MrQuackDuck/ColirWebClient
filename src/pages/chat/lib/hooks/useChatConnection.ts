@@ -31,16 +31,14 @@ export const useChatConnection = (
   const selectedRoomRef = useRef(selectedRoom);
 
   const pingSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.pingVolume);
+  const isPingSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isPingSoundDisabled);
+
+  const isPingSoundDisabledRef = useRef(isPingSoundDisabled);
   const pingSoundVolumeRef = useRef(pingSoundVolume);
   useEffect(() => {
-    pingSoundVolumeRef.current = pingSoundVolume;
-  });
-
-  const isPingSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isPingSoundDisabled);
-  const isPingSoundDisabledRef = useRef(isPingSoundDisabled);
-  useEffect(() => {
     isPingSoundDisabledRef.current = isPingSoundDisabled;
-  });
+    pingSoundVolumeRef.current = pingSoundVolume;
+  }, [pingSoundVolume, isPingSoundDisabled]);
 
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;

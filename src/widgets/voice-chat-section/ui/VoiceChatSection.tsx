@@ -114,6 +114,7 @@ function VoiceChatSection() {
     } catch (error) {
       showErrorToast("An error occurred!", "Failed to get the permission to record audio.");
       setIsMuted(true);
+      console.error("Error getting user media:", error);
       return;
     }
 
