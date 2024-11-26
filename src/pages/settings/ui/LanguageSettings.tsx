@@ -1,14 +1,19 @@
+import { LanguageSettingsContext } from '@/shared/lib/providers/LanguageSettingsProvider';
 import { Label } from '@/shared/ui/Label'
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/RadioGroup'
 import { Separator } from '@/shared/ui/Separator'
+import { useContextSelector } from 'use-context-selector'
 
 function LanguageSettings() {
+  let currentLanguage = useContextSelector(LanguageSettingsContext, c => c.currentLanguage);
+  let setCurrentLanguage = useContextSelector(LanguageSettingsContext, c => c.setCurrentLanguage);
+
   return (
     <div className="flex flex-col gap-3.5">
       <span className="text-3xl font-semibold">Language</span>
       <Separator />
       <div className="flex flex-col gap-3.5">
-        <RadioGroup>
+        <RadioGroup value={currentLanguage} onValueChange={setCurrentLanguage}>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="de" id="de" />
             <Label className='text-sm cursor-pointer select-none' htmlFor="de">Deutsch</Label>

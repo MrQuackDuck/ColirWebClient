@@ -176,7 +176,7 @@ function RoomTab({
           <ContextMenuItem onClick={() => copyGuid()}>
             <CopyIcon className="mr-2 h-4 w-4" /> Copy GUID
           </ContextMenuItem>
-          <ContextMenuItem onClick={() => onMarkAsReadClicked(room)}>
+          <ContextMenuItem disabled={unreadRepliesCount <= 0} onClick={() => onMarkAsReadClicked(room)}>
             <MailCheckIcon className="mr-2 h-4 w-4" /> Mark as Read
           </ContextMenuItem>
           <ContextMenuItem onClick={() => setLeaveConfirmationOpened(true)}>

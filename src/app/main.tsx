@@ -15,6 +15,7 @@ import { UsersVolumeProvider } from "@/features/control-user-volume/lib/provider
 import { SettingsOpenCloseProvider } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 import VoiceSettingsProvider from "@/shared/lib/providers/VoiceSettingsProvider";
 import NotificationsSettingsProvider from "@/shared/lib/providers/NotificationsSettingsProvider";
+import LanguageSettingsProvider from "@/shared/lib/providers/LanguageSettingsProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
@@ -31,7 +32,9 @@ createRoot(document.getElementById("root")!).render(
                         <SettingsOpenCloseProvider>
                           <VoiceSettingsProvider>
                             <NotificationsSettingsProvider>
-                              <App />
+                              <LanguageSettingsProvider>
+                                <App />
+                              </LanguageSettingsProvider>
                             </NotificationsSettingsProvider>
                           </VoiceSettingsProvider>
                         </SettingsOpenCloseProvider>

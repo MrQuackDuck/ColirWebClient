@@ -1,3 +1,4 @@
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 import { Button } from "@/shared/ui/Button";
@@ -14,6 +15,7 @@ import { useContextSelector } from "use-context-selector";
 
 function ProfileButton() {
   let setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, c => c.setIsOpen);
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let logOut = useContextSelector(AuthContext, c => c.logOut);
 
   const openSettings = () => setIsSettingsOpen(true);
@@ -33,7 +35,7 @@ function ProfileButton() {
         <DropdownMenuItem data-no-focus-lock onClick={openSettings}>
           <GearIcon className="mr-2 h-4 w-4" strokeWidth={2} /> Settings
         </DropdownMenuItem>
-        <DropdownMenuItem data-no-focus-lock>
+        <DropdownMenuItem disabled={!currentUser?.userSettings.statisticsEnabled} data-no-focus-lock>
           <BarChart3Icon className="mr-2 h-4 w-4" strokeWidth={2} /> Stats
         </DropdownMenuItem>
         <DropdownMenuItem data-no-focus-lock onClick={logOut}>

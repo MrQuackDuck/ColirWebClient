@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const NotificationsSettingsContext = createContext<{
 	pingVolume: number;
@@ -24,17 +25,18 @@ export const NotificationsSettingsContext = createContext<{
 });
 
 const NotificationsSettingsProvider = ({ children }) => {
-	const [pingVolume, setPingVolume] = useState<number>(50);
-	const [isPingSoundDisabled, setIsPingSoundDisabled] = useState<boolean>(false);
+	let { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
+	const [pingVolume, setPingVolume] = useState<number>(getFromLocalStorage("pingVolume") ?? 50);
+	const [isPingSoundDisabled, setIsPingSoundDisabled] = useState<boolean>(getFromLocalStorage("isPingSoundDisabled") ?? false);
 
-	const [joinLeaveVolume, setJoinLeaveVolume] = useState<number>(50);
-	const [isJoinLeaveSoundDisabled, setDisableJoinLeaveSound] = useState<boolean>(false);
+	const [joinLeaveVolume, setJoinLeaveVolume] = useState<number>(getFromLocalStorage("joinLeaveVolume") ?? 50);
+	const [isJoinLeaveSoundDisabled, setDisableJoinLeaveSound] = useState<boolean>(getFromLocalStorage("isJoinLeaveSoundDisabled") ?? false);
 
 	function saveAllToLocalStorage() {
-		localStorage.setItem("pingVolume", pingVolume.toString());
-		localStorage.setItem("isPingSoundDisabled", isPingSoundDisabled.toString());
-		localStorage.setItem("joinLeaveVolume", joinLeaveVolume.toString());
-		localStorage.setItem("isJoinLeaveSoundDisabled", isJoinLeaveSoundDisabled.toString());
+		setToLocalStorage("pingVolume", pingVolume);
+		setToLocalStorage("isPingSoundDisabled", isPingSoundDisabled);
+		setToLocalStorage("joinLeaveVolume", joinLeaveVolume);
+		setToLocalStorage("isJoinLeaveSoundDisabled", isJoinLeaveSoundDisabled);
 	}
 
 	useEffect(() => {
