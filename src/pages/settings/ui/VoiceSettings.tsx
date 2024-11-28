@@ -5,9 +5,14 @@ import { Slider } from '@/shared/ui/Slider';
 import { useEffect, useState } from 'react';
 import { useContextSelector } from 'use-context-selector';
 
+interface InputOutputDevice {
+  id: string;
+  label: string;
+}
+
 function VoiceSettings() {
-  const [inputDevices, setInputDevices] = useState<string[]>([]);
-  const [outputDevices, setOutputDevices] = useState<string[]>([]);
+  const [inputDevices, setInputDevices] = useState<InputOutputDevice[]>([]);
+  const [outputDevices, setOutputDevices] = useState<InputOutputDevice[]>([]);
 
   const {
     voiceInputDevice,
@@ -31,12 +36,16 @@ function VoiceSettings() {
       // Set input and output devices
       setInputDevices(devices
         .filter(device => device.kind === 'audioinput')
-        .map(device => device.label)
+        .map(device => {
+          return { id: device.deviceId, label: device.label }
+        })
       );
       
       setOutputDevices(devices
         .filter(device => device.kind === 'audiooutput')
-        .map(device => device.label)
+        .map(device => {
+          return { id: device.deviceId, label: device.label }
+        })
       );
       
       stream.getTracks().forEach(track => track.stop());
@@ -76,8 +85,8 @@ function VoiceSettings() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>The input device</SelectLabel>
-                  {inputDevices.filter(device => device.length > 0).map(device => (
-                    <SelectItem key={device} value={device}>{device}</SelectItem>
+                  {inputDevices.filter(device => device.id.length > 0).map(device => (
+                    <SelectItem key={device.id} value={device.id}>{device.label}</SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
@@ -99,8 +108,8 @@ function VoiceSettings() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>The output device</SelectLabel>
-                  {outputDevices.filter(device => device.length > 0).map(device => (
-                    <SelectItem key={device} value={device}>{device}</SelectItem>
+                  {outputDevices.filter(device => device.id.length > 0).map(device => (
+                    <SelectItem key={device.id} value={device.id}>{device.label}</SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>

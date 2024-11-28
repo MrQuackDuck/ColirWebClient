@@ -94,9 +94,11 @@ function VoiceChatSection() {
         track.track.volume = 0;
         return;
       }
-      track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : 1;
+
+      track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : 1 * voiceOutputVolume / 100;
+      track.track.setSinkId(voiceOutputDeviceRef.current);
     });
-  }, [userVolumes]);
+  }, [userVolumes, voiceOutputDevice, voiceOutputVolume]);
 
   async function startRecording() {
     // Clean up any existing streams and recorders
@@ -109,6 +111,7 @@ function VoiceChatSection() {
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
+          deviceId: voiceInputDeviceRef.current
         }
       });
     } catch (error) {
@@ -327,6 +330,12 @@ function VoiceChatSection() {
       stopRecording();
     };
   }, []);
+
+  useEffect(() => {
+    if (joinedVoiceConnectionRef.current && !isMuted) {
+      startRecording();
+    }
+  }, [voiceInputDevice]);
 
   return (
     <div className="flex flex-col h-full gap-2 pt-1.5">
