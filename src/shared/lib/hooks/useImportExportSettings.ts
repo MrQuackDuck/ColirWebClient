@@ -1,31 +1,34 @@
-import { useContextSelector } from "use-context-selector"
-import { EncryptionKeysContext } from "../providers/EncryptionKeysProvider"
+import CryptoJS from "crypto-js";
+import { useContextSelector } from "use-context-selector";
 import FileSaver from "file-saver";
+import Moment from "moment";
+import { EncryptionKeysContext } from "../providers/EncryptionKeysProvider";
 import { LanguageSettingsContext } from "../providers/LanguageSettingsProvider";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { NotificationsSettingsContext } from "../providers/NotificationsSettingsProvider";
 import { VoiceSettingsContext } from "../providers/VoiceSettingsProvider";
+import { encryptString, decryptString } from "@/shared/lib/utils";
 
-interface Settings {
-	currentLanguage: string;
-	encryptionKeys: [string, string][];
-	userVolumes: Record<number, number>;
-	isJoinLeaveSoundDisabled: boolean;
-	isPingSoundDisabled: boolean;
-	joinLeaveVolume: number;
-	pingVolume: number;
-	voiceInputDevice: string;
-	voiceInputVolume: number;
-	voiceOutputDevice: string;
-	voiceOutputVolume: number;
+class Settings {
+  currentLanguage: string;
+  encryptionKeys: [string, string][];
+  userVolumes: Record<number, number>;
+  isJoinLeaveSoundDisabled: boolean;
+  isPingSoundDisabled: boolean;
+  joinLeaveVolume: number;
+  pingVolume: number;
+  voiceInputDevice: string;
+  voiceInputVolume: number;
+  voiceOutputDevice: string;
+  voiceOutputVolume: number;
 }
 
 export const useImportExportSettings = () => {
-	let currentLanguage = useContextSelector(LanguageSettingsContext, c => c.currentLanguage);
-	let userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
-	let { getAllEncryptionKeys, setEncryptionKey } = useContextSelector(EncryptionKeysContext, c => c);
-	
-	const { 
+  const { currentLanguage, setCurrentLanguage } = useContextSelector(LanguageSettingsContext, c => c);
+  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
+  const { getAllEncryptionKeys, setEncryptionKey } = useContextSelector(EncryptionKeysContext, c => c);
+
+  const {
     pingVolume,
     isPingSoundDisabled,
     setPingVolume,
@@ -36,48 +39,91 @@ export const useImportExportSettings = () => {
     setIsJoinLeaveSoundDisabled
   } = useContextSelector(NotificationsSettingsContext, c => c);
 
-  const { voiceInputDevice,
-		setVoiceInputDevice,
+  const {
+    voiceInputDevice,
+    setVoiceInputDevice,
     voiceInputVolume,
     setVoiceInputVolume,
     voiceOutputDevice,
     setVoiceOutputDevice,
     voiceOutputVolume,
-    setVoiceOutputVolume } = useContextSelector(VoiceSettingsContext, c => c);
+    setVoiceOutputVolume
+  } = useContextSelector(VoiceSettingsContext, c => c);
 
-	const exportSettings = (): void => {
-		let settings: Settings = {
-			encryptionKeys: Array.from(getAllEncryptionKeys()!.entries()) ?? new Map<string, string>(),
-			currentLanguage: currentLanguage,
-			userVolumes: userVolumes,
-			isJoinLeaveSoundDisabled: isJoinLeaveSoundDisabled,
-			isPingSoundDisabled: isPingSoundDisabled,
-			joinLeaveVolume: joinLeaveVolume,
-			pingVolume: pingVolume,
-			voiceInputDevice: voiceInputDevice,
-			voiceInputVolume: voiceInputVolume,
-			voiceOutputDevice: voiceOutputDevice,
-			voiceOutputVolume: voiceOutputVolume,
-		}
+  // Helper: Generate random 64-character key
+  const generateKey = (): string => {
+    return CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Hex);
+  };
 
-		const blob = new Blob([JSON.stringify(settings, null, 2)], { type: "application/json" });
-		FileSaver.saveAs(blob, "settings.json");
-	}
+  // Export settings
+  const exportSettings = (): void => {
+    const settings: Settings = {
+      encryptionKeys: Array.from(getAllEncryptionKeys()!.entries()) ?? new Map<string, string>(),
+      currentLanguage,
+      userVolumes,
+      isJoinLeaveSoundDisabled,
+      isPingSoundDisabled,
+      joinLeaveVolume,
+      pingVolume,
+      voiceInputDevice,
+      voiceInputVolume,
+      voiceOutputDevice,
+      voiceOutputVolume,
+    };
 
-	const importSettings = (settings: Settings): void => {
-		settings.encryptionKeys.forEach(([roomGuid, key]) => {
-			setEncryptionKey(roomGuid, key);
-		});
+    // Serialize and compute checksum
+    const serializedSettings = JSON.stringify(settings);
+    const checksum = CryptoJS.SHA256(serializedSettings).toString();
 
-		setIsJoinLeaveSoundDisabled(settings.isJoinLeaveSoundDisabled);
-		setIsPingSoundDisabled(settings.isPingSoundDisabled);
-		setJoinLeaveVolume(settings.joinLeaveVolume);
-		setPingVolume(settings.pingVolume);
-		setVoiceInputDevice(settings.voiceInputDevice);
-		setVoiceInputVolume(settings.voiceInputVolume);
-		setVoiceOutputDevice(settings.voiceOutputDevice);
-		setVoiceOutputVolume(settings.voiceOutputVolume);
-	}
-	
-	return { exportSettings, importSettings };
-}
+    // Generate encryption key and encrypt
+    const encryptionKey = generateKey();
+    const encryptedData = encryptString(serializedSettings, encryptionKey);
+
+    // Append key and checksum
+    const finalData = `${encryptedData}${checksum}${encryptionKey}`;
+
+    // Save file
+    const blob = new Blob([finalData], { type: "text/plain" });
+    FileSaver.saveAs(blob, `settings-${Moment().format("YYYY-MM-DD h-mm-ss")}.dat`);
+  };
+
+  // Import settings
+  const importSettings = async (file: File): Promise<void> => {
+    const fileContent = await file.text();
+
+    // Extract key and checksum
+    const encryptionKey = fileContent.slice(-64);
+    const checksum = fileContent.slice(-128, -64);
+    const encryptedData = fileContent.slice(0, -128);
+
+    // Decrypt data
+    const decryptedData = decryptString(encryptedData, encryptionKey);
+    if (!decryptedData) {
+      throw new Error("Failed to decrypt settings. The key may be incorrect.");
+    }
+
+    // Verify checksum
+    const computedChecksum = CryptoJS.SHA256(decryptedData).toString();
+    if (computedChecksum !== checksum) {
+      throw new Error("Checksum mismatch. The file may be corrupted or tampered with.");
+    }
+
+    // Parse settings and update contexts
+    const settings: Settings = JSON.parse(decryptedData);
+    settings.encryptionKeys.forEach(([roomGuid, key]) => {
+      setEncryptionKey(roomGuid, key);
+    });
+
+    setCurrentLanguage(settings.currentLanguage);
+    setIsJoinLeaveSoundDisabled(settings.isJoinLeaveSoundDisabled);
+    setIsPingSoundDisabled(settings.isPingSoundDisabled);
+    setJoinLeaveVolume(settings.joinLeaveVolume);
+    setPingVolume(settings.pingVolume);
+    setVoiceInputDevice(settings.voiceInputDevice);
+    setVoiceInputVolume(settings.voiceInputVolume);
+    setVoiceOutputDevice(settings.voiceOutputDevice);
+    setVoiceOutputVolume(settings.voiceOutputVolume);
+  };
+
+  return { exportSettings, importSettings };
+};

@@ -203,7 +203,7 @@ function ChatInput({
 					{variant === "default" && (<>
 						<PaperclipIcon
 							tabIndex={0}
-              onClick={() => fileInputRef.current.click()}
+							onClick={() => fileInputRef.current.click()}
 							onKeyDown={(e) => e.keyCode == 32 && fileInputRef.current.click()}
 							strokeWidth={1.5}
 							className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform

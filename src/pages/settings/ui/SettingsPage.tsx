@@ -2,44 +2,42 @@ import { Button } from "@/shared/ui/Button";
 import { cn } from "@/shared/lib/utils";
 import { useContextSelector } from "use-context-selector";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
-import { BarChart3Icon, GlobeIcon, ImportIcon, MegaphoneIcon, UserIcon, Volume2Icon, XIcon } from "lucide-react";
+import { PanelRightCloseIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import classes from "./SettingsPage.module.css";
 import { Separator } from "@/shared/ui/Separator";
-import Tab from "@/shared/ui/Tab";
-import HeaderTab from "@/shared/ui/HeaderTab";
 import AccountSettings from "./AccountSettings";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import FocusLock from 'react-focus-lock';
 import VoiceSettings from "./VoiceSettings";
 import NotificationsSettings from "./NotificationsSettings";
 import StatisticsSettings from "./StatisticsSettings";
 import LanguageSettings from "./LanguageSettings";
 import ImportExportSettings from "./ImportExportSettings";
-
-enum SettingsTabs {
-	Account = "account",
-	VoiceSettings = "voice-settings",
-	Notifications = "notifications",
-	Statistics = "statistics",
-	Language = "language",
-	ImportExport = "import-export"
-}
+import { SettingsTabs as SettingsTabsEnum } from "../lib/SettingsTabs";
+import SettingsTabs from "./SettingsTabs";
+import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
 
 function SettingsPage() {
+	let { isDesktop } = useResponsiveness();
+
 	const isOpen = useContextSelector(SettingsOpenCloseContext, c => c.isOpen);
 	const setIsOpen = useContextSelector(SettingsOpenCloseContext, c => c.setIsOpen);
 
 	let [isHidden, setIsHidden] = useState(!isOpen);
 	let [isSettingsShows, setIsSettingsShows] = useState(isOpen);
 
+	let [isSheetOpen, setIsSheetOpen] = useState(false);
+
 	let [isAnyDialogOpen, setIsAnyDialogOpen] = useState(false);
 	let [isAnyDialogOpenDelayed, setIsAnyDialogOpenDelayed] = useState(false);
 
-  let [selectedTab, setSelectedTab] = useState(SettingsTabs.Account);
+  let [selectedTab, setSelectedTab] = useState(SettingsTabsEnum.Account);
 
-	let { isDesktop } = useResponsiveness();
+	useEffect(() => {
+		setIsSheetOpen(false);
+	}, [selectedTab]);
 
 	// When "Escape" is pressed, the "isAnyDialog" open turns into "false" instantly,
 	// and the "handleEscapePressForContainer" can't capture it fast enough
@@ -56,7 +54,7 @@ function SettingsPage() {
 			setIsHidden(false);
 			setTimeout(() => {
 				setIsSettingsShows(true), 50
-				setSelectedTab(SettingsTabs.Account);
+				setSelectedTab(SettingsTabsEnum.Account);
 			});
 		} 
 		else {
@@ -80,37 +78,21 @@ function SettingsPage() {
 		isHidden && "hidden")}
 		onKeyDown={e => (e.key === "Escape") && handleEscapePressForContainer()}>
 			<FocusLock className="h-full" disabled={!isOpen} onDeactivation={() => setIsOpen(false)}>
+				{!isDesktop && <Button onClick={() => setIsSheetOpen(true)} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
+					<PanelRightCloseIcon className="h-5 w-5 text-slate-400" />
+				</Button>}
 				<div className="flex flex-row gap-2.5 h-full">
-					<div className="flex flex-col gap-2.5">
-						<HeaderTab>Settings</HeaderTab>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.Account} onClick={() => setSelectedTab(SettingsTabs.Account)} >
-							<UserIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Account
-						</Tab>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.VoiceSettings} onClick={() => setSelectedTab(SettingsTabs.VoiceSettings)}>
-							<Volume2Icon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Voice Settings
-						</Tab>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.Notifications} onClick={() => setSelectedTab(SettingsTabs.Notifications)}>
-							<MegaphoneIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Notifications & Sounds
-						</Tab>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.Statistics} onClick={() => setSelectedTab(SettingsTabs.Statistics)}>
-							<BarChart3Icon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Statistics
-						</Tab>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.Language} onClick={() => setSelectedTab(SettingsTabs.Language)}>
-							<GlobeIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Language
-						</Tab>
-						<Separator orientation="horizontal"/>
-						<Tab className={cn(isDesktop && "w-52")} isSelected={selectedTab == SettingsTabs.ImportExport} onClick={() => setSelectedTab(SettingsTabs.ImportExport)}>
-							<ImportIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5}/> Import/Export Settings
-						</Tab>
-					</div>
-					<Separator className="h-full" orientation="vertical"/>
+					{isDesktop && <>
+						<SettingsTabs className="flex flex-col gap-2.5" selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+						<Separator className="h-full" orientation="vertical"/>
+					</>}
 					<div className="w-full pl-4 pr-12 pt-5">
-						{ selectedTab == SettingsTabs.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} /> }
-						{ selectedTab == SettingsTabs.VoiceSettings && <VoiceSettings /> }
-						{ selectedTab == SettingsTabs.Notifications && <NotificationsSettings /> }
-						{ selectedTab == SettingsTabs.Statistics && <StatisticsSettings /> }
-						{ selectedTab == SettingsTabs.Language && <LanguageSettings /> }
-						{ selectedTab == SettingsTabs.ImportExport && <ImportExportSettings /> }
+						{ selectedTab == SettingsTabsEnum.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} /> }
+						{ selectedTab == SettingsTabsEnum.VoiceSettings && <VoiceSettings /> }
+						{ selectedTab == SettingsTabsEnum.Notifications && <NotificationsSettings /> }
+						{ selectedTab == SettingsTabsEnum.Statistics && <StatisticsSettings /> }
+						{ selectedTab == SettingsTabsEnum.Language && <LanguageSettings /> }
+						{ selectedTab == SettingsTabsEnum.ImportExport && <ImportExportSettings /> }
 					</div>
 				</div>
 
@@ -122,6 +104,14 @@ function SettingsPage() {
 					</TooltipTrigger>
 					<TooltipContent side="left">[Esc] Close</TooltipContent>
 				</Tooltip>
+
+				{!isDesktop && <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+				<SheetContent side={"left"}>
+					<SheetTitle className="hidden"/>
+					<SheetDescription className="hidden"/>
+					<SettingsTabs className="flex flex-col gap-2.5" selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        </SheetContent>
+				</Sheet>}
 			</FocusLock>
 		</div>
   )
