@@ -84,7 +84,7 @@ export const useImportExportSettings = () => {
 
     // Save file
     const blob = new Blob([finalData], { type: "text/plain" });
-    FileSaver.saveAs(blob, `settings-${Moment().format("YYYY-MM-DD h-mm-ss")}.dat`);
+    FileSaver.saveAs(blob, `settings-${Moment().format("YYYY-MM-DD h-mm-ss")}.esf`); // ESF = Encrypted Settings File
   };
 
   // Import settings

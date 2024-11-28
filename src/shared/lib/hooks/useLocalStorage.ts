@@ -3,9 +3,9 @@ export const useLocalStorage = () => {
     localStorage.setItem(key, JSON.stringify(data))
   }
   
-  function getFromLocalStorage<T>(key): T | undefined {
+  function getFromLocalStorage<T>(key): T | null {
     try { return JSON.parse(localStorage.getItem(key)!) as T; }
-    catch { return undefined; }
+    catch { return null; }
   }
 
   function removeFromLocalStorage(key) {

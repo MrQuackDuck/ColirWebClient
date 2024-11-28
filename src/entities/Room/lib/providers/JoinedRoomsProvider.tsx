@@ -22,6 +22,7 @@ export const JoinedRoomsContext = createContext<{
 
 const JoinedRoomsProvider = ({ children }) => {
   let { enableLoading, disableLoading } = useContextSelector(LoadingContext, c => c);
+  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
   let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
   const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
@@ -55,6 +56,7 @@ const JoinedRoomsProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    if (!currentUser) return;
     updateRooms(true);
   }, []);
 

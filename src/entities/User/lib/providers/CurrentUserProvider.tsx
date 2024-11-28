@@ -20,9 +20,7 @@ const CurrentUserProvider = ({ children }) => {
   }
 
   const getUser = () => {
-    try {
-      return getFromLocalStorage<DetailedUserModel>("currentUser")
-    }
+    try { return getFromLocalStorage<DetailedUserModel>("currentUser") ?? null }
     catch {
       removeFromLocalStorage("currentUser");
       return null;
