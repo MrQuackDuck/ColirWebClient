@@ -9,15 +9,17 @@ function VoiceSettings() {
   const [inputDevices, setInputDevices] = useState<string[]>([]);
   const [outputDevices, setOutputDevices] = useState<string[]>([]);
 
-  const voiceInputDevince = useContextSelector(VoiceSettingsContext, c => c.voiceInputDevice);
-  const setVoiceInputDevice = useContextSelector(VoiceSettingsContext, c => c.setVoiceInputDevice);
-  const voiceInputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceInputVolume);
-  const setVoiceInputVolume = useContextSelector(VoiceSettingsContext, c => c.setVoiceInputVolume);
-  const voiceOutputDevice = useContextSelector(VoiceSettingsContext, c => c.voiceOutputDevice);
-  const setVoiceOutputDevice = useContextSelector(VoiceSettingsContext, c => c.setVoiceOutputDevice);
-  const voiceOutputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceOutputVolume);
-  const setVoiceOutputVolume = useContextSelector(VoiceSettingsContext, c => c.setVoiceOutputVolume);
-  
+  const {
+    voiceInputDevice,
+    setVoiceInputDevice,
+    voiceInputVolume,
+    setVoiceInputVolume,
+    voiceOutputDevice,
+    setVoiceOutputDevice,
+    voiceOutputVolume,
+    setVoiceOutputVolume
+  } = useContextSelector(VoiceSettingsContext, c => c);
+
   async function getDevices() {
     try {
       // First get permission to access media devices
@@ -67,7 +69,7 @@ function VoiceSettings() {
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <span className="text-sm font-medium">Voice Input device</span>
-            <Select onValueChange={setVoiceInputDevice} defaultValue={voiceInputDevince} disabled={outputDevices.length === 0}>
+            <Select onValueChange={setVoiceInputDevice} defaultValue={voiceInputDevice} disabled={outputDevices.length === 0}>
               <SelectTrigger>
                 <SelectValue placeholder="Default" />
               </SelectTrigger>

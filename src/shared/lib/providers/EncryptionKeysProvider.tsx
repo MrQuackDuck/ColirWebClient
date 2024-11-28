@@ -4,11 +4,13 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const EncryptionKeysContext = createContext<{
   getEncryptionKey: (roomGuid: string) => string | undefined;
+  getAllEncryptionKeys: () => Map<string, string> | undefined;
   setEncryptionKey: (roomGuid: string, key: string) => void;
   removeEncryptionKey: (roomGuid: string) => void;
   changeTrigger: number;
 }>({
   getEncryptionKey: () => undefined,
+  getAllEncryptionKeys: () => undefined,
   setEncryptionKey: () => {},
   removeEncryptionKey: () => {},
   changeTrigger: 0,
@@ -24,6 +26,10 @@ export const EncryptionKeysProvider: React.FC<{ children: React.ReactNode }> = (
 
   function getEncryptionKey(roomGuid: string) {
     return encryptionKeys.get(roomGuid);
+  }
+
+  function getAllEncryptionKeys() {
+    return encryptionKeys;
   }
 
   function setEncryptionKey(roomGuid: string, key: string) {
@@ -44,7 +50,7 @@ export const EncryptionKeysProvider: React.FC<{ children: React.ReactNode }> = (
 
   return (
     <EncryptionKeysContext.Provider
-      value={{ getEncryptionKey, setEncryptionKey, removeEncryptionKey, changeTrigger }}
+      value={{ getEncryptionKey, getAllEncryptionKeys, setEncryptionKey, removeEncryptionKey, changeTrigger }}
     >
       {children}
     </EncryptionKeysContext.Provider>
