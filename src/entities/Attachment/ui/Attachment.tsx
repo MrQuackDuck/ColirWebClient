@@ -8,9 +8,9 @@ import { Button } from '@/shared/ui/Button';
 import { isFirefox } from 'react-device-detect'
 import { cn, decryptFile, decryptString } from '@/shared/lib/utils';
 import EncryptedVideoPlayer from '@/shared/ui/EncryptedVideoPlayer';
-import { toast } from '@/shared/lib/hooks/useToast';
 import EncryptedImageViewer from '@/shared/ui/EncryptedImageViewer';
 import EncryptedAudioPlayer from '@/shared/ui/EncryptedAudioPlayer';
+import { showInfoToast } from '@/shared/lib/showInfoToast';
 
 interface AttachmentProps {
   attachment: AttachmentModel;
@@ -112,10 +112,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
   
       await navigator.clipboard.write([item])
         .then(() => {
-          toast({
-            title: 'Copied!',
-            description: 'Image copied to clipboard.'
-          });
+          showInfoToast('Copied!', 'Image copied to clipboard.');
         });
     }, 'image/png');
   }

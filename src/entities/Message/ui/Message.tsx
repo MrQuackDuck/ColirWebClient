@@ -34,7 +34,7 @@ import React from "react";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
 import { cn, decryptString, encryptString } from "@/shared/lib/utils";
-import { toast } from "@/shared/lib/hooks/useToast";
+import { showInfoToast } from "@/shared/lib/showInfoToast";
 
 interface MessageProps {
   message: MessageModel;
@@ -108,18 +108,12 @@ const Message = forwardRef(({
 
   function copyMessage() {
     navigator.clipboard.writeText(decryptedContent ?? "Couldn't decrypt...");
-    toast({
-      title: "Copied!",
-      description: "Message content copied to the clipboard successfully!",
-    });
+    showInfoToast("Copied!", "Message content copied to the clipboard successfully!");
   }
 
   function copyEncryptedMessage() {
     navigator.clipboard.writeText(message.content);
-    toast({
-      title: "Copied!",
-      description: "Encrypted message content copied to the clipboard successfully!",
-    });
+    showInfoToast("Copied!", "Encrypted message content copied to the clipboard successfully!");
   }
 
   function addOrRemoveReaction(reaction: string) {

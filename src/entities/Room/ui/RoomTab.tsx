@@ -34,7 +34,7 @@ import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { toast } from "@/shared/lib/hooks/useToast";
+import { showInfoToast } from "@/shared/lib/showInfoToast";
 
 const formSchema = z.object({
   roomName: z.string().min(2, {
@@ -87,10 +87,7 @@ function RoomTab({
 
   function copyGuid() {
     navigator.clipboard.writeText(room.guid);
-    toast({
-      title: "Copied!",
-      description: "Room GUID copied to clipboard successfully!"
-    })
+    showInfoToast("Copied!", "Room GUID copied to clipboard successfully!");
   }
 
   function deleteRoom() {

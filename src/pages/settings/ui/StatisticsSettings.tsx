@@ -1,6 +1,6 @@
 import UserService from '@/entities/User/api/UserService';
 import { CurrentUserContext } from '@/entities/User/lib/providers/CurrentUserProvider';
-import { toast } from '@/shared/lib/hooks/useToast';
+import { showInfoToast } from '@/shared/lib/showInfoToast';
 import { Button } from '@/shared/ui/Button';
 import { Checkbox } from '@/shared/ui/Checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/shared/ui/Form';
@@ -47,10 +47,7 @@ function StatisticsSettings() {
       UserService.ChangeSettings(currentUser!.userSettings)
         .then(() => {
           updateCurrentUser();
-          toast({
-            title: "Updated!",
-            description: "The profile was updated successfully!",
-          });
+          showInfoToast("Updated!", "The profile was updated successfully!");
         });
     }
   }

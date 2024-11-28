@@ -1,7 +1,6 @@
 import UserService from "@/entities/User/api/UserService";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import { toast } from "@/shared/lib/hooks/useToast";
 import { cn, decimalToHexString } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/Button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
@@ -18,6 +17,7 @@ import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { SaveAllIcon, Trash2Icon } from "lucide-react";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
+import { showInfoToast } from "@/shared/lib/showInfoToast";
 
 const formSchema = z.object({
   username: z.string().min(2, "Username has to be at least 2 characters long!").max(50)
@@ -54,10 +54,7 @@ function AccountSettings(props: AccountSettingsProps) {
 
   function handleHexClick() {
     navigator.clipboard.writeText(decimalToHexString(currentUser!.hexId));
-    toast({
-      title: "Copied!",
-      description: "Hex copied to the clipboard successfully!",
-    });
+    showInfoToast("Copied!", "Hex copied to the clipboard successfully!");
   }
 
   function onSave(values: z.infer<typeof formSchema>) {
@@ -65,10 +62,7 @@ function AccountSettings(props: AccountSettingsProps) {
       UserService.ChangeUsername({ newName: values.username })
         .then(() => {
           updateCurrentUser();
-          toast({
-            title: "Updated!",
-            description: "The profile was updated successfully!",
-          });
+          showInfoToast("Updated!", "The profile was updated successfully!");
         });
     }
   }
@@ -91,10 +85,7 @@ function AccountSettings(props: AccountSettingsProps) {
       .then(() => {
         disableLoading();
         logOut();
-        toast({
-          title: "Deleted!",
-          description: "The account was deleted successfully!",
-        });
+        showInfoToast("Deleted!", "The account was deleted successfully!");
       });
   }
 
