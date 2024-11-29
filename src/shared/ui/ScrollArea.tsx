@@ -24,7 +24,7 @@ const ScrollArea = React.forwardRef<
         >
             {children}
         </ScrollAreaPrimitive.Viewport>
-        <ScrollBar />
+        <ScrollBar className={cn(className?.includes("scrollbar-hidden") && "hidden")} />
         <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
 ));

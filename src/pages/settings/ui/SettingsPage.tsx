@@ -71,7 +71,7 @@ function SettingsPage() {
 	}
 
   return (
-		<div className={cn("z-30 transition-all ease-in-out scale-[0.98] w-full h-full absolute bg-background",
+	<div className={cn("z-30 transition-all ease-in-out scale-[0.98] w-full h-full absolute bg-background",
 		classes.settingsPage,
 		!isSettingsShows && "opacity-0 pointer-events-none",
 		isSettingsShows && "opacity-100 scale-100",
@@ -105,15 +105,16 @@ function SettingsPage() {
 					<TooltipContent side="left">[Esc] Close</TooltipContent>
 				</Tooltip>
 
-				{!isDesktop && <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-				<SheetContent side={"left"}>
-					<SheetTitle className="hidden"/>
-					<SheetDescription className="hidden"/>
-					<SettingsTabs className="flex flex-col gap-2.5" selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        </SheetContent>
+				{!isDesktop &&
+				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+					<SheetContent side={"left"}>
+						<SheetTitle className="hidden"/>
+						<SheetDescription className="hidden"/>
+						<SettingsTabs className="flex flex-col gap-2.5" selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+					</SheetContent>
 				</Sheet>}
 			</FocusLock>
-		</div>
+	</div>
   )
 }
 

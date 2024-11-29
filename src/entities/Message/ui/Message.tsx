@@ -130,7 +130,7 @@ const Message = forwardRef(({
     if (!isEditMode) return;
     textAreaRef.current.textArea.selectionStart = message.content.length;
     textAreaRef.current.textArea.selectionEnd = message.content.length;
-    textAreaRef.current.focus();
+    setTimeout(() => textAreaRef.current.focus(), 200);
   }, [isEditMode]);
   
   function enableEditMode() {

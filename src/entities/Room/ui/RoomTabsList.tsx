@@ -5,6 +5,7 @@ import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider";
 import RoomService from "../api/RoomService";
+import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 function RoomTabsList() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
@@ -23,18 +24,20 @@ function RoomTabsList() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      {joinedRooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
-        <RoomTab
-          unreadRepliesCount={unreadReplied.filter(m => m.roomGuid == r.guid).length}
-          key={r.guid}
-          onClick={() => selectRoom(r)}
-          isSelected={r.guid == selectedRoom?.guid}
-          room={r}
-          onMarkAsReadClicked={handleMarkAsRead}
-        />
-      ))}
-    </div>
+    <ScrollArea className="scrollbar-hidden">
+      <div className="flex flex-col gap-2">
+        {joinedRooms.sort((a, b) => a.name.localeCompare(b.name)).map((r) => (
+          <RoomTab
+            unreadRepliesCount={unreadReplied.filter(m => m.roomGuid == r.guid).length}
+            key={r.guid}
+            onClick={() => selectRoom(r)}
+            isSelected={r.guid == selectedRoom?.guid}
+            room={r}
+            onMarkAsReadClicked={handleMarkAsRead}
+          />
+        ))}
+      </div>
+    </ScrollArea>
   );
 }
 

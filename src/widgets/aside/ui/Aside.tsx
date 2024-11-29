@@ -29,8 +29,7 @@ function Aside() {
         <Button
           className="h-19"
           onClick={() => setNewRoomModalOpened(true)}
-          variant={"secondary"}
-        >
+          variant={"secondary"}>
           <PlusIcon className="mr-1 h-4 w-4" /> New Room
         </Button>
         <RoomTabsList/>
