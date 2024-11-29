@@ -19,7 +19,7 @@ function ImportExportSettings() {
       showInfoToast("Settings updated successfully!", "We've updated your settings including the voice settings, room keys etc.");
     }
     catch {
-      showErrorToast("Oops! Failed to import settings", "It seems like the file was corrupted");
+      showErrorToast("Failed to import settings!", "It seems like the file is corrupted...");
     }
   }
 
