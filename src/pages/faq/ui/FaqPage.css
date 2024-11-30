@@ -1,0 +1,76 @@
+/* Markdown Styles for ShadCn React Application */
+.markdown h1 {
+  @apply text-3xl font-bold text-foreground tracking-tight mb-4 mt-0;
+}
+
+.markdown h2 {
+  @apply text-2xl font-semibold text-foreground tracking-tight mb-4 mt-0 border-b pb-2;
+}
+
+.markdown h3 {
+  @apply text-xl font-semibold text-foreground tracking-tight mb-3 mt-0;
+}
+
+.markdown h4 {
+  @apply text-xl font-semibold text-foreground tracking-tight mb-3 mt-0;
+}
+
+.markdown h5 {
+  @apply text-lg font-medium text-foreground tracking-tight mb-2 mt-0;
+}
+
+.markdown h6 {
+  @apply text-base font-medium text-muted-foreground tracking-tight mb-2 mt-0;
+}
+
+.markdown p {
+  @apply text-base text-foreground leading-7 mb-4 mt-0;
+}
+
+.markdown a {
+  @apply text-primary hover:underline;
+}
+
+.markdown ul {
+  @apply list-disc list-outside pl-6 mb-4 mt-0 space-y-2;
+}
+
+.markdown ol {
+  @apply list-decimal list-outside pl-6 mb-4 mt-0 space-y-2;
+}
+
+.markdown li {
+  @apply text-foreground;
+}
+
+.markdown blockquote {
+  @apply border-l-4 border-primary pl-4 py-2 mb-4 italic text-muted-foreground;
+}
+
+.markdown code {
+  @apply bg-muted text-sm px-1.5 py-0.5 rounded font-mono;
+}
+
+.markdown pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.markdown pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown hr {
+  @apply my-4 border-border;
+}
+
+.markdown table {
+  @apply w-full mb-4 border-collapse;
+}
+
+.markdown th {
+  @apply border border-border bg-muted px-4 py-2 text-left font-medium;
+}
+
+.markdown td {
+  @apply border border-border px-4 py-2;
+}

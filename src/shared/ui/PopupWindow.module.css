@@ -1,0 +1,12 @@
+.popupWindow {
+  padding: 2rem calc(16vw + 1.25rem);;
+  padding-top: 5rem;
+}
+
+@media screen and (max-width: 1223px) {
+  .popupWindow {
+      padding-top: 4rem;
+      padding-left: 15px;
+      padding-right: 15px;
+  }
+}
