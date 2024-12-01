@@ -15,7 +15,7 @@ import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section/lib/p
 import { VoiceChatControlsProvider } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
 import SettingsPage from "@/pages/settings/ui/SettingsPage";
 import FaqPage from "@/pages/faq/ui/FaqPage";
-import { FaqOpenCloseProvider } from "@/features/open-close-faq/libs/providers/FaqOpenCloseProvider";
+import { FaqControlProvider } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 
 function App() {
   let isLoading = useContextSelector(LoadingContext, c => c.isLoading);
@@ -40,7 +40,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <FaqOpenCloseProvider>
+      <FaqControlProvider>
         <Header/>
         <MessagesProvider>
           <VoiceChatConnectionsProvider>
@@ -56,7 +56,7 @@ function App() {
           </VoiceChatConnectionsProvider>
         </MessagesProvider>
         <Toaster />
-      </FaqOpenCloseProvider>
+      </FaqControlProvider>
     </BrowserRouter>
   );
 }

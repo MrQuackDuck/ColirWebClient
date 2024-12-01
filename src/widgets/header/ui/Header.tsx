@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import classes from "./Header.module.css";
 import { useContextSelector } from "use-context-selector";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { FaqOpenCloseContext } from "@/features/open-close-faq/libs/providers/FaqOpenCloseProvider";
+import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 
 function Header() {
   const navigate = useNavigate();
   let isAuthorized = useContextSelector(AuthContext, c => c.isAuthorized);
-  let setIsFaqOpen = useContextSelector(FaqOpenCloseContext, c => c.setIsOpen);
+  let setIsFaqOpen = useContextSelector(FaqControlContext, c => c.setIsOpen);
 
   const navigateHome = () => {
     navigate("/", { replace: true });

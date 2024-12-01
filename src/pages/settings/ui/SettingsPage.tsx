@@ -19,8 +19,8 @@ import PopupWindow from "@/shared/ui/PopupWindow";
 function SettingsPage() {
 	let { isDesktop } = useResponsiveness();
 
-	const isOpen = useContextSelector(SettingsOpenCloseContext, c => c.isOpen);
-	const setIsOpen = useContextSelector(SettingsOpenCloseContext, c => c.setIsOpen);
+	const isSettingsOpen = useContextSelector(SettingsOpenCloseContext, c => c.isOpen);
+	const setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, c => c.setIsOpen);
 
 	let [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -46,7 +46,7 @@ function SettingsPage() {
 		if (isAnyDialogOpenDelayed) return;
 		let focusedItemTagName = document.activeElement?.tagName;
 		if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || focusedItemTagName === "VIDEO") return;
-		setIsOpen(false);
+		setIsSettingsOpen(false);
 	}
 
 	const onPopupShown = () => setSelectedTab(SettingsTabsEnum.Account);
@@ -54,8 +54,8 @@ function SettingsPage() {
   return (
 		<PopupWindow
 			onEscapePressed={handleEscapePress}
-			isOpen={isOpen}
-			setIsOpen={setIsOpen}
+			isOpen={isSettingsOpen}
+			setIsOpen={setIsSettingsOpen}
 			onPopupShown={onPopupShown}>
 				{!isDesktop &&
 					<Button onClick={() => setIsSheetOpen(true)} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">

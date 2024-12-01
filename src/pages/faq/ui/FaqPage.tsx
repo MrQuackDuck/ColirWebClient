@@ -12,17 +12,18 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/S
 import { Separator } from "@/shared/ui/Separator";
 import { Button } from "@/shared/ui/Button";
 import { PanelRightCloseIcon } from "lucide-react";
-import { FaqOpenCloseContext } from "@/features/open-close-faq/libs/providers/FaqOpenCloseProvider";
+import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 
 function FaqPage() {
 	let { isDesktop } = useResponsiveness();
 
-  const isOpen = useContextSelector(FaqOpenCloseContext, c => c.isOpen);
-  const setIsOpen = useContextSelector(FaqOpenCloseContext, c => c.setIsOpen);
+  const isFaqOpen = useContextSelector(FaqControlContext, c => c.isOpen);
+  const setIsFaqOpen = useContextSelector(FaqControlContext, c => c.setIsOpen);
+
+  const [tab, setTab] = useState(FaqTabsEnum.WhatIsTheMainGoal);
 
 	let [isSheetOpen, setIsSheetOpen] = useState(false);
   const [markdownContent, setMarkdownContent] = useState('');
-  const [tab, setTab] = useState(FaqTabsEnum.WhatIsTheMainGoal);
   let languageCode = useContextSelector(LanguageSettingsContext, c => c.currentLanguage);
 
   useEffect(() => {
@@ -34,11 +35,15 @@ function FaqPage() {
     loadMarkdown();
   }, [tab, languageCode]);
 
+  useEffect(() => {
+    if (!isFaqOpen) setTimeout(() => setTab(FaqTabsEnum.WhatIsTheMainGoal), 50);
+  }, [isFaqOpen]);
+
   return (
     <PopupWindow
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      onEscapePressed={() => setIsOpen(false)}
+      isOpen={isFaqOpen}
+      setIsOpen={setIsFaqOpen}
+      onEscapePressed={() => setIsFaqOpen(false)}
       >
 				{!isDesktop &&
 					<Button onClick={() => setIsSheetOpen(true)} variant={"ghost"} size={"icon"} className="min-w-10 min-h-10">
