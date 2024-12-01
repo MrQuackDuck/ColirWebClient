@@ -1,14 +1,6 @@
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
 import { Button } from "@/shared/ui/Button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/shared/ui/DropdownMenu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
 import { MoonIcon, SunIcon } from "lucide-react";
 
 type Props = {};
@@ -23,12 +15,8 @@ function ThemeButton({}: Props) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild onFocusCapture={e => e.preventDefault()}>
-        <Button
-          className="h-9 w-9 focus-visible:ring-0 focus-visible:ring-offset-0"
-          variant={"outline"}
-          size={"icon"}
-        >
+      <DropdownMenuTrigger asChild onFocusCapture={(e) => e.preventDefault()}>
+        <Button className="h-9 w-9 focus-visible:ring-0 focus-visible:ring-offset-0" variant={"outline"} size={"icon"}>
           {getIcon()}
         </Button>
       </DropdownMenuTrigger>

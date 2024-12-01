@@ -11,16 +11,12 @@ export const FaqControlContext = createContext<{
   isOpen: false,
   setIsOpen: () => {},
   selectedTab: FaqTabs.WhatIsTheMainGoal,
-  setSelectedTab: () => {},
+  setSelectedTab: () => {}
 });
 
 export const FaqControlProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<FaqTabs>(FaqTabs.WhatIsTheMainGoal);
 
-  return (
-    <FaqControlContext.Provider value={{ isOpen, setIsOpen, selectedTab, setSelectedTab }}>
-      {children}
-    </FaqControlContext.Provider>
-  );
+  return <FaqControlContext.Provider value={{ isOpen, setIsOpen, selectedTab, setSelectedTab }}>{children}</FaqControlContext.Provider>;
 };

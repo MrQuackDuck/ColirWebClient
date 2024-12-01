@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
-import {
-  HubConnection,
-  HubConnectionBuilder,
-  HubConnectionState,
-  LogLevel,
-} from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { showErrorToast } from "../../../shared/lib/showErrorToast";
@@ -15,27 +10,16 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
 
-function OAuth2LoginForm({
-  queueToken,
-  onBack,
-}: {
-  queueToken: string;
-  onBack: () => void;
-}) {
+function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: () => void }) {
   let [step, setStep] = useState(0);
   let [username, setUsername] = useState("");
   let [authConnection, setAuthConnection] = useState<HubConnection>();
   let [proposedHexs, setProposedHexs] = useState<number[]>();
-  let authorize = useContextSelector(AuthContext, c => c.authorize);
+  let authorize = useContextSelector(AuthContext, (c) => c.authorize);
   let navigate = useNavigate();
 
   useEffect(() => {
-    setAuthConnection(
-      new HubConnectionBuilder()
-        .withUrl(`${API_URL}/Registration?queueToken=${queueToken}`)
-        .configureLogging(LogLevel.Information)
-        .build()
-    );
+    setAuthConnection(new HubConnectionBuilder().withUrl(`${API_URL}/Registration?queueToken=${queueToken}`).configureLogging(LogLevel.Information).build());
   }, []);
 
   // Registering handlers
@@ -43,12 +27,13 @@ function OAuth2LoginForm({
     authConnection?.on("ReceiveHexsList", (response) => {
       setProposedHexs(response);
     });
-  }, [authConnection])
+  }, [authConnection]);
 
   const usernameChosen = async (username) => {
     setUsername(username);
     const sendSignalAndProceedToNextStep = () => {
-      authConnection?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
+      authConnection
+        ?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
         .then((response) => {
           if (response.resultType === SignalRResultType.Error) throw Error();
           setStep(1);
@@ -71,22 +56,25 @@ function OAuth2LoginForm({
   };
 
   const regenerateHexs = () => {
-    authConnection?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
-      .then(response => {
+    authConnection
+      ?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
+      .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         setProposedHexs(response.content as number[]);
       })
       .catch(showErrorToast);
-  }
+  };
 
   const colorChosen = (color) => {
-    authConnection?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
+    authConnection
+      ?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
       .then(() => finish())
       .catch(showErrorToast);
   };
 
   const finish = () => {
-    authConnection?.invoke<SignalRHubResponse<any>>("FinishRegistration")
+    authConnection
+      ?.invoke<SignalRHubResponse<any>>("FinishRegistration")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         let jwtToken = response.content["jwtToken"].toString();
@@ -99,24 +87,11 @@ function OAuth2LoginForm({
 
   return (
     <>
-      {step === 0 && (
-        <ChooseDisplayNameForm
-          onProceed={usernameChosen}
-          onBack={onBack}
-          username={username}
-        />
-      )}
+      {step === 0 && <ChooseDisplayNameForm onProceed={usernameChosen} onBack={onBack} username={username} />}
 
-      {step === 1 && (
-        <ChooseColirIdForm
-          onProceed={colorChosen}
-          onRegenerate={regenerateHexs}
-          colors={proposedHexs ?? []}
-          onBack={() => setStep(0)}
-        />
-      )}
+      {step === 1 && <ChooseColirIdForm onProceed={colorChosen} onRegenerate={regenerateHexs} colors={proposedHexs ?? []} onBack={() => setStep(0)} />}
     </>
   );
 }
 
-export default OAuth2LoginForm
+export default OAuth2LoginForm;

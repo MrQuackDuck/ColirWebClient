@@ -1,13 +1,13 @@
-import { Button } from '@/shared/ui/Button'
-import { Collapsible, CollapsibleContent } from '@/shared/ui/Collapsible';
-import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from 'lucide-react'
-import { useState } from 'react';
-import { VoiceChatConnection } from '../model/VoiceChatConnection';
-import { cn } from '@/shared/lib/utils';
-import { useContextSelector } from 'use-context-selector';
-import { UsersContext } from '@/entities/User/lib/providers/UsersProvider';
-import VoiceChatUser from './VoiceChatUser';
-import { CurrentlyTalkingUser } from '../model/CurrentlyTalkingUser';
+import { Button } from "@/shared/ui/Button";
+import { Collapsible, CollapsibleContent } from "@/shared/ui/Collapsible";
+import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from "lucide-react";
+import { useState } from "react";
+import { VoiceChatConnection } from "../model/VoiceChatConnection";
+import { cn } from "@/shared/lib/utils";
+import { useContextSelector } from "use-context-selector";
+import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
+import VoiceChatUser from "./VoiceChatUser";
+import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
 
 interface VoiceChatProps {
   roomName: string;
@@ -36,45 +36,41 @@ function VoiceChat(props: VoiceChatProps) {
   }
 
   return (
-    <div className='flex flex-col px-1'>
+    <div className="flex flex-col px-1">
       <div className="flex items-center">
         <div className="flex flex-grow items-center select-none gap-1.5 min-w-0">
-          <Volume2Icon className="w-4 h-4 mr-0.5 flex-shrink-0 text-slate-400"/>
-          <span onClick={joinVoiceChat} className='text-sm cursor-pointer hover:underline font-medium overflow-hidden text-ellipsis whitespace-nowrap'>
+          <Volume2Icon className="w-4 h-4 mr-0.5 flex-shrink-0 text-slate-400" />
+          <span onClick={joinVoiceChat} className="text-sm cursor-pointer hover:underline font-medium overflow-hidden text-ellipsis whitespace-nowrap">
             {props.roomName}
           </span>
         </div>
-        <Button
-          onClick={joinOrLeaveVoiceChat}
-          className="w-8 h-8 flex-shrink-0 ml-2"
-          variant="ghost"
-          size="icon">  
+        <Button onClick={joinOrLeaveVoiceChat} className="w-8 h-8 flex-shrink-0 ml-2" variant="ghost" size="icon">
           <span className={cn("transition-colors duration-100", props.isJoined && "text-destructive", !props.isJoined && "text-slate-400")}>
             {props.isJoined && <UnplugIcon className="w-[1.125rem] h-[1.125rem]" />}
             {!props.isJoined && <Plug2Icon className="w-[1.125rem] h-[1.125rem]" />}
           </span>
         </Button>
-        <Button
-          onClick={toggleCollapse}
-          className="w-8 h-8 flex-shrink-0 ml-1"
-          variant="ghost"
-          size="icon">
-          <ChevronUpIcon className={cn("w-5 h-5 text-slate-400 transition-transform duration-100", isCollapsed && "rotate-180")}/>
+        <Button onClick={toggleCollapse} className="w-8 h-8 flex-shrink-0 ml-1" variant="ghost" size="icon">
+          <ChevronUpIcon className={cn("w-5 h-5 text-slate-400 transition-transform duration-100", isCollapsed && "rotate-180")} />
         </Button>
       </div>
       <Collapsible open={!isCollapsed} onOpenChange={setIsCollapsed}>
         <CollapsibleContent asChild>
-          <div className='flex flex-col pt-1'>
+          <div className="flex flex-col pt-1">
             {props.voiceChatConnection.joinedUsers.map((user) => (
-              <VoiceChatUser key={user.hexId} user={users.find(u => u.hexId == user.hexId)} voiceChatUser={user}
-               isTalking={props.currentlyTalkingUsers?.some(t => t.userHexId == user.hexId)}
-               couldDecrypt={props.currentlyTalkingUsers?.find(t => t.userHexId == user.hexId)?.couldDecrypt} />
+              <VoiceChatUser
+                key={user.hexId}
+                user={users.find((u) => u.hexId == user.hexId)}
+                voiceChatUser={user}
+                isTalking={props.currentlyTalkingUsers?.some((t) => t.userHexId == user.hexId)}
+                couldDecrypt={props.currentlyTalkingUsers?.find((t) => t.userHexId == user.hexId)?.couldDecrypt}
+              />
             ))}
           </div>
         </CollapsibleContent>
       </Collapsible>
     </div>
-  )
+  );
 }
 
-export default VoiceChat
+export default VoiceChat;

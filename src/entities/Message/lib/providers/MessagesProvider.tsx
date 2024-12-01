@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MessageModel } from "../../model/MessageModel";
-import { createContext } from 'use-context-selector';
+import { createContext } from "use-context-selector";
 
 export const MessagesContext = createContext<{
   messages: MessageModel[];
@@ -13,9 +13,5 @@ export const MessagesProvider = ({ children }) => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [unreadReplies, setUnreadReplies] = useState<MessageModel[]>([]);
 
-  return (
-    <MessagesContext.Provider value={{ messages, setMessages, unreadReplies, setUnreadReplies }}>
-      {children}
-    </MessagesContext.Provider>
-  );
+  return <MessagesContext.Provider value={{ messages, setMessages, unreadReplies, setUnreadReplies }}>{children}</MessagesContext.Provider>;
 };

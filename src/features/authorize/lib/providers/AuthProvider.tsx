@@ -14,9 +14,9 @@ export const AuthContext = createContext<{
 const AuthProvider = ({ children }) => {
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(getFromLocalStorage("jwtToken") !== null);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
-  let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
-  let removeUser = useContextSelector(CurrentUserContext, c => c.removeUser);
+  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
+  let removeUser = useContextSelector(CurrentUserContext, (c) => c.removeUser);
 
   const authorize = (jwtToken: string, refreshToken: string) => {
     setIsAuthorized(true);
@@ -34,13 +34,7 @@ const AuthProvider = ({ children }) => {
     AuthService.LogOut();
   };
 
-  return (
-    <AuthContext.Provider
-      value={{ isAuthorized, authorize, logOut }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ isAuthorized, authorize, logOut }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

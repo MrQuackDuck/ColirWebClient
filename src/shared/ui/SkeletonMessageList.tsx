@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import SkeletonMessage from "./SkeletonMessage";
 
-function SkeletonMessageList({parentRef}: {parentRef: any}) {
+function SkeletonMessageList({ parentRef }: { parentRef: any }) {
   let [countToRender, setCountToRender] = useState(0);
 
   useEffect(() => {
@@ -9,12 +9,14 @@ function SkeletonMessageList({parentRef}: {parentRef: any}) {
     let elementsToRender = Math.floor(parentHeight / 42);
     setCountToRender(elementsToRender);
   });
-  
-  return (<>
-  {Array.from(Array(countToRender).keys()).map((i) => (
-    <SkeletonMessage key={i} />
-  ))}
-  </>)
+
+  return (
+    <>
+      {Array.from(Array(countToRender).keys()).map((i) => (
+        <SkeletonMessage key={i} />
+      ))}
+    </>
+  );
 }
 
-export default SkeletonMessageList
+export default SkeletonMessageList;

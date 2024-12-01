@@ -15,11 +15,7 @@ export const UsersVolumeProvider = ({ children }) => {
     const newUserVolumes = { ...userVolumes, [userHexId]: volume };
     setUserVolumes(newUserVolumes);
     setToLocalStorage("userVolumes", newUserVolumes);
-  }
+  };
 
-  return (
-    <UsersVolumeContext.Provider value={{ userVolumes, setVolumeForUser }}>
-      {children}
-    </UsersVolumeContext.Provider>
-  );
-}
+  return <UsersVolumeContext.Provider value={{ userVolumes, setVolumeForUser }}>{children}</UsersVolumeContext.Provider>;
+};

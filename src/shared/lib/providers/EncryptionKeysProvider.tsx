@@ -13,14 +13,14 @@ export const EncryptionKeysContext = createContext<{
   getAllEncryptionKeys: () => undefined,
   setEncryptionKey: () => {},
   removeEncryptionKey: () => {},
-  changeTrigger: 0,
+  changeTrigger: 0
 });
 
 export const EncryptionKeysProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [changeTrigger, setChangeTrigger] = useState(0);
   const { setToLocalStorage, getFromLocalStorage } = useLocalStorage();
   const [encryptionKeys, setEncryptionKeys] = useState<Map<string, string>>(() => {
-    const storedKeys = getFromLocalStorage('encryptionKeys');
+    const storedKeys = getFromLocalStorage("encryptionKeys");
     return new Map(storedKeys ? Object.entries(storedKeys) : []);
   });
 
@@ -45,14 +45,8 @@ export const EncryptionKeysProvider: React.FC<{ children: React.ReactNode }> = (
 
   // Saves to local storage
   useEffect(() => {
-    setToLocalStorage('encryptionKeys', Object.fromEntries(encryptionKeys));
+    setToLocalStorage("encryptionKeys", Object.fromEntries(encryptionKeys));
   }, [encryptionKeys, setToLocalStorage]);
 
-  return (
-    <EncryptionKeysContext.Provider
-      value={{ getEncryptionKey, getAllEncryptionKeys, setEncryptionKey, removeEncryptionKey, changeTrigger }}
-    >
-      {children}
-    </EncryptionKeysContext.Provider>
-  );
+  return <EncryptionKeysContext.Provider value={{ getEncryptionKey, getAllEncryptionKeys, setEncryptionKey, removeEncryptionKey, changeTrigger }}>{children}</EncryptionKeysContext.Provider>;
 };

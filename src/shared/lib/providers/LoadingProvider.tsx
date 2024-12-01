@@ -14,24 +14,17 @@ const LoadingProvider = ({ children }) => {
   useEffect(() => {
     if (enabledLoadings <= 0) setIsLoading(false);
     else setIsLoading(true);
-  }, [enabledLoadings])
+  }, [enabledLoadings]);
 
   function enableLoading() {
     setEnabledLoadings(enabledLoadings + 1);
   }
 
   function disableLoading() {
-    if (enabledLoadings >= 0)
-      setEnabledLoadings(enabledLoadings - 1);
+    if (enabledLoadings >= 0) setEnabledLoadings(enabledLoadings - 1);
   }
 
-  return (
-    <LoadingContext.Provider
-      value={{ isLoading, enableLoading, disableLoading }}
-    >
-      {children}
-    </LoadingContext.Provider>
-  );
+  return <LoadingContext.Provider value={{ isLoading, enableLoading, disableLoading }}>{children}</LoadingContext.Provider>;
 };
 
 export default LoadingProvider;

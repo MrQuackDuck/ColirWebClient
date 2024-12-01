@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 import { Volume2, VolumeX, Pause, Play, Maximize, Minimize, VideoOffIcon, RotateCwIcon } from "lucide-react";
-import { Slider } from './Slider';
-import { Button } from './Button';
+import { Slider } from "./Slider";
+import { Button } from "./Button";
 
 interface VideoElementProps {
   autoplay?: boolean;
@@ -25,26 +25,25 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   useEffect(() => {
     const videoElement = videoRef.current;
     if (videoElement) {
-      videoElement.addEventListener('timeupdate', handleTimeUpdate);
-      videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-      videoElement.addEventListener('keydown', handleKeyDown);
+      videoElement.addEventListener("timeupdate", handleTimeUpdate);
+      videoElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+      videoElement.addEventListener("keydown", handleKeyDown);
     }
 
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
       if (videoElement) {
-        videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        videoElement.removeEventListener('keydown', handleKeyDown);
+        videoElement.removeEventListener("timeupdate", handleTimeUpdate);
+        videoElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        videoElement.removeEventListener("keydown", handleKeyDown);
       }
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, [isPlaying]);
 
   useEffect(() => {
-    if (autoplay && videoRef.current)
-      videoRef.current.play().catch(() => setIsError(true));
+    if (autoplay && videoRef.current) videoRef.current.play().catch(() => setIsError(true));
   }, [videoRef]);
 
   const handleTimeUpdate = () => {
@@ -65,14 +64,13 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
 
   const togglePlay = () => {
     if (!videoRef.current) return;
-    
+
     if (isPlaying && !isEnded) videoRef.current.pause();
     else if (isEnded) {
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => setIsError(true));
       setIsEnded(false);
-    }
-    else videoRef.current.play().catch(() => setIsError(true));
+    } else videoRef.current.play().catch(() => setIsError(true));
 
     setIsPlaying(!isPlaying);
   };
@@ -82,7 +80,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
     }
-  }
+  };
 
   const handleVolumeChange = (newVolume: number[]) => {
     const volumeValue = newVolume[0];
@@ -125,7 +123,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.code === 'Space') {
+    if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
     }
@@ -139,27 +137,22 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   if (isError) {
-    return ( 
-      <div className='flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 '>
-        <VideoOffIcon className='h-5 w-5 mr-1' /> Couldn't load video...
+    return (
+      <div className="flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30 ">
+        <VideoOffIcon className="h-5 w-5 mr-1" /> Couldn't load video...
       </div>
     );
   }
 
   return (
-    <div
-      ref={videoContainerRef}
-      className="relative w-full aspect-video bg-black"
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
-    >
+    <div ref={videoContainerRef} className="relative w-full aspect-video bg-black" onMouseEnter={() => setShowControls(true)} onMouseLeave={() => setShowControls(false)}>
       <video
         ref={videoRef}
-        src={typeof src === 'string' ? src : undefined}
+        src={typeof src === "string" ? src : undefined}
         autoPlay={autoplay}
         className="w-full h-full"
         onClickCapture={handleClick}
@@ -168,41 +161,27 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
         tabIndex={0}
       />
       {controls && (
-        <div className={`absolute bg-background/50 flex flex-col gap-0.5 bottom-0 left-0 right-0 text-primary p-0.5 transition-opacity duration-200 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
-          <Slider
-            value={[currentTime]}
-            min={0}
-            max={duration}
-            step={0.1}
-            onValueChange={handleTimelineChange}
-            className="w-full cursor-pointer thumbDisabled"
-          />
+        <div className={`absolute bg-background/50 flex flex-col gap-0.5 bottom-0 left-0 right-0 text-primary p-0.5 transition-opacity duration-200 ${showControls ? "opacity-100" : "opacity-0"}`}>
+          <Slider value={[currentTime]} min={0} max={duration} step={0.1} onValueChange={handleTimelineChange} className="w-full cursor-pointer thumbDisabled" />
           <div className="flex items-center justify-between">
-            <div className='flex items-center gap-1'>
-              <Button className='h-7 w-7 hover:primary/20' variant="ghost" size="icon" onClick={togglePlay}>
-                {(isPlaying && !isEnded) && <Pause className="h-4 w-4" />}
-                {(!isPlaying && !isEnded) && <Play className="h-4 w-4" />}
+            <div className="flex items-center gap-1">
+              <Button className="h-7 w-7 hover:primary/20" variant="ghost" size="icon" onClick={togglePlay}>
+                {isPlaying && !isEnded && <Pause className="h-4 w-4" />}
+                {!isPlaying && !isEnded && <Play className="h-4 w-4" />}
                 {isEnded && <RotateCwIcon className="h-4 w-4" />}
               </Button>
               <div className="flex gap-0.5">
-                <Button className='h-7 w-7 hover:primary/20' variant="ghost" size="icon" onMouseDown={toggleMute}>
+                <Button className="h-7 w-7 hover:primary/20" variant="ghost" size="icon" onMouseDown={toggleMute}>
                   {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                 </Button>
-                <Slider
-                  value={[volume]}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  onValueChange={handleVolumeChange}
-                  className="w-24"
-                />
+                <Slider value={[volume]} min={0} max={1} step={0.01} onValueChange={handleVolumeChange} className="w-24" />
               </div>
             </div>
-            <div className='flex gap-1 items-center'>
+            <div className="flex gap-1 items-center">
               <span className="text-sm select-none">
                 {formatTime(currentTime)} / {formatTime(duration)}
               </span>
-              <Button className='h-8 w-8 hover:primary/20' variant="ghost" size="icon" onClick={toggleFullScreen}>
+              <Button className="h-8 w-8 hover:primary/20" variant="ghost" size="icon" onClick={toggleFullScreen}>
                 {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
               </Button>
             </div>
@@ -211,10 +190,7 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
       )}
       {
         // Show a line on the left side which will hide the controls when hovered
-        isFullscreen && <div className='absolute left-0 top-0 h-full w-1.5'
-        onDoubleClick={toggleFullScreen}
-        onMouseEnter={() => setShowControls(false)}
-        onMouseLeave={() => setShowControls(true)}/>
+        isFullscreen && <div className="absolute left-0 top-0 h-full w-1.5" onDoubleClick={toggleFullScreen} onMouseEnter={() => setShowControls(false)} onMouseLeave={() => setShowControls(true)} />
       }
     </div>
   );

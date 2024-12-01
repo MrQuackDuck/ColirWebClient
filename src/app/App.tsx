@@ -18,30 +18,34 @@ import FaqPage from "@/pages/faq/ui/FaqPage";
 import { FaqControlProvider } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 
 function App() {
-  let isLoading = useContextSelector(LoadingContext, c => c.isLoading);
-  let isAuthorized = useContextSelector(AuthContext, c => c.isAuthorized);
-  let isThereAnyJoinedRoom = useContextSelector(JoinedRoomsContext, c => c.isThereAnyJoinedRoom);
+  let isLoading = useContextSelector(LoadingContext, (c) => c.isLoading);
+  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+  let isThereAnyJoinedRoom = useContextSelector(JoinedRoomsContext, (c) => c.isThereAnyJoinedRoom);
 
   const getRoutes = () => {
     if (isAuthorized && isThereAnyJoinedRoom) {
-      return (<>
-        <Route path="/" element={<ChatPage/>} />
-        <Route path="/gitHubAuth" element={<ChatPage/>} />
-        <Route path="/googleAuth" element={<ChatPage/>} />
-      </>)
+      return (
+        <>
+          <Route path="/" element={<ChatPage />} />
+          <Route path="/gitHubAuth" element={<ChatPage />} />
+          <Route path="/googleAuth" element={<ChatPage />} />
+        </>
+      );
     }
 
-    return (<>
-      <Route path="/" element={<IndexPage />} />
-      <Route path="/gitHubAuth" element={<IndexPage />} />
-      <Route path="/googleAuth" element={<IndexPage />} />
-    </>)
-  }
+    return (
+      <>
+        <Route path="/" element={<IndexPage />} />
+        <Route path="/gitHubAuth" element={<IndexPage />} />
+        <Route path="/googleAuth" element={<IndexPage />} />
+      </>
+    );
+  };
 
   return (
     <BrowserRouter>
       <FaqControlProvider>
-        <Header/>
+        <Header />
         <MessagesProvider>
           <VoiceChatConnectionsProvider>
             <VoiceChatControlsProvider>
@@ -50,8 +54,8 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
               {isLoading && <Loader />}
-              <SettingsPage/>
-              <FaqPage/>
+              <SettingsPage />
+              <FaqPage />
             </VoiceChatControlsProvider>
           </VoiceChatConnectionsProvider>
         </MessagesProvider>

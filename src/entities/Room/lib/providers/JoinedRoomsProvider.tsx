@@ -17,42 +17,46 @@ export const JoinedRoomsContext = createContext<{
   joinedRooms: [] as RoomModel[],
   setJoinedRooms: () => {},
   isThereAnyJoinedRoom: false,
-  updateRooms: () => {},
+  updateRooms: () => {}
 });
 
 const JoinedRoomsProvider = ({ children }) => {
-  let { enableLoading, disableLoading } = useContextSelector(LoadingContext, c => c);
-  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
-  let updateCurrentUser = useContextSelector(CurrentUserContext, c => c.updateCurrentUser);
+  let { enableLoading, disableLoading } = useContextSelector(LoadingContext, (c) => c);
+  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
   const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
-  let setUsers = useContextSelector(UsersContext, c => c.setUsers);
+  let setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
 
   function updateRooms(withLoading: boolean = false) {
     if (withLoading) enableLoading();
-    updateCurrentUser().then(currentUser => {
-      if (!currentUser) {
-        if (withLoading) disableLoading();
-        return;
-      }
-      currentUser.joinedRooms.forEach((room) => {
-        RoomService.GetRoomInfo({ roomGuid: room.guid })
-          .then((response) => {
-            if (!response.data) {
-              showErrorToast();
-            }
+    updateCurrentUser()
+      .then((currentUser) => {
+        if (!currentUser) {
+          if (withLoading) disableLoading();
+          return;
+        }
+        currentUser.joinedRooms.forEach((room) => {
+          RoomService.GetRoomInfo({ roomGuid: room.guid })
+            .then((response) => {
+              if (!response.data) {
+                showErrorToast();
+              }
 
-            setJoinedRooms((rooms) => [...rooms, response.data]);
-            setUsers(prev => {
-              if (!response.data) return prev;
-              return distinctUsers([...prev, ...response.data.joinedUsers])
-            });
-          })
-          .catch((e) => console.error(e.response))
+              setJoinedRooms((rooms) => [...rooms, response.data]);
+              setUsers((prev) => {
+                if (!response.data) return prev;
+                return distinctUsers([...prev, ...response.data.joinedUsers]);
+              });
+            })
+            .catch((e) => console.error(e.response));
+        });
+
+        if (withLoading) disableLoading();
+      })
+      .catch(() => {
+        if (withLoading) disableLoading();
       });
-      
-      if (withLoading) disableLoading();
-    }).catch(() => { if (withLoading) disableLoading() })
   }
 
   useEffect(() => {
@@ -65,11 +69,7 @@ const JoinedRoomsProvider = ({ children }) => {
     else if (joinedRooms.length == 0 && isThereAnyJoinedRoom) setIsThereAnyJoinedRoom(false);
   }, [joinedRooms]);
 
-  return (
-    <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom, updateRooms }}>
-      {children}
-    </JoinedRoomsContext.Provider>
-  );
+  return <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom, updateRooms }}>{children}</JoinedRoomsContext.Provider>;
 };
 
 export default JoinedRoomsProvider;

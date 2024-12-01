@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import { UserModel } from "@/entities/User/model/UserModel";
 import Dater from "@/shared/ui/Dater";
-import isEqual from 'fast-deep-equal';
-import MessageListItem from './MessageListItem';
+import isEqual from "fast-deep-equal";
+import MessageListItem from "./MessageListItem";
 
 interface MessagesListProps {
   filteredMessages: MessageModel[];
@@ -40,9 +40,9 @@ const MessagesList: React.FC<MessagesListProps> = ({
         const currentMessageDate = new Date(m.postDate).getDate();
         const previousMessageDate = index > 0 ? new Date(filteredMessages[index - 1].postDate).getDate() : null;
         let needToInsertDater = index === 0 || currentMessageDate !== previousMessageDate;
-        const sender = users.find(u => u.hexId === m.authorHexId)!;
-        const repliedMessageExists = filteredMessages.find(fm => fm.id === m.repliedMessageId);
-        const repliedMessageAuthor = repliedMessageExists ? users.find(u => u.hexId === m.repliedMessage?.authorHexId) : undefined;
+        const sender = users.find((u) => u.hexId === m.authorHexId)!;
+        const repliedMessageExists = filteredMessages.find((fm) => fm.id === m.repliedMessageId);
+        const repliedMessageAuthor = repliedMessageExists ? users.find((u) => u.hexId === m.repliedMessage?.authorHexId) : undefined;
 
         return (
           <div className="rounded-[6px] h-fit" key={m.id}>

@@ -1,9 +1,9 @@
-import { VoiceSettingsContext } from '@/shared/lib/providers/VoiceSettingsProvider';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shared/ui/Select';
-import { Separator } from '@/shared/ui/Separator';
-import { Slider } from '@/shared/ui/Slider';
-import { useEffect, useState } from 'react';
-import { useContextSelector } from 'use-context-selector';
+import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/Select";
+import { Separator } from "@/shared/ui/Separator";
+import { Slider } from "@/shared/ui/Slider";
+import { useEffect, useState } from "react";
+import { useContextSelector } from "use-context-selector";
 
 interface InputOutputDevice {
   id: string;
@@ -14,43 +14,39 @@ function VoiceSettings() {
   const [inputDevices, setInputDevices] = useState<InputOutputDevice[]>([]);
   const [outputDevices, setOutputDevices] = useState<InputOutputDevice[]>([]);
 
-  const {
-    voiceInputDevice,
-    setVoiceInputDevice,
-    voiceInputVolume,
-    setVoiceInputVolume,
-    voiceOutputDevice,
-    setVoiceOutputDevice,
-    voiceOutputVolume,
-    setVoiceOutputVolume
-  } = useContextSelector(VoiceSettingsContext, c => c);
+  const { voiceInputDevice, setVoiceInputDevice, voiceInputVolume, setVoiceInputVolume, voiceOutputDevice, setVoiceOutputDevice, voiceOutputVolume, setVoiceOutputVolume } = useContextSelector(
+    VoiceSettingsContext,
+    (c) => c
+  );
 
   async function getDevices() {
     try {
       // First get permission to access media devices
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
+
       // Enumerate devices
       const devices = await navigator.mediaDevices.enumerateDevices();
-      
+
       // Set input and output devices
-      setInputDevices(devices
-        .filter(device => device.kind === 'audioinput')
-        .map(device => {
-          return { id: device.deviceId, label: device.label }
-        })
+      setInputDevices(
+        devices
+          .filter((device) => device.kind === "audioinput")
+          .map((device) => {
+            return { id: device.deviceId, label: device.label };
+          })
       );
-      
-      setOutputDevices(devices
-        .filter(device => device.kind === 'audiooutput')
-        .map(device => {
-          return { id: device.deviceId, label: device.label }
-        })
+
+      setOutputDevices(
+        devices
+          .filter((device) => device.kind === "audiooutput")
+          .map((device) => {
+            return { id: device.deviceId, label: device.label };
+          })
       );
-      
-      stream.getTracks().forEach(track => track.stop());
+
+      stream.getTracks().forEach((track) => track.stop());
     } catch (error) {
-      console.error('Error accessing media devices:', error);
+      console.error("Error accessing media devices:", error);
     }
   }
 
@@ -62,11 +58,11 @@ function VoiceSettings() {
       getDevices();
     };
 
-    navigator.mediaDevices.addEventListener('devicechange', handleDeviceChange);
+    navigator.mediaDevices.addEventListener("devicechange", handleDeviceChange);
 
     // Cleanup function
     return () => {
-      navigator.mediaDevices.removeEventListener('devicechange', handleDeviceChange);
+      navigator.mediaDevices.removeEventListener("devicechange", handleDeviceChange);
     };
   }, []);
 
@@ -85,9 +81,13 @@ function VoiceSettings() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>The input device</SelectLabel>
-                  {inputDevices.filter(device => device.id.length > 0).map(device => (
-                    <SelectItem key={device.id} value={device.id}>{device.label}</SelectItem>
-                  ))}
+                  {inputDevices
+                    .filter((device) => device.id.length > 0)
+                    .map((device) => (
+                      <SelectItem key={device.id} value={device.id}>
+                        {device.label}
+                      </SelectItem>
+                    ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -95,7 +95,7 @@ function VoiceSettings() {
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">Input Volume</span>
-            <Slider step={0.1} className="cursor-pointer" value={[voiceInputVolume]} onValueChange={v => setVoiceInputVolume(v[0])} />
+            <Slider step={0.1} className="cursor-pointer" value={[voiceInputVolume]} onValueChange={(v) => setVoiceInputVolume(v[0])} />
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">
@@ -108,9 +108,13 @@ function VoiceSettings() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>The output device</SelectLabel>
-                  {outputDevices.filter(device => device.id.length > 0).map(device => (
-                    <SelectItem key={device.id} value={device.id}>{device.label}</SelectItem>
-                  ))}
+                  {outputDevices
+                    .filter((device) => device.id.length > 0)
+                    .map((device) => (
+                      <SelectItem key={device.id} value={device.id}>
+                        {device.label}
+                      </SelectItem>
+                    ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -118,7 +122,7 @@ function VoiceSettings() {
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">Output (headphones/speakers) volume</span>
-            <Slider step={0.1} className="cursor-pointer" value={[voiceOutputVolume]} onValueChange={v => setVoiceOutputVolume(v[0])} />
+            <Slider step={0.1} className="cursor-pointer" value={[voiceOutputVolume]} onValueChange={(v) => setVoiceOutputVolume(v[0])} />
           </div>
         </div>
       </div>

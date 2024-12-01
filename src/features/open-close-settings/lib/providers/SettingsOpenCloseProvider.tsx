@@ -6,15 +6,11 @@ export const SettingsOpenCloseContext = createContext<{
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   isOpen: false,
-  setIsOpen: () => {},
+  setIsOpen: () => {}
 });
 
 export const SettingsOpenCloseProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  return (
-    <SettingsOpenCloseContext.Provider value={{ isOpen, setIsOpen }}>
-      {children}
-    </SettingsOpenCloseContext.Provider>
-  );
+  return <SettingsOpenCloseContext.Provider value={{ isOpen, setIsOpen }}>{children}</SettingsOpenCloseContext.Provider>;
 };

@@ -1,20 +1,6 @@
-import {
-  CheckIcon,
-  CopyIcon,
-  DollarSignIcon,
-  KeyIcon,
-  LogOutIcon,
-  MailCheckIcon,
-  SettingsIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { CheckIcon, CopyIcon, DollarSignIcon, KeyIcon, LogOutIcon, MailCheckIcon, SettingsIcon, Trash2Icon } from "lucide-react";
 import { RoomModel } from "../model/RoomModel";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from "@/shared/ui/ContextMenu";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
 import { Button } from "@/shared/ui/Button";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
@@ -37,13 +23,16 @@ import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProv
 import { showInfoToast } from "@/shared/lib/showInfoToast";
 
 const formSchema = z.object({
-  roomName: z.string().min(2, {
-    message: "The name of the room must be at least 2 characters.",
-  }).max(50, {
-    message: "The name of the room can't be longer than 50 characters!"
-  }),
+  roomName: z
+    .string()
+    .min(2, {
+      message: "The name of the room must be at least 2 characters."
+    })
+    .max(50, {
+      message: "The name of the room can't be longer than 50 characters!"
+    }),
   encryptionKey: z.string().min(2, {
-    message: "The encryption key must contain at least 2 symbols.",
+    message: "The encryption key must contain at least 2 symbols."
   })
 });
 
@@ -52,7 +41,7 @@ function RoomTab({
   isSelected,
   onClick,
   onMarkAsReadClicked,
-  unreadRepliesCount,
+  unreadRepliesCount
 }: {
   room: RoomModel;
   isSelected: boolean;
@@ -60,15 +49,15 @@ function RoomTab({
   onMarkAsReadClicked: (room: RoomModel) => void;
   unreadRepliesCount: number;
 }) {
-  const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false)
+  const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false);
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
-  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
-  let setSelectedRoom = useContextSelector(SelectedRoomContext, c => c.setSelectedRoom);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, c => c.setJoinedRooms);
-  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
-  let setEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.setEncryptionKey);
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  let setEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.setEncryptionKey);
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
   let roomEncryptionKey = getEncryptionKey(room.guid);
 
   function leaveFromRoom() {
@@ -82,7 +71,7 @@ function RoomTab({
         if (selectedRoom?.guid == room.guid && newRooms.length > 0) setSelectedRoom(newRooms[0]);
         setLeaveConfirmationOpened(false);
       })
-      .catch(() => showErrorToast("Oops!", "We weren't able to make you leave from the room."))
+      .catch(() => showErrorToast("Oops!", "We weren't able to make you leave from the room."));
   }
 
   function copyGuid() {
@@ -92,18 +81,18 @@ function RoomTab({
 
   function deleteRoom() {
     RoomService.DeleteRoom({ roomGuid: room.guid })
-    .then(() => {
-      setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
-      setDeleteConfirmationOpened(false);
-    })
-    .catch(() => showErrorToast("Oops!", "We weren't able to delete the room."))
+      .then(() => {
+        setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
+        setDeleteConfirmationOpened(false);
+      })
+      .catch(() => showErrorToast("Oops!", "We weren't able to delete the room."));
   }
 
   function closeSettings(e) {
     e.preventDefault();
     setRoomSettingsOpened(false);
     // Resetting the unapplied changes
-    setTimeout(() => form.reset({ roomName: room.name, encryptionKey: roomEncryptionKey || "" }), 100)
+    setTimeout(() => form.reset({ roomName: room.name, encryptionKey: roomEncryptionKey || "" }), 100);
   }
 
   function openDeleteConfirmation(e) {
@@ -136,13 +125,12 @@ function RoomTab({
             if (target) target.name = values.roomName;
             return [...rooms];
           });
-         })
-        .catch(() => showErrorToast("An error occurred!", "We were unable to change the name of the room"))
+        })
+        .catch(() => showErrorToast("An error occurred!", "We were unable to change the name of the room"));
     }
 
     // Check if encryption key changed
-    if (values.encryptionKey != roomEncryptionKey)
-      setEncryptionKey(room.guid, values.encryptionKey);
+    if (values.encryptionKey != roomEncryptionKey) setEncryptionKey(room.guid, values.encryptionKey);
 
     setRoomSettingsOpened(false);
   }
@@ -154,16 +142,13 @@ function RoomTab({
           <button
             onClick={onClick}
             className={`flex gap-0.5 justify-between items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
-            hover:bg-accent hover:text-accent-foreground h-9 px-2 ${
-              isSelected ? "bg-accent" : null
-            }`}>
+            hover:bg-accent hover:text-accent-foreground h-9 px-2 ${isSelected ? "bg-accent" : null}`}
+          >
             <div className="flex overflow-hidden items-center whitespace-nowrap">
               <DollarSignIcon className="text-slate-400 h-4 min-w-4 max-w-4 mr-2" />
               <span className="text-popover-foreground text-ellipsis text-nowrap inline-block overflow-hidden max-w-[100%]">{room.name}</span>
             </div>
-            {unreadRepliesCount > 0 &&
-              <span className="flex text-white rounded-full bg-destructive justify-center items-center shrink-0 w-4 h-4 text-[12px]">{unreadRepliesCount}</span>
-            }
+            {unreadRepliesCount > 0 && <span className="flex text-white rounded-full bg-destructive justify-center items-center shrink-0 w-4 h-4 text-[12px]">{unreadRepliesCount}</span>}
           </button>
         </ContextMenuTrigger>
         <ContextMenuContent>
@@ -192,12 +177,14 @@ function RoomTab({
               <CardDescription>You are about to leave the room</CardDescription>
             </CardHeader>
             <CardContent>
-              <span className="text-[15px]">
-                Still, you'll be able to re-join this room (if you remember its GUID, of course).
-              </span>
+              <span className="text-[15px]">Still, you'll be able to re-join this room (if you remember its GUID, of course).</span>
               <div className="pt-2 flex flex-row gap-2">
-                <Button onClick={() => setLeaveConfirmationOpened(false)} className="w-[100%]" variant={"outline"}>Cancel</Button>
-                <Button onClick={() => leaveFromRoom()} className="w-[100%]" variant={"destructive"}>Confirm</Button>
+                <Button onClick={() => setLeaveConfirmationOpened(false)} className="w-[100%]" variant={"outline"}>
+                  Cancel
+                </Button>
+                <Button onClick={() => leaveFromRoom()} className="w-[100%]" variant={"destructive"}>
+                  Confirm
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -212,40 +199,64 @@ function RoomTab({
             <CardHeader className="pb-2">
               <CardTitle>Room Settings</CardTitle>
               <CardDescription>Here you can manage the room</CardDescription>
-              <Separator/>
+              <Separator />
             </CardHeader>
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col gap-2.5">
-                    <FormField name="roomName" control={form.control} render={({ field }) => (
+                  <FormField
+                    name="roomName"
+                    control={form.control}
+                    render={({ field }) => (
                       <FormItem className="space-y-1">
                         <FormLabel>Room name</FormLabel>
-                        <FormControl><Input disabled={room?.owner?.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} /></FormControl>
+                        <FormControl>
+                          <Input disabled={room?.owner?.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} />
+                        </FormControl>
                         <FormDescription className="text-slate-500 text-sm">Name that is displayed for members</FormDescription>
                         <FormMessage />
                       </FormItem>
-                    )}/>
+                    )}
+                  />
 
-                  <FormField name="encryptionKey" control={form.control} render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel>Encryption Key</FormLabel>
-                      <div className="relative flex items-center">
-                        <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                        <FormControl><Input type="text" id="encryptionKey" placeholder="something-secret-here" className="pl-7 password" {...field}/></FormControl>
-                      </div>
-                      <FormDescription className="text-slate-500 text-sm">
-                        Enter the key used to encrypt/decrypt messages across the
-                        selected room. <Link className="underline" to={"/"}>Why?</Link>
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}/>
+                  <FormField
+                    name="encryptionKey"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="space-y-1">
+                        <FormLabel>Encryption Key</FormLabel>
+                        <div className="relative flex items-center">
+                          <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+                          <FormControl>
+                            <Input type="text" id="encryptionKey" placeholder="something-secret-here" className="pl-7 password" {...field} />
+                          </FormControl>
+                        </div>
+                        <FormDescription className="text-slate-500 text-sm">
+                          Enter the key used to encrypt/decrypt messages across the selected room.{" "}
+                          <Link className="underline" to={"/"}>
+                            Why?
+                          </Link>
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <div className="flex flex-col gap gap-2">
-                    {room?.owner?.hexId == currentUser?.hexId && <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}><Trash2Icon className="mr-1 h-4 w-4"/>Delete room</Button>}
+                    {room?.owner?.hexId == currentUser?.hexId && (
+                      <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}>
+                        <Trash2Icon className="mr-1 h-4 w-4" />
+                        Delete room
+                      </Button>
+                    )}
                     <div className="flex flex-row gap-2">
-                      <Button type="button" onClick={closeSettings} className="w-[100%]" variant={"outline"}>Cancel</Button>
-                      <Button type="submit" className="w-[100%]"><CheckIcon className="mr-1 h-4 w-4" />Apply</Button>
+                      <Button type="button" onClick={closeSettings} className="w-[100%]" variant={"outline"}>
+                        Cancel
+                      </Button>
+                      <Button type="submit" className="w-[100%]">
+                        <CheckIcon className="mr-1 h-4 w-4" />
+                        Apply
+                      </Button>
                     </div>
                   </div>
                 </form>
@@ -266,11 +277,17 @@ function RoomTab({
             </CardHeader>
             <CardContent>
               <span className="text-[15px]">
-                This action will delete everything about this room.<br/>This action can’t be undone.
+                This action will delete everything about this room.
+                <br />
+                This action can’t be undone.
               </span>
               <div className="pt-2 flex flex-row gap-2">
-                <Button onClick={cancelDelete} className="w-[100%]" variant={"outline"}>Cancel</Button>
-                <Button onClick={deleteRoom} className="w-[100%]" variant={"destructive"}>Confirm</Button>
+                <Button onClick={cancelDelete} className="w-[100%]" variant={"outline"}>
+                  Cancel
+                </Button>
+                <Button onClick={deleteRoom} className="w-[100%]" variant={"destructive"}>
+                  Confirm
+                </Button>
               </div>
             </CardContent>
           </Card>

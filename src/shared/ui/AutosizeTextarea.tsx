@@ -1,7 +1,7 @@
-'use client';
-import * as React from 'react';
-import { useImperativeHandle } from 'react';
-import { cn } from '../lib/utils';
+"use client";
+import * as React from "react";
+import { useImperativeHandle } from "react";
+import { cn } from "../lib/utils";
 
 interface UseAutosizeTextAreaProps {
   textAreaRef: HTMLTextAreaElement | null;
@@ -10,12 +10,7 @@ interface UseAutosizeTextAreaProps {
   triggerAutoSize: string;
 }
 
-export const useAutosizeTextArea = ({
-  textAreaRef,
-  triggerAutoSize,
-  maxHeight = Number.MAX_SAFE_INTEGER,
-  minHeight = 0,
-}: UseAutosizeTextAreaProps) => {
+export const useAutosizeTextArea = ({ textAreaRef, triggerAutoSize, maxHeight = Number.MAX_SAFE_INTEGER, minHeight = 0 }: UseAutosizeTextAreaProps) => {
   const [init, setInit] = React.useState(true);
   React.useEffect(() => {
     const offsetBorder = 2;
@@ -50,20 +45,9 @@ type AutosizeTextAreaProps = {
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTextAreaProps>(
-  (
-    {
-      maxHeight = Number.MAX_SAFE_INTEGER,
-      minHeight = 40,
-      className,
-      onChange,
-      onKeyDown,
-      value,
-      ...props
-    }: AutosizeTextAreaProps,
-    ref: React.Ref<AutosizeTextAreaRef>,
-  ) => {
+  ({ maxHeight = Number.MAX_SAFE_INTEGER, minHeight = 40, className, onChange, onKeyDown, value, ...props }: AutosizeTextAreaProps, ref: React.Ref<AutosizeTextAreaRef>) => {
     const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
-    const [triggerAutoSize, setTriggerAutoSize] = React.useState('');
+    const [triggerAutoSize, setTriggerAutoSize] = React.useState("");
     const [history, setHistory] = React.useState<string[]>([]);
     const [historyIndex, setHistoryIndex] = React.useState(-1);
 
@@ -71,14 +55,14 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
       textAreaRef: textAreaRef.current,
       triggerAutoSize: triggerAutoSize,
       maxHeight,
-      minHeight,
+      minHeight
     });
 
     useImperativeHandle(ref, () => ({
       textArea: textAreaRef.current as HTMLTextAreaElement,
       focus: () => textAreaRef.current?.focus(),
       maxHeight,
-      minHeight,
+      minHeight
     }));
 
     React.useEffect(() => {
@@ -100,10 +84,7 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
       if (event.keyCode === 66 && event.ctrlKey) {
         event.preventDefault();
         if (textArea) {
-          const selection = textArea.value.substring(
-            textArea.selectionStart,
-            textArea.selectionEnd
-          );
+          const selection = textArea.value.substring(textArea.selectionStart, textArea.selectionEnd);
 
           if (selection) {
             const beforeSelection = textArea.value.slice(0, textArea.selectionStart);
@@ -182,8 +163,8 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
         draggable={false}
         data-gramm="false"
         className={cn(
-          'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-          className,
+          "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
         )}
         onKeyDown={handleKeyDown}
         onChange={(e) => {
@@ -194,7 +175,7 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
         }}
       />
     );
-  },
+  }
 );
 
-AutosizeTextarea.displayName = 'AutosizeTextarea';
+AutosizeTextarea.displayName = "AutosizeTextarea";

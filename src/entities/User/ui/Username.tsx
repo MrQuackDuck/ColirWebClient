@@ -6,13 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import UserPopup from "./UserPopup";
 
-const Username = React.memo(function Username({ 
-  user, 
-  className 
-}: { 
-  user?: UserModel, 
-  className?: string 
-}) {
+const Username = React.memo(function Username({ user, className }: { user?: UserModel; className?: string }) {
   const whiteHex = 16777215;
   const { colorString, isAdjusted } = useAdaptiveColor(user ? user.hexId : whiteHex);
 
@@ -21,9 +15,7 @@ const Username = React.memo(function Username({
       <PopoverTrigger className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1">
         <Tooltip>
           <TooltipTrigger asChild>
-            <span
-              style={{ color: colorString }}
-              className={cn("cursor-pointer text-ellipsis hover:underline text-sm", className)}>
+            <span style={{ color: colorString }} className={cn("cursor-pointer text-ellipsis hover:underline text-sm", className)}>
               {user ? user.username : "Unknown User"}
             </span>
           </TooltipTrigger>
@@ -35,10 +27,7 @@ const Username = React.memo(function Username({
         </Tooltip>
       </PopoverTrigger>
       <PopoverContent>
-        <UserPopup 
-          user={user} 
-          colorString={colorString} 
-        />
+        <UserPopup user={user} colorString={colorString} />
       </PopoverContent>
     </Popover>
   );

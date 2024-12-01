@@ -12,9 +12,5 @@ export const VoiceChatControlsProvider = ({ children }) => {
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isDeafened, setIsDeafened] = useState<boolean>(false);
 
-  return (
-    <VoiceChatControlsContext.Provider value={{ isMuted, isDeafened, setIsMuted, setIsDeafened }}>
-      {children}
-    </VoiceChatControlsContext.Provider>
-  );
+  return <VoiceChatControlsContext.Provider value={{ isMuted, isDeafened, setIsMuted, setIsDeafened }}>{children}</VoiceChatControlsContext.Provider>;
 };

@@ -1,11 +1,6 @@
 import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
 import { Button } from "@/shared/ui/Button";
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/ui/Card";
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import { Input } from "@/shared/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +20,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
     defaultValues: {
       roomGuid: "",
       encryptionKey: ""
-    },
+    }
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -37,37 +32,48 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
     <>
       <CardHeader>
         <CardTitle>Join the Room</CardTitle>
-        <CardDescription>
-          To join the room you need to know its GUID and encryption key for
-          information encoding/decoding.
-        </CardDescription>
+        <CardDescription>To join the room you need to know its GUID and encryption key for information encoding/decoding.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <FormField name="roomGuid" control={form.control} render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Room GUID</FormLabel>
-                <FormControl><Input autoComplete="off" id="roomGuid" placeholder="2b4d41b0-05b5-4c93-ad23-76cb3f46986b" {...field} /></FormControl>
-                <FormDescription className="text-slate-500 text-sm">Enter ID of room you want to enter</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}/>
+            <FormField
+              name="roomGuid"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Room GUID</FormLabel>
+                  <FormControl>
+                    <Input autoComplete="off" id="roomGuid" placeholder="2b4d41b0-05b5-4c93-ad23-76cb3f46986b" {...field} />
+                  </FormControl>
+                  <FormDescription className="text-slate-500 text-sm">Enter ID of room you want to enter</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-            <FormField name="encryptionKey" control={form.control} render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Encryption Key</FormLabel>
-                <div className="relative flex items-center">
-                  <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform"/>
-                  <FormControl><Input type="text" autoComplete="off" id="encryptionKey" placeholder="encryption-key-here" className="pl-7 password" {...field}/></FormControl>
-                </div>
-                <FormDescription className="text-slate-500 text-sm">
-                  Enter the key used to encrypt/decrypt messages across the
-                  selected room. <Link className="underline" to={"/"}>Why?</Link>
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}/>
+            <FormField
+              name="encryptionKey"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Encryption Key</FormLabel>
+                  <div className="relative flex items-center">
+                    <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+                    <FormControl>
+                      <Input type="text" autoComplete="off" id="encryptionKey" placeholder="encryption-key-here" className="pl-7 password" {...field} />
+                    </FormControl>
+                  </div>
+                  <FormDescription className="text-slate-500 text-sm">
+                    Enter the key used to encrypt/decrypt messages across the selected room.{" "}
+                    <Link className="underline" to={"/"}>
+                      Why?
+                    </Link>
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button>Join</Button>
           </form>
         </Form>

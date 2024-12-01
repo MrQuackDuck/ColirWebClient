@@ -17,7 +17,11 @@ body {
   overflow-x: hidden;
 }
 
-span, code, strong, p, a {
+span,
+code,
+strong,
+p,
+a {
   white-space: pre-line;
   line-break: anywhere;
 }

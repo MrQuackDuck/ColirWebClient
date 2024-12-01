@@ -10,9 +10,5 @@ export const UsersContext = createContext<{
 export const UsersProvider = ({ children }) => {
   const [users, setUsers] = useState<UserModel[]>([]);
 
-  return (
-    <UsersContext.Provider value={{ users, setUsers }}>
-      {children}
-    </UsersContext.Provider>
-  );
+  return <UsersContext.Provider value={{ users, setUsers }}>{children}</UsersContext.Provider>;
 };

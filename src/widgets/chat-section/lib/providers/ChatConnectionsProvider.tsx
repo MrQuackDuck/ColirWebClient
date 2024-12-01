@@ -1,6 +1,6 @@
-import { ChatConnection } from '@/widgets/chat-section/models/ChatConnection';
-import React, { useState } from 'react';
-import { createContext } from 'use-context-selector';
+import { ChatConnection } from "@/widgets/chat-section/models/ChatConnection";
+import React, { useState } from "react";
+import { createContext } from "use-context-selector";
 
 export const ChatConnectionsContext = createContext<{
   chatConnections: ChatConnection[];
@@ -10,9 +10,5 @@ export const ChatConnectionsContext = createContext<{
 export const ChatConnectionsProvider = ({ children }) => {
   const [chatConnections, setChatConnections] = useState<ChatConnection[]>([]);
 
-  return (
-    <ChatConnectionsContext.Provider value={{ chatConnections, setChatConnections }}>
-      {children}
-    </ChatConnectionsContext.Provider>
-  );
+  return <ChatConnectionsContext.Provider value={{ chatConnections, setChatConnections }}>{children}</ChatConnectionsContext.Provider>;
 };

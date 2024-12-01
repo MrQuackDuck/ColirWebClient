@@ -8,11 +8,11 @@ export const SelectedRoomContext = createContext<{
   setSelectedRoom: React.Dispatch<React.SetStateAction<RoomModel>>;
 }>({
   selectedRoom: {} as RoomModel,
-  setSelectedRoom: () => {},
+  setSelectedRoom: () => {}
 });
 
 const SelectedRoomProvider = ({ children }) => {
-  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
+  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   const [selectedRoom, setSelectedRoom] = useState<RoomModel>(joinedRooms?.[0]);
 
   useEffect(() => {
@@ -21,15 +21,11 @@ const SelectedRoomProvider = ({ children }) => {
 
   useEffect(() => {
     if (!joinedRooms) return;
-    let currentRoom = joinedRooms?.find(room => room.guid === selectedRoom?.guid);
+    let currentRoom = joinedRooms?.find((room) => room.guid === selectedRoom?.guid);
     if (currentRoom) setSelectedRoom(currentRoom);
   }, [joinedRooms]);
 
-  return (
-    <SelectedRoomContext.Provider value={{ selectedRoom, setSelectedRoom }}>
-      {children}
-    </SelectedRoomContext.Provider>
-  );
-}
+  return <SelectedRoomContext.Provider value={{ selectedRoom, setSelectedRoom }}>{children}</SelectedRoomContext.Provider>;
+};
 
 export default SelectedRoomProvider;

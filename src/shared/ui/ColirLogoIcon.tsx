@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "../lib/providers/ThemeProvider";
 import { cn } from "../lib/utils";
-import classes from './ColirLogoIcon.module.css'
+import classes from "./ColirLogoIcon.module.css";
 
 function ColirLogoIcon({ className, ...props }) {
   const { theme } = useTheme();
@@ -13,15 +13,7 @@ function ColirLogoIcon({ className, ...props }) {
   }, [theme]);
 
   return (
-    <svg
-      className={cn(classes.logo, className)}
-      width="69"
-      height="28"
-      viewBox="0 0 593 239"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg className={cn(classes.logo, className)} width="69" height="28" viewBox="0 0 593 239" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M172.396 111.691H131.489C130.742 106.399 129.216 101.698 126.913 97.5888C124.609 93.4172 121.652 89.8682 118.04 86.9418C114.429 84.0154 110.257 81.7739 105.525 80.2174C100.856 78.6608 95.7811 77.8825 90.302 77.8825C80.4021 77.8825 71.7786 80.3419 64.4316 85.2607C57.0845 90.1172 51.3874 97.2152 47.3403 106.555C43.2932 115.832 41.2696 127.102 41.2696 140.364C41.2696 153.999 43.2932 165.456 47.3403 174.733C51.4497 184.01 57.1779 191.015 64.525 195.747C71.872 200.479 80.371 202.845 90.0218 202.845C95.4387 202.845 100.451 202.129 105.058 200.697C109.728 199.265 113.869 197.179 117.48 194.439C121.091 191.637 124.08 188.244 126.446 184.259C128.874 180.274 130.555 176.729 131.489 171.624L172.396 171.81C171.338 180.59 168.691 188.057 164.458 196.214C160.286 204.308 154.651 211.562 147.553 217.975C140.517 224.326 132.112 229.369 122.336 233.105C112.623 236.778 101.634 238.615 89.368 238.615C72.3079 238.615 57.0534 234.755 43.6045 227.034C30.2179 219.313 19.6332 208.137 11.8503 193.505C4.12961 178.873 0.269287 161.16 0.269287 140.364C0.269287 119.505 4.19187 101.76 12.037 87.1286C19.8822 72.4967 30.5292 61.3516 43.9781 53.6932C57.427 45.9726 72.5569 42.1122 89.368 42.1122C100.451 42.1122 110.724 43.6688 120.188 46.782C129.715 49.8951 138.151 54.4404 145.498 60.4176C152.845 66.3326 158.823 73.5863 163.43 82.1786C168.1 90.771 171.089 100.609 172.396 111.691Z"
         fill={fillColor}
@@ -41,14 +33,7 @@ function ColirLogoIcon({ className, ...props }) {
         fill={fillColor}
       />
       <defs>
-        <linearGradient
-          id="paint0_linear_168_3740"
-          x1="224.5"
-          y1="114"
-          x2="328.5"
-          y2="218"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id="paint0_linear_168_3740" x1="224.5" y1="114" x2="328.5" y2="218" gradientUnits="userSpaceOnUse">
           <stop offset="0.18" stopColor={fillColor} />
           <stop offset="0.181" stopColor="#FF0000" />
           <stop offset="0.31" stopColor="#FF0000" />

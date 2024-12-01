@@ -9,21 +9,20 @@ import { useEffect, useState } from "react";
 import UserService from "@/entities/User/api/UserService";
 
 interface StatisticsDialogProps {
-	isStatsOpen: boolean;
-	setIsStatsOpen: (value: boolean) => void;
+  isStatsOpen: boolean;
+  setIsStatsOpen: (value: boolean) => void;
 }
 
 function StatisticsDialog({ isStatsOpen, setIsStatsOpen }: StatisticsDialogProps) {
-	let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
-	let [statistics, setStatistics] = useState<UserStatisticsModel | undefined>(currentUser?.userStatistics);
+  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  let [statistics, setStatistics] = useState<UserStatisticsModel | undefined>(currentUser?.userStatistics);
 
-	useEffect(() => {
-		if (!isStatsOpen) return;
-		UserService.GetStatistics()
-			.then(response => {
-				setStatistics(response.data);
-			});
-	}, [isStatsOpen]);
+  useEffect(() => {
+    if (!isStatsOpen) return;
+    UserService.GetStatistics().then((response) => {
+      setStatistics(response.data);
+    });
+  }, [isStatsOpen]);
 
   return (
     <Dialog data-no-focus-lock open={isStatsOpen} onOpenChange={setIsStatsOpen}>
@@ -36,19 +35,33 @@ function StatisticsDialog({ isStatsOpen, setIsStatsOpen }: StatisticsDialogProps
             <Separator orientation="horizontal" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1.5">
-						{statistics && <>
-							<span>Seconds spent speaking: <b>{statistics.secondsSpentInVoice} sec</b></span>
-							<span>Reactions set: <b>{statistics.reactionsSet}</b></span>
-							<span>Messages sent: <b>{statistics.messagesSent}</b></span>
-							<span>Rooms joined: <b>{statistics.roomsJoined}</b></span>
-							<span>Rooms created: <b>{statistics.roomsCreated}</b></span>
-						</>}
-            <Button onClick={() => setIsStatsOpen(false)} className="mt-0.5" variant={"outline"}>No way!</Button>
+            {statistics && (
+              <>
+                <span>
+                  Seconds spent speaking: <b>{statistics.secondsSpentInVoice} sec</b>
+                </span>
+                <span>
+                  Reactions set: <b>{statistics.reactionsSet}</b>
+                </span>
+                <span>
+                  Messages sent: <b>{statistics.messagesSent}</b>
+                </span>
+                <span>
+                  Rooms joined: <b>{statistics.roomsJoined}</b>
+                </span>
+                <span>
+                  Rooms created: <b>{statistics.roomsCreated}</b>
+                </span>
+              </>
+            )}
+            <Button onClick={() => setIsStatsOpen(false)} className="mt-0.5" variant={"outline"}>
+              No way!
+            </Button>
           </CardContent>
         </Card>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
-export default StatisticsDialog
+export default StatisticsDialog;

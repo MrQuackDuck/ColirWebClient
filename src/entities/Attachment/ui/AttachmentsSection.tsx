@@ -15,7 +15,7 @@ function AttachmentsSection(props: AttachmentsSectionProps) {
         <Attachment className="message-context-menu-disabled" decryptionKey={props.decryptionKey} key={index} attachment={attachment} />
       ))}
     </div>
-  )
+  );
 }
 
-export default AttachmentsSection
+export default AttachmentsSection;

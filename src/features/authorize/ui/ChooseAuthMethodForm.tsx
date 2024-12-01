@@ -10,37 +10,37 @@ import { useContextSelector } from "use-context-selector";
 import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { Button } from "@/shared/ui/Button";
 
-function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChosen : () => void}) {
-  let enableLoading = useContextSelector(LoadingContext, c => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, c => c.disableLoading);
+function ChooseAuthMethodForm({ onAnonymousMethodChosen }: { onAnonymousMethodChosen: () => void }) {
+  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
 
   const authenticateViaGitHub = () => {
     enableLoading();
     AuthService.GetGithubAuthLink()
-    .then(response => {
-      redirect(response.data);
-    })
-    .catch(() => {
-      showErrorToast();
-    })
-    .finally(() => {
-      disableLoading();
-    });
-  }
+      .then((response) => {
+        redirect(response.data);
+      })
+      .catch(() => {
+        showErrorToast();
+      })
+      .finally(() => {
+        disableLoading();
+      });
+  };
 
   const authenticateViaGoogle = () => {
     enableLoading();
     AuthService.GetGoogleAuthLink()
-    .then(response => {
-      redirect(response.data);
-    })
-    .catch(() => {
-      showErrorToast();
-    })
-    .finally(() => {
-      disableLoading();
-    });
-  }
+      .then((response) => {
+        redirect(response.data);
+      })
+      .catch(() => {
+        showErrorToast();
+      })
+      .finally(() => {
+        disableLoading();
+      });
+  };
 
   return (
     <div className="animate-appearance opacity-25">
@@ -52,13 +52,11 @@ function ChooseAuthMethodForm({onAnonymousMethodChosen}: {onAnonymousMethodChose
         <Button onClick={onAnonymousMethodChosen} variant={"outline"}>
           <UserIcon strokeWidth={2.5} className="mr-2 h-4 w-4" /> Stay anonymous
         </Button>
-        <span className="text-[12px] pb-2 leading-3">
-          * You'll get a single-session account without ability to re-login
-        </span>
+        <span className="text-[12px] pb-2 leading-3">* You'll get a single-session account without ability to re-login</span>
         <Button onClick={authenticateViaGitHub}>
           <GitHubLogoIcon className="mr-2 h-4 w-4" /> Login via GitHub
         </Button>
-        <Button  onClick={authenticateViaGoogle}>
+        <Button onClick={authenticateViaGoogle}>
           <GoogleLogoIcon className="mr-2 h-4 w-4" /> Login via Google
         </Button>
         <Button variant={"link"} className="mr-auto px-0 py-[1px] leading-0">

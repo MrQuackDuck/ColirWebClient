@@ -40,8 +40,7 @@ const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
       setVideoSrc(videoObjectUrl); // Update the state with the video URL
 
       setIsLoading(false);
-    }
-    catch {
+    } catch {
       setVideoSrc(null);
       showErrorToast("Failed to decrypt the video", "The decryption key you've provided for this room didn't work for that video.");
     }
@@ -55,35 +54,32 @@ const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
     <div>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {videoSrc &&
-        <Video autoplay controls src={videoSrc}/>}
-      
-      {!videoSrc &&
-      <div className='flex flex-row items-center min-w-64 max-w-96 bg-secondary/90 p-2 rounded-[6px] justify-between'>
-        <div className='flex flex-row items-center gap-2'>
-          <VideoIcon className="text-primary/80"/>
-          <div className='flex flex-col'>
-            <span className='text-sm text-primary/80'>{props.fileName}</span>
-            <span className='text-xs text-primary/50'>{props.sizeString}</span>
+      {videoSrc && <Video autoplay controls src={videoSrc} />}
+
+      {!videoSrc && (
+        <div className="flex flex-row items-center min-w-64 max-w-96 bg-secondary/90 p-2 rounded-[6px] justify-between">
+          <div className="flex flex-row items-center gap-2">
+            <VideoIcon className="text-primary/80" />
+            <div className="flex flex-col">
+              <span className="text-sm text-primary/80">{props.fileName}</span>
+              <span className="text-xs text-primary/50">{props.sizeString}</span>
+            </div>
+          </div>
+          <div className="flex gap-1">
+            <Button
+              onClick={handlePlayClick}
+              className={cn("w-10 h-10 ml-2 bg-primary-foreground/40 hover:bg-primary-foreground/50", isLoading && "opacity-30 pointer-events-none")}
+              variant={"secondary"}
+              size={"icon"}
+            >
+              <PlayIcon className="text-primary/80 h-4 w-4" />
+            </Button>
+            <Button onClick={props.onDownloadClick} className="w-10 h-10 ml-1 bg-primary-foreground/40 hover:bg-primary-foreground/50" variant={"secondary"} size={"icon"}>
+              <DownloadIcon className="text-primary/80 h-4 w-4" />
+            </Button>
           </div>
         </div>
-        <div className="flex gap-1">
-          <Button
-            onClick={handlePlayClick}
-            className={cn("w-10 h-10 ml-2 bg-primary-foreground/40 hover:bg-primary-foreground/50", isLoading && "opacity-30 pointer-events-none")}
-            variant={"secondary"}
-            size={"icon"}>
-            <PlayIcon className="text-primary/80 h-4 w-4" />
-          </Button>
-          <Button
-            onClick={props.onDownloadClick}
-            className="w-10 h-10 ml-1 bg-primary-foreground/40 hover:bg-primary-foreground/50"
-            variant={"secondary"}
-            size={"icon"}>
-            <DownloadIcon className="text-primary/80 h-4 w-4" />
-          </Button>
-        </div>
-      </div>}
+      )}
     </div>
   );
 };

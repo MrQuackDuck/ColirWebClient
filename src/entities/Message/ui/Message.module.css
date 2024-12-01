@@ -1,5 +1,5 @@
 .message-content a {
-  color: #1890D3;
+  color: #1890d3;
 }
 
 .hover-parent .hover-content {
@@ -19,11 +19,11 @@
     top: 0;
     display: none;
   }
-  
+
   .hover-content {
     display: none;
   }
-  
+
   .hover-parent:hover .hover-content {
     display: flex;
   }

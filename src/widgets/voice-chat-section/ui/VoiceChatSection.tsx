@@ -1,5 +1,5 @@
-import { useContextSelector } from "use-context-selector"
-import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider"
+import { useContextSelector } from "use-context-selector";
+import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import { VoiceChatConnectionsContext } from "../lib/providers/VoiceChatConnectionsProvider";
 import { VoiceChatConnection } from "../model/VoiceChatConnection";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -23,61 +23,79 @@ import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvid
 import { usePlayLeaveSound } from "@/shared/lib/hooks/usePlayLeaveSound";
 
 function VoiceChatSection() {
-  let currentUser = useContextSelector(CurrentUserContext, c => c.currentUser);
+  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let currentUserRef = useRef(currentUser);
-  useEffect(() => { currentUserRef.current = currentUser; }, [currentUser]);
+  useEffect(() => {
+    currentUserRef.current = currentUser;
+  }, [currentUser]);
 
-  let selectedRoom = useContextSelector(SelectedRoomContext, c => c.selectedRoom);
-  
-  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, c => c.voiceChatConnections);
+  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
 
-  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.joinedVoiceConnection);
+  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.voiceChatConnections);
+
+  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.joinedVoiceConnection);
   let joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
-  useEffect(() => { joinedVoiceConnectionRef.current = joinedVoiceConnection; }, [joinedVoiceConnection]);
-  
-  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, c => c.setJoinedVoiceConnection);
-  
-  let joinedRooms = useContextSelector(JoinedRoomsContext, c => c.joinedRooms);
-  
-  let selectedRoomVoiceChat = voiceChatConnections.find(c => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
-  
-  let isMuted = useContextSelector(VoiceChatControlsContext, c => c.isMuted);
+  useEffect(() => {
+    joinedVoiceConnectionRef.current = joinedVoiceConnection;
+  }, [joinedVoiceConnection]);
+
+  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.setJoinedVoiceConnection);
+
+  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+
+  let selectedRoomVoiceChat = voiceChatConnections.find((c) => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
+
+  let isMuted = useContextSelector(VoiceChatControlsContext, (c) => c.isMuted);
   let isMutedRef = useRef(isMuted);
-  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
-  
-  let setIsMuted = useContextSelector(VoiceChatControlsContext, c => c.setIsMuted);
-  
-  let isDeafened = useContextSelector(VoiceChatControlsContext, c => c.isDeafened);
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
+
+  let setIsMuted = useContextSelector(VoiceChatControlsContext, (c) => c.setIsMuted);
+
+  let isDeafened = useContextSelector(VoiceChatControlsContext, (c) => c.isDeafened);
   let isDeafenedRef = useRef(isDeafened);
-  useEffect(() => { isDeafenedRef.current = isDeafened; }, [isDeafened]);
+  useEffect(() => {
+    isDeafenedRef.current = isDeafened;
+  }, [isDeafened]);
 
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, c => c.getEncryptionKey);
+  let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
   let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
-  
-  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
+
+  const userVolumes = useContextSelector(UsersVolumeContext, (c) => c.userVolumes);
   const userVolumesRef = useRef(userVolumes);
-  useEffect(() => { userVolumesRef.current = userVolumes; }, [userVolumes]);
+  useEffect(() => {
+    userVolumesRef.current = userVolumes;
+  }, [userVolumes]);
 
-  const voiceInputDevice = useContextSelector(VoiceSettingsContext, c => c.voiceInputDevice);
+  const voiceInputDevice = useContextSelector(VoiceSettingsContext, (c) => c.voiceInputDevice);
   const voiceInputDeviceRef = useRef(voiceInputDevice);
-  useEffect(() => { voiceInputDeviceRef.current = voiceInputDevice; }, [voiceInputDevice]);
+  useEffect(() => {
+    voiceInputDeviceRef.current = voiceInputDevice;
+  }, [voiceInputDevice]);
 
-  const voiceOutputDevice = useContextSelector(VoiceSettingsContext, c => c.voiceOutputDevice);
+  const voiceOutputDevice = useContextSelector(VoiceSettingsContext, (c) => c.voiceOutputDevice);
   const voiceOutputDeviceRef = useRef(voiceOutputDevice);
-  useEffect(() => { voiceOutputDeviceRef.current = voiceOutputDevice; }, [voiceOutputDevice]);
+  useEffect(() => {
+    voiceOutputDeviceRef.current = voiceOutputDevice;
+  }, [voiceOutputDevice]);
 
-  const voiceInputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceInputVolume);
+  const voiceInputVolume = useContextSelector(VoiceSettingsContext, (c) => c.voiceInputVolume);
   const voiceInputVolumeRef = useRef(voiceInputVolume);
-  useEffect(() => { voiceInputVolumeRef.current = voiceInputVolume; }, [voiceInputVolume]);
+  useEffect(() => {
+    voiceInputVolumeRef.current = voiceInputVolume;
+  }, [voiceInputVolume]);
 
-  const voiceOutputVolume = useContextSelector(VoiceSettingsContext, c => c.voiceOutputVolume);
+  const voiceOutputVolume = useContextSelector(VoiceSettingsContext, (c) => c.voiceOutputVolume);
   const voiceOutputVolumeRef = useRef(voiceOutputVolume);
-  useEffect(() => { voiceOutputVolumeRef.current = voiceOutputVolume; }, [voiceOutputVolume]);
-  
+  useEffect(() => {
+    voiceOutputVolumeRef.current = voiceOutputVolume;
+  }, [voiceOutputVolume]);
+
   const playJoinSound = usePlayJoinSound();
   const playLeaveSound = usePlayLeaveSound();
-  
-  const keyChangeTrigger = useContextSelector(EncryptionKeysContext, c => c.changeTrigger);
+
+  const keyChangeTrigger = useContextSelector(EncryptionKeysContext, (c) => c.changeTrigger);
   const joinedVoiceKeyRef = useRef<string>(getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "");
   useEffect(() => {
     joinedVoiceKeyRef.current = getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "";
@@ -89,13 +107,13 @@ function VoiceChatSection() {
   let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
 
   useEffect(() => {
-    currentlyPlayingAudioTracks.forEach(track => {
+    currentlyPlayingAudioTracks.forEach((track) => {
       if (track.userHexId == currentUserRef.current?.hexId) {
         track.track.volume = 0;
         return;
       }
 
-      track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : 1 * voiceOutputVolume / 100;
+      track.track.volume = userVolumes[track.userHexId] != undefined ? userVolumes[track.userHexId] / 100 : (1 * voiceOutputVolume) / 100;
       track.track.setSinkId(voiceOutputDeviceRef.current);
     });
   }, [userVolumes, voiceOutputDevice, voiceOutputVolume]);
@@ -123,31 +141,28 @@ function VoiceChatSection() {
 
     mediaStreamRef.current = stream;
     const mediaRecorder = new MediaRecorder(stream, {
-      audioBitsPerSecond: 128000,
+      audioBitsPerSecond: 128000
     });
     mediaRecorderRef.current = mediaRecorder;
 
     let audioChunks: Blob[] = [];
 
-    mediaRecorder.addEventListener("dataavailable", event => {
+    mediaRecorder.addEventListener("dataavailable", (event) => {
       audioChunks.push(event.data);
     });
 
     mediaRecorder.addEventListener("stop", async () => {
       if (audioChunks.length === 0) return;
-      
+
       let audioBlob = new Blob(audioChunks);
-      
+
       if (!joinedVoiceConnectionRef.current) return;
 
       let encryptionKey = joinedVoiceKeyRef.current;
       let blobAsString = await blobToString(audioBlob);
 
-      if (!await isAudioTooQuiet(audioBlob)) {        
-        joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>(
-          "SendVoiceSignal", 
-          encryptString(blobAsString, encryptionKey)
-        );
+      if (!(await isAudioTooQuiet(audioBlob))) {
+        joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>("SendVoiceSignal", encryptString(blobAsString, encryptionKey));
       }
 
       if (isMutedRef.current || !joinedVoiceConnectionRef.current) return;
@@ -175,30 +190,30 @@ function VoiceChatSection() {
     const audioContext = new AudioContext();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     const channelData = audioBuffer.getChannelData(0);
-    
+
     // Calculate RMS (Root Mean Square) value
     let sum = 0;
     for (let i = 0; i < channelData.length; i++) {
-        sum += channelData[i] * channelData[i];
+      sum += channelData[i] * channelData[i];
     }
     const rms = Math.sqrt(sum / channelData.length);
-    
+
     // Convert to dB
     const db = 20 * Math.log10(rms);
-    
+
     // Clean up
     audioContext.close();
-    
+
     return db < threshold;
   }
 
   async function cleanupMediaStream() {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
     }
 
     if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       mediaStreamRef.current = null;
     }
 
@@ -217,16 +232,16 @@ function VoiceChatSection() {
     connection.connection.on("ReceiveVoiceSignal", async ({ issuerId, data }) => {
       if (isDeafenedRef.current) return;
       if (!joinedVoiceConnectionRef.current) return;
-      if (joinedVoiceConnectionRef.current.joinedUsers.find(u => u.hexId == issuerId)?.isMuted) return;
+      if (joinedVoiceConnectionRef.current.joinedUsers.find((u) => u.hexId == issuerId)?.isMuted) return;
       let decryptionKey = joinedVoiceKeyRef.current;
 
       let decryptedAudio = decryptString(data, decryptionKey);
-      
+
       if (decryptedAudio == undefined) {
         // Imitate a silent audio track for 300ms
-        setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: new Audio(), couldDecrypt: false }]);
+        setCurrentlyPlayingAudioTracks((prev) => [...prev, { userHexId: issuerId, track: new Audio(), couldDecrypt: false }]);
         setTimeout(() => {
-          setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.userHexId != issuerId));
+          setCurrentlyPlayingAudioTracks((prev) => prev.filter((track) => track.userHexId != issuerId));
         }, 300);
         return;
       }
@@ -234,15 +249,13 @@ function VoiceChatSection() {
       let audioBlob = await stringToBlob(decryptedAudio);
       let audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
-      
-      setCurrentlyPlayingAudioTracks(prev => [...prev, { userHexId: issuerId, track: audio, couldDecrypt: true }]);
+
+      setCurrentlyPlayingAudioTracks((prev) => [...prev, { userHexId: issuerId, track: audio, couldDecrypt: true }]);
 
       let settingsOutputCoefficient = voiceOutputVolumeRef.current / 100;
 
-      audio.volume = userVolumesRef.current[issuerId] != undefined 
-        ? (userVolumesRef.current[issuerId] / 100) * settingsOutputCoefficient
-        : settingsOutputCoefficient;
-      
+      audio.volume = userVolumesRef.current[issuerId] != undefined ? (userVolumesRef.current[issuerId] / 100) * settingsOutputCoefficient : settingsOutputCoefficient;
+
       if (voiceOutputDeviceRef.current) audio.setSinkId(voiceOutputDeviceRef.current);
 
       // If the issuer is the current user, set the volume to 0
@@ -250,11 +263,11 @@ function VoiceChatSection() {
 
       await audio.play();
       audio.onended = () => {
-        setCurrentlyPlayingAudioTracks(prev => prev.filter(track => track.track != audio));
-      }
+        setCurrentlyPlayingAudioTracks((prev) => prev.filter((track) => track.track != audio));
+      };
       URL.revokeObjectURL(audioURL); // Clean up the URL after playing
     });
-  }
+  };
 
   const joinVoiceChat = async (connection: VoiceChatConnection) => {
     if (!connection || connection.roomGuid == joinedVoiceConnection?.roomGuid) return;
@@ -268,7 +281,7 @@ function VoiceChatSection() {
       showErrorToast("An error occurred during joining!", "Connection issues with the server.");
       return;
     }
- 
+
     const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
     if (response.error) {
       showErrorToast("Join Error", "Failed to join voice chat");
@@ -285,14 +298,14 @@ function VoiceChatSection() {
   };
 
   useEffect(() => {
-    setCurrentlyTalkingUsers(currentlyPlayingAudioTracks.map(track => ({ userHexId: track.userHexId, couldDecrypt: track.couldDecrypt })));
+    setCurrentlyTalkingUsers(currentlyPlayingAudioTracks.map((track) => ({ userHexId: track.userHexId, couldDecrypt: track.couldDecrypt })));
   }, [currentlyPlayingAudioTracks]);
 
   const leaveVoiceChat = async (connection: VoiceChatConnection) => {
     if (!connection) return;
-    
+
     await cleanupMediaStream();
-    
+
     // Remove the voice signal handler
     connection.connection.off("ReceiveVoiceSignal");
 
@@ -339,27 +352,32 @@ function VoiceChatSection() {
 
   return (
     <div className="flex flex-col h-full gap-2 pt-1.5">
-      {joinedVoiceConnection &&
+      {joinedVoiceConnection && (
         <VoiceChat
           isJoined={true}
           voiceChatConnection={joinedVoiceConnection}
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
           currentlyTalkingUsers={currentlyTalkingUsers}
-          roomName={joinedRooms.find(r => r.guid == joinedVoiceConnection.roomGuid)?.name!} />}
-      
-      {selectedRoomVoiceChat && (joinedVoiceConnection ? joinedVoiceConnection.roomGuid != selectedRoomVoiceChat?.roomGuid : true) && 
+          roomName={joinedRooms.find((r) => r.guid == joinedVoiceConnection.roomGuid)?.name!}
+        />
+      )}
+
+      {selectedRoomVoiceChat && (joinedVoiceConnection ? joinedVoiceConnection.roomGuid != selectedRoomVoiceChat?.roomGuid : true) && (
         <VoiceChat
           isJoined={joinedVoiceConnection != undefined && joinedVoiceConnection.roomGuid == selectedRoomVoiceChat.roomGuid}
           voiceChatConnection={selectedRoomVoiceChat}
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
-          roomName={selectedRoom.name}/>}
+          roomName={selectedRoom.name}
+        />
+      )}
 
-      {(!joinedVoiceConnection && !selectedRoomVoiceChat) && 
+      {!joinedVoiceConnection && !selectedRoomVoiceChat && (
         <div className="flex justify-center items-center w-full h-full">
-          <Loader2 className='relative w-4 h-4 z-10 animate-spin m-auto'/>
-        </div>}
+          <Loader2 className="relative w-4 h-4 z-10 animate-spin m-auto" />
+        </div>
+      )}
     </div>
   );
 }
