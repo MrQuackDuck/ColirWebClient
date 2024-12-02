@@ -55,7 +55,7 @@ function FaqPage() {
           </>
         )}
 
-        <Markdown className="markdown">{markdownContent}</Markdown>
+        <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
       </div>
 
       {!isDesktop && (
