@@ -6,38 +6,30 @@ export default class AuthService {
     return await $api.get("/Auth/IsAuthenticated");
   }
 
-  static AnonymousLogin(
-    name: string
-  ): Promise<AxiosResponse<{ jwtToken: string, refreshToken: string }>> {
+  static AnonymousLogin(name: string): Promise<AxiosResponse<{ jwtToken: string; refreshToken: string }>> {
     return $api.post("/Auth/AnonymousLogin", null, {
       params: { name },
       paramsSerializer: {
-        indexes: false,
-      },
+        indexes: false
+      }
     });
   }
 
-  static ExchangeGitHubCode(
-    code,
-    state
-  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string, refreshToken: string }>> {
+  static ExchangeGitHubCode(code, state): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string; refreshToken: string }>> {
     return $api.get("/Auth/ExchangeGitHubCode", {
       params: { code, state },
       paramsSerializer: {
-        indexes: false,
-      },
+        indexes: false
+      }
     });
   }
 
-  static ExchangeGoogleCode(
-    code,
-    state
-  ): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string, refreshToken: string }>> {
+  static ExchangeGoogleCode(code, state): Promise<AxiosResponse<{ queueToken: string } | { jwtToken: string; refreshToken: string }>> {
     return $api.get("/Auth/ExchangeGoogleCode", {
       params: { code, state },
       paramsSerializer: {
-        indexes: false,
-      },
+        indexes: false
+      }
     });
   }
 
@@ -49,9 +41,9 @@ export default class AuthService {
     return $api.get("/Auth/GoogleLogin");
   }
 
-  static RefreshToken(accessToken, refreshToken): Promise<AxiosResponse<{ queueToken: string } | { newJwtToken: string, refreshToken: string }>> {
+  static RefreshToken(accessToken, refreshToken): Promise<AxiosResponse<{ queueToken: string } | { newJwtToken: string; refreshToken: string }>> {
     return $api.post("/Auth/RefreshToken", { accessToken, refreshToken });
-  } 
+  }
 
   static LogOut(): Promise<AxiosResponse> {
     return $api.post("/Auth/Logout");

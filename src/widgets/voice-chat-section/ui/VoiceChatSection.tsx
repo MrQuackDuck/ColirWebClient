@@ -7,7 +7,6 @@ import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
 import { VoiceChatControlsContext } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
 import VoiceChat from "./VoiceChat";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
@@ -21,8 +20,12 @@ import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserPro
 import { usePlayJoinSound } from "@/shared/lib/hooks/usePlayJoinSound";
 import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
 import { usePlayLeaveSound } from "@/shared/lib/hooks/usePlayLeaveSound";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function VoiceChatSection() {
+  const t = useTranslation();
+  const showErrorToast = useErrorToast();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let currentUserRef = useRef(currentUser);
   useEffect(() => {
@@ -133,7 +136,7 @@ function VoiceChatSection() {
         }
       });
     } catch (error) {
-      showErrorToast("An error occurred!", "Failed to get the permission to record audio.");
+      showErrorToast(t("AN_ERROR_OCCURRED"), t("FAILED_TO_GET_RECORD_PERMISSION"));
       setIsMuted(true);
       console.error("Error getting user media:", error);
       return;
@@ -278,13 +281,13 @@ function VoiceChatSection() {
     }
 
     if (connection.connection.state != HubConnectionState.Connected) {
-      showErrorToast("An error occurred during joining!", "Connection issues with the server.");
+      showErrorToast(t("AN_ERROR_OCCURRED_DURING_JOINING"), t("CONNECTION_ISSUES_WITH_SERVER"));
       return;
     }
 
     const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
     if (response.error) {
-      showErrorToast("Join Error", "Failed to join voice chat");
+      showErrorToast(t("AN_ERROR_OCCURRED_DURING_JOINING"), t("FAILED_TO_JOIN_VOICE_CHAT"));
       console.error("Error joining voice chat:", response.error.errorCodeAsString);
       return;
     }
@@ -310,7 +313,7 @@ function VoiceChatSection() {
     connection.connection.off("ReceiveVoiceSignal");
 
     if (connection.connection.state != HubConnectionState.Connected) {
-      showErrorToast("An error occurred during leaving!", "Connection issues with the server.");
+      showErrorToast(t("AN_ERROR_OCCURRED_DURING_LEAVING"), t("CONNECTION_ISSUES_WITH_SERVER"));
       playLeaveSound();
       setJoinedVoiceConnection(undefined);
       return;
@@ -321,7 +324,7 @@ function VoiceChatSection() {
       if (response.error) throw new Error(response.error.errorCodeAsString);
     } catch (error) {
       console.error("Error leaving voice chat:", error);
-      showErrorToast("Leave Error", "Failed to leave voice chat");
+      showErrorToast(t("AN_ERROR_OCCURRED_DURING_LEAVING"), t("FAILED_TO_LEAVE_VOICE_CHAT"));
     } finally {
       playLeaveSound();
       setJoinedVoiceConnection(undefined);

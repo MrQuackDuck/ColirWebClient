@@ -3,7 +3,8 @@ import { Button } from "./Button";
 import { DownloadIcon, PlayIcon, VideoIcon } from "lucide-react";
 import { cn, decryptFile } from "../lib/utils";
 import Video from "./Video";
-import { showErrorToast } from "../lib/showErrorToast";
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { useErrorToast } from "../lib/hooks/useErrorToast";
 
 interface EncryptedVideoPlayerProps {
   fileName: string;
@@ -14,6 +15,9 @@ interface EncryptedVideoPlayerProps {
 }
 
 const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
+  const t = useTranslation();
+  const showErrorToast = useErrorToast();
+
   // Allow videoSrc to be either a string (video URL) or null initially
   const [videoSrc, setVideoSrc] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +46,7 @@ const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
       setIsLoading(false);
     } catch {
       setVideoSrc(null);
-      showErrorToast("Failed to decrypt the video", "The decryption key you've provided for this room didn't work for that video.");
+      showErrorToast(t("FAILED_TO_DECRYPT_VIDEO"), t("FAILED_TO_DECRYPT_VIDEO_DESCRIPTION"));
     }
   };
 

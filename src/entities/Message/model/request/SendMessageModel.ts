@@ -1,5 +1,5 @@
 export interface SendMessageModel {
-    content: string;
-    attachmentsIds: number[];
-    replyMessageId: number | undefined;
+  content: string;
+  attachmentsIds: number[];
+  replyMessageId: number | undefined;
 }

@@ -2,8 +2,9 @@ import { useState } from "react";
 import { DetailedUserModel } from "../../model/DetailedUserModel";
 import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import UserService from "../../api/UserService";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { createContext } from "use-context-selector";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 export const CurrentUserContext = createContext<{
   currentUser: DetailedUserModel | null;
@@ -13,6 +14,8 @@ export const CurrentUserContext = createContext<{
 }>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser: () => Promise.resolve(undefined) });
 
 const CurrentUserProvider = ({ children }) => {
+  const t = useTranslation();
+  const showErrorToast = useErrorToast();
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const setUser = (user: DetailedUserModel) => {
     setCurrentUser(user);
@@ -44,9 +47,9 @@ const CurrentUserProvider = ({ children }) => {
         })
         .catch((e) => {
           if (e.code === "ERR_NETWORK") {
-            showErrorToast("Couldn't update the user info", "The server is not available. Please try again later.");
+            showErrorToast(t("COULD_NOT_UPDATE_USER_INFO"), t("SERVER_NOT_AVAILABLE"));
           } else {
-            showErrorToast("Couldn't update the user info", e.message);
+            showErrorToast(t("COULD_NOT_UPDATE_USER_INFO"), e.message);
           }
           reject(e);
         });

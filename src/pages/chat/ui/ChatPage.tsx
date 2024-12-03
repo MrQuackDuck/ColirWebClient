@@ -21,8 +21,10 @@ import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
 import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
 import FocusLock from "react-focus-lock";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 function ChatPage() {
+  const t = useTranslation();
   let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
@@ -73,8 +75,8 @@ function ChatPage() {
         <Sheet open={asideOpen} onOpenChange={setAsideOpen}>
           <SheetContent side={"left"}>
             <SheetHeader>
-              <SheetTitle>Manage rooms</SheetTitle>
-              <SheetDescription className="text-left px-2.5">Tip: Hold the room to open the context menu.</SheetDescription>
+              <SheetTitle>{t("MANAGE_ROOMS")}</SheetTitle>
+              <SheetDescription className="text-left px-2.5">{t("HOLD_ROOM_TO_OPEN_CONTEXT_MENU")}</SheetDescription>
             </SheetHeader>
             <Aside />
           </SheetContent>

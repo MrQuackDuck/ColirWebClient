@@ -10,7 +10,8 @@ import { cn, decryptFile, decryptString } from "@/shared/lib/utils";
 import EncryptedVideoPlayer from "@/shared/ui/EncryptedVideoPlayer";
 import EncryptedImageViewer from "@/shared/ui/EncryptedImageViewer";
 import EncryptedAudioPlayer from "@/shared/ui/EncryptedAudioPlayer";
-import { showInfoToast } from "@/shared/lib/showInfoToast";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 
 interface AttachmentProps {
   attachment: AttachmentModel;
@@ -39,6 +40,8 @@ const extensionToAttachmentTypeMap = {
 };
 
 function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
+  const t = useTranslation();
+  const showInfoToast = useInfoToast();
   let [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
   let [isDownloading, setIsDownloading] = useState(false);
   let imgRef = useRef<HTMLImageElement>(null); // Needed for implementing copy to clipboard
@@ -110,7 +113,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
       });
 
       await navigator.clipboard.write([item]).then(() => {
-        showInfoToast("Copied!", "Image copied to clipboard.");
+        showInfoToast(t("COPIED"), t("IMAGE_COPIED_TO_CLIPBOARD"));
       });
     }, "image/png");
   }
@@ -152,7 +155,7 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
               <div className="flex flex-row items-center gap-2">
                 <FileIcon className="text-primary/80" />
                 <div className="flex flex-col">
-                  <span className="text-sm text-primary/80">{decryptedFilename ? decryptedFilename : <span className="text-destructive">Couldn't decrypt...</span>}</span>
+                  <span className="text-sm text-primary/80">{decryptedFilename ? decryptedFilename : <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}</span>
                   <span className="text-xs text-primary/50">{getSizeNormalized(attachment.sizeInBytes)}</span>
                 </div>
               </div>
@@ -170,11 +173,11 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
         <ContextMenuContent>
           {attachmentType == AttachmentType.IMAGE && isFirefox && (
             <ContextMenuItem onClick={() => copyToClipboard()}>
-              <CopyIcon className="mr-2 h-4 w-4" /> Copy
+              <CopyIcon className="mr-2 h-4 w-4" /> {t("COPY")}
             </ContextMenuItem>
           )}
           <ContextMenuItem onClick={() => downloadAttachment()}>
-            <DownloadIcon className="mr-2 h-4 w-4" /> Download ({getSizeNormalized(attachment.sizeInBytes)})
+            <DownloadIcon className="mr-2 h-4 w-4" /> {t("DOWNLOAD")} ({getSizeNormalized(attachment.sizeInBytes)})
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>

@@ -4,11 +4,11 @@ import { UserSettingsModel } from "./UserSettingsModel";
 import { UserStatisticsModel } from "./UserStatisticsModel";
 
 export interface DetailedUserModel {
-    id: number;
-    hexId: number;
-    username: string;
-    authType: UserAuthType;
-    userStatistics: UserStatisticsModel;
-    userSettings: UserSettingsModel;
-    joinedRooms: RoomModel[];
+  id: number;
+  hexId: number;
+  username: string;
+  authType: UserAuthType;
+  userStatistics: UserStatisticsModel;
+  userSettings: UserSettingsModel;
+  joinedRooms: RoomModel[];
 }

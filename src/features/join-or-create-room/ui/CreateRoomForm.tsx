@@ -1,4 +1,5 @@
 import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { Button } from "@/shared/ui/Button";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
@@ -18,6 +19,7 @@ const formSchema = z.object({
 });
 
 function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any }) {
+  const t = useTranslation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,8 +54,8 @@ function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any })
   return (
     <>
       <CardHeader>
-        <CardTitle>Create a Room</CardTitle>
-        <CardDescription>You can create your own room and share its GUID with someone else to join there. You'll get the GUID once the room is created.</CardDescription>
+        <CardTitle>{t("CREATE_ROOM")}</CardTitle>
+        <CardDescription>{t("YOU_CAN_CREATE_OWN_ROOM_AND_SHARE_GUID")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -63,11 +65,11 @@ function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any })
               control={form.control}
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Name for a room</FormLabel>
+                  <FormLabel>{t("NAME_FOR_ROOM")}</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} />
+                    <Input autoComplete="off" id="roomName" placeholder={t("ROOM_NAME_PLACEHOLDER")} {...field} />
                   </FormControl>
-                  <FormDescription className="text-slate-500 text-sm">Name that will be displayed for joined users</FormDescription>
+                  <FormDescription className="text-slate-500 text-sm">{t("NAME_WILL_BE_DISPLAYED_FOR_JOINED_USERS")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -78,17 +80,17 @@ function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any })
               control={form.control}
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Encryption Key</FormLabel>
+                  <FormLabel>{t("ENCRYPTION_KEY")}</FormLabel>
                   <div className="relative flex items-center">
                     <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
                     <FormControl>
-                      <Input type="text" autoComplete="off" id="encryptionKey" placeholder="something-secret-here" className="pl-7 password" {...field} />
+                      <Input type="text" autoComplete="off" id="encryptionKey" placeholder={t("SOMETHING_SECRET_HERE")} className="pl-7 password" {...field} />
                     </FormControl>
                   </div>
                   <FormDescription className="text-slate-500 text-sm">
-                    Enter the key used to encrypt/decrypt messages across the selected room.{" "}
+                    {t("ENTER_KEY_FOR_ENCRYPTION_DECRYPTION")}{" "}
                     <Link className="underline" to={"/"}>
-                      Why?
+                      {t("WHY")}
                     </Link>
                   </FormDescription>
                   <FormMessage />
@@ -101,28 +103,28 @@ function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any })
               control={form.control}
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <Label>Expire in...</Label>
+                  <Label>{t("EXPIRE_IN")}</Label>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Expiry date" />
+                      <SelectValue placeholder={t("EXPIRY_DATE")} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Room expiry date</SelectLabel>
-                        <SelectItem value="12-hours">12 hours</SelectItem>
-                        <SelectItem value="24-hours">24 hours</SelectItem>
-                        <SelectItem value="7-days">7 days</SelectItem>
-                        <SelectItem value="1-month">1 month</SelectItem>
-                        <SelectItem value="1-year">1 year</SelectItem>
-                        <SelectItem value="never">Never</SelectItem>
+                        <SelectLabel>{t("ROOM_EXPIRY_DATE")}</SelectLabel>
+                        <SelectItem value="12-hours">12 {t("HOURS")}</SelectItem>
+                        <SelectItem value="24-hours">24 {t("HOURS")}</SelectItem>
+                        <SelectItem value="7-days">7 {t("DAYS")}</SelectItem>
+                        <SelectItem value="1-month">1 {t("MONTH")}</SelectItem>
+                        <SelectItem value="1-year">1 {t("YEAR")}</SelectItem>
+                        <SelectItem value="never">{t("NEVER")}</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <span className="text-slate-500 text-sm">Select how much time is left once a room is created</span>
+                  <span className="text-slate-500 text-sm">{t("SELECT_TIME_LEFT_UNTIL_ROOM_EXPIRES")}</span>
                 </FormItem>
               )}
             />
-            <Button>Create</Button>
+            <Button>{t("CREATE")}</Button>
           </form>
         </Form>
       </CardContent>

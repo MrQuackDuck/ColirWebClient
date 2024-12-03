@@ -1,6 +1,7 @@
 import { UserAuthType } from "@/entities/User/model/UserAuthType";
 import { Badge } from "./Badge";
 import { cn } from "../lib/utils";
+import { useTranslation } from "../lib/hooks/useTranslation";
 
 interface AuthTypeBadgeProps {
   authType: UserAuthType | undefined;
@@ -8,6 +9,8 @@ interface AuthTypeBadgeProps {
 }
 
 function AuthTypeBadge(props: AuthTypeBadgeProps) {
+  const t = useTranslation();
+
   return (
     <Badge
       className={cn(
@@ -17,7 +20,7 @@ function AuthTypeBadge(props: AuthTypeBadgeProps) {
         props.className
       )}
     >
-      {props.authType === UserAuthType.Anonymous ? "Anonymous" : props.authType === UserAuthType.Google ? "Google" : props.authType === UserAuthType.Github ? "GitHub" : "Unknown"}
+      {props.authType === UserAuthType.Anonymous ? t("ANONYMOUS_BADGE") : props.authType === UserAuthType.Google ? "Google" : props.authType === UserAuthType.Github ? "GitHub" : t("UNKNOWN_BADGE")}
     </Badge>
   );
 }

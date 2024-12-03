@@ -5,7 +5,6 @@ import CreateRoomForm from "./CreateRoomForm";
 import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
 import RoomService from "@/entities/Room/api/RoomService";
 import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { ErrorCode } from "@/shared/model/ErrorCode";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
 import { cn } from "@/shared/lib/utils";
@@ -14,8 +13,12 @@ import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 import { useContextSelector } from "use-context-selector";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any; onRoomCreated: (model: RoomModel) => any; className?: string }) {
+  const t = useTranslation();
+  let showErrorToast = useErrorToast();
   let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
   let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
   let setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
@@ -30,8 +33,8 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
         setUsers((prevUsers) => distinctUsers([...prevUsers, ...response.data.joinedUsers]));
       })
       .catch((error) => {
-        if (error.response.data.errorCode === ErrorCode.RoomNotFound) showErrorToast("Room not found!", "The room you've tried to join not exists.");
-        else if (error.response.data.errorCode === ErrorCode.UserAlreadyInRoom) showErrorToast("Can't join the room twice!", "You've already joined the room");
+        if (error.response.data.errorCode === ErrorCode.RoomNotFound) showErrorToast(t("ROOM_NOT_FOUND"), t("ROOM_NOT_EXISTS"));
+        else if (error.response.data.errorCode === ErrorCode.UserAlreadyInRoom) showErrorToast(t("CANT_JOIN_TWICE"), t("ALREADY_JOINED_ROOM"));
       })
       .finally(() => disableLoading());
   };
@@ -51,8 +54,8 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
   return (
     <Tabs defaultValue="joinRoom" className={cn("w-[100%] max-w-[480px]", className)}>
       <TabsList className="grid w-full grid-cols-2 mb-2">
-        <TabsTrigger value="joinRoom">Join the Room</TabsTrigger>
-        <TabsTrigger value="createRoom">Create a Room</TabsTrigger>
+        <TabsTrigger value="joinRoom">{t("JOIN_ROOM")}</TabsTrigger>
+        <TabsTrigger value="createRoom">{t("CREATE_ROOM")}</TabsTrigger>
       </TabsList>
       <Card>
         <TabsContent value="joinRoom">

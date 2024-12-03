@@ -3,13 +3,13 @@ import { UploadAttachmentsModel } from "../model/request/UploadAttachmentModel";
 import { AxiosResponse } from "axios";
 
 export default class UploadService {
-	static async UploadAttachments(model: UploadAttachmentsModel): Promise<AxiosResponse<number[]>> {
+  static async UploadAttachments(model: UploadAttachmentsModel): Promise<AxiosResponse<number[]>> {
     const formData: FormData = new FormData();
     formData.append("roomGuid", model.roomGuid);
-    model.files.forEach(file => {
+    model.files.forEach((file) => {
       formData.append("files", file);
     });
 
-		return await $api.post<number[]>(`${API_URL}/Upload/UploadAttachments`, formData);
-	}
+    return await $api.post<number[]>(`${API_URL}/Upload/UploadAttachments`, formData);
+  }
 }

@@ -13,9 +13,11 @@ import $api from "@/shared/api";
 
 export default class RoomService {
   static async GetRoomInfo(model: GetRoomInfoModel): Promise<AxiosResponse<RoomModel>> {
-    return await $api.get("/Room/GetRoomInfo", {params: {
-      roomGuid: model.roomGuid
-    }});
+    return await $api.get("/Room/GetRoomInfo", {
+      params: {
+        roomGuid: model.roomGuid
+      }
+    });
   }
 
   static async CreateRoom(model: CreateRoomModel): Promise<AxiosResponse<RoomModel>> {
@@ -31,9 +33,11 @@ export default class RoomService {
   }
 
   static async GetLastTimeReadChat(model: GetLastTimeReadChatModel): Promise<AxiosResponse<Date>> {
-    return await $api.get("/Room/GetLastTimeReadChat", {params: {
-      roomGuid: model.roomGuid
-    }});
+    return await $api.get("/Room/GetLastTimeReadChat", {
+      params: {
+        roomGuid: model.roomGuid
+      }
+    });
   }
 
   static async UpdateLastReadMessage(model: UpdateLastReadMessageModel): Promise<AxiosResponse<void>> {
@@ -41,7 +45,7 @@ export default class RoomService {
   }
 
   static async KickMember(model: KickMemberModel): Promise<AxiosResponse<void>> {
-    return await $api.delete("/Room/KickMember", {data: { targetHexId: model.targetHexId, roomGuid: model.roomGuid }});
+    return await $api.delete("/Room/KickMember", { data: { targetHexId: model.targetHexId, roomGuid: model.roomGuid } });
   }
 
   static async RenameRoom(model: RenameRoomModel): Promise<AxiosResponse<void>> {
@@ -49,6 +53,6 @@ export default class RoomService {
   }
 
   static async DeleteRoom(model: DeleteRoomModel): Promise<AxiosResponse<void>> {
-    return await $api.delete("/Room/DeleteRoom", {data: { roomGuid: model.roomGuid }});
+    return await $api.delete("/Room/DeleteRoom", { data: { roomGuid: model.roomGuid } });
   }
 }

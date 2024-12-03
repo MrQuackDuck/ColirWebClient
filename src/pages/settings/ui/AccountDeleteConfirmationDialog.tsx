@@ -6,6 +6,7 @@ import { Input } from "@/shared/ui/Input";
 import { useEffect, useState } from "react";
 import { BrushIcon } from "lucide-react";
 import { decimalToHexString } from "@/shared/lib/utils";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface AccountDeleteConfirmationDialogProps {
   hexId: number;
@@ -15,6 +16,7 @@ interface AccountDeleteConfirmationDialogProps {
 }
 
 function AccountDeleteConfirmationDialog(props: AccountDeleteConfirmationDialogProps) {
+  const t = useTranslation();
   let [enteredHexId, setEnteredHexId] = useState("");
   let [deleteButtonEnabled, setDeleteButtonEnabled] = useState(false);
 
@@ -36,12 +38,12 @@ function AccountDeleteConfirmationDialog(props: AccountDeleteConfirmationDialogP
         <DialogDescription className="hidden" />
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Are you sure?</CardTitle>
-            <CardDescription>You are about to delete your account</CardDescription>
+            <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
+            <CardDescription>{t("YOU_ARE_ABOUT_TO_DELETE_YOUR_ACCOUNT")}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             <div className="flex flex-col gap-1.5">
-              <span className="text-sm font-medium">Enter your Colir ID to confirm account deletion</span>
+              <span className="text-sm font-medium">{t("ENTER_COLIR_ID_TO_CONFIRM")}</span>
               <div className="relative flex items-center">
                 <BrushIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
                 <Input value={enteredHexId} onChange={(e) => setEnteredHexId(e.target.value)} type="text" autoComplete="off" placeholder="#FF0000" className="pl-7" />
@@ -49,10 +51,10 @@ function AccountDeleteConfirmationDialog(props: AccountDeleteConfirmationDialogP
             </div>
             <div className="pt-2 flex flex-row gap-2">
               <Button onClick={() => props.onCancel()} className="w-[100%]" variant={"outline"}>
-                Cancel
+                {t("CANCEL")}
               </Button>
               <Button disabled={!deleteButtonEnabled} onClick={() => props.onConfirm()} className="w-[100%]" variant={"destructive"}>
-                Confirm
+                {t("CONFIRM")}
               </Button>
             </div>
           </CardContent>

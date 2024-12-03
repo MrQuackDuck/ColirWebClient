@@ -1,3 +1,4 @@
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
 import { Button } from "@/shared/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
@@ -6,6 +7,7 @@ import { MoonIcon, SunIcon } from "lucide-react";
 type Props = {};
 
 function ThemeButton({}: Props) {
+  const t = useTranslation();
   const { theme, setTheme } = useTheme();
 
   function getIcon() {
@@ -21,14 +23,14 @@ function ThemeButton({}: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent onCloseAutoFocus={(e) => e.preventDefault()}>
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("THEME")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem data-no-focus-lock onClick={() => setTheme("light")}>
-            <SunIcon className="mr-2 h-4 w-4" /> Light
+            <SunIcon className="mr-2 h-4 w-4" /> {t("LIGHT")}
           </DropdownMenuItem>
           <DropdownMenuItem data-no-focus-lock onClick={() => setTheme("dark")}>
-            <MoonIcon className="mr-2 h-4 w-4" /> Dark
+            <MoonIcon className="mr-2 h-4 w-4" /> {t("DARK")}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

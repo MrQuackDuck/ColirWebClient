@@ -29,7 +29,7 @@ function ReplySection({
         <span className="max-w-screen-sm overflow-hidden text-ellipsis whitespace-nowrap">
           <span className="flex flex-row overflow-hidden text-ellipsis mr-1">
             {decryptedMessage}
-            {decryptedMessage === undefined && <span className="text-destructive">Couldn't decrypt...</span>}
+            {decryptedMessage === undefined && <span className="text-destructive">{<>t("COULD_NOT_DECRYPT")</>}</span>}
           </span>
           <div className="flex flex-row gap-1">
             {message?.attachments.map((attachment) => (

@@ -1,4 +1,4 @@
 export interface CurrentlyTalkingUser {
-    userHexId: number;
-    couldDecrypt: boolean;
+  userHexId: number;
+  couldDecrypt: boolean;
 }

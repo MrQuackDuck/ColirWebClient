@@ -21,5 +21,5 @@ export enum ErrorCode {
   YouAreNotAuthorOfMessage,
   YouAreNotAuthorOfReaction,
   YouAreNotConnectedToVoiceChannel,
-  YouAreAlreadyConnectedToVoiceChannel,
+  YouAreAlreadyConnectedToVoiceChannel
 }

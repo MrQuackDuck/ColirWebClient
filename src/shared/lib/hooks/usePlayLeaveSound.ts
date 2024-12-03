@@ -4,9 +4,9 @@ import { NotificationsSettingsContext } from "../providers/NotificationsSettings
 import leaveAudio from "../../../assets/audio/leave.mp3";
 
 export const usePlayLeaveSound = (): (() => void) => {
-	const leaveSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.joinLeaveVolume);
-	const isJoinLeaveSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isJoinLeaveSoundDisabled);
+  const leaveSoundVolume = useContextSelector(NotificationsSettingsContext, (c) => c.joinLeaveVolume);
+  const isJoinLeaveSoundDisabled = useContextSelector(NotificationsSettingsContext, (c) => c.isJoinLeaveSoundDisabled);
 
-	const [playLeaveSound] = useSound(leaveAudio, { volume: leaveSoundVolume / 100, soundEnabled: !isJoinLeaveSoundDisabled });
-	return playLeaveSound;
-}
+  const [playLeaveSound] = useSound(leaveAudio, { volume: leaveSoundVolume / 100, soundEnabled: !isJoinLeaveSoundDisabled });
+  return playLeaveSound;
+};

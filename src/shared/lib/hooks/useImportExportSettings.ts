@@ -24,31 +24,19 @@ class Settings {
 }
 
 export const useImportExportSettings = () => {
-  const { currentLanguage, setCurrentLanguage } = useContextSelector(LanguageSettingsContext, c => c);
-  const userVolumes = useContextSelector(UsersVolumeContext, c => c.userVolumes);
-  const { getAllEncryptionKeys, setEncryptionKey } = useContextSelector(EncryptionKeysContext, c => c);
+  const { currentLanguage, setCurrentLanguage } = useContextSelector(LanguageSettingsContext, (c) => c);
+  const userVolumes = useContextSelector(UsersVolumeContext, (c) => c.userVolumes);
+  const { getAllEncryptionKeys, setEncryptionKey } = useContextSelector(EncryptionKeysContext, (c) => c);
 
-  const {
-    pingVolume,
-    isPingSoundDisabled,
-    setPingVolume,
-    setIsPingSoundDisabled,
-    joinLeaveVolume,
-    isJoinLeaveSoundDisabled,
-    setJoinLeaveVolume,
-    setIsJoinLeaveSoundDisabled
-  } = useContextSelector(NotificationsSettingsContext, c => c);
+  const { pingVolume, isPingSoundDisabled, setPingVolume, setIsPingSoundDisabled, joinLeaveVolume, isJoinLeaveSoundDisabled, setJoinLeaveVolume, setIsJoinLeaveSoundDisabled } = useContextSelector(
+    NotificationsSettingsContext,
+    (c) => c
+  );
 
-  const {
-    voiceInputDevice,
-    setVoiceInputDevice,
-    voiceInputVolume,
-    setVoiceInputVolume,
-    voiceOutputDevice,
-    setVoiceOutputDevice,
-    voiceOutputVolume,
-    setVoiceOutputVolume
-  } = useContextSelector(VoiceSettingsContext, c => c);
+  const { voiceInputDevice, setVoiceInputDevice, voiceInputVolume, setVoiceInputVolume, voiceOutputDevice, setVoiceOutputDevice, voiceOutputVolume, setVoiceOutputVolume } = useContextSelector(
+    VoiceSettingsContext,
+    (c) => c
+  );
 
   // Helper: Generate random 64-character key
   const generateKey = (): string => {
@@ -68,7 +56,7 @@ export const useImportExportSettings = () => {
       voiceInputDevice,
       voiceInputVolume,
       voiceOutputDevice,
-      voiceOutputVolume,
+      voiceOutputVolume
     };
 
     // Serialize and compute checksum

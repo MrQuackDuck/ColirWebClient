@@ -4,8 +4,10 @@ import { ArrowLeftIcon, RepeatIcon } from "lucide-react";
 import { Separator } from "@/shared/ui/Separator";
 import ListHexSelector from "@/shared/ui/ListHexSelector";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 function ChooseColirIdForm({ colors, onProceed, onRegenerate, onBack }: { colors: number[]; onProceed: (color) => void; onRegenerate: () => void; onBack: () => void }) {
+  const t = useTranslation();
   const [selectedHexId, setSelectedColor] = useState(colors[0]);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ function ChooseColirIdForm({ colors, onProceed, onRegenerate, onBack }: { colors
           <Button onClick={back} variant={"outline"} className="w-9 h-9" size={"icon"}>
             <ArrowLeftIcon strokeWidth={2.5} className="h-4 w-4" />
           </Button>
-          <CardTitle className="text-[20px]">Choose Colir ID</CardTitle>
+          <CardTitle className="text-[20px]">{t("CHOOSE_COLIR_ID")}</CardTitle>
           <Button variant={"outline"} className="invisible" size={"icon"}>
             Boilerplate
           </Button>
@@ -38,9 +40,9 @@ function ChooseColirIdForm({ colors, onProceed, onRegenerate, onBack }: { colors
       <CardContent className="flex flex-col gap-2.5">
         <ListHexSelector onSelected={(color) => setSelectedColor(color)} colors={colors} />
         <Button variant={"outline"} onClick={onRegenerate}>
-          Regenerate <RepeatIcon className="ml-1 h-4 w-4" />
+          {t("REGENERATE")} <RepeatIcon className="ml-1 h-4 w-4" />
         </Button>
-        <Button onClick={submit}>Finish</Button>
+        <Button onClick={submit}>{t("FINISH")}</Button>
       </CardContent>
     </div>
   );

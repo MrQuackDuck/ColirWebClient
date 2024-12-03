@@ -1,5 +1,5 @@
 {
-	"Smileys & Emotion": [
+	"SMILEYS_AND_EMOTICON": [
     {
       "value": "😂",
       "name": "face with tears of joy :joy:"
@@ -449,7 +449,7 @@
       "name": "red heart :red_heart:"
     }
   ],
-  "People & Body": [
+  "PEOPLE_AND_BODY": [
     {
       "value": "👌",
       "name": "OK hand :ok_hand:"
@@ -783,7 +783,7 @@
       "name": "index pointing up :index_pointing_up:"
     }
   ],
-  "Activities": [
+  "ACTIVITIES": [
     {
       "value": "✨",
       "name": "sparkles :sparkles:"
@@ -989,7 +989,7 @@
       "name": "baseball :baseball:"
     }
   ],
-  "Symbols": [
+  "SYMBOLS": [
     {
       "value": "♻",
       "name": "recycling symbol :recycle:"
@@ -1767,7 +1767,7 @@
       "name": "black small square :black_small_square:"
     }
   ],
-  "Objects": [
+  "OBJECTS": [
     {
       "value": "🎶",
       "name": "musical notes :notes:"
@@ -2529,7 +2529,7 @@
       "name": "scissors :scissors:"
     }
   ],
-  "Animals & Nature": [
+  "ANIMALS_AND_NATURE": [
     {
       "value": "🌸",
       "name": "cherry blossom :cherry_blossom:"
@@ -2883,7 +2883,7 @@
       "name": "chipmunk :chipmunk:"
     }
   ],
-  "Travel & Places": [
+  "TRAVEL_AND_PLACES": [
     {
       "value": "🔥",
       "name": "fire :fire:"
@@ -3653,7 +3653,7 @@
       "name": "snowman :snowman:"
     }
   ],
-  "Food & Drink": [
+  "FOOD_AND_DRINK": [
     {
       "value": "🍕",
       "name": "pizza :pizza:"
@@ -3911,7 +3911,7 @@
       "name": "hot pepper :hot_pepper:"
     }
   ],
-  "Flags": [
+  "FLAGS": [
     {
       "value": "🇺🇸",
       "name": "flag: United States :us:"

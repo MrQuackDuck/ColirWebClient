@@ -1,11 +1,14 @@
 export const useLocalStorage = () => {
   function setToLocalStorage(key: string, data) {
-    localStorage.setItem(key, JSON.stringify(data))
+    localStorage.setItem(key, JSON.stringify(data));
   }
-  
+
   function getFromLocalStorage<T>(key): T | null {
-    try { return JSON.parse(localStorage.getItem(key)!) as T; }
-    catch { return null; }
+    try {
+      return JSON.parse(localStorage.getItem(key)!) as T;
+    } catch {
+      return null;
+    }
   }
 
   function removeFromLocalStorage(key) {
@@ -13,4 +16,4 @@ export const useLocalStorage = () => {
   }
 
   return { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage };
-}
+};

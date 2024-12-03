@@ -1,12 +1,16 @@
 import { useImportExportSettings } from "@/shared/lib/hooks/useImportExportSettings";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
-import { showInfoToast } from "@/shared/lib/showInfoToast";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 import { Button } from "@/shared/ui/Button";
 import { Separator } from "@/shared/ui/Separator";
 import { FileCodeIcon, ImportIcon } from "lucide-react";
 import { useRef } from "react";
 
 function ImportExportSettings() {
+  const t = useTranslation();
+  const showInfoToast = useInfoToast();
+  const showErrorToast = useErrorToast();
   let fileInputRef = useRef<any>();
   let { exportSettings, importSettings } = useImportExportSettings();
 
@@ -16,28 +20,28 @@ function ImportExportSettings() {
 
     try {
       await importSettings(files[0]);
-      showInfoToast("Settings updated successfully!", "We've updated your settings including the voice settings, room keys etc.");
+      showInfoToast(t("SETTINGS_UPDATED_SUCCESSFULLY"), t("SETTINGS_UPDATED_SUCCESSFULLY_DESCRIPTION"));
     } catch {
-      showErrorToast("Failed to import settings!", "It seems like the file is corrupted...");
+      showErrorToast(t("FAILED_TO_IMPORT_SETTINGS"), t("FAILED_TO_IMPORT_SETTINGS_DESCRIPTION"));
     }
   };
 
   return (
     <div className="flex flex-col gap-3.5">
-      <span className="text-3xl font-semibold">Import/Export Settings</span>
+      <span className="text-3xl font-semibold">{t("IMPORT_EXPORT_SETTINGS")}</span>
       <Separator />
       <div className="flex flex-col gap-1.5 max-w-[28rem]">
         <div className="flex flex-row gap-1.5">
           <Button onClick={exportSettings} variant={"default"}>
-            <FileCodeIcon className="mr-2 h-4 w-4" /> Export settings
+            <FileCodeIcon className="mr-2 h-4 w-4" /> {t("EXPORT_SETTINGS")}
           </Button>
           <input onChange={handleFileSelect} ref={fileInputRef} className="hidden" id="settingsImport" name="settingsImport" type="file" />
           <Button onClick={() => fileInputRef.current.click()} variant={"outline"}>
-            <ImportIcon className="mr-2 h-4 w-4" /> Import settings
+            <ImportIcon className="mr-2 h-4 w-4" /> {t("IMPORT_SETTINGS")}
           </Button>
         </div>
         <span style={{ lineBreak: "normal" }} className="text-slate-500 text-sm">
-          Here you can import/export your client settings (i.e. the settings from your browser that aren't stored on the server)
+          {t("IMPORT_EXPORT_SETTINGS_DESCRIPTION")}
         </span>
       </div>
     </div>

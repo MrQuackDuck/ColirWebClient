@@ -13,6 +13,7 @@ import { useContextSelector } from "use-context-selector";
 import { CurrentUserContext } from "../lib/providers/CurrentUserProvider";
 import { Slider } from "@/shared/ui/Slider";
 import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface UserPopupProps {
   user?: UserModel;
@@ -20,6 +21,7 @@ interface UserPopupProps {
 }
 
 const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopupProps) {
+  const t = useTranslation();
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
   const [isKickConfirmationShown, setIsKickConfirmationShown] = useState(false);
@@ -53,25 +55,25 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
 
   return (
     <>
-      <p style={{ color: colorString }}>{user?.username ?? "Unknown User"}</p>
+      <p style={{ color: colorString }}>{user?.username ?? t("UNKNOWN_USER")}</p>
       <AuthTypeBadge authType={user?.authType} />
       <div className="text-sm text-primary/80">
         <p>
-          <span className="font-medium">Colir ID</span>: {user ? decimalToHexString(user.hexId) : "Unknown"}
+          <span className="font-medium">Colir ID</span>: {user ? decimalToHexString(user.hexId) : t("UNKNOWN_COLIR_ID")}
         </p>
         <p>
-          <span className="font-medium">Registration Date</span>: {formatDate(user?.registrationDate)}
+          <span className="font-medium">{t("REGISTRATION_DATE")}</span>: {formatDate(user?.registrationDate)}
         </p>
         {currentUser?.hexId != user?.hexId && (
           <div className="flex flex-row items-center gap-1 pt-1">
-            <p className="font-semibold flex-shrink-0">Volume:</p>
+            <p className="font-semibold flex-shrink-0">{t("VOLUME")}:</p>
             <Slider className="cursor-pointer" value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={handleSliderChange} step={0.1} />
           </div>
         )}
       </div>
       {kickButtonDisplayed && (
         <Button onClick={() => setIsKickConfirmationShown(true)} className="mt-2 w-full" variant="destructive">
-          <GavelIcon className="mr-2 h-4 w-4" /> Kick
+          <GavelIcon className="mr-2 h-4 w-4" /> {t("KICK")}
         </Button>
       )}
 
@@ -82,17 +84,17 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
             <DialogDescription className="hidden" />
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>Are you sure?</CardTitle>
+                <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
                 <CardDescription>
-                  You are about to kick <span className="font-semibold">{user?.username}</span> from the room.
+                  {t("YOU_ARE_ABOUT_TO_KICK")} <span className="font-semibold">{user?.username}</span> {t("FROM_THE_ROOM")}
                 </CardDescription>
                 <CardContent className="px-0 py-1">
                   <div className="pt-2 flex flex-row gap-2">
                     <Button onClick={() => setIsKickConfirmationShown(false)} className="w-[100%]" variant="outline">
-                      Cancel
+                      {t("CANCEL")}
                     </Button>
                     <Button onClick={kickUser} className="w-[100%]" variant="destructive">
-                      Confirm
+                      {t("CONFIRM")}
                     </Button>
                   </div>
                 </CardContent>

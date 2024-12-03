@@ -9,6 +9,7 @@ import { MessageModel } from "@/entities/Message/model/MessageModel";
 import ReplySection from "./ReplySection";
 import { UserModel } from "@/entities/User/model/UserModel";
 import FileList from "./FileList";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 export type ChatInputVariant = "default" | "connecting" | "disconnected";
 
@@ -31,6 +32,7 @@ interface ChatInputProps {
 }
 
 function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, encryptionKey, onReplyCancelled, onSizeChange, variant = "default", onReplySectionClicked }: ChatInputProps) {
+  const t = useTranslation();
   let textAreaRef = useRef<any>();
   let fileInputRef = useRef<any>();
   let topAreaRef = useRef<any>();
@@ -210,7 +212,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
             autoFocus
             ref={textAreaRef}
             onKeyDown={handleKeyDown}
-            placeholder={variant == "default" ? "Write a message..." : ""}
+            placeholder={variant == "default" ? t("WRITE_MESSAGE") : ""}
             className={cn(
               `flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 pl-8 pr-20 resize-none
                 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0`,

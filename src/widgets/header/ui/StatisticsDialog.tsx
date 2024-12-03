@@ -7,6 +7,7 @@ import { useContextSelector } from "use-context-selector";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useEffect, useState } from "react";
 import UserService from "@/entities/User/api/UserService";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface StatisticsDialogProps {
   isStatsOpen: boolean;
@@ -14,6 +15,7 @@ interface StatisticsDialogProps {
 }
 
 function StatisticsDialog({ isStatsOpen, setIsStatsOpen }: StatisticsDialogProps) {
+  const t = useTranslation();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let [statistics, setStatistics] = useState<UserStatisticsModel | undefined>(currentUser?.userStatistics);
 
@@ -31,31 +33,34 @@ function StatisticsDialog({ isStatsOpen, setIsStatsOpen }: StatisticsDialogProps
         <DialogDescription data-no-focus-lock className="hidden" />
         <Card>
           <CardHeader className="flex flex-col gap-2 pb-2">
-            <CardTitle>Your stats</CardTitle>
+            <CardTitle>{t("YOUR_STATS")}</CardTitle>
             <Separator orientation="horizontal" />
           </CardHeader>
           <CardContent className="flex flex-col gap-1.5">
             {statistics && (
               <>
                 <span>
-                  Seconds spent speaking: <b>{statistics.secondsSpentInVoice} sec</b>
+                  {t("SECONDS_SPENT_SPEAKING")}:{" "}
+                  <b>
+                    {statistics.secondsSpentInVoice} {t("SEC")}
+                  </b>
                 </span>
                 <span>
-                  Reactions set: <b>{statistics.reactionsSet}</b>
+                  {t("REACTIONS_SET")}: <b>{statistics.reactionsSet}</b>
                 </span>
                 <span>
-                  Messages sent: <b>{statistics.messagesSent}</b>
+                  {t("MESSAGES_SENT")}: <b>{statistics.messagesSent}</b>
                 </span>
                 <span>
-                  Rooms joined: <b>{statistics.roomsJoined}</b>
+                  {t("ROOMS_JOINED")}: <b>{statistics.roomsJoined}</b>
                 </span>
                 <span>
-                  Rooms created: <b>{statistics.roomsCreated}</b>
+                  {t("ROOMS_CREATED")}: <b>{statistics.roomsCreated}</b>
                 </span>
               </>
             )}
             <Button onClick={() => setIsStatsOpen(false)} className="mt-0.5" variant={"outline"}>
-              No way!
+              {t("NO_WAY")}
             </Button>
           </CardContent>
         </Card>

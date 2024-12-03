@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { DownloadIcon, PlayIcon, Music2Icon } from "lucide-react";
 import { cn, decryptFile } from "../lib/utils";
-import { showErrorToast } from "../lib/showErrorToast";
 import Audio from "./Audio";
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { useErrorToast } from "../lib/hooks/useErrorToast";
 
 interface EncryptedAudioPlayerProps {
   fileName: string;
@@ -14,6 +15,8 @@ interface EncryptedAudioPlayerProps {
 }
 
 const EncryptedAudioPlayer = (props: EncryptedAudioPlayerProps) => {
+  const t = useTranslation();
+  const showErrorToast = useErrorToast();
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +36,7 @@ const EncryptedAudioPlayer = (props: EncryptedAudioPlayerProps) => {
       setIsLoading(false);
     } catch {
       setAudioSrc(null);
-      showErrorToast("Failed to decrypt the audio", "The decryption key you've provided for this room didn't work for that audio file.");
+      showErrorToast(t("FAILED_TO_DECRYPT_AUDIO"), t("FAILED_TO_DECRYPT_AUDIO_DESCRIPTION"));
     }
   };
 

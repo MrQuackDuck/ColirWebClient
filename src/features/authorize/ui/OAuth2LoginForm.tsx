@@ -3,14 +3,15 @@ import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
 import ChooseColirIdForm from "./ChooseColirIdForm";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: () => void }) {
+  const showErrorToast = useErrorToast();
   let [step, setStep] = useState(0);
   let [username, setUsername] = useState("");
   let [authConnection, setAuthConnection] = useState<HubConnection>();

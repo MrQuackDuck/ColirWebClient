@@ -6,7 +6,6 @@ import Countdown from "react-countdown";
 import classes from "./ChatSection.module.css";
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { UserModel } from "@/entities/User/model/UserModel";
@@ -34,6 +33,8 @@ import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProv
 import { cn } from "@/shared/lib/utils";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import RoomService from "@/entities/Room/api/RoomService";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -42,6 +43,8 @@ interface ChatSectionProps {
 }
 
 function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
+  const t = useTranslation();
+  const showErrorToast = useErrorToast();
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
   let users = useContextSelector(UsersContext, (c) => c.users);
@@ -100,8 +103,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     } catch (e: any) {
       let error = e?.response.data as ErrorResponse;
 
-      if (error.errorCode == ErrorCode.NotEnoughSpace) showErrorToast("Not enough space!", "There's not enough space in the room to upload the attachment(s).");
-      else showErrorToast("Couldn't upload attachment(s).", "An unknown error occurred! Please, notify the developer.");
+      if (error.errorCode == ErrorCode.NotEnoughSpace) showErrorToast(t("NOT_ENOUGH_SPACE"), t("THERE_IS_NOT_ENOUGH_SPACE_TO_UPLOAD_ATTACHMENTS"));
+      else showErrorToast(t("COULD_NOT_UPLOAD_ATTACHMENTS"), t("UNKNOWN_ERROR_OCCURRED_NOTIFY_DEVELOPER"));
     }
 
     let model: SendMessageModel = {
@@ -111,7 +114,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     };
 
     replyCancelled();
-    selectedRoomConnection?.connection.send("SendMessage", model).catch((e) => showErrorToast("Couldn't deliver the message.", e.message));
+    selectedRoomConnection?.connection.send("SendMessage", model).catch((e) => showErrorToast(t("COULD_NOT_DELIVER_MESSAGE"), e.message));
 
     RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
   }
@@ -123,28 +126,28 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
         .then((response) => {
           if (response.resultType == SignalRResultType.Error) throw Error(`Error code: ${response.error.errorCodeAsString}`);
         })
-        .catch((e) => showErrorToast("Couldn't add the reaction", e.message));
+        .catch((e) => showErrorToast(t("COULD_NOT_ADD_REACTION"), e.message));
     },
     [selectedRoomConnection]
   );
 
   const removeReaction = useCallback(
     (reactionId: number) => {
-      selectedRoomConnection?.connection.send("RemoveReactionFromMessage", { reactionId }).catch((e) => showErrorToast("Couldn't remove the reaction", e.message));
+      selectedRoomConnection?.connection.send("RemoveReactionFromMessage", { reactionId }).catch((e) => showErrorToast(t("COULD_NOT_REVMOVE_REACTION"), e.message));
     },
     [selectedRoomConnection]
   );
 
   const deleteMessage = useCallback(
     (messageId: number) => {
-      selectedRoomConnection?.connection.send("DeleteMessage", { messageId: messageId }).catch((e) => showErrorToast("Couldn't delete the message", e.message));
+      selectedRoomConnection?.connection.send("DeleteMessage", { messageId: messageId }).catch((e) => showErrorToast(t("COULD_NOT_DELETE_MESSAGE"), e.message));
     },
     [selectedRoomConnection]
   );
 
   const editMessage = useCallback(
     (messageId: number, newContent: string) => {
-      selectedRoomConnection?.connection.send("EditMessage", { messageId, newContent }).catch((e) => showErrorToast("Couldn't edit the message", e.message));
+      selectedRoomConnection?.connection.send("EditMessage", { messageId, newContent }).catch((e) => showErrorToast(t("COULD_NOT_EDIT_MESSAGE"), e.message));
     },
     [selectedRoomConnection]
   );
@@ -389,12 +392,12 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
             <Popover>
               <PopoverTrigger asChild>
                 <Button className="px-0 h-7 focus-visible:-outline-offset-2" variant={"link"}>
-                  {selectedRoom?.joinedUsers?.length} members
+                  {selectedRoom?.joinedUsers?.length} {t("MEMBERS")}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="flex flex-col w-fit">
-                <span className="text-base">Members</span>
-                <span className="text-sm text-slate-400">Here are displayed the members of the room.</span>
+                <span className="text-base">{t("MEMBERS_TITLE")}</span>
+                <span className="text-sm text-slate-400">{t("HERE_ARE_DISPLAYED_MEMBERS_OF_ROOM")}</span>
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
                   {room.joinedUsers.map((u) => (
                     <div key={u.hexId} className="flex flex-row items-center gap-1.5">
@@ -406,8 +409,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
               </PopoverContent>
             </Popover>
             <Separator className="min-h-5" orientation="vertical" />
-            <span className={cn("text-[14px] text-ellipsis whitespace-nowrap overflow-hidden text-slate-500", isDesktop && "min-w-[155px] max-w-[155px]")}>
-              Expires in: {room.expiryDate == null ? "Never" : <Countdown className="whitespace-nowrap" date={room.expiryDate} />}
+            <span className={cn("text-[14px] text-ellipsis whitespace-nowrap overflow-hidden text-slate-500", isDesktop && "min-w-[155px]")}>
+              {t("EXPIRES_IN")}: {room.expiryDate == null ? t("NEVER") : <Countdown className="whitespace-nowrap" date={room.expiryDate} />}
             </span>
           </div>
           <div className="w-fit flex-shrink-0">{isDesktop && <StorageBar className="w-56 max-w-56" room={room} />}</div>

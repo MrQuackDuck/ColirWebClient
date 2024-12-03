@@ -15,6 +15,7 @@ import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserPro
 import { useContextSelector } from "use-context-selector";
 import { cn } from "@/shared/lib/utils";
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface StorageBarProps {
   room: RoomModel;
@@ -22,6 +23,7 @@ interface StorageBarProps {
 }
 
 function StorageBar(props: StorageBarProps) {
+  const t = useTranslation();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let getJwt = useJwt();
   let { theme } = useTheme();
@@ -78,20 +80,17 @@ function StorageBar(props: StorageBarProps) {
             <div className="h-full bg-foreground" style={{ width: `${(props.room.usedMemoryInBytes / (props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)) * 100}%` }} />
             <Trash2Icon className="absolute top-[5px] left-1.5 mix-blend-difference w-3.5 h-3.5 text-white" />
             <div className={cn("absolute inset-0 flex items-center justify-center text-white mix-blend-difference text-[12px]", theme == "dark" && "font-medium")}>
-              {bytesToMB(props.room.usedMemoryInBytes)} / {bytesToMB(props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)} MB used
+              {bytesToMB(props.room.usedMemoryInBytes)} / {bytesToMB(props.room.usedMemoryInBytes + props.room.freeMemoryInBytes)} {t("MB_USED")}
             </div>
           </div>
         </PopoverTrigger>
         <PopoverContent className="flex w-80 flex-col gap-1">
-          <span className="text-base">Room Storage</span>
-          <span className="text-sm text-slate-400">Here you can free up the space</span>
-          <span className="text-sm">
-            This limitation exists to provide stability to our servers and prevent disk overflow. You can free up the memory either by deleting sent files and images from the chat or by pressing the
-            button below (it will delete all images and files).
-          </span>
+          <span className="text-base">{t("ROOM_STORAGE")}</span>
+          <span className="text-sm text-slate-400">{t("HERE_YOU_CAN_FREE_UP_SPACE")}</span>
+          <span className="text-sm">{t("ROOM_STORAGE_DESCRIPTION")}</span>
           {bytesToMB(props.room.usedMemoryInBytes) > 0.01 && currentUser?.hexId == props?.room?.owner?.hexId && (
             <Button onClick={() => setIsConfirmationDialogOpen(true)} className="w-[100%] mt-0.5" variant={"destructive"}>
-              Clear the space ({bytesToMB(props.room.usedMemoryInBytes)} mb)
+              {t("CLEAR_THE_SPACE")} ({bytesToMB(props.room.usedMemoryInBytes)} mb)
             </Button>
           )}
         </PopoverContent>
@@ -104,21 +103,21 @@ function StorageBar(props: StorageBarProps) {
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Are you sure?</CardTitle>
-              <CardDescription>You are about to delete all sent files</CardDescription>
+              <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
+              <CardDescription>{t("YOU_ARE_ABOUT_TO_DELETE_ALL_SENT_FILES")}</CardDescription>
             </CardHeader>
             <CardContent>
               <span className="text-[15px]">
-                This action will delete all sent files, images, videos etc.
+                {t("THIS_ACTION_WILL_DELETE_ALL_FILES")}
                 <br />
-                This action can’t be undone.
+                {t("THIS_ACTION_CANT_BE_UNDONE")}
               </span>
               <div className="pt-2 flex flex-row gap-2">
                 <Button onClick={() => setIsConfirmationDialogOpen(false)} className="w-[100%]" variant={"outline"}>
-                  Cancel
+                  {t("CANCEL")}
                 </Button>
                 <Button onClick={() => startClearing()} className="w-[100%]" variant={"destructive"}>
-                  Confirm
+                  {t("CONFIRM")}
                 </Button>
               </div>
             </CardContent>
@@ -126,18 +125,19 @@ function StorageBar(props: StorageBarProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Dialog about clearing (Title: "Cleaning in progress...", Desc: "Wait until it will be finished", Done in percents, Progress bar) */}
       <Dialog open={isClearingDialogOpen} onOpenChange={setIsClearingDialogOpen}>
         <DialogContent>
           <DialogTitle className="hidden" />
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Cleaning in progress...</CardTitle>
-              <CardDescription>Wait until it will be finished</CardDescription>
+              <CardTitle>{t("CLEANING_IN_PROGRESS")}</CardTitle>
+              <CardDescription>{t("WAIT_UNTIL_FINISHED")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <span className="text-[15px]">Done: {Math.round((deletedFilesCount / totalFilesCount) * 100)}%</span>
+              <span className="text-[15px]">
+                {t("DONE")}: {Math.round((deletedFilesCount / totalFilesCount) * 100)}%
+              </span>
               <div className="pt-2">
                 <Progress value={(deletedFilesCount / totalFilesCount) * 100} />
               </div>
@@ -153,13 +153,13 @@ function StorageBar(props: StorageBarProps) {
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Cleaning is complete!</CardTitle>
-              <CardDescription>We’ve released some space for you!</CardDescription>
+              <CardTitle>{t("CLEANING_IS_COMPLETE")}</CardTitle>
+              <CardDescription>{t("WE_VE_REALESED_SPACE_FOR_YOU")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-row gap-2">
                 <Button onClick={() => setIsSuccessDialogOpen(false)} className="w-[100%]" variant={"outline"}>
-                  Okay
+                  {t("OKAY")}
                 </Button>
               </div>
             </CardContent>

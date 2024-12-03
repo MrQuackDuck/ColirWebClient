@@ -23,8 +23,8 @@ export const useVoiceChatConnection = (
   const joinedRoomsRef = useRef(joinedRooms);
   const joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   const selectedRoomRef = useRef(selectedRoom);
-  const joinSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.joinLeaveVolume);
-  const isJoinLeaveSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isJoinLeaveSoundDisabled);
+  const joinSoundVolume = useContextSelector(NotificationsSettingsContext, (c) => c.joinLeaveVolume);
+  const isJoinLeaveSoundDisabled = useContextSelector(NotificationsSettingsContext, (c) => c.isJoinLeaveSoundDisabled);
 
   const joinSoundVolumeRef = useRef(joinSoundVolume);
   const isJoinLeaveSoundDisabledRef = useRef(isJoinLeaveSoundDisabled);
@@ -45,11 +45,11 @@ export const useVoiceChatConnection = (
     let audio = new Audio(leaveAudio);
     audio.volume = 0.5;
     audio.play();
-  }
+  };
 
   useEffect(() => {
     joinedRoomsRef.current = joinedRooms;
-    joinedVoiceConnectionRef.current = joinedVoiceConnection
+    joinedVoiceConnectionRef.current = joinedVoiceConnection;
     selectedRoomRef.current = selectedRoom;
   }, [joinedRooms, joinedVoiceConnection, selectedRoom]);
 
@@ -58,93 +58,91 @@ export const useVoiceChatConnection = (
     if (joinedRoomsRef.current.find((r) => r.guid === roomGuid) === undefined) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
-    connection.start()
-      .then(() => {
-        // Getting voice chat users
-        connection.invoke<SignalRHubResponse<VoiceChatUser[]>>("GetVoiceChatUsers")
-          .then((response) => {
-            if (response.resultType == SignalRResultType.Error) throw new Error(response.error.errorCodeAsString);
-            let users = response.content;
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              connectionToUpdate.joinedUsers = users;
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserJoined", (user: VoiceChatUser) => {
-            if (user.hexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playJoinSound();
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              connectionToUpdate.joinedUsers.push(user);
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserLeft", (userHexId: number) => {
-            if (userHexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playLeaveSound();
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              connectionToUpdate.joinedUsers = connectionToUpdate.joinedUsers.filter((u) => u.hexId !== userHexId);
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserMuted", (userHexId: number) => {
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
-              if (user) user.isMuted = true;
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserUnmuted", (userHexId: number) => {
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
-              if (user) user.isMuted = false;
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserDeafened", (userHexId: number) => {
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
-              if (user) user.isDeafened = true;
-              return [...prevConnections];
-            });
-          });
-
-          connection.on("UserUndeafened", (userHexId: number) => {
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
-              if (user) user.isDeafened = false;
-              return [...prevConnections];
-            });
-          });
-
-          connection.onclose(() => {
-            if (joinedVoiceConnectionRef.current.roomGuid === roomGuid) setJoinedVoiceConnection(null);
-
-            setVoiceChatConnections((prevConnections) => {
-              let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
-              if (!connectionToUpdate) return prevConnections;
-              connectionToUpdate.joinedUsers = [];
-              return [...prevConnections];
-            });
-          });
+    connection.start().then(() => {
+      // Getting voice chat users
+      connection.invoke<SignalRHubResponse<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
+        if (response.resultType == SignalRResultType.Error) throw new Error(response.error.errorCodeAsString);
+        let users = response.content;
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          connectionToUpdate.joinedUsers = users;
+          return [...prevConnections];
+        });
       });
-  }
+
+      connection.on("UserJoined", (user: VoiceChatUser) => {
+        if (user.hexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playJoinSound();
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          connectionToUpdate.joinedUsers.push(user);
+          return [...prevConnections];
+        });
+      });
+
+      connection.on("UserLeft", (userHexId: number) => {
+        if (userHexId !== currentUser.hexId && joinedVoiceConnectionRef.current && roomGuid === joinedVoiceConnectionRef.current.roomGuid) playLeaveSound();
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          connectionToUpdate.joinedUsers = connectionToUpdate.joinedUsers.filter((u) => u.hexId !== userHexId);
+          return [...prevConnections];
+        });
+      });
+
+      connection.on("UserMuted", (userHexId: number) => {
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
+          if (user) user.isMuted = true;
+          return [...prevConnections];
+        });
+      });
+
+      connection.on("UserUnmuted", (userHexId: number) => {
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
+          if (user) user.isMuted = false;
+          return [...prevConnections];
+        });
+      });
+
+      connection.on("UserDeafened", (userHexId: number) => {
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
+          if (user) user.isDeafened = true;
+          return [...prevConnections];
+        });
+      });
+
+      connection.on("UserUndeafened", (userHexId: number) => {
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          let user = connectionToUpdate.joinedUsers.find((u) => u.hexId === userHexId);
+          if (user) user.isDeafened = false;
+          return [...prevConnections];
+        });
+      });
+
+      connection.onclose(() => {
+        if (joinedVoiceConnectionRef.current.roomGuid === roomGuid) setJoinedVoiceConnection(null);
+
+        setVoiceChatConnections((prevConnections) => {
+          let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+          if (!connectionToUpdate) return prevConnections;
+          connectionToUpdate.joinedUsers = [];
+          return [...prevConnections];
+        });
+      });
+    });
+  };
 
   // Pushes a new connection to the voice chat connections array
   useEffect(() => {
@@ -154,7 +152,7 @@ export const useVoiceChatConnection = (
       joinedRooms.forEach((room) => {
         let connection = new HubConnectionBuilder()
           .withUrl(`${API_URL}/VoiceChat?roomGuid=${room.guid}`, {
-            accessTokenFactory: () => jwt,
+            accessTokenFactory: () => jwt
           })
           .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
           .build();
@@ -168,4 +166,4 @@ export const useVoiceChatConnection = (
   }, [joinedRooms.length, currentUser]);
 
   return { startVoiceConnection };
-}
+};

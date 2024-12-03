@@ -2,6 +2,7 @@ import { Button } from "@/shared/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/shared/ui/Card";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface DeleteConfirmationDialogProps {
   isShown: boolean;
@@ -10,6 +11,8 @@ interface DeleteConfirmationDialogProps {
 }
 
 function DeleteConfirmationDialog(props: DeleteConfirmationDialogProps) {
+  const t = useTranslation();
+
   return (
     <Dialog open={props.isShown} onOpenChange={props.onCancel}>
       <DialogContent>
@@ -19,21 +22,21 @@ function DeleteConfirmationDialog(props: DeleteConfirmationDialogProps) {
             <DialogDescription className="hidden" />
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>Are you sure?</CardTitle>
-                <CardDescription>You are about to delete the message</CardDescription>
+                <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
+                <CardDescription>{t("YOU_ARE_ABOUT_TO_DELETE_MESSAGE")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <span className="text-[15px]">
-                  It will cause the message to disappear.
+                  {t("IT_WILL_CAUSE_MESSAGE_TO_DISAPPEAR")}
                   <br />
-                  This action can’t be undone.
+                  {t("THIS_ACTION_CANT_BE_UNDONE")}
                 </span>
                 <div className="pt-2 flex flex-row gap-2">
                   <Button onClick={() => props.onCancel()} className="w-[100%]" variant={"outline"}>
-                    Cancel
+                    {t("CANCEL")}
                   </Button>
                   <Button onClick={() => props.onConfirm()} className="w-[100%]" variant={"destructive"}>
-                    Confirm
+                    {t("CONFIRM")}
                   </Button>
                 </div>
               </CardContent>

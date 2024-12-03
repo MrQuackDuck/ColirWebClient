@@ -1,3 +1,4 @@
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/Select";
 import { Separator } from "@/shared/ui/Separator";
@@ -11,6 +12,7 @@ interface InputOutputDevice {
 }
 
 function VoiceSettings() {
+  const t = useTranslation();
   const [inputDevices, setInputDevices] = useState<InputOutputDevice[]>([]);
   const [outputDevices, setOutputDevices] = useState<InputOutputDevice[]>([]);
 
@@ -68,19 +70,19 @@ function VoiceSettings() {
 
   return (
     <div className="flex flex-col gap-3.5">
-      <span className="text-3xl font-semibold">Voice Settings</span>
+      <span className="text-3xl font-semibold">{t("VOICE_SETTINGS")}</span>
       <Separator />
       <div className="flex flex-row gap-4 max-w-[48rem]">
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium">Voice Input device</span>
+            <span className="text-sm font-medium">{t("VOICE_INPUT_DEVICE")}</span>
             <Select onValueChange={setVoiceInputDevice} defaultValue={voiceInputDevice} disabled={outputDevices.length === 0}>
               <SelectTrigger>
-                <SelectValue placeholder="Default" />
+                <SelectValue placeholder={t("DEFAULT")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>The input device</SelectLabel>
+                  <SelectLabel>{t("INPUT_DEVICE")}</SelectLabel>
                   {inputDevices
                     .filter((device) => device.id.length > 0)
                     .map((device) => (
@@ -91,23 +93,23 @@ function VoiceSettings() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <span className="text-slate-500 text-sm">Select the device that will serve as microphone</span>
+            <span className="text-slate-500 text-sm">{t("SELECT_MICROPHONE_DEVICE")}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium">Input Volume</span>
+            <span className="text-sm font-medium">{t("INPUT_VOLUME")}</span>
             <Slider step={0.1} className="cursor-pointer" value={[voiceInputVolume]} onValueChange={(v) => setVoiceInputVolume(v[0])} />
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <span className="text-sm font-medium">Voice Output device</span>
+            <span className="text-sm font-medium">{t("VOICE_OUTPUT_DEVICE")}</span>
             <Select onValueChange={setVoiceOutputDevice} defaultValue={voiceOutputDevice} disabled={outputDevices.length === 0}>
               <SelectTrigger>
                 <SelectValue placeholder="Default" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>The output device</SelectLabel>
+                  <SelectLabel>{t("OUTPUT_DEVICE")}</SelectLabel>
                   {outputDevices
                     .filter((device) => device.id.length > 0)
                     .map((device) => (
@@ -118,10 +120,10 @@ function VoiceSettings() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <span className="text-slate-500 text-sm">Select the device that will serve as output</span>
+            <span className="text-slate-500 text-sm">{t("SELECT_OUTPUT_DEVICE")}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium">Output (headphones/speakers) volume</span>
+            <span className="text-sm font-medium">{t("OUTPUT_VOLUME")}</span>
             <Slider step={0.1} className="cursor-pointer" value={[voiceOutputVolume]} onValueChange={(v) => setVoiceOutputVolume(v[0])} />
           </div>
         </div>

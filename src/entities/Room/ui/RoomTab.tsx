@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import RoomService from "../api/RoomService";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { Separator } from "@/shared/ui/Separator";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import { useForm } from "react-hook-form";
@@ -20,23 +19,11 @@ import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { showInfoToast } from "@/shared/lib/showInfoToast";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
-
-const formSchema = z.object({
-  roomName: z
-    .string()
-    .min(2, {
-      message: "The name of the room must be at least 2 characters."
-    })
-    .max(50, {
-      message: "The name of the room can't be longer than 50 characters!"
-    }),
-  encryptionKey: z.string().min(2, {
-    message: "The encryption key must contain at least 2 symbols."
-  })
-});
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 
 function RoomTab({
   room,
@@ -51,6 +38,9 @@ function RoomTab({
   onMarkAsReadClicked: (room: RoomModel) => void;
   unreadRepliesCount: number;
 }) {
+  const t = useTranslation();
+  const showInfoToast = useInfoToast();
+  const showErrorToast = useErrorToast();
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false);
@@ -64,6 +54,20 @@ function RoomTab({
   let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
   let roomEncryptionKey = getEncryptionKey(room.guid);
 
+  const formSchema = z.object({
+    roomName: z
+      .string()
+      .min(2, {
+        message: t("ROOM_NAME_MUST_BE_AT_LEAST_N_CHARACTERS", 2)
+      })
+      .max(50, {
+        message: t("ROOM_NAME_CANT_BE_LONGER_THAN_N_CHARACTERS", 50)
+      }),
+    encryptionKey: z.string().min(2, {
+      message: t("ENCRYPTION_KEY_MUST_BE_AT_LEAST_N_CHATACTER", 2)
+    })
+  });
+
   function leaveFromRoom() {
     RoomService.LeaveRoom({ roomGuid: room.guid })
       .then(() => {
@@ -75,12 +79,12 @@ function RoomTab({
         if (selectedRoom?.guid == room.guid && newRooms.length > 0) setSelectedRoom(newRooms[0]);
         setLeaveConfirmationOpened(false);
       })
-      .catch(() => showErrorToast("Oops!", "We weren't able to make you leave from the room."));
+      .catch(() => showErrorToast(t("OOPS"), t("UNABLE_TO_LEAVE_FROM_ROOM")));
   }
 
   function copyGuid() {
     navigator.clipboard.writeText(room.guid);
-    showInfoToast("Copied!", "Room GUID copied to clipboard successfully!");
+    showInfoToast(t("COPIED"), t("ROOM_GUID_COPIED_TO_CLIPBOARD"));
   }
 
   function deleteRoom() {
@@ -89,7 +93,7 @@ function RoomTab({
         setJoinedRooms((rooms) => rooms.filter((r) => r.guid !== room.guid));
         setDeleteConfirmationOpened(false);
       })
-      .catch(() => showErrorToast("Oops!", "We weren't able to delete the room."));
+      .catch(() => showErrorToast(t("OOPS"), t("UNABLE_TO_DELETE_ROOM")));
   }
 
   function closeSettings(e) {
@@ -130,7 +134,7 @@ function RoomTab({
             return [...rooms];
           });
         })
-        .catch(() => showErrorToast("An error occurred!", "We were unable to change the name of the room"));
+        .catch(() => showErrorToast(t("AN_ERROR_OCCURRED"), t("UNABLE_TO_CHANGE_ROOM_NAME")));
     }
 
     // Check if encryption key changed
@@ -142,8 +146,8 @@ function RoomTab({
   function handleWhyLinkClick(e) {
     setRoomSettingsOpened(false);
     e.preventDefault();
-    setIsFaqOpen(true);
     setSelectedFaqTab(FaqTabs.HowKeysWork);
+    setIsFaqOpen(true);
   }
 
   return (
@@ -164,16 +168,16 @@ function RoomTab({
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem onClick={() => setRoomSettingsOpened(true)}>
-            <SettingsIcon className="mr-2 h-4 w-4" /> Room Settings
+            <SettingsIcon className="mr-2 h-4 w-4" /> {t("ROOM_SETTINGS")}
           </ContextMenuItem>
           <ContextMenuItem onClick={() => copyGuid()}>
-            <CopyIcon className="mr-2 h-4 w-4" /> Copy GUID
+            <CopyIcon className="mr-2 h-4 w-4" /> {t("COPY_GUID")}
           </ContextMenuItem>
           <ContextMenuItem disabled={unreadRepliesCount <= 0} onClick={() => onMarkAsReadClicked(room)}>
-            <MailCheckIcon className="mr-2 h-4 w-4" /> Mark as Read
+            <MailCheckIcon className="mr-2 h-4 w-4" /> {t("MARK_AS_READ")}
           </ContextMenuItem>
           <ContextMenuItem onClick={() => setLeaveConfirmationOpened(true)}>
-            <LogOutIcon className="mr-2 h-4 w-4" /> Leave
+            <LogOutIcon className="mr-2 h-4 w-4" /> {t("LEAVE")}
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -184,17 +188,17 @@ function RoomTab({
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Are you sure?</CardTitle>
-              <CardDescription>You are about to leave the room</CardDescription>
+              <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
+              <CardDescription>{t("YOU_ARE_ABOUT_TO_LEAVE_ROOM")}</CardDescription>
             </CardHeader>
             <CardContent>
-              <span className="text-[15px]">Still, you'll be able to re-join this room (if you remember its GUID, of course).</span>
+              <span className="text-[15px]">{t("YOU_WILL_BE_ABLE_TO_REJOIN_WITH_GUID")}</span>
               <div className="pt-2 flex flex-row gap-2">
                 <Button onClick={() => setLeaveConfirmationOpened(false)} className="w-[100%]" variant={"outline"}>
-                  Cancel
+                  {t("CANCEL")}
                 </Button>
                 <Button onClick={() => leaveFromRoom()} className="w-[100%]" variant={"destructive"}>
-                  Confirm
+                  {t("CONFIRM")}
                 </Button>
               </div>
             </CardContent>
@@ -208,8 +212,8 @@ function RoomTab({
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Room Settings</CardTitle>
-              <CardDescription>Here you can manage the room</CardDescription>
+              <CardTitle>{t("ROOM_SETTINGS")}</CardTitle>
+              <CardDescription>{t("HERE_YOU_CAN_MANAGE_ROOM")}</CardDescription>
               <Separator />
             </CardHeader>
             <CardContent>
@@ -220,11 +224,11 @@ function RoomTab({
                     control={form.control}
                     render={({ field }) => (
                       <FormItem className="space-y-1">
-                        <FormLabel>Room name</FormLabel>
+                        <FormLabel>{t("ROOM_NAME")}</FormLabel>
                         <FormControl>
-                          <Input disabled={room?.owner?.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder="super cool name #1" {...field} />
+                          <Input disabled={room?.owner?.hexId != currentUser?.hexId} autoComplete="off" id="roomName" placeholder={t("ROOM_NAME_PLACEHOLDER")} {...field} />
                         </FormControl>
-                        <FormDescription className="text-slate-500 text-sm">Name that is displayed for members</FormDescription>
+                        <FormDescription className="text-slate-500 text-sm">{t("NAME_DISPLAYED_TO_MEMBERS")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -235,17 +239,17 @@ function RoomTab({
                     control={form.control}
                     render={({ field }) => (
                       <FormItem className="space-y-1">
-                        <FormLabel>Encryption Key</FormLabel>
+                        <FormLabel>{t("ENCRYPTION_KEY")}</FormLabel>
                         <div className="relative flex items-center">
                           <KeyIcon strokeWidth={2.5} className="absolute z-10 pointer-events-none stroke-slate-400 left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
                           <FormControl>
-                            <Input type="text" id="encryptionKey" placeholder="something-secret-here" className="pl-7 password" {...field} />
+                            <Input type="text" id="encryptionKey" placeholder={t("SOMETHING_SECRET_HERE")} className="pl-7 password" {...field} />
                           </FormControl>
                         </div>
                         <FormDescription className="text-slate-500 text-sm">
-                          Enter the key used to encrypt/decrypt messages across the selected room.{" "}
+                          {t("ENTER_KEY_FOR_ENCRYPTION_DECRYPTION")}{" "}
                           <Link onClick={handleWhyLinkClick} className="underline" to={"/"}>
-                            Why?
+                            {t("WHY")}
                           </Link>
                         </FormDescription>
                         <FormMessage />
@@ -257,16 +261,16 @@ function RoomTab({
                     {room?.owner?.hexId == currentUser?.hexId && (
                       <Button type="button" onClick={openDeleteConfirmation} className="w-[100%]" variant={"destructive"}>
                         <Trash2Icon className="mr-1 h-4 w-4" />
-                        Delete room
+                        {t("DELETE_ROOM")}
                       </Button>
                     )}
                     <div className="flex flex-row gap-2">
                       <Button type="button" onClick={closeSettings} className="w-[100%]" variant={"outline"}>
-                        Cancel
+                        {t("CANCEL")}
                       </Button>
                       <Button type="submit" className="w-[100%]">
                         <CheckIcon className="mr-1 h-4 w-4" />
-                        Apply
+                        {t("APPLY")}
                       </Button>
                     </div>
                   </div>
@@ -283,21 +287,21 @@ function RoomTab({
           <DialogDescription className="hidden" />
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle>Are you sure?</CardTitle>
-              <CardDescription>You are about to delete the room</CardDescription>
+              <CardTitle>{t("ARE_YOU_SURE")}</CardTitle>
+              <CardDescription>{t("YOU_ARE_ABOUT_TO_DELETE_ROOM")}</CardDescription>
             </CardHeader>
             <CardContent>
               <span className="text-[15px]">
-                This action will delete everything about this room.
+                {t("THIS_ACTION_WILL_DELETE_ROOM")}
                 <br />
-                This action can’t be undone.
+                {t("THIS_ACTION_CANT_BE_UNDONE")}
               </span>
               <div className="pt-2 flex flex-row gap-2">
                 <Button onClick={cancelDelete} className="w-[100%]" variant={"outline"}>
-                  Cancel
+                  {t("CANCEL")}
                 </Button>
                 <Button onClick={deleteRoom} className="w-[100%]" variant={"destructive"}>
-                  Confirm
+                  {t("CONFIRM")}
                 </Button>
               </div>
             </CardContent>

@@ -1,11 +1,12 @@
-import { showErrorToast } from "../../../shared/lib/showErrorToast";
 import AuthService from "../lib/AuthService";
 import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function AnonymousLoginForm({ onBack }: { onBack: () => void }) {
+  const showErrorToast = useErrorToast();
   let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
   let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
   let authorize = useContextSelector(AuthContext, (c) => c.authorize);

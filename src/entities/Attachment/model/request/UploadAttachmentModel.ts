@@ -1,4 +1,4 @@
 export interface UploadAttachmentsModel {
-    roomGuid: string;
-    files: File[];
+  roomGuid: string;
+  files: File[];
 }

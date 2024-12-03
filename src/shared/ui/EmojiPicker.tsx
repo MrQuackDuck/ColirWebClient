@@ -8,6 +8,7 @@ import { ScrollArea } from "./ScrollArea";
 import emojiData from "../lib/emojis.json";
 import { Separator } from "./Separator";
 import { Input } from "./Input";
+import { useTranslation } from "../lib/hooks/useTranslation";
 
 interface Emoji {
   name: string;
@@ -22,6 +23,7 @@ interface EmojiPickerProps {
 }
 
 export const EmojiPicker = ({ onChange, className, asButton, disabled = false }: EmojiPickerProps) => {
+  const t = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchString, setSearchString] = useState("");
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -71,14 +73,14 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
       <PopoverContent className="w-[305px] overflow-hidden p-2">
         {isOpen && (
           <>
-            <Input className="w-full" value={searchString} onChange={(e) => setSearchString(e.target.value)} placeholder="Find emoji" />
+            <Input className="w-full" value={searchString} onChange={(e) => setSearchString(e.target.value)} placeholder={t("FIND_EMOJI")} />
             <ScrollArea ref={scrollAreaRef} className="h-[400px] text-[22px] mt-1 p-2">
               <div className="flex flex-col h-full gap-1">
                 {Object.entries(filteredEmojiData).map(
                   ([category, emojis]) =>
                     emojis.length > 0 && (
                       <div className="px-1" key={category}>
-                        <span className="capitalize text-base">{category}</span>
+                        <span className="capitalize text-base">{t(category)}</span>
                         <Separator className="mt-0.5" />
                         <div className="flex flex-wrap gap-1 pt-0.5">
                           {emojis.map((emoji) => (

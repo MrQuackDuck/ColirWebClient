@@ -1,21 +1,21 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-import CryptoJS from 'crypto-js';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import CryptoJS from "crypto-js";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function replaceAll(str, match, replacement){
-  return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+export function replaceAll(str, match, replacement) {
+  return str.replace(new RegExp(escapeRegExp(match), "g"), () => replacement);
 }
 
 function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
 export function decimalToHexString(number) {
-  return '#' + number.toString(16).toUpperCase().padStart(6, '0');
+  return "#" + number.toString(16).toUpperCase().padStart(6, "0");
 }
 
 export function encryptString(str: string, key: string): string {
@@ -33,8 +33,7 @@ export function decryptString(str: string, key: string): string | undefined {
     if (str.length > 0 && decryptedString.length === 0) return undefined;
 
     return decryptedString;
-  } 
-  catch (error) {
+  } catch (error) {
     return undefined;
   }
 }
@@ -42,7 +41,7 @@ export function decryptString(str: string, key: string): string | undefined {
 export async function encryptFile(file: File, secretKey: string): Promise<File> {
   const fileArrayBuffer = await file.arrayBuffer();
   const fileWordArray = CryptoJS.lib.WordArray.create(fileArrayBuffer);
-  const encrypted = CryptoJS.AES.encrypt(fileWordArray, secretKey).toString(CryptoJS.format.Base64);  
+  const encrypted = CryptoJS.AES.encrypt(fileWordArray, secretKey).toString(CryptoJS.format.Base64);
 
   // Convert encrypted string back to Blob and create a new File
   const encryptedBlob = new Blob([encrypted], { type: file.type });
@@ -63,4 +62,4 @@ export async function decryptFile(encryptedData: Blob, secretKey: string): Promi
 
   // Create a blob from the binary data and return it
   return new Blob([byteArray]);
-};
+}

@@ -17,7 +17,8 @@ import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { SaveAllIcon, Trash2Icon } from "lucide-react";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
-import { showInfoToast } from "@/shared/lib/showInfoToast";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 
 const formSchema = z.object({
   username: z.string().min(2, "Username has to be at least 2 characters long!").max(50)
@@ -28,6 +29,8 @@ interface AccountSettingsProps {
 }
 
 function AccountSettings(props: AccountSettingsProps) {
+  const t = useTranslation();
+  const showInfoToast = useInfoToast();
   let { isDesktop } = useResponsiveness();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
@@ -54,14 +57,14 @@ function AccountSettings(props: AccountSettingsProps) {
 
   function handleHexClick() {
     navigator.clipboard.writeText(decimalToHexString(currentUser!.hexId));
-    showInfoToast("Copied!", "Hex copied to the clipboard successfully!");
+    showInfoToast(t("COPIED"), t("HEX_COPIED_TO_CLIPBOARD"));
   }
 
   function onSave(values: z.infer<typeof formSchema>) {
     if (currentUser?.username != values.username && values.username) {
       UserService.ChangeUsername({ newName: values.username }).then(() => {
         updateCurrentUser();
-        showInfoToast("Updated!", "The profile was updated successfully!");
+        showInfoToast(t("UPDATED"), t("PROFILE_UPDATED_SUCCESSFULLY"));
       });
     }
   }
@@ -83,7 +86,7 @@ function AccountSettings(props: AccountSettingsProps) {
     UserService.DeleteAccount().then(() => {
       disableLoading();
       logOut();
-      showInfoToast("Deleted!", "The account was deleted successfully!");
+      showInfoToast(t("DELETED"), t("ACCOUNT_WAS_DELETED"));
     });
   }
 
@@ -94,15 +97,15 @@ function AccountSettings(props: AccountSettingsProps) {
 
   return (
     <div className="flex flex-col gap-3.5">
-      <span className="text-3xl font-semibold">Account</span>
+      <span className="text-3xl font-semibold">{t("ACCOUNT")}</span>
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSave)} className={cn("flex flex-col gap-3.5", isDesktop && "max-w-[50%]")}>
           {currentUser?.hexId && (
             <div className="flex flex-col gap-1.5">
-              <span className="text-sm font-medium">Colir Id (aka. Hex Id)</span>
+              <span className="text-sm font-medium">{t("COLIR_ID_AKA_HEX_ID")}</span>
               <HexId onSelected={handleHexClick} className="w-fit text-primary font-semibold" color={currentUser?.hexId} />
-              <span className="text-slate-500 text-sm">*It can’t be changed</span>
+              <span className="text-slate-500 text-sm">{t("IT_CANT_BE_CHANGED")}</span>
             </div>
           )}
           {currentUser && (
@@ -111,11 +114,11 @@ function AccountSettings(props: AccountSettingsProps) {
               control={form.control}
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1.5">
-                  <FormLabel className="text-sm font-medium">Username</FormLabel>
+                  <FormLabel className="text-sm font-medium">{t("USERNAME")}</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" className="-translate-x-[1px]" placeholder="Username" {...field} />
+                    <Input autoComplete="off" className="-translate-x-[1px]" placeholder={t("USERNAME")} {...field} />
                   </FormControl>
-                  <FormDescription className="text-slate-500 text-sm">Name that is displayed to everyone</FormDescription>
+                  <FormDescription className="text-slate-500 text-sm">{t("NAME_DISPLAYED_TO_EVERYONE")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -123,14 +126,14 @@ function AccountSettings(props: AccountSettingsProps) {
           )}
           <div className="flex flex-row gap-2.5">
             <Button disabled={!form.formState.isDirty} type="submit">
-              <SaveAllIcon className="mr-2 h-4 w-4" /> Save
+              <SaveAllIcon className="mr-2 h-4 w-4" /> {t("SAVE")}
             </Button>
             <Button disabled={!form.formState.isDirty} type="button" onClick={resetForm} variant={"outline"}>
-              Reset
+              {t("RESET")}
             </Button>
           </div>
           <Button onClick={handleDeleteButton} className="w-fit" variant={"destructive"}>
-            <Trash2Icon className="mr-2 h-4 w-4" /> Delete account
+            <Trash2Icon className="mr-2 h-4 w-4" /> {t("DELETE_ACCOUNT")}
           </Button>
         </form>
       </Form>

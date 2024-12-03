@@ -1,19 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { API_URL } from "@/shared/api";
-import { showErrorToast } from "@/shared/lib/showErrorToast";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { useJwt } from "@/shared/lib/hooks/useJwt";
-import { showInfoToast } from "@/shared/lib/showInfoToast";
 import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
 import pingAudio from "../../../../assets/audio/ping.mp3";
-import { DetailedUserModel } from '@/entities/User/model/DetailedUserModel';
-import { RoomModel } from '@/entities/Room/model/RoomModel';
-import { ChatConnection } from '@/widgets/chat-section/models/ChatConnection';
-import { useContextSelector } from 'use-context-selector';
-import { NotificationsSettingsContext } from '@/shared/lib/providers/NotificationsSettingsProvider';
+import { DetailedUserModel } from "@/entities/User/model/DetailedUserModel";
+import { RoomModel } from "@/entities/Room/model/RoomModel";
+import { ChatConnection } from "@/widgets/chat-section/models/ChatConnection";
+import { useContextSelector } from "use-context-selector";
+import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 
 export const useChatConnection = (
   currentUser: DetailedUserModel | null,
@@ -26,12 +26,14 @@ export const useChatConnection = (
   selectedRoom: RoomModel,
   setSelectedRoom: React.Dispatch<React.SetStateAction<RoomModel>>
 ) => {
+  const showInfoToast = useInfoToast();
+  const showErrorToast = useErrorToast();
   const getJwt = useJwt();
   const joinedRoomsRef = useRef(joinedRooms);
   const selectedRoomRef = useRef(selectedRoom);
 
-  const pingSoundVolume = useContextSelector(NotificationsSettingsContext, c => c.pingVolume);
-  const isPingSoundDisabled = useContextSelector(NotificationsSettingsContext, c => c.isPingSoundDisabled);
+  const pingSoundVolume = useContextSelector(NotificationsSettingsContext, (c) => c.pingVolume);
+  const isPingSoundDisabled = useContextSelector(NotificationsSettingsContext, (c) => c.isPingSoundDisabled);
 
   const isPingSoundDisabledRef = useRef(isPingSoundDisabled);
   const pingSoundVolumeRef = useRef(pingSoundVolume);
@@ -44,9 +46,9 @@ export const useChatConnection = (
     joinedRoomsRef.current = joinedRooms;
     selectedRoomRef.current = selectedRoom;
   }, [joinedRooms, selectedRoom]);
-  
+
   const playPingSound = () => {
-    if (isPingSoundDisabledRef.current) return
+    if (isPingSoundDisabledRef.current) return;
     let audio = new Audio(pingAudio);
     audio.volume = pingSoundVolumeRef.current / 100;
     audio.play();
@@ -62,46 +64,43 @@ export const useChatConnection = (
       });
     });
 
-    setUsers((prevUsers) => [...prevUsers.filter((u) => usersToKeep.find(userHex => userHex == u.hexId))]);
+    setUsers((prevUsers) => [...prevUsers.filter((u) => usersToKeep.find((userHex) => userHex == u.hexId))]);
   };
 
   const startChatConnection = (roomGuid: string, connection: HubConnection) => {
     if (!joinedRooms || !currentUser) return;
     if (connection.state != HubConnectionState.Disconnected) return;
 
-    connection.start()
+    connection
+      .start()
       .then(() => {
         // Getting the last message
-        connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 1, skipCount: 0 })
-          .then((lastMessageResponse) => {
-            // Getting possible unread messages
-            connection.invoke<SignalRHubResponse<MessageModel[]>>("GetUnreadRepliesAsync")
-              .then((unreadRepliedResponse) => {
-                // If there any unread messages, fetch the whole range of messages from the first unread to the last message
-                if (unreadRepliedResponse.content.length > 0) {
-                  setUnreadReplies(prevUnreadReplies => [...prevUnreadReplies, ...unreadRepliedResponse.content]);
-                  let lastMessage = lastMessageResponse.content[0];
-                  let firstUnreadMessage = unreadRepliedResponse.content[0];
-                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id })
-                    .then((response) => {
-                      setMessages((prevMessages) => {
-                        if (!response?.content) return prevMessages;
-                        return distinctMessages([...prevMessages, ...response.content]);
-                      });
-                    });
-                }
-                // If not just fetch the last 50 messages
-                else {
-                  connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 })
-                    .then((response) => {
-                      setMessages((prevMessages) => {
-                        if (!response?.content) return prevMessages;
-                        return distinctMessages([...prevMessages, ...response.content]);
-                      });
-                    });
-                }
+        connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 1, skipCount: 0 }).then((lastMessageResponse) => {
+          // Getting possible unread messages
+          connection.invoke<SignalRHubResponse<MessageModel[]>>("GetUnreadRepliesAsync").then((unreadRepliedResponse) => {
+            // If there any unread messages, fetch the whole range of messages from the first unread to the last message
+            if (unreadRepliedResponse.content.length > 0) {
+              setUnreadReplies((prevUnreadReplies) => [...prevUnreadReplies, ...unreadRepliedResponse.content]);
+              let lastMessage = lastMessageResponse.content[0];
+              let firstUnreadMessage = unreadRepliedResponse.content[0];
+              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id }).then((response) => {
+                setMessages((prevMessages) => {
+                  if (!response?.content) return prevMessages;
+                  return distinctMessages([...prevMessages, ...response.content]);
+                });
               });
+            }
+            // If not just fetch the last 50 messages
+            else {
+              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 }).then((response) => {
+                setMessages((prevMessages) => {
+                  if (!response?.content) return prevMessages;
+                  return distinctMessages([...prevMessages, ...response.content]);
+                });
+              });
+            }
           });
+        });
 
         // Set up all the event listeners
         connection.on("ReceiveMessage", (message: MessageModel) => {
@@ -111,37 +110,29 @@ export const useChatConnection = (
             playPingSound();
           }
 
-          setMessages((prevMessages) => [...prevMessages, message])
+          setMessages((prevMessages) => [...prevMessages, message]);
         });
 
         connection.on("MessageDeleted", (messageId: number) => {
           setUnreadReplies((prevUnreadReplies) => prevUnreadReplies.filter((m) => m.id != messageId));
-          setMessages((prevMessages) => [...prevMessages.filter((m) => m.id != messageId)])
+          setMessages((prevMessages) => [...prevMessages.filter((m) => m.id != messageId)]);
         });
 
         connection.on("MessageEdited", (message: MessageModel) =>
           setMessages((prevMessages) => {
-            return prevMessages.map((m) =>
-              m.id === message.id
-                ? { ...m, content: message.content, editDate: message.editDate }
-                : m
-            );
+            return prevMessages.map((m) => (m.id === message.id ? { ...m, content: message.content, editDate: message.editDate } : m));
           })
         );
 
         connection.on("MessageGotReaction", (message: MessageModel) =>
           setMessages((prevMessages) => {
-            return prevMessages.map((m) =>
-              m.id === message.id ? { ...m, reactions: message.reactions } : m
-            );
+            return prevMessages.map((m) => (m.id === message.id ? { ...m, reactions: message.reactions } : m));
           })
         );
-  
+
         connection.on("MessageLostReaction", (message: MessageModel) =>
           setMessages((prevMessages) => {
-            return prevMessages.map((m) =>
-              m.id === message.id ? { ...m, reactions: message.reactions } : m
-            );
+            return prevMessages.map((m) => (m.id === message.id ? { ...m, reactions: message.reactions } : m));
           })
         );
 
@@ -183,7 +174,7 @@ export const useChatConnection = (
             setChatConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
             let newRooms = [...joinedRoomsRef.current.filter((r) => r.guid != roomGuid)];
             setJoinedRooms(newRooms);
-            setMessages(prevMessages => prevMessages.filter(m => m.roomGuid != roomGuid));
+            setMessages((prevMessages) => prevMessages.filter((m) => m.roomGuid != roomGuid));
             if (newRooms.length > 0 && selectedRoomRef.current.guid == roomGuid) setSelectedRoom(newRooms[0]);
             connection.stop();
             return;
@@ -242,16 +233,12 @@ export const useChatConnection = (
         connection.on("UserRenamed", ({ hexId, newName }) => {
           setUsers((prevUsers) => {
             if (prevUsers.find((u) => u.hexId == hexId)?.username == newName) return prevUsers;
-            return prevUsers.map((u) => 
-              u.hexId == hexId ? { ...u, username: newName } : u
-            );
+            return prevUsers.map((u) => (u.hexId == hexId ? { ...u, username: newName } : u));
           });
-          setJoinedRooms((prevRooms) => 
-            prevRooms.map(room => ({
-              ...room, 
-              joinedUsers: room.joinedUsers.map(u => 
-                u.hexId == hexId ? { ...u, username: newName } : u
-              )
+          setJoinedRooms((prevRooms) =>
+            prevRooms.map((room) => ({
+              ...room,
+              joinedUsers: room.joinedUsers.map((u) => (u.hexId == hexId ? { ...u, username: newName } : u))
             }))
           );
         });
@@ -265,28 +252,25 @@ export const useChatConnection = (
         });
       })
       .catch((e) => {
-        showErrorToast(
-          `Couldn't connect to the room`,
-          `We weren't able to establish a connection. Error: ${e}.`
-        );
+        showErrorToast(`Couldn't connect to the room`, `We weren't able to establish a connection. Error: ${e}.`);
       });
 
-      connection.onclose(() => {
-        connection.off("ReceiveMessage");
-        connection.off("MessageDeleted");
-        connection.off("MessageEdited");
-        connection.off("MessageGotReaction");
-        connection.off("MessageLostReaction");
-        connection.off("UserJoined");
-        connection.off("UserLeft");
-        connection.off("UserKicked");
-        connection.off("RoomRenamed");
-        connection.off("RoomDeleted");
-        connection.off("RoomSizeChanged");
-        connection.off("RoomCleared");
-        connection.off("UserRenamed");
-        connection.off("UserDeleted");
-      });
+    connection.onclose(() => {
+      connection.off("ReceiveMessage");
+      connection.off("MessageDeleted");
+      connection.off("MessageEdited");
+      connection.off("MessageGotReaction");
+      connection.off("MessageLostReaction");
+      connection.off("UserJoined");
+      connection.off("UserLeft");
+      connection.off("UserKicked");
+      connection.off("RoomRenamed");
+      connection.off("RoomDeleted");
+      connection.off("RoomSizeChanged");
+      connection.off("RoomCleared");
+      connection.off("UserRenamed");
+      connection.off("UserDeleted");
+    });
   };
 
   useEffect(() => {
@@ -297,7 +281,7 @@ export const useChatConnection = (
       joinedRooms.map((r) => {
         let connection = new HubConnectionBuilder()
           .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
-            accessTokenFactory: () => jwt,
+            accessTokenFactory: () => jwt
           })
           .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
           .build();

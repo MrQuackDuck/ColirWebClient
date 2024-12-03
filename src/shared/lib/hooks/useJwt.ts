@@ -6,9 +6,8 @@ export const useJwt = () => {
 
   async function getJwt(): Promise<string> {
     // AuthService uses $api object, that intercepts "Unauthorized (401)" objcets and requests a new JWT token with refresh token
-    return await AuthService.IsAuthenticated()
-      .then(() => getFromLocalStorage("jwtToken")!);
+    return await AuthService.IsAuthenticated().then(() => getFromLocalStorage("jwtToken")!);
   }
 
   return getJwt;
-}
+};
