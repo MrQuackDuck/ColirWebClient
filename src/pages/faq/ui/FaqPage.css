@@ -60,7 +60,7 @@
 }
 
 .markdown hr {
-  @apply my-4 border-border;
+  @apply bg-border h-[0.5px] my-2 border-none;
 }
 
 .markdown table {
