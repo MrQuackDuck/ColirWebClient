@@ -11,6 +11,7 @@ import { cn } from "@/shared/lib/utils";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
 import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface ReactionBarProps {
   reactions: ReactionModel[];
@@ -27,6 +28,7 @@ interface ReactionElement {
 }
 
 const ReactionBar = (props: ReactionBarProps) => {
+  const t = useTranslation();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let users = useContextSelector(UsersContext, (c) => c.users);
   const [reactionElements, setReactionElements] = useState<ReactionElement[]>([]);
@@ -79,7 +81,7 @@ const ReactionBar = (props: ReactionBarProps) => {
             </TooltipTrigger>
             <TooltipContent tabIndex={-1}>
               <Button tabIndex={-1} onClick={() => openDialog(r.symbol)} variant={"link"} className="h-2 text-[12px] p-0 leading-0">
-                Who reacted?
+                {t("WHO_REACTED")}
               </Button>
             </TooltipContent>
           </Tooltip>

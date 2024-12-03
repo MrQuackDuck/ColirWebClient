@@ -1,7 +1,7 @@
 import RoomTabsList from "@/entities/Room/ui/RoomTabsList";
 import { Button } from "@/shared/ui/Button";
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
 import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
 import { RoomModel } from "@/entities/Room/model/RoomModel";
@@ -11,6 +11,7 @@ import { useContextSelector } from "use-context-selector";
 import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 
 function Aside() {
   const t = useTranslation();
@@ -18,12 +19,17 @@ function Aside() {
   let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
   let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  const isFaqOpen = useContextSelector(FaqControlContext, (c) => c.isFaqOpen);
 
   function onJoinedOrCreatedRoom(room: RoomModel) {
     setJoinedRooms([...joinedRooms, room]);
     setNewRoomModalOpened(false);
     setSelectedRoom(room);
   }
+
+  useEffect(() => {
+    if (isFaqOpen) setNewRoomModalOpened(false);
+  }, [isFaqOpen]);
 
   return (
     <div className="flex gap-1 w-full h-full p-2.5 pb-0">

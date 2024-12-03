@@ -208,5 +208,15 @@
   "IMPORT_EXPORT_SETTINGS_DESCRIPTION": "Here you can import/export your client settings (i.e. the settings from your browser that aren't stored on the server)",
   "EDITED": "edited",
   "INFO": "Info",
-  "THIS_IS_INFO_MESSAGE": "This is an informational message."
+  "THIS_IS_INFO_MESSAGE": "This is an informational message.",
+  "WHO_REACTED": "Who reacted?",
+  "FAQ": "FAQ",
+  "WHAT_IS_THE_MAIN_GOAL": "What is the main goal?",
+  "WHY_DO_YOU_NEED_AUTH": "Why do you need auth?",
+  "HOW_KEYS_WORK": "How do keys work?",
+  "WHAT_IS_ROOM": "What is a room?",
+  "WHAT_IS_GUID": "What is a GUID?",
+  "WHAT_IS_COLIR_ID": "What is a Colir ID?",
+  "REFERENCES": "References",
+  "UI_LIBS_FRAMEROWKS": "UI Libs & Frameworks"
 }

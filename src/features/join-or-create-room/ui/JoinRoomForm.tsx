@@ -1,4 +1,6 @@
 import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
+import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { Button } from "@/shared/ui/Button";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
@@ -8,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useContextSelector } from "use-context-selector";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -17,6 +20,8 @@ const formSchema = z.object({
 
 function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
   const t = useTranslation();
+  const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
+  const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,6 +33,12 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Submit logic
     onSend({ roomGuid: values.roomGuid, encryptionKey: values.encryptionKey });
+  }
+
+  const handleWhyLinkClick = (e) => {
+    e.preventDefault();
+    setSelectedFaqTab(FaqTabs.HowKeysWork);
+    setIsFaqOpen(true);
   }
 
   return (
@@ -68,7 +79,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
                   </div>
                   <FormDescription className="text-slate-500 text-sm">
                     {t("ENTER_KEY_FOR_ENCRYPTION_DECRYPTION")}{" "}
-                    <Link className="underline" to={"/"}>
+                    <Link onClick={handleWhyLinkClick} className="underline" to={"/"}>
                       {t("WHY")}
                     </Link>
                   </FormDescription>

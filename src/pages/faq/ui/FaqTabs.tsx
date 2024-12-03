@@ -4,6 +4,7 @@ import HeaderTab from "@/shared/ui/HeaderTab";
 import Tab from "@/shared/ui/Tab";
 import { BookIcon, BrushIcon, DnaIcon, DollarSignIcon, InfoIcon, KeyIcon, LibraryIcon, LightbulbIcon } from "lucide-react";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
+import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface FaqTabsProps {
   className?: string;
@@ -12,34 +13,36 @@ interface FaqTabsProps {
 }
 
 function FaqTabs({ className, selectedTab, setSelectedTab }: FaqTabsProps) {
+  const t = useTranslation();
+
   return (
     <ScrollArea className="pr-3">
       <div className={className}>
-        <HeaderTab>FAQ</HeaderTab>
+        <HeaderTab>{t("FAQ")}</HeaderTab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhatIsTheMainGoal} onClick={() => setSelectedTab(FaqTabsEnum.WhatIsTheMainGoal)}>
-          <LightbulbIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> What is the main goal?
+          <LightbulbIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("WHAT_IS_THE_MAIN_GOAL")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhyDoYouNeedAuth} onClick={() => setSelectedTab(FaqTabsEnum.WhyDoYouNeedAuth)}>
-          <InfoIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> Why do you need auth?
+          <InfoIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("WHY_DO_YOU_NEED_AUTH")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.HowKeysWork} onClick={() => setSelectedTab(FaqTabsEnum.HowKeysWork)}>
-          <KeyIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> How keys work?
+          <KeyIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("HOW_KEYS_WORK")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhatIsRoom} onClick={() => setSelectedTab(FaqTabsEnum.WhatIsRoom)}>
-          <DollarSignIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> What is room?
+          <DollarSignIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("WHAT_IS_ROOM")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhatIsGuid} onClick={() => setSelectedTab(FaqTabsEnum.WhatIsGuid)}>
-          <DnaIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> What is guid?
+          <DnaIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("WHAT_IS_GUID")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhatIsColirId} onClick={() => setSelectedTab(FaqTabsEnum.WhatIsColirId)}>
-          <BrushIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> What is Colir ID?
+          <BrushIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("WHAT_IS_COLIR_ID")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.HowStatsWork} onClick={() => setSelectedTab(FaqTabsEnum.HowStatsWork)}>
-          <BookIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> How stats work?
+          <BookIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("HOW_STATS_WORK")}
         </Tab>
-        <HeaderTab>References</HeaderTab>
+        <HeaderTab>{t("REFERENCES")}</HeaderTab>
         <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.LibsReferences} onClick={() => setSelectedTab(FaqTabsEnum.LibsReferences)}>
-          <LibraryIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> UI Libs & Frameworks
+          <LibraryIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("UI_LIBS_FRAMEROWKS")}
         </Tab>
       </div>
     </ScrollArea>

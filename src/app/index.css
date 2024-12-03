@@ -23,7 +23,6 @@ strong,
 p,
 a {
   white-space: pre-line;
-  line-break: anywhere;
 }
 
 a:focus-visible {

@@ -1,22 +1,14 @@
 import { useContextSelector } from "use-context-selector";
-import { LanguageSettingsContext } from "../providers/LanguageSettingsProvider";
 import en from "../../../assets/locale/en.json";
+import { TranslationContext } from "../providers/TranslationProvider";
 
 type TFunction = (key: string, ...args: (string | number)[]) => string;
 
 export const useTranslation = (): TFunction => {
-  let currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
+  let translationMap = useContextSelector(TranslationContext, (c) => c.translationMap);
 
   const translate: TFunction = (key: string, ...args: (string | number)[]) => {
-    let translatedString = "";
-
-    switch (currentLanguage) {
-      case "en":
-        translatedString = en[key];
-        break;
-      default:
-        translatedString = en[key];
-    }
+    let translatedString = translationMap[key];
 
     if (!translatedString) {
       translatedString = en[key];

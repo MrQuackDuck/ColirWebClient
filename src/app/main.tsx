@@ -16,37 +16,40 @@ import { SettingsOpenCloseProvider } from "@/features/open-close-settings/lib/pr
 import VoiceSettingsProvider from "@/shared/lib/providers/VoiceSettingsProvider";
 import NotificationsSettingsProvider from "@/shared/lib/providers/NotificationsSettingsProvider";
 import LanguageSettingsProvider from "@/shared/lib/providers/LanguageSettingsProvider";
+import TranslationProvider from "@/shared/lib/providers/TranslationProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="dark" storageKey="colir-ui-theme">
     <LanguageSettingsProvider>
-      <LoadingProvider>
-        <CurrentUserProvider>
-          <UsersProvider>
-            <JoinedRoomsProvider>
-              <SelectedRoomProvider>
-                <TooltipProvider>
-                  <AuthProvider>
-                    <ChatConnectionsProvider>
-                      <EncryptionKeysProvider>
-                        <UsersVolumeProvider>
-                          <SettingsOpenCloseProvider>
-                            <VoiceSettingsProvider>
-                              <NotificationsSettingsProvider>
-                                <App />
-                              </NotificationsSettingsProvider>
-                            </VoiceSettingsProvider>
-                          </SettingsOpenCloseProvider>
-                        </UsersVolumeProvider>
-                      </EncryptionKeysProvider>
-                    </ChatConnectionsProvider>
-                  </AuthProvider>
-                </TooltipProvider>
-              </SelectedRoomProvider>
-            </JoinedRoomsProvider>
-          </UsersProvider>
-        </CurrentUserProvider>
-      </LoadingProvider>
+      <TranslationProvider>
+        <LoadingProvider>
+          <CurrentUserProvider>
+            <UsersProvider>
+              <JoinedRoomsProvider>
+                <SelectedRoomProvider>
+                  <TooltipProvider>
+                    <AuthProvider>
+                      <ChatConnectionsProvider>
+                        <EncryptionKeysProvider>
+                          <UsersVolumeProvider>
+                            <SettingsOpenCloseProvider>
+                              <VoiceSettingsProvider>
+                                <NotificationsSettingsProvider>
+                                  <App />
+                                </NotificationsSettingsProvider>
+                              </VoiceSettingsProvider>
+                            </SettingsOpenCloseProvider>
+                          </UsersVolumeProvider>
+                        </EncryptionKeysProvider>
+                      </ChatConnectionsProvider>
+                    </AuthProvider>
+                  </TooltipProvider>
+                </SelectedRoomProvider>
+              </JoinedRoomsProvider>
+            </UsersProvider>
+          </CurrentUserProvider>
+        </LoadingProvider>
+      </TranslationProvider>
     </LanguageSettingsProvider>
   </ThemeProvider>
 );
