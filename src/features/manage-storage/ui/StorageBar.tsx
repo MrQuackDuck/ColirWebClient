@@ -71,7 +71,7 @@ function StorageBar(props: StorageBarProps) {
         <PopoverTrigger tabIndex={0} asChild onKeyDown={(e) => e.keyCode == 32 && setIsPopoverOpen(!isPopoverOpen)}>
           <div
             className={cn(
-              "w-full focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 min-w-36 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden",
+              "w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-[-1.5px] min-w-36 h-[26px] bg-background cursor-pointer rounded-full border-border border border-solid overflow-hidden",
               props.className
             )}
           >

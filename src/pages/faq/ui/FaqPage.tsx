@@ -13,14 +13,16 @@ import { Separator } from "@/shared/ui/Separator";
 import { Button } from "@/shared/ui/Button";
 import { PanelRightCloseIcon } from "lucide-react";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 function FaqPage() {
   let { isDesktop } = useResponsiveness();
 
-  const isFaqOpen = useContextSelector(FaqControlContext, (c) => c.isOpen);
-  const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsOpen);
+  const isFaqOpen = useContextSelector(FaqControlContext, (c) => c.isFaqOpen);
+  const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
 
-  const [tab, setTab] = useState(FaqTabsEnum.WhatIsTheMainGoal);
+  const selectedFaqTab = useContextSelector(FaqControlContext, (c) => c.selectedFaqTab);
+  const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
 
   let [isSheetOpen, setIsSheetOpen] = useState(false);
   const [markdownContent, setMarkdownContent] = useState("");
@@ -28,15 +30,15 @@ function FaqPage() {
 
   useEffect(() => {
     const loadMarkdown = async () => {
-      const content = await importMarkdownFile(FaqTabsEnum[tab], languageCode);
+      const content = await importMarkdownFile(FaqTabsEnum[selectedFaqTab], languageCode);
       setMarkdownContent(content);
     };
 
     loadMarkdown();
-  }, [tab, languageCode]);
+  }, [selectedFaqTab, languageCode]);
 
   useEffect(() => {
-    if (!isFaqOpen) setTimeout(() => setTab(FaqTabsEnum.WhatIsTheMainGoal), 50);
+    if (!isFaqOpen) setTimeout(() => setSelectedFaqTab(FaqTabsEnum.WhatIsTheMainGoal), 50);
   }, [isFaqOpen]);
 
   return (
@@ -47,15 +49,17 @@ function FaqPage() {
         </Button>
       )}
 
-      <div className="flex flex-row gap-2.5 h-full">
+      <div className="flex flex-row gap-1 h-full">
         {isDesktop && (
           <>
-            <FaqTabs className="flex flex-col gap-2.5" selectedTab={tab} setSelectedTab={setTab} />
+            <FaqTabs className="flex flex-col gap-2.5" selectedTab={selectedFaqTab} setSelectedTab={setSelectedFaqTab} />
             <Separator className="h-full" orientation="vertical" />
           </>
         )}
 
-        <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
+        <ScrollArea className="w-full">
+          <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
+        </ScrollArea>
       </div>
 
       {!isDesktop && (
@@ -63,7 +67,7 @@ function FaqPage() {
           <SheetContent side={"left"}>
             <SheetTitle className="hidden" />
             <SheetDescription className="hidden" />
-            <FaqTabs className="flex flex-col gap-2.5" selectedTab={tab} setSelectedTab={setTab} />
+            <FaqTabs className="flex flex-col gap-2.5" selectedTab={selectedFaqTab} setSelectedTab={setSelectedFaqTab} />
           </SheetContent>
         </Sheet>
       )}

@@ -15,6 +15,7 @@ import SettingsTabs from "./SettingsTabs";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
 import PopupWindow from "@/shared/ui/PopupWindow";
+import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 function SettingsPage() {
   let { isDesktop } = useResponsiveness();
@@ -59,7 +60,7 @@ function SettingsPage() {
         </Button>
       )}
 
-      <div className="flex flex-row gap-2.5 h-full">
+      <div className="flex flex-row gap-1 h-full">
         {isDesktop && (
           <>
             <SettingsTabs className="flex flex-col gap-2.5" selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
@@ -67,14 +68,16 @@ function SettingsPage() {
           </>
         )}
 
-        <div className="w-full pl-4 pr-12 pt-5">
-          {selectedTab == SettingsTabsEnum.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} />}
-          {selectedTab == SettingsTabsEnum.VoiceSettings && <VoiceSettings />}
-          {selectedTab == SettingsTabsEnum.Notifications && <NotificationsSettings />}
-          {selectedTab == SettingsTabsEnum.Statistics && <StatisticsSettings />}
-          {selectedTab == SettingsTabsEnum.Language && <LanguageSettings />}
-          {selectedTab == SettingsTabsEnum.ImportExport && <ImportExportSettings />}
-        </div>
+        <ScrollArea className="w-full">
+          <div className="w-full pl-4 pr-12 pt-5">
+            {selectedTab == SettingsTabsEnum.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} />}
+            {selectedTab == SettingsTabsEnum.VoiceSettings && <VoiceSettings />}
+            {selectedTab == SettingsTabsEnum.Notifications && <NotificationsSettings />}
+            {selectedTab == SettingsTabsEnum.Statistics && <StatisticsSettings />}
+            {selectedTab == SettingsTabsEnum.Language && <LanguageSettings />}
+            {selectedTab == SettingsTabsEnum.ImportExport && <ImportExportSettings />}
+          </div>
+        </ScrollArea>
       </div>
 
       {!isDesktop && (

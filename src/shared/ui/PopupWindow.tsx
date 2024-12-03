@@ -36,7 +36,7 @@ function PopupWindow(props: PopupWindowProps) {
   return (
     <div
       className={cn(
-        "z-30 transition-all ease-in-out scale-[0.98] w-full h-full absolute bg-background",
+        "z-30 transition-all ease-in-out scale-[0.98] w-full h-full absolute bg-background overflow-y-hidden",
         classes.popupWindow,
         !isPopupWindowShown && "opacity-0 pointer-events-none",
         isPopupWindowShown && "opacity-100 scale-100",
@@ -49,7 +49,7 @@ function PopupWindow(props: PopupWindowProps) {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button className="absolute right-0 top-0 rounded-full" variant={"outline"} size={"icon"} tabIndex={0} onClick={() => props.setIsOpen(false)}>
+            <Button className="absolute right-2.5 top-0 rounded-full" variant={"outline"} size={"icon"} tabIndex={0} onClick={() => props.setIsOpen(false)}>
               <XIcon className="h-4 w-4" />
             </Button>
           </TooltipTrigger>

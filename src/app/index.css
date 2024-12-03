@@ -26,6 +26,12 @@ a {
   line-break: anywhere;
 }
 
+a:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
 code {
   font-family: CascadiaCode, monospace;
 }

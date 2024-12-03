@@ -156,6 +156,7 @@ export const useVoiceChatConnection = (
           .withUrl(`${API_URL}/VoiceChat?roomGuid=${room.guid}`, {
             accessTokenFactory: () => jwt,
           })
+          .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
           .build();
 
         setVoiceChatConnections((prevConnections) => {

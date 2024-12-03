@@ -3,6 +3,7 @@ import { FaqTabs as FaqTabsEnum } from "../lib/FaqTabs";
 import HeaderTab from "@/shared/ui/HeaderTab";
 import Tab from "@/shared/ui/Tab";
 import { BookIcon, BrushIcon, DnaIcon, DollarSignIcon, InfoIcon, KeyIcon, LibraryIcon, LightbulbIcon } from "lucide-react";
+import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 interface FaqTabsProps {
   className?: string;
@@ -12,7 +13,8 @@ interface FaqTabsProps {
 
 function FaqTabs({ className, selectedTab, setSelectedTab }: FaqTabsProps) {
   return (
-    <div className={className}>
+    <ScrollArea className="pr-3">
+      <div className={className}>
       <HeaderTab>FAQ</HeaderTab>
       <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.WhatIsTheMainGoal} onClick={() => setSelectedTab(FaqTabsEnum.WhatIsTheMainGoal)}>
         <LightbulbIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> What is the main goal?
@@ -39,7 +41,8 @@ function FaqTabs({ className, selectedTab, setSelectedTab }: FaqTabsProps) {
       <Tab className="w-full" isSelected={selectedTab == FaqTabsEnum.LibsReferences} onClick={() => setSelectedTab(FaqTabsEnum.LibsReferences)}>
         <LibraryIcon className="text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> UI Libs & Frameworks
       </Tab>
-    </div>
+      </div>
+    </ScrollArea>
   );
 }
 

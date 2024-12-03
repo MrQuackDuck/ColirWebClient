@@ -3,20 +3,20 @@ import { useState } from "react";
 import { createContext } from "use-context-selector";
 
 export const FaqControlContext = createContext<{
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedTab: FaqTabs;
-  setSelectedTab: React.Dispatch<React.SetStateAction<FaqTabs>>;
+  isFaqOpen: boolean;
+  setIsFaqOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedFaqTab: FaqTabs;
+  setSelectedFaqTab: React.Dispatch<React.SetStateAction<FaqTabs>>;
 }>({
-  isOpen: false,
-  setIsOpen: () => {},
-  selectedTab: FaqTabs.WhatIsTheMainGoal,
-  setSelectedTab: () => {}
+  isFaqOpen: false,
+  setIsFaqOpen: () => {},
+  selectedFaqTab: FaqTabs.WhatIsTheMainGoal,
+  setSelectedFaqTab: () => {}
 });
 
 export const FaqControlProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<FaqTabs>(FaqTabs.WhatIsTheMainGoal);
+  const [isFaqOpen, setIsFaqOpen] = useState<boolean>(false);
+  const [selectedFaqTab, setSelectedFaqTab] = useState<FaqTabs>(FaqTabs.WhatIsTheMainGoal);
 
-  return <FaqControlContext.Provider value={{ isOpen, setIsOpen, selectedTab, setSelectedTab }}>{children}</FaqControlContext.Provider>;
+  return <FaqControlContext.Provider value={{ isFaqOpen, setIsFaqOpen, selectedFaqTab, setSelectedFaqTab }}>{children}</FaqControlContext.Provider>;
 };

@@ -25,7 +25,7 @@ function ProfileButton() {
             <UserIcon className="mr-2 h-4 w-4" strokeWidth={2} /> Profile
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent onCloseAutoFocus={(e) => e.preventDefault()}>
           <DropdownMenuGroup>
             <DropdownMenuItem data-no-focus-lock onClick={openSettings}>
               <GearIcon className="mr-2 h-4 w-4" strokeWidth={2} /> Settings

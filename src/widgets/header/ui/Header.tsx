@@ -10,7 +10,7 @@ import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqC
 function Header() {
   const navigate = useNavigate();
   let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
-  let setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsOpen);
+  let setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
 
   const navigateHome = () => {
     navigate("/", { replace: true });

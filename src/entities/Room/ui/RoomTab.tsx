@@ -21,6 +21,8 @@ import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
 import { showInfoToast } from "@/shared/lib/showInfoToast";
+import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
 
 const formSchema = z.object({
   roomName: z
@@ -49,6 +51,8 @@ function RoomTab({
   onMarkAsReadClicked: (room: RoomModel) => void;
   unreadRepliesCount: number;
 }) {
+  const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
+  const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false);
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
@@ -135,13 +139,20 @@ function RoomTab({
     setRoomSettingsOpened(false);
   }
 
+  function handleWhyLinkClick(e) {
+    setRoomSettingsOpened(false);
+    e.preventDefault();
+    setIsFaqOpen(true);
+    setSelectedFaqTab(FaqTabs.HowKeysWork);
+  }
+
   return (
     <>
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <button
             onClick={onClick}
-            className={`flex gap-0.5 justify-between items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
+            className={`flex gap-0.5 justify-between items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-[-1.5px] disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer
             hover:bg-accent hover:text-accent-foreground h-9 px-2 ${isSelected ? "bg-accent" : null}`}
           >
             <div className="flex overflow-hidden items-center whitespace-nowrap">
@@ -233,7 +244,7 @@ function RoomTab({
                         </div>
                         <FormDescription className="text-slate-500 text-sm">
                           Enter the key used to encrypt/decrypt messages across the selected room.{" "}
-                          <Link className="underline" to={"/"}>
+                          <Link onClick={handleWhyLinkClick} className="underline" to={"/"}>
                             Why?
                           </Link>
                         </FormDescription>

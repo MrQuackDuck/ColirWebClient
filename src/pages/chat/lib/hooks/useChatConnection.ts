@@ -299,7 +299,7 @@ export const useChatConnection = (
           .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
             accessTokenFactory: () => jwt,
           })
-          .withAutomaticReconnect([5000, 5000, 6000, 6000])
+          .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
           .build();
 
         setChatConnections((prevConnections) => {

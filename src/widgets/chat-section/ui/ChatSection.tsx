@@ -388,7 +388,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
             <Separator className="min-h-5" orientation="vertical" />
             <Popover>
               <PopoverTrigger asChild>
-                <Button className="px-0 h-7" variant={"link"}>
+                <Button className="px-0 h-7 focus-visible:-outline-offset-2" variant={"link"}>
                   {selectedRoom?.joinedUsers?.length} members
                 </Button>
               </PopoverTrigger>
