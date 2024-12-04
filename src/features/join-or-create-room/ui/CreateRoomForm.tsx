@@ -37,7 +37,7 @@ function CreateRoomForm({ onSend }: { onSend: (model: CreateRoomModel) => any })
   function getMinutesBeforeExpiry(inputValue: string) {
     switch (inputValue) {
       case "12-hours":
-        return 1;
+        return 12 * 60;
       case "24-hours":
         return 24 * 60;
       case "7-days":
