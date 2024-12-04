@@ -20,10 +20,6 @@ import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/pro
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 
-const formSchema = z.object({
-  username: z.string().min(2, "Username has to be at least 2 characters long!").max(50)
-});
-
 interface AccountSettingsProps {
   dialogOpenClosed: (newState: boolean) => void;
 }
@@ -39,6 +35,10 @@ function AccountSettings(props: AccountSettingsProps) {
   let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
   let setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
   let logOut = useContextSelector(AuthContext, (c) => c.logOut);
+
+  const formSchema = z.object({
+    username: z.string().min(2, t("USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS", 2)).max(50, t("USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS", 50))
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

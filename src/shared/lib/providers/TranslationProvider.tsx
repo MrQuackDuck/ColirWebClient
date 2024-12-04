@@ -14,9 +14,7 @@ const TranslationProvider = ({ children }) => {
   let currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
 
   useEffect(() => {
-    import(`../../../assets/locale/${currentLanguage}.json`)
-      .then((module) => setTranslationMap(module.default))
-      .catch(() => setTranslationMap(en));
+    import(`../../../assets/locale/${currentLanguage}.json`).then((module) => setTranslationMap(module.default)).catch(() => setTranslationMap(en));
   }, [currentLanguage]);
 
   return (

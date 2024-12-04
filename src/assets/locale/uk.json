@@ -102,8 +102,8 @@
   "COLIR_ID": "Colir ID",
   "REGISTRATION_DATE": "Дата реєстрації",
   "VOLUME": "Гучність",
-  "KICK": "Вилучити",
-  "YOU_ARE_ABOUT_TO_KICK": "Ви збираєтеся вилучити",
+  "KICK": "Кікнути",
+  "YOU_ARE_ABOUT_TO_KICK": "Ви збираєтеся кікнути",
   "FROM_THE_ROOM": "з кімнати.",
   "COLOR_WAS_ADJUSTED_TO_FIT_THEME": "Колір було налаштовано",
   "NOT_ENOUGH_SPACE": "Недостатньо місця!",
@@ -218,5 +218,8 @@
   "WHAT_IS_GUID": "Що таке GUID?",
   "WHAT_IS_COLIR_ID": "Що таке Colir ID?",
   "REFERENCES": "Джерела",
-  "UI_LIBS_FRAMEROWKS": "UI Бібліотеки & Фреймворки"
+  "UI_LIBS_FRAMEROWKS": "UI Бібліотеки & Фреймворки",
+  "COULD_NOT_LOAD_IMAGE": "Не вдалося завантажити зображення",
+  "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID повинен містити рівно {0} символів.",
+  "UNKNOWN_DATE": "Невідома дата"
 }

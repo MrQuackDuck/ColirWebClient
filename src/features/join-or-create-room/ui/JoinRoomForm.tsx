@@ -13,15 +13,16 @@ import { Link } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
 import { z } from "zod";
 
-const formSchema = z.object({
-  roomGuid: z.string().length(36),
-  encryptionKey: z.string().min(2)
-});
-
 function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
   const t = useTranslation();
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
+
+  const formSchema = z.object({
+    roomGuid: z.string().length(36, t("ROOM_GUID_MUST_BE_N_CHARACTERS", 36)),
+    encryptionKey: z.string().min(2, t("ENCRYPTION_KEY_MUST_BE_AT_LEAST_N_CHATACTER", 2))
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,7 +40,7 @@ function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
     e.preventDefault();
     setSelectedFaqTab(FaqTabs.HowKeysWork);
     setIsFaqOpen(true);
-  }
+  };
 
   return (
     <>

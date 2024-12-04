@@ -4,6 +4,7 @@ import { isFirefox } from "react-device-detect";
 import { decryptFile } from "../lib/utils";
 import { ImageOffIcon, Image as PlayIcon, ImagePlayIcon } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
+import { useTranslation } from "../lib/hooks/useTranslation";
 
 interface EncryptedImageViewerProps {
   imageUrl: string;
@@ -15,6 +16,7 @@ interface EncryptedImageViewerProps {
 }
 
 function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef, fileName, sizeString }: EncryptedImageViewerProps) {
+  const t = useTranslation();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isGif = fileName?.toLowerCase()?.endsWith(".gif");
@@ -52,7 +54,7 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
     return (
       <div className="flex w-56 h-16 justify-center select-none items-center rounded-[6px] bg-gradient-to-br from-secondary/50 via-secondary/45 to-secondary/30">
         <ImageOffIcon className="mr-1" />
-        Couldn't load image...
+        {t("COULD_NOT_LOAD_IMAGE")}
       </div>
     );
   }

@@ -218,5 +218,8 @@
   "WHAT_IS_GUID": "What is a GUID?",
   "WHAT_IS_COLIR_ID": "What is a Colir ID?",
   "REFERENCES": "References",
-  "UI_LIBS_FRAMEROWKS": "UI Libs & Frameworks"
+  "UI_LIBS_FRAMEROWKS": "UI Libs & Frameworks",
+  "COULD_NOT_LOAD_IMAGE": "Couldn't load the image",
+  "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID should be exactly {0} symbols.",
+  "UNKNOWN_DATE": "Unknown Date"
 }

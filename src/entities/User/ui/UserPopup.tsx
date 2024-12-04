@@ -44,7 +44,7 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
   }
 
   function formatDate(date?: Date) {
-    if (!date) return "Unknown Date";
+    if (!date) return t("UNKNOWN_DATE");
     const givenDate = Moment(date);
     return givenDate.format("MM/DD/YYYY");
   }
