@@ -28,7 +28,7 @@
 }
 
 .markdown a {
-  @apply text-primary hover:underline;
+  @apply text-primary hover:underline font-medium;
 }
 
 .markdown ul {

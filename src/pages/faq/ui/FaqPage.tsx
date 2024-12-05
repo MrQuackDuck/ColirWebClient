@@ -11,12 +11,14 @@ import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
 import { Separator } from "@/shared/ui/Separator";
 import { Button } from "@/shared/ui/Button";
-import { PanelRightCloseIcon } from "lucide-react";
+import { Loader2Icon, PanelRightCloseIcon } from "lucide-react";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 function FaqPage() {
   let { isDesktop } = useResponsiveness();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const isFaqOpen = useContextSelector(FaqControlContext, (c) => c.isFaqOpen);
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
@@ -34,7 +36,8 @@ function FaqPage() {
       setMarkdownContent(content);
     };
 
-    loadMarkdown();
+    setIsLoading(true);
+    loadMarkdown().then(() => setIsLoading(false));
   }, [selectedFaqTab, languageCode]);
 
   useEffect(() => {
@@ -57,9 +60,16 @@ function FaqPage() {
           </>
         )}
 
-        <ScrollArea className="w-full">
-          <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
-        </ScrollArea>
+        {isLoading && (
+          <div className="flex justify-center items-center w-full h-full">
+            <Loader2Icon className="w-5 animate-spin" />
+          </div>
+        )}
+        {!isLoading && (
+          <ScrollArea className="w-full">
+            <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
+          </ScrollArea>
+        )}
       </div>
 
       {!isDesktop && (
