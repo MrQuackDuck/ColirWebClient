@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
 import { LanguageSettingsContext } from "./LanguageSettingsProvider";
 import en from "../../../assets/locale/en.json";
+import { availableLanguages } from "../availableLanguages";
 
 export const TranslationContext = createContext<{
   translationMap: any;
@@ -14,7 +15,9 @@ const TranslationProvider = ({ children }) => {
   let currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
 
   useEffect(() => {
-    import(`../../../assets/locale/${currentLanguage}.json`).then((module) => setTranslationMap(module.default)).catch(() => setTranslationMap(en));
+    let language = availableLanguages.find((lang) => lang.languageCode === currentLanguage)!;
+    if (!language) return console.error("Language not found");
+    setTranslationMap(language.keyValueMap);
   }, [currentLanguage]);
 
   return (

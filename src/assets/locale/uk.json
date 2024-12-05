@@ -221,5 +221,7 @@
   "UI_LIBS_FRAMEROWKS": "UI Бібліотеки & Фреймворки",
   "COULD_NOT_LOAD_IMAGE": "Не вдалося завантажити зображення",
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID повинен містити рівно {0} символів.",
-  "UNKNOWN_DATE": "Невідома дата"
+  "UNKNOWN_DATE": "Невідома дата",
+  "CONNECTING": "Підключення...",
+  "DISCONNECTED_FROM_SERVER": "Відключено від сервера."
 }

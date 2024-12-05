@@ -6,6 +6,7 @@ import classes from "./Header.module.css";
 import { useContextSelector } from "use-context-selector";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import LanguageButton from "./LanguageButton";
 
 function Header() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Header() {
       <div className="flex gap-[6px]">
         <ThemeButton />
         {isAuthorized && <ProfileButton />}
+        {!isAuthorized && <LanguageButton />}
       </div>
     </header>
   );

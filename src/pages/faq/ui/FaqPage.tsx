@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { importMarkdownFile } from "../lib/importMarkdownFile";
 import Markdown from "react-markdown";
-import { FaqTabs as FaqTabsEnum } from "../lib/FaqTabs";
+import { FaqTabs as FaqTabsEnum } from "../model/FaqTabs";
 import "./FaqPage.css";
 import FaqTabs from "./FaqTabs";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";

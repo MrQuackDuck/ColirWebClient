@@ -1,6 +1,6 @@
 import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
+import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { Button } from "@/shared/ui/Button";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";

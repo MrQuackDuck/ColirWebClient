@@ -1,7 +1,7 @@
 import UserService from "@/entities/User/api/UserService";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
+import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 import { Button } from "@/shared/ui/Button";

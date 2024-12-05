@@ -1,5 +1,5 @@
 import React from "react";
-import { FaqTabs as FaqTabsEnum } from "../lib/FaqTabs";
+import { FaqTabs as FaqTabsEnum } from "../model/FaqTabs";
 import HeaderTab from "@/shared/ui/HeaderTab";
 import Tab from "@/shared/ui/Tab";
 import { BookIcon, BrushIcon, DnaIcon, DollarSignIcon, InfoIcon, KeyIcon, LibraryIcon, LightbulbIcon } from "lucide-react";

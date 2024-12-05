@@ -16,6 +16,7 @@ import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
 import PopupWindow from "@/shared/ui/PopupWindow";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
+import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 
 function SettingsPage() {
   let { isDesktop } = useResponsiveness();
@@ -23,12 +24,18 @@ function SettingsPage() {
   const isSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.isOpen);
   const setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
 
+  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+
   let [isSheetOpen, setIsSheetOpen] = useState(false);
 
   let [isAnyDialogOpen, setIsAnyDialogOpen] = useState(false);
   let [isAnyDialogOpenDelayed, setIsAnyDialogOpenDelayed] = useState(false);
 
   let [selectedTab, setSelectedTab] = useState(SettingsTabsEnum.Account);
+
+  useEffect(() => {
+    if (!currentUser) return setIsSettingsOpen(false);
+  }, [currentUser]);
 
   useEffect(() => {
     // When switching tabs on mobile devices, close the sheet

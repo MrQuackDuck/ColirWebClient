@@ -1,3 +1,4 @@
+import { availableLanguages } from "@/shared/lib/availableLanguages";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
 import { Label } from "@/shared/ui/Label";
@@ -16,48 +17,14 @@ function LanguageSettings() {
       <Separator />
       <div className="flex flex-col gap-3.5">
         <RadioGroup value={currentLanguage} onValueChange={setCurrentLanguage}>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="de" id="de" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="de">
-              Deutsch
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="en" id="en" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="en">
-              English
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="es" id="es" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="es">
-              Español
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="fr" id="fr" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="fr">
-              Français
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="pl" id="pl" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="pl">
-              Polski
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="uk" id="uk" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="uk">
-              Українська
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="ru" id="ru" />
-            <Label className="text-sm cursor-pointer select-none" htmlFor="ru">
-              Русский
-            </Label>
-          </div>
+          {availableLanguages.map((language) => (
+            <div className="flex items-center space-x-2" key={language.languageCode}>
+              <RadioGroupItem value={language.languageCode} id={language.languageCode} />
+              <Label className="text-sm cursor-pointer select-none" htmlFor={language.languageCode}>
+                {language.languageName}
+              </Label>
+            </div>
+          ))}
         </RadioGroup>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DetailedUserModel } from "../../model/DetailedUserModel";
 import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import UserService from "../../api/UserService";
@@ -15,6 +15,11 @@ export const CurrentUserContext = createContext<{
 
 const CurrentUserProvider = ({ children }) => {
   const t = useTranslation();
+  const tRef = useRef(t);
+  useEffect(() => {
+    tRef.current = t;
+  }, [t]);
+
   const showErrorToast = useErrorToast();
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const setUser = (user: DetailedUserModel) => {
@@ -47,9 +52,9 @@ const CurrentUserProvider = ({ children }) => {
         })
         .catch((e) => {
           if (e.code === "ERR_NETWORK") {
-            showErrorToast(t("COULD_NOT_UPDATE_USER_INFO"), t("SERVER_NOT_AVAILABLE"));
+            showErrorToast(tRef.current("COULD_NOT_UPDATE_USER_INFO"), tRef.current("SERVER_NOT_AVAILABLE"));
           } else {
-            showErrorToast(t("COULD_NOT_UPDATE_USER_INFO"), e.message);
+            showErrorToast(tRef.current("COULD_NOT_UPDATE_USER_INFO"), e.message);
           }
           reject(e);
         });

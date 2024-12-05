@@ -10,7 +10,7 @@ import { useContextSelector } from "use-context-selector";
 import { Button } from "@/shared/ui/Button";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
+import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function ChooseAuthMethodForm({ onAnonymousMethodChosen }: { onAnonymousMethodChosen: () => void }) {

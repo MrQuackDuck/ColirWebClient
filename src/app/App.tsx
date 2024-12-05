@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/shared/ui/Toaster";
-import "./index.css";
+import "./main.css";
 import IndexPage from "@/pages/index/ui/IndexPage";
 import Header from "@/widgets/header/ui/Header";
 import Loader from "@/shared/ui/Loader";

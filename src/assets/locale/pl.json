@@ -221,5 +221,7 @@
   "UI_LIBS_FRAMEROWKS": "Biblioteki UI & Frameworki",
   "COULD_NOT_LOAD_IMAGE": "Nie można załadować obrazu",
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID powinien mieć dokładnie {0} symboli.",
-  "UNKNOWN_DATE": "Nieznana data"
+  "UNKNOWN_DATE": "Nieznana data",
+  "CONNECTING": "Łączenie...",
+  "DISCONNECTED_FROM_SERVER": "Rozłączono z serwerem."
 }

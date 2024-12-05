@@ -1,4 +1,4 @@
-import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
+import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useState } from "react";
 import { createContext } from "use-context-selector";
 

@@ -20,7 +20,7 @@ import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/lib/FaqTabs";
+import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
