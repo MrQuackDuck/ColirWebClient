@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "./Button_";
+import { Button } from "./Button";
 import { DownloadIcon, PlayIcon, Music2Icon } from "lucide-react";
 import { cn, decryptFile } from "../lib/utils";
 import Audio from "./Audio";

@@ -1,5 +1,5 @@
 import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { Separator } from "@/shared/ui/Separator";
 import { Input } from "@/shared/ui/Input";

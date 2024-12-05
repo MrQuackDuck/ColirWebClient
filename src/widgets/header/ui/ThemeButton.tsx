@@ -1,6 +1,6 @@
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
 import { MoonIcon, SunIcon } from "lucide-react";
 

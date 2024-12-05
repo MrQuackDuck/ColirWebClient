@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Volume2, VolumeX, Pause, Play, Maximize, Minimize, VideoOffIcon, RotateCwIcon } from "lucide-react";
 import { Slider } from "./Slider";
-import { Button } from "./Button_";
+import { Button } from "./Button";
 
 interface VideoElementProps {
   autoplay?: boolean;

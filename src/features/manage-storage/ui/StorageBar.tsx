@@ -1,5 +1,5 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { Trash2Icon } from "lucide-react";
 import { bytesToMB } from "../lib/bytesToMB";

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/
 import { isFirefox } from "react-device-detect";
 import { decryptFile } from "../lib/utils";
 import { ImageOffIcon, Image as PlayIcon, ImagePlayIcon } from "lucide-react";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { useTranslation } from "../lib/hooks/useTranslation";
 
 interface EncryptedImageViewerProps {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FocusLock from "react-focus-lock";
 import { cn } from "../lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
-import { Button } from "./Button_";
+import { Button } from "./Button";
 import { XIcon } from "lucide-react";
 import classes from "./PopupWindow.module.css";
 

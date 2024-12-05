@@ -1,4 +1,4 @@
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { Headphones, HeadphoneOff, MicIcon, MicOffIcon } from "lucide-react";
 import { useContextSelector } from "use-context-selector";
 import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProvider";

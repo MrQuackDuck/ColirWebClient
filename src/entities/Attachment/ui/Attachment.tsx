@@ -4,7 +4,7 @@ import { SERVER_URL } from "@/shared/api";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
 import { CopyIcon, DownloadIcon, FileIcon } from "lucide-react";
 import FileSaver from "file-saver";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { isFirefox } from "react-device-detect";
 import { cn, decryptFile, decryptString } from "@/shared/lib/utils";
 import EncryptedVideoPlayer from "@/shared/ui/EncryptedVideoPlayer";

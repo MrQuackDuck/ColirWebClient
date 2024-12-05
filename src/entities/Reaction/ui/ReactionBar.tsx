@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ReactionModel } from "../model/ReactionModel";
 import Reaction from "./Reaction";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardContent } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";

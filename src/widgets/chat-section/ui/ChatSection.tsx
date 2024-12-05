@@ -1,5 +1,5 @@
 import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { Button } from "@/shared/ui/Button_";
+import { Button } from "@/shared/ui/Button";
 import { Separator } from "@/shared/ui/Separator";
 import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
 import Countdown from "react-countdown";
