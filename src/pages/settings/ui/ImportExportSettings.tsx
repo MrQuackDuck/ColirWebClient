@@ -2,7 +2,7 @@ import { useImportExportSettings } from "@/shared/lib/hooks/useImportExportSetti
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { Separator } from "@/shared/ui/Separator";
 import { FileCodeIcon, ImportIcon } from "lucide-react";
 import { useRef } from "react";

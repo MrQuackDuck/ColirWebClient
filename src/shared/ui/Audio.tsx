@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Volume2, VolumeX, Pause, Play, RotateCwIcon, VolumeXIcon } from "lucide-react";
 import { Slider } from "./Slider";
-import { Button } from "./Button";
+import { Button } from "./Button_";
 
 interface AudioElementProps {
   autoplay?: boolean;

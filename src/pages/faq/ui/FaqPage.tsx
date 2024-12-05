@@ -10,7 +10,7 @@ import FaqTabs from "./FaqTabs";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
 import { Separator } from "@/shared/ui/Separator";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { PanelRightCloseIcon } from "lucide-react";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { ScrollArea } from "@/shared/ui/ScrollArea";

@@ -1,5 +1,5 @@
 import RoomTabsList from "@/entities/Room/ui/RoomTabsList";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";

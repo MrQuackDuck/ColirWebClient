@@ -4,7 +4,7 @@ import { UserModel } from "@/entities/User/model/UserModel";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import Moment from "moment/min/moment-with-locales";
 import "moment/min/locales";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { CheckIcon, CodeIcon, CopyIcon, CornerUpRightIcon, PencilIcon, PencilOffIcon, ReplyIcon, SkullIcon, Trash2Icon } from "lucide-react";
 import classes from "./Message.module.css";
 import { forwardRef, useEffect, useRef, useState } from "react";

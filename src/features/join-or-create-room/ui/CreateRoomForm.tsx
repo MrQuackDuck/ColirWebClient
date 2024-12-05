@@ -2,7 +2,7 @@ import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import { Input } from "@/shared/ui/Input";

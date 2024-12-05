@@ -1,4 +1,4 @@
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { Separator } from "@/shared/ui/Separator";

@@ -2,7 +2,7 @@ import UserService from "@/entities/User/api/UserService";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import { cn, decimalToHexString } from "@/shared/lib/utils";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
 import HexId from "@/shared/ui/HexId";
 import { Input } from "@/shared/ui/Input";

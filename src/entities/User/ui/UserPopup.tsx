@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UserModel } from "../model/UserModel";
 import { decimalToHexString } from "@/shared/lib/utils";
 import Moment from "moment";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { GavelIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";

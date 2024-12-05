@@ -4,7 +4,7 @@ import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqC
 import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { Checkbox } from "@/shared/ui/Checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/shared/ui/Form";
 import { Separator } from "@/shared/ui/Separator";

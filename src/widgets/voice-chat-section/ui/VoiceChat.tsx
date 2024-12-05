@@ -1,4 +1,4 @@
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { Collapsible, CollapsibleContent } from "@/shared/ui/Collapsible";
 import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from "lucide-react";
 import { useState } from "react";

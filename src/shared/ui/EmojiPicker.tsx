@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import { SmileIcon, SmilePlusIcon } from "lucide-react";
 import { cn } from "../lib/utils";
-import { Button } from "./Button";
+import { Button } from "./Button_";
 import "./EmojiPicker.css";
 import { ScrollArea } from "./ScrollArea";
 import emojiData from "../lib/emojis.json";

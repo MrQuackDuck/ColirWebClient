@@ -1,7 +1,7 @@
 import { CheckIcon, CopyIcon, DollarSignIcon, KeyIcon, LogOutIcon, MailCheckIcon, SettingsIcon, Trash2Icon } from "lucide-react";
 import { RoomModel } from "../model/RoomModel";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";

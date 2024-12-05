@@ -7,7 +7,7 @@ import redirect from "../lib/redirect";
 import { UserIcon } from "lucide-react";
 import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
-import { Button } from "@/shared/ui/Button";
+import { Button } from "@/shared/ui/Button_";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { FaqTabs } from "@/pages/faq/model/FaqTabs";
