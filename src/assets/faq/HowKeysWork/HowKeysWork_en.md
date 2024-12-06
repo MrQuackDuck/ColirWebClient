@@ -1,41 +1,39 @@
-# How do **keys** work?
+# How do keys work?
 
 ---
 
-Keys in Colir play a crucial role in ensuring secure, end-to-end encrypted communication. Here's how they work:
+Keys are crucial for secure, end-to-end encrypted communication in Colir. Here's the lowdown:
 
 1. **Encryption Keys**:
-   - Each room has its own unique encryption key.
-   - The key is chosen by the user who creates the room.
-   - It's used to encrypt and decrypt all messages within that room.
-   - The same key must be used by all participants to successfully decrypt messages.
+   - You set your own key for a room, but it needs to match with other members to read their messages and send ones they can decrypt.
 
-2. **Client-Side Storage**:
-   - Encryption keys are stored exclusively on the client side.
-   - They are never sent to or stored on the server.
-   - This ensures that only users with the correct key can read the messages.
+2. **Encryption Algorithm**:
+   - We use AES-256, a strong and widely trusted encryption method.
 
-3. **Key Distribution**:
-   - Users must share the encryption key securely outside of the Colir platform.
-   - This could be through a secure channel like an in-person meeting or another encrypted communication method.
+3. **Client-Side Storage**:
+   - Keys are stored only on your device, never on our servers. This means only users with the right key can read messages.
 
-4. **Room Access**:
-   - To join a room, users need two pieces of information:
-     a) The room's GUID (globally unique identifier)
+4. **What's Not Encrypted**:
+   - Room names, user names, timestamps, and reactions aren't encrypted.
+
+5. **Key Distribution**:
+   - Share keys securely outside Colir, like in person or through another encrypted channel.
+
+6. **Room Access**:
+   - To join a room, you need two things:
+     a) The room's GUID (a unique identifier)
      b) The encryption key for that room
-   - The GUID can be shared freely, but the encryption key should be kept secret among intended participants.
+   - You can share the GUID freely, but keep the key secret!
 
-5. **Decryption Process**:
-   - When a user enters a room, they input the encryption key.
-   - This key is used locally to decrypt incoming messages and encrypt outgoing ones.
-   - If an incorrect key is used, the messages will appear as gibberish.
+7. **Decryption Process**:
+   - When you enter a room, you input the key. This decrypts incoming messages and encrypts outgoing ones on your device.
+   - Wrong key? Messages will look like gibberish.
 
-6. **Security Implications**:
-   - Even if someone gains access to the room's GUID, they can't read the messages without the correct encryption key.
-   - The server only sees and stores encrypted data, maintaining user privacy.
+8. **Security Implications**:
+   - Even if someone gets the room's GUID, they can't read messages without the right key.
+   - Our servers only see encrypted data, keeping your chats private.
 
-7. **Key Management**:
-   - Users are responsible for managing and remembering their encryption keys.
-   - There's no key recovery process, as keys are not stored on the server.
+9. **Key Management**:
+   - You're responsible for remembering your keys. We can't recover them for you since we don't store them.
 
-By using this key system, Colir ensures that your communications remain private and secure, with encryption and decryption happening entirely on your device.
+This key system ensures your chats stay private and secure, with all the encryption magic happening right on your device.

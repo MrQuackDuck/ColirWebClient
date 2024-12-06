@@ -2,43 +2,24 @@
 
 ---
 
-In Colir, a room is a fundamental concept that serves as the primary space for secure communication. Here's what you need to know about rooms:
+In **Colir**, a room is your go-to spot for secure chats. Here's what you need to know:
 
-1. **Definition**:
-   - A room is a dedicated space where encrypted communication takes place.
-   - It's the virtual equivalent of a private meeting area.
+1. **Definition**: It's a virtual space for encrypted communication, like a private meeting area.
 
-2. **Creation**:
-   - Any user can create a room.
-   - When creating a room, the user sets an encryption key for that room.
+2. **Creation**: Anyone can create a room and set the encryption key. The key stays on your device, not our servers.
 
-3. **Identification**:
-   - Each room is assigned a unique GUID (Globally Unique Identifier).
-   - This GUID is used to identify and access the room.
+3. **Identification**: Each room gets a unique GUID (Globally Unique Identifier). Share this to invite others.
 
-4. **Access**:
-   - To join a room, a user needs two pieces of information:
-     a) The room's GUID
-     b) The correct encryption key
-   - Anyone with the GUID can attempt to join, but only those with the correct key can decrypt messages.
+4. **Access**: To join, you need the room's GUID and the correct encryption key.
 
-5. **Encryption**:
-   - All communication within a room is end-to-end encrypted.
-   - The encryption key is set during room creation and must be shared securely outside of Colir.
+5. **Encryption**: All chats in a room are end-to-end encrypted. You can change the key anytime.
 
-6. **Features**:
-   - Each room has one voice channel for audio communication.
-   - Text messages can be exchanged within the room.
+6. **Features**: Each room has a voice channel for encrypted audio chats and supports text messages.
 
-7. **Expiry**:
-   - Rooms can be created with an expiry date.
-   - When the expiry date is reached, all data in the room becomes inaccessible and is permanently deleted.
+7. **Expiry**: Set an expiry date for rooms. After that, all data becomes inaccessible and is deleted.
 
-8. **Privacy**:
-   - The server only stores and transfers encrypted data.
-   - Without the correct encryption key, the data in a room is unreadable, even if someone gains unauthorized access.
+8. **Privacy**: We only store and transfer encrypted data. Without the right key, it's unreadable.
 
-9. **Flexibility**:
-   - Rooms can be used for various purposes, such as private conversations, group discussions, or temporary information sharing.
+9. **Storage**: Each room has **100MB** of storage for files. Once full, you can't upload more until you free up space.
 
-Rooms in Colir provide a secure, flexible, and controlled environment for encrypted communication, ensuring that your conversations remain private and protected.
+Rooms in Colir give you a secure, flexible space for private chats, keeping your conversations under wraps.

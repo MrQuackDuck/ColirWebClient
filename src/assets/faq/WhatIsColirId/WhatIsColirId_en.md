@@ -2,43 +2,28 @@
 
 ---
 
-A Colir Id (also called the Hex Id) is a unique identifier assigned to each user in the Colir platform. Here's what you need to know about Colir Ids:
+A **Colir Id** (or *Hex Id*) is your unique username in **Colir**. Here's what you should know:
 
-1. **Definition**:
-   - A Colir Id is a 6-symbol hexadecimal number.
-   - It serves as a unique identifier for each user within the Colir system.
+1. **What it is**: A 6-character code using numbers 0-9 and letters A-F.
 
-2. **Format**:
-   - Consists of 6 characters.
-   - Uses hexadecimal digits (0-9 and A-F).
-   - Example: 1A2B3C
+2. **Example**: Something like **#F4CA16**
 
-3. **Purpose**:
-   - Provides a way to uniquely identify users within the platform.
-   - Allows for user recognition without revealing personal information.
+3. **Purpose**: It's how we identify you without using personal info.
 
-4. **Assignment**:
-   - Automatically generated and assigned when a user first authenticates with the system.
-   - Remains constant for the user across different sessions.
+4. **How you get it**: 
+   - If you sign in with **GitHub** or **Google**, you can pick from a few options we generate with ability to regenerate. Still, once you pick one, it can't be changed.
+   - For anonymous sign-ins, we assign a random one without giving a choice.
 
-5. **Usage**:
-   - Can be used to identify users within rooms.
-   - Might be used for features like adding friends or directing messages.
+5. **Using it**: It's how others see you in rooms and might be used for adding friends or direct messages.
 
-6. **Privacy**:
-   - The Colir Id doesn't contain or reveal any personal information about the user.
-   - It's designed to maintain user anonymity while still providing a unique identifier.
+6. **Privacy**: It doesn't reveal any personal info about you.
 
-7. **Persistence**:
-   - For users authenticated via GitHub or Google, the Colir Id remains consistent across logins.
-   - For anonymous users, a new Colir Id is generated each time, as these are one-time authentications.
+7. **Consistency**: 
+   - If you use GitHub or Google, your Id stays the same each time you log in.
+   - Anonymous users get a new Id each time.
 
-8. **Visibility**:
-   - Users can see their own Colir Id.
-   - Other users in the same room may be able to see each other's Colir Ids.
+8. **Who can see it**: You can see your own, and others in the same room might see it too.
 
-9. **Security**:
-   - Knowing someone's Colir Id doesn't grant any access to their account or messages.
-   - It's safe to share your Colir Id with others if needed.
+9. **Security**: Knowing someone's Colir Id doesn't give access to their account or messages.
 
-The Colir Id system allows for user identification within the platform while maintaining the core principles of privacy and security that Colir is built upon.
+The Colir Id lets us identify users while keeping things private and secure.

@@ -2,20 +2,18 @@
 
 ---
 
-The main goal of **Colir** is to provide an ability to communicate securely. 
+Colir's main goal is to provide secure communication through a fast messaging platform with end-to-end encryption. Here's how we achieve this:
 
-Colir is designed as a fast and secure messaging platform with end-to-end encryption. To achieve this goal, the application implements the following key features:
+1. **End-to-end encryption**: Users agree on a secret key before using the app. This key encrypts and decrypts data, ensuring secure communication.
 
-1. **End-to-end encryption**: Users should discuss a secret key before using the application. This key is used to encrypt and decrypt the data, ensuring secure communication.
+2. **Client-side key storage**: Encryption keys for rooms are stored only on your device, not on our servers, maximizing security.
 
-2. **Client-side key storage**: The encryption keys for rooms are stored only on the client side and are not sent to the server, maintaining the highest level of security.
+3. **Encrypted data transfer**: Our API only handles encrypted data, without access to the actual content.
 
-3. **Encrypted data transfer**: The API's primary role is to transfer and store the encrypted data, without having access to the decrypted content.
+4. **Room-based communication**: Create or join rooms using a GUID, but you'll need the right encryption key to read messages.
 
-4. **Room-based communication**: Users can create and join rooms using a GUID, but can only decrypt the data if they have the correct encryption key.
+5. **Data expiry**: Set an expiry date for rooms, after which all data becomes inaccessible and is deleted.
 
-5. **Data expiry**: Rooms can be set with an expiry date, after which all data becomes inaccessible and is permanently deleted.
+6. **Passwordless authentication**: Sign in anonymously or use third-party providers like GitHub and Google.
 
-6. **Passwordless authentication**: Users can authenticate anonymously or using third-party providers like GitHub and Google.
-
-By focusing on these features, Colir aims to provide a secure and user-friendly platform for encrypted communication, prioritizing user privacy and data protection.
+By focusing on these features, Colir aims to give you a user-friendly platform for private, encrypted chats while keeping your data safe.

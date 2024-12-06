@@ -28,7 +28,7 @@
 }
 
 .markdown a {
-  @apply text-primary hover:underline font-medium;
+  @apply text-primary underline font-medium;
 }
 
 .markdown ul {
@@ -60,7 +60,7 @@
 }
 
 .markdown hr {
-  @apply bg-border h-[0.5px] my-2 border-none;
+  @apply bg-border h-[1px] my-2 border-none;
 }
 
 .markdown table {

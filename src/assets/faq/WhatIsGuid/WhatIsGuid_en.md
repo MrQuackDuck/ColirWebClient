@@ -2,39 +2,22 @@
 
 ---
 
-In the context of Colir, a GUID plays a crucial role in room identification and access. Here's what you need to know about GUIDs:
+In Colir, a GUID is key to finding and joining rooms. Here's what you need to know:
 
-1. **Definition**:
-   - GUID stands for Globally Unique Identifier.
-   - It's a 128-bit number used to identify resources or entities in software systems.
+1. **Definition**: GUID stands for Globally Unique Identifier. It's a unique number used to identify stuff in software.
 
-2. **Characteristics**:
-   - A GUID is typically represented as a 32-character hexadecimal string.
-   - Example: 550e8400-e29b-41d4-a716-446655440000
-   - GUIDs are designed to be unique across all computers and networks.
+2. **What it looks like**: It's a 32-character string of letters and numbers, like this: 870280c0-c112-4766-a055-ada5161ac7e6
 
-3. **Purpose in Colir**:
-   - In Colir, each room is assigned a unique GUID.
-   - This GUID serves as the room's identifier and is used to access the room.
+3. **Purpose**: Each room in Colir has its own GUID. Think of it as the room's address.
 
-4. **Sharing**:
-   - Users can share the GUID of a room with others to invite them.
-   - Unlike the encryption key, the GUID can be shared freely without compromising security.
+4. **Sharing**: You can share a room's GUID with others to invite them. It's safe to share openly.
 
-5. **Access Control**:
-   - Knowing a room's GUID allows a user to attempt to join the room.
-   - However, without the correct encryption key, the user won't be able to decrypt any messages.
+5. **Access**: Knowing a GUID lets you try to join a room, but you still need the encryption key to read messages.
 
-6. **Privacy**:
-   - The GUID itself doesn't reveal any information about the room's content or participants.
-   - It's safe to share GUIDs through potentially insecure channels.
+6. **Privacy**: The GUID doesn't reveal anything about what's in the room or who's there.
 
-7. **Generation**:
-   - GUIDs are generated automatically by the system when a new room is created.
-   - The uniqueness of GUIDs ensures that no two rooms will ever have the same identifier.
+7. **Creation**: We generate GUIDs automatically when you create a new room.
 
-8. **User Interaction**:
-   - Users don't need to understand the technical details of GUIDs.
-   - They simply need to know that the GUID is the "address" or "code" for accessing a specific room.
+8. **How to use it**: You don't need to understand the tech behind GUIDs. Just think of it as the "code" to find a specific room.
 
-In essence, the GUID in Colir acts like a room number or address, allowing users to locate and access specific rooms within the platform while maintaining the security of the encrypted communications within those rooms.
+In short, the GUID is like a room number or address in Colir. It helps you find the right room without compromising the security of what's inside.

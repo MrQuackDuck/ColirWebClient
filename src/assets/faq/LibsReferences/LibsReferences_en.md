@@ -1,17 +1,36 @@
-# UI Libs & Frameworks
+# UI Libraries & Frameworks
 
 ---
 
-UI Libs & Frameworks:
-  - [React]("https://react.dev/") - primary library the application is built on
-  - [shadcn]("https://ui.shadcn.com/") - component library with primitives (such as buttons, dropdown lists etc.)
-  - [Tailwind]("https://tailwindcss.com/") - CSS framework for inline style editing
-  - [SignalR]("https://www.npmjs.com/package/@microsoft/signalr") - client library for communication with a server that encorporates SignalR
+## Frontend
 
-UI Methodology: [FSD]("https://feature-sliced.design/")
+### Core Libraries & Frameworks:
+- [React](https://react.dev/): Our primary library for building the user interface
+- [shadcn](https://ui.shadcn.com/): Component library providing essential UI elements
+- [Tailwind](https://tailwindcss.com/): CSS framework for efficient, inline styling
+- [SignalR](https://www.npmjs.com/package/@microsoft/signalr): Client library for real-time server communication
+- [CryptoJS](https://cryptojs.gitbook.io/docs/): Handles encryption and decryption on the client-side
 
-BackEnd stack:
-  - [ASP.NET]("https://dotnet.microsoft.com/en-us/apps/aspnet") - framework for building web apps and services with .NET and C#
-  - [EntityFramework Core]("https://learn.microsoft.com/en-us/ef/core/") - ORM (object-oriented mapper) for communnication with the database
-  - [SignalR]("https://dotnet.microsoft.com/en-us/apps/aspnet/signalr") - framework for building real-time communnication with clients
-  - [PostgreSQL]("https://www.postgresql.org/") - fast database used to store data in the application
+### UI Architecture:
+We follow the [Feature-Sliced Design](https://feature-sliced.design/) methodology for organizing our frontend code.
+
+---
+
+## Backend
+
+### Core Technologies:
+- [ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet): Framework for building modern web applications with .NET and C#
+- [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/): ORM for seamless database interactions
+- [SignalR](https://dotnet.microsoft.com/en-us/apps/aspnet/signalr): Enables real-time, bidirectional communication between server and clients
+- [PostgreSQL](https://www.postgresql.org/): Our choice for a fast, reliable database
+
+---
+
+## Project Links
+
+### GitHub Repositories:
+- Backend: [ColirBackEnd](https://github.com/MrQuackDuck/ColirBackend/)
+- Frontend: [ColirWebClient](https://github.com/MrQuackDuck/ColirWebClient/)
+
+### Developer:
+- [MrQuackDuck](https://github.com/MrQuackDuck/)
