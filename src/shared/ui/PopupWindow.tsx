@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 import { Button } from "./Button";
 import { XIcon } from "lucide-react";
 import classes from "./PopupWindow.module.css";
+import { useTranslation } from "../lib/hooks/useTranslation";
 
 interface PopupWindowProps {
   isOpen: boolean;
@@ -15,6 +16,8 @@ interface PopupWindowProps {
 }
 
 function PopupWindow(props: PopupWindowProps) {
+  const t = useTranslation();
+
   let [isHidden, setIsHidden] = useState(!props.isOpen);
   let [isPopupWindowShown, setisPopupWindowShown] = useState(props.isOpen);
 
@@ -36,7 +39,7 @@ function PopupWindow(props: PopupWindowProps) {
   return (
     <div
       className={cn(
-        "z-30 transition-all ease-in-out scale-[0.98] w-full h-full absolute bg-background overflow-y-hidden",
+        "z-30 transition-all ease-in-out scale-[0.98] w-full h-full fixed bg-background overflow-y-hidden",
         classes.popupWindow,
         !isPopupWindowShown && "opacity-0 pointer-events-none",
         isPopupWindowShown && "opacity-100 scale-100",
@@ -53,7 +56,7 @@ function PopupWindow(props: PopupWindowProps) {
               <XIcon className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="left">[Esc] Close</TooltipContent>
+          <TooltipContent side="left">{t("ESC_CLOSE")}</TooltipContent>
         </Tooltip>
       </FocusLock>
     </div>

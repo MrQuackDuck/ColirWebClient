@@ -8,6 +8,7 @@
   "CHOOSE_DISPLAY_NAME": "Choose display name",
   "DISPLAY_NAME": "Display name",
   "ENTER_DISPLAY_NAME": "Enter a name you want to be displayed",
+  "COOL_NAME_GOES_HERE": "cool-name-goes-here",
   "CONTINUE": "Continue",
   "USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS": "Username must be at least {0} characters.",
   "USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS": "Username can't be longer than {0} characters!",
@@ -223,5 +224,7 @@
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID should be exactly {0} symbols.",
   "UNKNOWN_DATE": "Unknown Date",
   "CONNECTING": "Connecting...",
-  "DISCONNECTED_FROM_SERVER": "Disconnected from server."
+  "DISCONNECTED_FROM_SERVER": "Disconnected from server.",
+  "DESIGN_AND_STYLE": "Design & Style",
+  "ESC_CLOSE": "[Esc] Close"
 }

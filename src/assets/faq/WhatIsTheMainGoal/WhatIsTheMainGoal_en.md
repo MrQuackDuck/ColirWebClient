@@ -1,8 +1,8 @@
-# What is the main goal?
+# 🎯 What is the main goal?
 
 ---
 
-Colir's main goal is to provide secure communication through a fast messaging platform with end-to-end encryption. Here's how we achieve this:
+**Colir**'s main goal is to provide secure communication through a fast messaging platform with end-to-end encryption. Here's how we achieve this:
 
 1. **End-to-end encryption**: Users agree on a secret key before using the app. This key encrypts and decrypts data, ensuring secure communication.
 
@@ -16,4 +16,4 @@ Colir's main goal is to provide secure communication through a fast messaging pl
 
 6. **Passwordless authentication**: Sign in anonymously or use third-party providers like GitHub and Google.
 
-By focusing on these features, Colir aims to give you a user-friendly platform for private, encrypted chats while keeping your data safe.
+By focusing on these features, **Colir** aims to give you a user-friendly platform for private, encrypted chats while keeping your data safe.

@@ -1,8 +1,8 @@
-# What is a Colir Id?
+# 📝 What is a Colir Id?
 
 ---
 
-A **Colir Id** (or *Hex Id*) is your unique username in **Colir**. Here's what you should know:
+A **Colir Id** (or _Hex Id_) is your unique username in **Colir**. Here's what you should know:
 
 1. **What it is**: A 6-character code using numbers 0-9 and letters A-F.
 
@@ -10,7 +10,8 @@ A **Colir Id** (or *Hex Id*) is your unique username in **Colir**. Here's what y
 
 3. **Purpose**: It's how we identify you without using personal info.
 
-4. **How you get it**: 
+4. **How you get it**:
+
    - If you sign in with **GitHub** or **Google**, you can pick from a few options we generate with ability to regenerate. Still, once you pick one, it can't be changed.
    - For anonymous sign-ins, we assign a random one without giving a choice.
 
@@ -18,7 +19,8 @@ A **Colir Id** (or *Hex Id*) is your unique username in **Colir**. Here's what y
 
 6. **Privacy**: It doesn't reveal any personal info about you.
 
-7. **Consistency**: 
+7. **Consistency**:
+
    - If you use GitHub or Google, your Id stays the same each time you log in.
    - Anonymous users get a new Id each time.
 
@@ -26,4 +28,4 @@ A **Colir Id** (or *Hex Id*) is your unique username in **Colir**. Here's what y
 
 9. **Security**: Knowing someone's Colir Id doesn't give access to their account or messages.
 
-The Colir Id lets us identify users while keeping things private and secure.
+The **Colir Id** lets us identify users while keeping things private and secure.

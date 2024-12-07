@@ -1,6 +1,6 @@
 {
   "AUTHENTICATION_METHOD": "Метод аутентификации",
-  "STAY_ANONYMOUS": "Остаться анонимным",
+  "STAY_ANONYMOUS": "Войти анонимно",
   "YOU_WILL_GET_SINGLE_SESSION_ACCOUNT": "* Вы получите аккаунт для одного сеанса без возможности повторного входа",
   "LOGIN_VIA_GITHUB": "Войти через GitHub",
   "LOGIN_VIA_GOOGLE": "Войти через Google",
@@ -8,6 +8,7 @@
   "CHOOSE_DISPLAY_NAME": "Выберите отображаемое имя",
   "DISPLAY_NAME": "Отображаемое имя",
   "ENTER_DISPLAY_NAME": "Введите имя, которое будет отображаться",
+  "COOL_NAME_GOES_HERE": "крутое-имя-сюда",
   "CONTINUE": "Продолжить",
   "USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS": "Имя пользователя должно быть не менее {0} символов.",
   "USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS": "Имя пользователя не может быть длиннее {0} символов!",
@@ -211,7 +212,7 @@
   "THIS_IS_INFO_MESSAGE": "Это информационное сообщение.",
   "WHO_REACTED": "Кто отреагировал?",
   "FAQ": "FAQ",
-  "WHAT_IS_THE_MAIN_GOAL": "В чем смысл?",
+  "WHAT_IS_THE_MAIN_GOAL": "Какова основная цель?",
   "WHY_DO_YOU_NEED_AUTH": "Зачем нужна авторизация?",
   "HOW_KEYS_WORK": "Как работают ключи?",
   "WHAT_IS_ROOM": "Что такое комната?",
@@ -223,5 +224,7 @@
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID должен содержать ровно {0} символов.",
   "UNKNOWN_DATE": "Неизвестно",
   "CONNECTING": "Подключение...",
-  "DISCONNECTED_FROM_SERVER": "Отключено от сервера."
+  "DISCONNECTED_FROM_SERVER": "Отключено от сервера.",
+  "DESIGN_AND_STYLE": "Дизайн и Стиль",
+  "ESC_CLOSE": "[Esc] Закрыть"
 }

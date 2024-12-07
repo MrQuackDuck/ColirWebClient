@@ -6,5 +6,6 @@ export enum FaqTabs {
   WhatIsGuid = "WhatIsGuid",
   WhatIsColirId = "WhatIsColirId",
   HowStatsWork = "HowStatsWork",
-  LibsReferences = "LibsReferences"
+  LibsReferences = "LibsReferences",
+  DesignAndStyle = "DesignAndStyle"
 }

@@ -1,6 +1,6 @@
 {
   "AUTHENTICATION_METHOD": "Метод автентифікації",
-  "STAY_ANONYMOUS": "Залишитися анонімним",
+  "STAY_ANONYMOUS": "Увійти анонімно",
   "YOU_WILL_GET_SINGLE_SESSION_ACCOUNT": "* Ви отримаєте обліковий запис для одного сеансу без можливості повторного входу",
   "LOGIN_VIA_GITHUB": "Увійти через GitHub",
   "LOGIN_VIA_GOOGLE": "Увійти через Google",
@@ -8,6 +8,7 @@
   "CHOOSE_DISPLAY_NAME": "Оберіть відображуване ім'я",
   "DISPLAY_NAME": "Відображуване ім'я",
   "ENTER_DISPLAY_NAME": "Введіть ім'я, яке буде відображатися",
+  "COOL_NAME_GOES_HERE": "потужне-ім'я-сюди",
   "CONTINUE": "Продовжити",
   "USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS": "Ім'я користувача має бути не менше {0} символів.",
   "USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS": "Ім'я користувача не може бути довшим за {0} символів!",
@@ -211,7 +212,7 @@
   "THIS_IS_INFO_MESSAGE": "Це інформаційне повідомлення.",
   "WHO_REACTED": "Хто відреагував?",
   "FAQ": "FAQ",
-  "WHAT_IS_THE_MAIN_GOAL": "У чому сенс?",
+  "WHAT_IS_THE_MAIN_GOAL": "Яка головна мета?",
   "WHY_DO_YOU_NEED_AUTH": "Навіщо авторизація?",
   "HOW_KEYS_WORK": "Як працюють ключі?",
   "WHAT_IS_ROOM": "Що таке кімната?",
@@ -223,5 +224,7 @@
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "GUID повинен містити рівно {0} символів.",
   "UNKNOWN_DATE": "Невідома дата",
   "CONNECTING": "Підключення...",
-  "DISCONNECTED_FROM_SERVER": "Відключено від сервера."
+  "DISCONNECTED_FROM_SERVER": "Відключено від сервера.",
+  "DESIGN_AND_STYLE": "Дизайн та Стиль",
+  "ESC_CLOSE": "[Esc] Закрити"
 }

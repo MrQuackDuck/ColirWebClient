@@ -1,4 +1,4 @@
-# What is a room?
+# 👀 What is a room?
 
 ---
 
@@ -22,4 +22,4 @@ In **Colir**, a room is your go-to spot for secure chats. Here's what you need t
 
 9. **Storage**: Each room has **100MB** of storage for files. Once full, you can't upload more until you free up space.
 
-Rooms in Colir give you a secure, flexible space for private chats, keeping your conversations under wraps.
+Rooms in **Colir** give you a secure, flexible space for private chats, keeping your conversations under wraps.

@@ -8,6 +8,7 @@
   "CHOOSE_DISPLAY_NAME": "Elige un nombre para mostrar",
   "DISPLAY_NAME": "Nombre para mostrar",
   "ENTER_DISPLAY_NAME": "Ingresa el nombre que se mostrará",
+  "COOL_NAME_GOES_HERE": "aquí-va-un-nombre-genial",
   "CONTINUE": "Continuar",
   "USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS": "El nombre de usuario debe tener al menos {0} caracteres.",
   "USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS": "¡El nombre de usuario no puede tener más de {0} caracteres!",
@@ -223,5 +224,7 @@
   "ROOM_GUID_MUST_BE_N_CHARACTERS": "El GUID debe tener exactamente {0} símbolos.",
   "UNKNOWN_DATE": "Fecha desconocida",
   "CONNECTING": "Conectando...",
-  "DISCONNECTED_FROM_SERVER": "Desconectado del servidor."
+  "DISCONNECTED_FROM_SERVER": "Desconectado del servidor.",
+  "DESIGN_AND_STYLE": "Diseño y Estilo",
+  "ESC_CLOSE": "[Esc] Cerrar"
 }

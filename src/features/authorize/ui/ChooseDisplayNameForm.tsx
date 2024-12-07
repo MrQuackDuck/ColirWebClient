@@ -64,7 +64,7 @@ function ChooseDisplayNameForm({ onProceed, onBack, username }: { onProceed: (ch
                 <FormItem className="space-y-1">
                   <FormLabel>{t("DISPLAY_NAME")}</FormLabel>
                   <FormControl>
-                    <Input autoFocus autoComplete="off" placeholder="cool-username-goes-here" {...field} />
+                    <Input autoFocus autoComplete="off" placeholder={t("COOL_NAME_GOES_HERE")} {...field} />
                   </FormControl>
                   <FormDescription className="text-slate-500 text-sm">{t("ENTER_DISPLAY_NAME")}</FormDescription>
                   <FormMessage />

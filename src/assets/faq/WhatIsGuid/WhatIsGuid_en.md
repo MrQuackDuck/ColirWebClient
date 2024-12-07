@@ -1,8 +1,8 @@
-# What is a GUID?
+# 🎫 What is a GUID?
 
 ---
 
-In Colir, a GUID is key to finding and joining rooms. Here's what you need to know:
+In **Colir**, a GUID is key to finding and joining rooms. Here's what you need to know:
 
 1. **Definition**: GUID stands for Globally Unique Identifier. It's a unique number used to identify stuff in software.
 
@@ -20,4 +20,4 @@ In Colir, a GUID is key to finding and joining rooms. Here's what you need to kn
 
 8. **How to use it**: You don't need to understand the tech behind GUIDs. Just think of it as the "code" to find a specific room.
 
-In short, the GUID is like a room number or address in Colir. It helps you find the right room without compromising the security of what's inside.
+In short, the GUID is like a room number or address in **Colir**. It helps you find the right room without compromising the security of what's inside.

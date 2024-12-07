@@ -1,10 +1,9 @@
-/* Markdown Styles for ShadCn React Application */
 .markdown h1 {
   @apply text-3xl font-bold text-foreground tracking-tight mb-4 mt-0;
 }
 
 .markdown h2 {
-  @apply text-2xl font-semibold text-foreground tracking-tight mb-4 mt-0 border-b pb-2;
+  @apply text-2xl font-semibold text-foreground tracking-tight mb-4 mt-0 border-b;
 }
 
 .markdown h3 {

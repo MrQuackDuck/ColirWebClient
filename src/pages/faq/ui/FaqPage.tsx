@@ -1,6 +1,6 @@
 import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
 import PopupWindow from "@/shared/ui/PopupWindow";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { importMarkdownFile } from "../lib/importMarkdownFile";
 import Markdown from "react-markdown";
@@ -14,6 +14,8 @@ import { Button } from "@/shared/ui/Button";
 import { Loader2Icon, PanelRightCloseIcon } from "lucide-react";
 import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
+import rehypeRaw from "rehype-raw";
+import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 
 function FaqPage() {
   let { isDesktop } = useResponsiveness();
@@ -24,15 +26,26 @@ function FaqPage() {
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
 
   const selectedFaqTab = useContextSelector(FaqControlContext, (c) => c.selectedFaqTab);
+  const selectedFaqTabRef = useRef(selectedFaqTab);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
 
   let [isSheetOpen, setIsSheetOpen] = useState(false);
   const [markdownContent, setMarkdownContent] = useState("");
   let languageCode = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
+  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+
+  useEffect(() => {
+    if (!isAuthorized) setIsFaqOpen(false);
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    selectedFaqTabRef.current = selectedFaqTab;
+  }, [selectedFaqTab]);
 
   useEffect(() => {
     const loadMarkdown = async () => {
       const content = await importMarkdownFile(FaqTabsEnum[selectedFaqTab], languageCode);
+      if (selectedFaqTabRef.current === selectedFaqTab)
       setMarkdownContent(content);
     };
 
@@ -67,7 +80,7 @@ function FaqPage() {
         )}
         {!isLoading && (
           <ScrollArea className="w-full">
-            <Markdown className="markdown pl-4 pr-12 pt-5">{markdownContent}</Markdown>
+            <Markdown className="markdown pl-4 pr-12 pt-5" rehypePlugins={[rehypeRaw]}>{markdownContent}</Markdown>
           </ScrollArea>
         )}
       </div>
