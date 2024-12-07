@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import classes from "./Header.module.css";
 import { useContextSelector } from "use-context-selector";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
 import LanguageButton from "./LanguageButton";
 
 function Header() {

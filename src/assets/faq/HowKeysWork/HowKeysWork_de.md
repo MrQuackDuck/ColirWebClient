@@ -2,7 +2,7 @@
 
 ---
 
-Schlüssel sind entscheidend für die sichere, **Ende-zu-Ende verschlüsselte Kommunikation** in **Colir**. Hier sind die wichtigsten Informationen:
+Schlüssel sind entscheidend für sichere, **Ende-zu-Ende verschlüsselte Kommunikation** in **Colir**. Hier sind die wichtigsten Informationen:
 
 1. **Verschlüsselungsschlüssel**:
 
@@ -10,7 +10,7 @@ Schlüssel sind entscheidend für die sichere, **Ende-zu-Ende verschlüsselte Ko
 
 2. **Verschlüsselungsalgorithmus**:
 
-   - Wir verwenden AES-256, eine starke und weithin vertrauenswürdige Verschlüsselungsmethode.
+   - Wir verwenden AES-256, eine starke und weit verbreitete Verschlüsselungsmethode.
 
 3. **Clientseitige Speicherung**:
 
@@ -26,9 +26,9 @@ Schlüssel sind entscheidend für die sichere, **Ende-zu-Ende verschlüsselte Ko
 
 6. **Raumzugang**:
 
-   - Um einem Raum beizutreten, benötigen Sie zwei Dinge:
-     a) Die GUID des Raums (eine eindeutige Kennung)
-     b) Den Verschlüsselungsschlüssel für diesen Raum
+   - Um einem Raum beizutreten, benötigen Sie zwei Dinge:\
+     **a)** Die GUID des Raums (eine eindeutige Kennung)\
+     **b)** Den Verschlüsselungsschlüssel für diesen Raum
    - Sie können die GUID frei teilen, aber halten Sie den Schlüssel geheim!
 
 7. **Entschlüsselungsprozess**:

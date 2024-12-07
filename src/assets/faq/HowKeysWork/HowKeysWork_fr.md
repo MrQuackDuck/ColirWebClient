@@ -26,9 +26,9 @@ Les clés sont cruciales pour une communication sécurisée et **chiffrée de bo
 
 6. **Accès à la salle** :
 
-   - Pour rejoindre une salle, vous avez besoin de deux choses :
-     a) Le GUID de la salle (un identifiant unique)
-     b) La clé de chiffrement pour cette salle
+   - Pour rejoindre une salle, vous avez besoin de deux choses :\
+     **a)** Le GUID de la salle (un identifiant unique)\
+     **b)** La clé de chiffrement pour cette salle
    - Vous pouvez partager le GUID librement, mais gardez la clé secrète !
 
 7. **Processus de déchiffrement** :

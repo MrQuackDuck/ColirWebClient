@@ -26,9 +26,9 @@ Keys are crucial for secure, **end-to-end encrypted communication** in **Colir**
 
 6. **Room Access**:
 
-   - To join a room, you need two things:
-     a) The room's GUID (a unique identifier)
-     b) The encryption key for that room
+   - To join a room, you need two things:\
+     **a)** The room's GUID (a unique identifier)\
+     **b)** The encryption key for that room
    - You can share the GUID freely, but keep the key secret!
 
 7. **Decryption Process**:

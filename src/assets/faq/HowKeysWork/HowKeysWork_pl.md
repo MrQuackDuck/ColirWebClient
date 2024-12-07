@@ -26,9 +26,9 @@ Klucze są kluczowe dla bezpiecznej, **szyfrowanej end-to-end komunikacji** w **
 
 6. **Dostęp do pokoju**:
 
-   - Aby dołączyć do pokoju, potrzebujesz dwóch rzeczy:
-     a) GUID pokoju (unikalny identyfikator)
-     b) Klucz szyfrowania dla tego pokoju
+   - Aby dołączyć do pokoju, potrzebujesz dwóch rzeczy:\
+     **a)** GUID pokoju (unikalny identyfikator)\
+     **b)** Klucz szyfrowania dla tego pokoju
    - Możesz swobodnie udostępniać GUID, ale zachowaj klucz w tajemnicy!
 
 7. **Proces deszyfrowania**:

@@ -1,5 +1,5 @@
 import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
-import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
 import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { Button } from "@/shared/ui/Button";

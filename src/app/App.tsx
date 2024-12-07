@@ -15,7 +15,7 @@ import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section/lib/p
 import { VoiceChatControlsProvider } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
 import SettingsPage from "@/pages/settings/ui/SettingsPage";
 import FaqPage from "@/pages/faq/ui/FaqPage";
-import { FaqControlProvider } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqControlProvider } from "@/features/control-faq/libs/providers/FaqControlProvider";
 
 function App() {
   let isLoading = useContextSelector(LoadingContext, (c) => c.isLoading);

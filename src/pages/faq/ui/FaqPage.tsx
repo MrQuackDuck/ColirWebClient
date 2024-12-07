@@ -12,7 +12,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/S
 import { Separator } from "@/shared/ui/Separator";
 import { Button } from "@/shared/ui/Button";
 import { Loader2Icon, PanelRightCloseIcon } from "lucide-react";
-import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 import rehypeRaw from "rehype-raw";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";

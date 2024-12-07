@@ -141,6 +141,20 @@ export const useVoiceChatConnection = (
           return [...prevConnections];
         });
       });
+
+      // On reconnect, refresh the users
+      connection.onreconnected(() => {
+        connection.invoke<SignalRHubResponse<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
+          if (response.resultType == SignalRResultType.Error) throw new Error(response.error.errorCodeAsString);
+          let users = response.content;
+          setVoiceChatConnections((prevConnections) => {
+            let connectionToUpdate = prevConnections.find((c) => c.connection === connection);
+            if (!connectionToUpdate) return prevConnections;
+            connectionToUpdate.joinedUsers = users;
+            return [...prevConnections];
+          });
+        });
+      });
     });
   };
 

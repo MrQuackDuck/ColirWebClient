@@ -26,9 +26,9 @@ Las claves son cruciales para la comunicación segura y **cifrada de extremo a e
 
 6. **Acceso a la sala**:
 
-   - Para unirte a una sala, necesitas dos cosas:
-     a) El GUID de la sala (un identificador único)
-     b) La clave de cifrado para esa sala
+   - Para unirte a una sala, necesitas dos cosas:\
+     **a)** El GUID de la sala (un identificador único)\
+     **b)** La clave de cifrado para esa sala
    - ¡Puedes compartir el GUID libremente, pero mantén la clave en secreto!
 
 7. **Proceso de descifrado**:

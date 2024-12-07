@@ -11,7 +11,7 @@ import { useContextSelector } from "use-context-selector";
 import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
 import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { FaqControlContext } from "@/features/open-close-faq/libs/providers/FaqControlProvider";
+import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
 
 function Aside() {
   const t = useTranslation();
