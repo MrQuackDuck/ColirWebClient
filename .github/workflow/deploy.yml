@@ -11,18 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # Set up Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Adjust the Node.js version if needed
 
+      # Install pnpm
+      - name: Setup pnpm
+        run: npm install -g pnpm
+
+      # Install dependencies using pnpm
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
+      # Build the project
       - name: Build project
-        run: npm run build
+        run: pnpm run build
 
+      # Upload production-ready build files
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
@@ -36,12 +47,14 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
+      # Download build artifact
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: production-files
           path: ./dist
 
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
