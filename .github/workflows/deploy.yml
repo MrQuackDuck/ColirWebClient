@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Adjust the Node.js version if needed
+          node-version: '18' # Adjust the Node.js version if needed
 
       # Install pnpm
       - name: Setup pnpm
