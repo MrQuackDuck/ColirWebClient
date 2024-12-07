@@ -19,6 +19,7 @@ import { SaveAllIcon, Trash2Icon } from "lucide-react";
 import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
+import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 interface AccountSettingsProps {
   dialogOpenClosed: (newState: boolean) => void;
@@ -27,6 +28,7 @@ interface AccountSettingsProps {
 function AccountSettings(props: AccountSettingsProps) {
   const t = useTranslation();
   const showInfoToast = useInfoToast();
+  const showErrorToast = useErrorToast();
   let { isDesktop } = useResponsiveness();
   let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
@@ -65,7 +67,7 @@ function AccountSettings(props: AccountSettingsProps) {
       UserService.ChangeUsername({ newName: values.username }).then(() => {
         updateCurrentUser();
         showInfoToast(t("UPDATED"), t("PROFILE_UPDATED_SUCCESSFULLY"));
-      });
+      }).catch(() => showErrorToast());
     }
   }
 

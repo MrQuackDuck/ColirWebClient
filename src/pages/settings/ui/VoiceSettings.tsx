@@ -97,7 +97,7 @@ function VoiceSettings() {
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">{t("INPUT_VOLUME")}</span>
-            <Slider step={0.1} className="cursor-pointer" value={[voiceInputVolume]} onValueChange={(v) => setVoiceInputVolume(v[0])} />
+            <Slider disabled={true} step={0.1} className="cursor-pointer" value={[voiceInputVolume]} onValueChange={(v) => setVoiceInputVolume(v[0])} />
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">
