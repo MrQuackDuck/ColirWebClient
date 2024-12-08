@@ -64,10 +64,12 @@ function AccountSettings(props: AccountSettingsProps) {
 
   function onSave(values: z.infer<typeof formSchema>) {
     if (currentUser?.username != values.username && values.username) {
-      UserService.ChangeUsername({ newName: values.username }).then(() => {
-        updateCurrentUser();
-        showInfoToast(t("UPDATED"), t("PROFILE_UPDATED_SUCCESSFULLY"));
-      }).catch(() => showErrorToast());
+      UserService.ChangeUsername({ newName: values.username })
+        .then(() => {
+          updateCurrentUser();
+          showInfoToast(t("UPDATED"), t("PROFILE_UPDATED_SUCCESSFULLY"));
+        })
+        .catch(() => showErrorToast());
     }
   }
 

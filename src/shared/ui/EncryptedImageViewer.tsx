@@ -65,7 +65,9 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
         <div className="flex flex-row items-center gap-2">
           <ImagePlayIcon className="text-primary/80 shrink-0" />
           <div className="flex flex-col">
-            <span style={{ lineBreak: "anywhere" }} className="text-sm text-primary/80">{fileName}</span>
+            <span style={{ lineBreak: "anywhere" }} className="text-sm text-primary/80">
+              {fileName}
+            </span>
             <span className="text-xs text-primary/50">{sizeString}</span>
           </div>
         </div>

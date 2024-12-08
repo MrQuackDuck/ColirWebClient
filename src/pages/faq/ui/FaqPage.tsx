@@ -45,8 +45,7 @@ function FaqPage() {
   useEffect(() => {
     const loadMarkdown = async () => {
       const content = await importMarkdownFile(FaqTabsEnum[selectedFaqTab], languageCode);
-      if (selectedFaqTabRef.current === selectedFaqTab)
-      setMarkdownContent(content);
+      if (selectedFaqTabRef.current === selectedFaqTab) setMarkdownContent(content);
     };
 
     setIsLoading(true);
@@ -80,7 +79,9 @@ function FaqPage() {
         )}
         {!isLoading && (
           <ScrollArea className="w-full">
-            <Markdown className="markdown pl-4 pr-12 pt-5" rehypePlugins={[rehypeRaw]}>{markdownContent}</Markdown>
+            <Markdown className="markdown pl-4 pr-12 pt-5" rehypePlugins={[rehypeRaw]}>
+              {markdownContent}
+            </Markdown>
           </ScrollArea>
         )}
       </div>

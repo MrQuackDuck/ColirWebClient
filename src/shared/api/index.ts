@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocalStorage } from "../lib/hooks/useLocalStorage";
 import { isDevelopment } from "../lib/utils";
 
-export const SERVER_URL = isDevelopment() ? `http://localhost:7700` : "https://api.colir.net"; 
+export const SERVER_URL = isDevelopment() ? `http://localhost:7700` : "https://api.colir.net";
 export const API_URL = `${SERVER_URL}/API`;
 
 const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();

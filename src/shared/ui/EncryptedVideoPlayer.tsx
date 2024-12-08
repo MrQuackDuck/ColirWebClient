@@ -65,7 +65,9 @@ const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
           <div className="flex flex-row items-center gap-2">
             <VideoIcon className="text-primary/80 shrink-0" />
             <div className="flex flex-col">
-              <span style={{ lineBreak: "anywhere" }} className="text-sm text-primary/80">{props.fileName}</span>
+              <span style={{ lineBreak: "anywhere" }} className="text-sm text-primary/80">
+                {props.fileName}
+              </span>
               <span className="text-xs text-primary/50">{props.sizeString}</span>
             </div>
           </div>
