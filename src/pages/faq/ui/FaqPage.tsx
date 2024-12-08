@@ -40,6 +40,9 @@ function FaqPage() {
 
   useEffect(() => {
     selectedFaqTabRef.current = selectedFaqTab;
+    
+    // When switching tabs on mobile devices, close the sheet
+    setIsSheetOpen(false);
   }, [selectedFaqTab]);
 
   useEffect(() => {

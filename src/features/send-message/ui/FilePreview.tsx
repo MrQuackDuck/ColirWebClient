@@ -17,7 +17,7 @@ function FilePreview(props: FilePreviewProps) {
   return (
     <div className={cn("flex flex-col gap-1 justify-center p-2 items-center aspect-square h-28 rounded-[6px]", theme == "light" ? "bg-gray-200" : "bg-gray-900")}>
       {isImage(props.file) && <img draggable={false} src={URL.createObjectURL(props.file)} className="object-cover h-full rounded-[3px]" />}
-      <span style={{ lineBreak: "anywhere" }} className="text-[11px] text-primary/90 select-none whitespace-break-spaces">
+      <span style={{ lineBreak: "anywhere" }} className="text-[11px] text-ellipsis overflow-hidden text-primary/90 select-none whitespace-break-spaces">
         {props.file.name}
       </span>
       <Button onClick={() => props.removeClicked()} className="w-5 h-5 absolute z-[1] top-[-8px] right-[-4px] rounded-sm" variant={"destructive"} size={"icon"}>

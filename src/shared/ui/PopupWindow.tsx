@@ -6,6 +6,7 @@ import { Button } from "./Button";
 import { XIcon } from "lucide-react";
 import classes from "./PopupWindow.module.css";
 import { useTranslation } from "../lib/hooks/useTranslation";
+import { useResponsiveness } from "../lib/hooks/useResponsiveness";
 
 interface PopupWindowProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ function PopupWindow(props: PopupWindowProps) {
 
   let [isHidden, setIsHidden] = useState(!props.isOpen);
   let [isPopupWindowShown, setisPopupWindowShown] = useState(props.isOpen);
+  let { isDesktop } = useResponsiveness();
 
   // Additional functionality to set "display: hidden" to the component
   // in order to prevent focusing on hidden elements when the popup is closed
@@ -56,7 +58,7 @@ function PopupWindow(props: PopupWindowProps) {
               <XIcon className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="left">{t("ESC_CLOSE")}</TooltipContent>
+          {isDesktop && <TooltipContent side="left">{t("ESC_CLOSE")}</TooltipContent>}
         </Tooltip>
       </FocusLock>
     </div>

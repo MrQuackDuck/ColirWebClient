@@ -3,7 +3,6 @@ import { Button } from "@/shared/ui/Button";
 import { Separator } from "@/shared/ui/Separator";
 import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
 import Countdown from "react-countdown";
-import classes from "./ChatSection.module.css";
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
@@ -285,19 +284,43 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   }, [selectedRoom]);
 
   let mainSection = useRef<any>();
+
+  // Count the number of messages in each room to control the scroll behavior
+  const [roomMessagesCount, setRoomMessagesCount] = useState<{[roomGuid: string]: number}>({});
   useEffect(() => {
     if (selectedRoomConnection == null) return setMessagesLoaded(false);
     if (messages.length == 0 && selectedRoomConnection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
+    
     setMessagesLoaded(true);
+    
+    // Get the current room's GUID
+    const currentRoomGuid = selectedRoomConnection.roomGuid;
+    
+    // Get the previous message count for this room
+    const previousMessageCount = roomMessagesCount[currentRoomGuid] || 0;
+    
+    // Check if the current messages count is higher than the previous count
+    const hasNewMessage = messages.length > previousMessageCount;
+    
+    // Update the messages count for the current room
+    setRoomMessagesCount(prev => ({
+      ...prev,
+      [currentRoomGuid]: messages.length
+    }));
 
     let lastMessage = messages[messages.length - 1];
-    let isMessageNew = Math.abs(Date.now() - new Date(lastMessage?.postDate).getTime()) < 2000;
-    let theLastMessageIsNewAndUserIsNearBottom: () => boolean = () => (isMessageNew && isNearBottom(300)) ?? false;
-    let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => isMessageNew && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
+    let theLastMessageIsNewAndUserIsNearBottom: () => boolean = () => (hasNewMessage && isNearBottom(300)) ?? false;
+    let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => (
+      hasNewMessage && 
+      lastMessage && 
+      lastMessage.authorHexId == currentUser?.hexId
+    );
 
     // Scroll to the bottom when the user sends a message
-    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor()) setTimeout(() => scrollToBottom(), 10);
-  }, [filteredMessages]);
+    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor()) {
+      setTimeout(() => scrollToBottom(), 10);
+    }
+  }, [filteredMessages, selectedRoomConnection]);
 
   // Set chat variant based on the connection state
   useEffect(() => {
@@ -423,8 +446,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       </header>
       <Separator orientation="horizontal" />
 
-      <main style={{ paddingBottom: currentPadding }} ref={mainSection} className={`h-full overflow-hidden ${classes.messagesBlock}`}>
-        <ScrollArea viewportRef={scrollAreaRef} style={{ overflowAnchor: "none" }} className={`h-full pr-3 pb-2`}>
+      <main style={{ paddingBottom: currentPadding + 48 }} ref={mainSection} className={`h-full overflow-hidden`}>
+        <ScrollArea viewportRef={scrollAreaRef} style={{ overflowAnchor: "none" }} className={`h-full pr-3`}>
           {roomsWithNoMoreMessagesToLoad.filter((r) => r == room.guid).length == 0 && <div className="z-50 w-full top-30" ref={messagesStart}></div>}
           <MessagesList
             filteredMessages={filteredMessages}
