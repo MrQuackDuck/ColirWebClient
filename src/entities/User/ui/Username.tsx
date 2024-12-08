@@ -14,10 +14,10 @@ const Username = React.memo(function Username({ user, className }: { user?: User
 
   return (
     <Popover>
-      <PopoverTrigger className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1">
+      <PopoverTrigger style={{ color: colorString }} className="max-w-56 rounded-sm text-nowrap overflow-hidden text-ellipsis focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1">
         <Tooltip>
           <TooltipTrigger asChild>
-            <span style={{ color: colorString }} className={cn("cursor-pointer text-ellipsis hover:underline text-sm", className)}>
+            <span style={{ color: colorString }} className={cn("cursor-pointer text-left text-nowrap overflow-hidden text-ellipsis hover:underline text-sm", className)}>
               {user ? user.username : t("UNKNOWN_USER")}
             </span>
           </TooltipTrigger>

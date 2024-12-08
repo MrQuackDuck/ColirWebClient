@@ -28,7 +28,7 @@ function VoiceChatUser({ voiceChatUser, user, isTalking, couldDecrypt, className
           className="flex p-2 cursor-pointer transition-colors duration-150 hover:bg-secondary items-center justify-between gap-2 select-none
           rounded-sm overflow-visible focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1"
         >
-          <span style={{ color: colorString }} className={cn("cursor-pointer text-ellipsis text-sm", className)}>
+          <span style={{ color: colorString, lineBreak: "anywhere" }} className={cn("cursor-pointer text-ellipsis text-sm", className)}>
             {user ? user.username : "Unknown User"}
           </span>
           <div className="flex flex-row gap-1 text-slate-400">

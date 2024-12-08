@@ -153,9 +153,11 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
           {attachmentType == AttachmentType.DOCUMENT && (
             <div className="flex flex-row items-center min-w-64 max-w-96 bg-secondary/90 p-2 rounded-[6px] justify-between">
               <div className="flex flex-row items-center gap-2">
-                <FileIcon className="text-primary/80" />
+                <FileIcon className="text-primary/80 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-sm text-primary/80">{decryptedFilename ? decryptedFilename : <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}</span>
+                  <span style={{ lineBreak: "anywhere" }} className="text-sm text-primary/80">
+                    {decryptedFilename ? decryptedFilename : <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}
+                  </span>
                   <span className="text-xs text-primary/50">{getSizeNormalized(attachment.sizeInBytes)}</span>
                 </div>
               </div>

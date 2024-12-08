@@ -55,7 +55,7 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
 
   return (
     <>
-      <p style={{ color: colorString }}>{user?.username ?? t("UNKNOWN_USER")}</p>
+      <p style={{ color: colorString, lineBreak: "anywhere" }}>{user?.username ?? t("UNKNOWN_USER")}</p>
       <AuthTypeBadge authType={user?.authType} />
       <div className="text-sm text-primary/80">
         <p>
