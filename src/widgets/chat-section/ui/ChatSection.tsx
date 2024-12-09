@@ -470,7 +470,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
           onClick={() => scrollToBottom(true)}
           variant={"outline"}
           size={"icon"}
-          className={cn("z-10 transition-opacity duration-200 absolute bottom-8 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none")}
+          className={cn("z-10 transition-opacity duration-200 absolute bottom-14 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none")}
         >
           <ArrowDown className="h-4 w-4" />
         </Button>

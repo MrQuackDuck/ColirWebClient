@@ -42,10 +42,20 @@ export type AutosizeTextAreaRef = {
 type AutosizeTextAreaProps = {
   maxHeight?: number;
   minHeight?: number;
+  contentHidden?: boolean;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTextAreaProps>(
-  ({ maxHeight = Number.MAX_SAFE_INTEGER, minHeight = 40, className, onChange, onKeyDown, value, ...props }: AutosizeTextAreaProps, ref: React.Ref<AutosizeTextAreaRef>) => {
+  ({ 
+    maxHeight = Number.MAX_SAFE_INTEGER, 
+    minHeight = 40, 
+    className, 
+    onChange, 
+    onKeyDown, 
+    value, 
+    contentHidden = false,
+    ...props 
+  }: AutosizeTextAreaProps, ref: React.Ref<AutosizeTextAreaRef>) => {
     const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
     const [triggerAutoSize, setTriggerAutoSize] = React.useState("");
     const [history, setHistory] = React.useState<string[]>([]);
@@ -164,6 +174,7 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
         data-gramm="false"
         className={cn(
           "flex w-full overflow-y-hidden max-h-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          contentHidden && "text-transparent",
           className
         )}
         onKeyDown={handleKeyDown}

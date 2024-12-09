@@ -208,6 +208,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
           {variant == "disconnected" && <span className="z-10 absolute pointer-events-none left text-primary text-sm pl-9">{t("DISCONNECTED_FROM_SERVER")}</span>}
           <AutosizeTextarea
             onPaste={handlePaste}
+            contentHidden={variant === "connecting" || variant === "disconnected"}
             readOnly={variant !== "default"}
             autoFocus
             ref={textAreaRef}
