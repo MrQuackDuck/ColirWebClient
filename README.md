@@ -1,50 +1,48 @@
-# React + TypeScript + Vite
+<h1><img src="https://i.imgur.com/r9MjrFQ.png" height=80 /><div>Colir (Web Client)</div></h1>
+<p>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-gray?color=0B1121&logo=react&logoColor=00D1F7" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-gray?color=0B1121&logo=tailwindcss" /></a>
+  <a href="https://ui.shadcn.com/"><img src="https://img.shields.io/badge/shadcn-gray?color=000000&logo=shadcnui" /></a>
+  <a href="https://feature-sliced.design/"><img src="https://img.shields.io/badge/FSD-gray?color=0D1117" /></a>
+  <a href="https://www.npmjs.com/package/@microsoft/signalr"><img src="https://img.shields.io/badge/SignalR-gray?color=4C9CC7&logo=data:image/svg%2bxml;base64,PHN2ZyB3aWR0aD0iNzUwIiBoZWlnaHQ9Ijc1MCIgdmlld0JveD0iMCAwIDc1MCA3NTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMDUuNjgyIDU0NS40NTVMMzQ3LjcyNyA0NDMuMTgySDQ0Mi4wNDVDNDc5LjU0NiA0NDMuMTgyIDUxMC4yMjcgNDEyLjUgNTEwLjIyNyAzNzVDNTEwLjIyNyAzMzcuNSA0NzkuNTQ2IDMwNi44MTggNDQyLjA0NSAzMDYuODE4SDEzNS4yMjdMMzA1LjY4MiAxMzYuMzY0VjIwNC41NDVINDQyLjA0NUM1MzYuMzYzIDIwNC41NDUgNjEyLjUgMjgwLjY4MSA2MTIuNSAzNzVDNjEyLjUgNDY3LjA0NSA1MzkuNzczIDU0MC45MDkgNDUwIDU0NC4zMThMNTg4LjYzNyA2ODIuOTU0QzY4Ni4zNjQgNjE0Ljc3MiA3NTAgNTAyLjI3MyA3NTAgMzc1Qzc1MCAxNjguMTgyIDU4MS44MTggMCAzNzUgMEMxNjguMTgyIDAgMCAxNjguMTgyIDAgMzc1QzAgNTgxLjgxOCAxNjguMTgyIDc1MCAzNzUgNzUwQzQxNS45MDkgNzUwIDQ1NS42ODIgNzQzLjE4MiA0OTIuMDQ2IDczMC42ODFMMzA1LjY4MiA1NDUuNDU1WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==" /></a>
+  <a href="https://zod.dev/"><img src="https://img.shields.io/badge/Zod-gray?color=2A548F&logo=zod" /></a>
+  <a href="https://axios-http.com/docs/intro"><img src="https://img.shields.io/badge/Axios-gray?color=814CCD&logo=axios" /></a>
+  <a href="https://pages.github.com/"><img src="https://img.shields.io/badge/GitHub_Pages-black?color=000000&logo=github" /></a>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<b>Colir — fast & secure <ins>messaging platform</ins> </b>with<b> end-to-end</b> encryption. <br>
 
-Currently, two official plugins are available:
+## 🌈 The idea
+The main goal of **Colir** is to provide an ability to **communicate securely**. <br>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To implement that, **end-to-end encryption** was chosen. Before using the application, **users should discuss a secret key** that will be **used to encrypt & decrypt** the data.<br>
+> [!NOTE]
+> The **encryption keys** for rooms are stored **on the client only**. They're **not being sent to the server**.
 
-## Expanding the ESLint configuration
+This **API's role** is **to transfer** and **store** the encrypted data.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🌠 Features
+Besides that, **Colir** **has** a couple of **features**, which can interest you in:
+- **Rooms** are places where the encrypted communication happens. When a user **creates** a room, he/she chooses an **encryption key** (which will be stored at the client) and receives a **room GUID**. **They can share that GUID** with someone else so they **can join** that room. **Anyone** who has **the GUID** of a certain room **can join** it, but it will be **impossible to decrypt** the data **if** the **wrong encryption** key was provided.
+- **Expiry date** can be provided for **rooms**. **When** the **expiry date comes**, all **data won't be accessible** and **will be deleted** forever.
+- There's only **one voice channel** per room.
+- **Passwordless authentication**. There are **three ways to authenticate**: **anonymous** (gives you a one-time JWT), **GitHub** account, and **Google** account.
+- Each user has a unique **"Colir ID"**, which is a **6 symbol-length hexadecimal number** to identify a user.
+> [!CAUTION]
+> If you authenticate as **anonymous**, you **won't be able to login** into that account again.<br>
+> **Therefore**, use **3rd party providers** such as **GitHub** and **Google** to be able to login as much as you want.
 
-- Configure the top-level `parserOptions` property like this:
+## 👀 Screenshots
+### 🖥 Desktop (~w1910):
+<img width=500 src="https://github.com/user-attachments/assets/903932c4-4c5f-42de-a1d2-65ddbcc90742" />
+<img width=500 src="https://github.com/user-attachments/assets/9e098453-ab8d-42e0-b15b-b5565f50e823" />
+<img width=500 src="https://github.com/user-attachments/assets/9b90a147-9931-4e1b-a986-07c9a95462db" />
+<img width=500 src="https://github.com/user-attachments/assets/98a5ee9b-eaac-43a6-9ed0-1cd3b6f4bccc" />
+<img width=500 src="https://github.com/user-attachments/assets/0ac26b1e-dfa9-4fff-80f9-ee97ac4be797" />
+<img width=500 src="https://github.com/user-attachments/assets/a0584dcb-a518-47d3-8816-78cb495b4226" />
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 📱 Mobile (~w440px):
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+<img width=332 src="https://github.com/user-attachments/assets/ce9ef5fc-389d-4189-98a7-01c1438fa0ab" />
+<img width=332 src="https://github.com/user-attachments/assets/351345f6-47c4-4ef8-9e64-108870d66d73" />
+<img width=332 src="https://github.com/user-attachments/assets/e85cfd3e-7af3-4379-9d72-73abea544584" />
