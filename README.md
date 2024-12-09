@@ -1,6 +1,7 @@
 <h1><img src="https://i.imgur.com/r9MjrFQ.png" height=80 /><div>Colir (Web Client)</div></h1>
 <p>
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-gray?color=0B1121&logo=react&logoColor=00D1F7" /></a>
+  <a href="https://vite.dev/"><img src="https://img.shields.io/badge/Vite-gray?color=0B1121&logo=vite&logoColor=64A5FF" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-gray?color=0B1121&logo=tailwindcss" /></a>
   <a href="https://ui.shadcn.com/"><img src="https://img.shields.io/badge/shadcn-gray?color=000000&logo=shadcnui" /></a>
   <a href="https://feature-sliced.design/"><img src="https://img.shields.io/badge/FSD-gray?color=0D1117" /></a>
@@ -34,15 +35,30 @@ Besides that, **Colir** **has** a couple of **features**, which can interest you
 
 ## 👀 Screenshots
 ### 🖥 Desktop (~w1910):
-<img width=500 src="https://github.com/user-attachments/assets/903932c4-4c5f-42de-a1d2-65ddbcc90742" />
-<img width=500 src="https://github.com/user-attachments/assets/9e098453-ab8d-42e0-b15b-b5565f50e823" />
-<img width=500 src="https://github.com/user-attachments/assets/9b90a147-9931-4e1b-a986-07c9a95462db" />
-<img width=500 src="https://github.com/user-attachments/assets/98a5ee9b-eaac-43a6-9ed0-1cd3b6f4bccc" />
-<img width=500 src="https://github.com/user-attachments/assets/0ac26b1e-dfa9-4fff-80f9-ee97ac4be797" />
-<img width=500 src="https://github.com/user-attachments/assets/a0584dcb-a518-47d3-8816-78cb495b4226" />
+<img width=400 src="https://github.com/user-attachments/assets/903932c4-4c5f-42de-a1d2-65ddbcc90742" />
+<img width=400 src="https://github.com/user-attachments/assets/9e098453-ab8d-42e0-b15b-b5565f50e823" />
+<img width=400 src="https://github.com/user-attachments/assets/9b90a147-9931-4e1b-a986-07c9a95462db" />
+<img width=400 src="https://github.com/user-attachments/assets/98a5ee9b-eaac-43a6-9ed0-1cd3b6f4bccc" />
+<img width=400 src="https://github.com/user-attachments/assets/0ac26b1e-dfa9-4fff-80f9-ee97ac4be797" />
+<img width=400 src="https://github.com/user-attachments/assets/a0584dcb-a518-47d3-8816-78cb495b4226" />
 
 ### 📱 Mobile (~w440px):
 
-<img width=332 src="https://github.com/user-attachments/assets/ce9ef5fc-389d-4189-98a7-01c1438fa0ab" />
-<img width=332 src="https://github.com/user-attachments/assets/351345f6-47c4-4ef8-9e64-108870d66d73" />
-<img width=332 src="https://github.com/user-attachments/assets/e85cfd3e-7af3-4379-9d72-73abea544584" />
+<img width=200 src="https://github.com/user-attachments/assets/ce9ef5fc-389d-4189-98a7-01c1438fa0ab" />
+<img width=200 src="https://github.com/user-attachments/assets/351345f6-47c4-4ef8-9e64-108870d66d73" />
+<img width=200 src="https://github.com/user-attachments/assets/e85cfd3e-7af3-4379-9d72-73abea544584" />
+
+## 🚀 Development server
+1. Install [node.js](https://nodejs.org/en)
+2. Install [pnpm](https://pnpm.io/installation)<br>
+   **>** `npm install -g pnpm`
+4. Clone the repo<br>
+   **>** `git clone https://github.com/MrQuackDuck/ColirWebClient.git`
+5. Jump into the folder<br>
+   **>** `cd .\ColirWebClient\`
+6. Install all packages<br>
+   **>** `pnpm i`
+7. Run the server<br>
+   **>** `pnpm run dev`
+
+<img src="https://github.com/user-attachments/assets/f9ec28fc-9592-4669-9ca8-49a7bd0a9cb4" />
