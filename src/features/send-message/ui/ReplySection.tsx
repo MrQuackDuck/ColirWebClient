@@ -27,13 +27,13 @@ function ReplySection({
         <CornerUpRightIcon className="w-3 h-3" />
         <Username className="text-[12px]" user={sender} />
         <span className="max-w-screen-sm overflow-hidden text-ellipsis whitespace-nowrap">
-          <span className="flex flex-row overflow-hidden text-ellipsis mr-1">
+          <span className="flex flex-row overflow-hidden whitespace-nowrap text-ellipsis mr-1">
             {decryptedMessage}
             {decryptedMessage === undefined && <span className="text-destructive">{<>t("COULD_NOT_DECRYPT")</>}</span>}
           </span>
           <div className="flex flex-row gap-1">
             {message?.attachments.map((attachment) => (
-              <span key={attachment.id} className="flex flex-row overflow-hidden text-ellipsis whitespace-nowrap flex-nowrap text-primary/70">
+              <span key={attachment.id} className="flex flex-row text-nowrap overflow-hidden text-ellipsis flex-nowrap text-primary/70">
                 [{decryptString(attachment.filename, decryptionKey)}]{" "}
               </span>
             ))}

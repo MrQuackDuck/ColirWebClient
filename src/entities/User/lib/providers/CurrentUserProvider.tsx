@@ -56,6 +56,8 @@ const CurrentUserProvider = ({ children }) => {
           } else {
             showErrorToast(tRef.current("COULD_NOT_UPDATE_USER_INFO"), e.message);
           }
+
+          console.error(e);
           reject(e);
         });
     });

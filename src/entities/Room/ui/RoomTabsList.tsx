@@ -24,7 +24,7 @@ function RoomTabsList() {
   }
 
   return (
-    <ScrollArea className="scrollbar-hidden">
+    <ScrollArea className="overflow-hidden scrollbar-hidden">
       <div className="flex flex-col gap-2">
         {joinedRooms
           .sort((a, b) => a.name.localeCompare(b.name))

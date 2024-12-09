@@ -84,7 +84,7 @@ function ChatPage() {
       )}
       <div className={`flex flex-row overflow-y-hidden items-start gap-2 h-full px-[8.5vw] pb-[2vh] animate-appearance opacity-25 ${classes.chat}`}>
         {isDesktop && (
-          <div className={`flex flex-row flex-shrink-0 w-full h-full max-w-[280px] overflow-y-hidden p-2.5`}>
+          <div className="flex flex-row overflow-hidden flex-shrink-0 w-full h-full max-w-[280px] overflow-y-hidden p-2.5">
             <Aside />
             <Separator orientation="vertical" />
           </div>

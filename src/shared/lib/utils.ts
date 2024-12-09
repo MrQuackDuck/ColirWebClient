@@ -23,6 +23,7 @@ export function decimalToHexString(number) {
 }
 
 export function encryptString(str: string, key: string): string {
+  if (!str) return "";
   if (str.length === 0) return str;
   const encrypted = CryptoJS.AES.encrypt(str, key);
   return encrypted.toString();
