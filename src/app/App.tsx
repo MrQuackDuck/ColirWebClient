@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/shared/ui/Toaster";
 import "./main.css";
 import IndexPage from "@/pages/index/ui/IndexPage";
@@ -43,7 +43,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename="/">
+    <HashRouter>
       <FaqControlProvider>
         <Header />
         <MessagesProvider>
@@ -61,7 +61,7 @@ function App() {
         </MessagesProvider>
         <Toaster />
       </FaqControlProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
