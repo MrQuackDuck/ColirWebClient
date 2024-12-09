@@ -13,6 +13,8 @@
 
 <b>Colir — fast & secure <ins>messaging platform</ins> </b>with<b> end-to-end</b> encryption. <br>
 
+<b>BackEnd</b> can be found <a href="https://github.com/MrQuackDuck/ColirBackend/">here</a>.
+
 ## 🌈 The idea
 The main goal of **Colir** is to provide an ability to **communicate securely**. <br>
 
