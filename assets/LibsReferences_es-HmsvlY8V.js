@@ -33,7 +33,7 @@ Seguimos la metodología [Feature-Sliced Design](https://feature-sliced.design/)
 
 ### Repositorios de GitHub:
 
-- Backend: [ColirBackEnd](https://github.com/MrQuackDuck/ColirBackend/)
+- Backend: [ColirBackend](https://github.com/MrQuackDuck/ColirBackend/)
 - Frontend: [ColirWebClient](https://github.com/MrQuackDuck/ColirWebClient/)
 
 ### Desarrollador:
