@@ -69,11 +69,15 @@ function ChatPage() {
     });
   }, [voiceChatConnections.length]);
 
+  useEffect(() => {
+    setAsideOpen(false);
+  }, [selectedRoom]);
+
   return (
     <>
       {!isDesktop && (
         <Sheet open={asideOpen} onOpenChange={setAsideOpen}>
-          <SheetContent side={"left"}>
+          <SheetContent className="px-1" side={"left"}>
             <SheetHeader>
               <SheetTitle>{t("MANAGE_ROOMS")}</SheetTitle>
               <SheetDescription className="text-left px-2.5">{t("HOLD_ROOM_TO_OPEN_CONTEXT_MENU")}</SheetDescription>
