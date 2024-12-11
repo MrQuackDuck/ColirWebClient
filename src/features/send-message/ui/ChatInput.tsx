@@ -20,7 +20,7 @@ export interface ChatInputMessage {
 }
 
 interface ChatInputProps {
-  onSend: (message: ChatInputMessage) => any;
+  onSend: (message: ChatInputMessage) => Promise<void>;
   messageToReply: MessageModel | null;
   messageToReplyAuthor: UserModel | null;
   className?: string;
@@ -80,19 +80,34 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
     };
   }, []);
 
+  function clearInput() {
+    setFiles([]);
+    textAreaRef.current.textArea.value = "";
+    textAreaRef.current.textArea.style.height = "42px";
+  }
+
+  let [isSending, setIsSending] = React.useState(false);
+  const isSendingRef = useRef(isSending);
+  useEffect(() => {
+    isSendingRef.current = isSending;
+  }, [isSending]);
+
   async function sendMessage() {
     if (textAreaRef.current.textArea.disabled) return;
     const encryptedFiles = files.length > 0 ? await Promise.all([...files].map((file) => encryptFile(file, encryptionKey))) : [];
 
+    setIsSending(true);
     onSend({
       content: encryptString(textAreaRef.current.textArea.value, encryptionKey) ?? "",
       attachments: encryptedFiles,
       replyMessageId: messageToReply?.id
-    });
-
-    setFiles([]);
-    textAreaRef.current.textArea.value = "";
-    textAreaRef.current.textArea.style.height = "42px";
+    })
+      .then(() => {
+        clearInput();
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
   }
 
   function insertAt(index: number, str: string) {
@@ -115,6 +130,9 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
         event.preventDefault();
         return;
       }
+
+      if (isSendingRef.current) return;
+      isSendingRef.current = true;
 
       sendMessage();
     }
@@ -182,7 +200,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
 
           {messageToReply && files.length > 0 && <Separator className="bg-secondary outline-none border-none" />}
 
-          {files.length > 0 && <FileList className={cn(!messageToReply && "rounded-t-[6px]")} onFileRemoved={fileRemoved} files={files} />}
+          {files.length > 0 && <FileList className={cn(!messageToReply && "rounded-t-[6px]")} isDisabled={isSending} onFileRemoved={fileRemoved} files={files} />}
         </div>
 
         <div className={cn("flex items-center", className)}>
@@ -196,8 +214,11 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
                 onClick={() => fileInputRef.current.click()}
                 onKeyDown={(e) => e.keyCode == 32 && fileInputRef.current.click()}
                 strokeWidth={1.5}
-                className="cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5 -translate-y-1/2 transform
-								rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring"
+                className={cn(
+                  `cursor-pointer absolute z-10 stroke-slate-400/80 hover:stroke-slate-400 left-2 top-[20px] h-5 w-5
+                  -translate-y-1/2 transform rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring`,
+                  isSending && "cursor-not-allowed text-primary/50 pointer-events-none"
+                )}
               />
               <input onChange={fileSelected} multiple={true} className="hidden" ref={fileInputRef} type="file" />
             </>
@@ -210,12 +231,13 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
             onPaste={handlePaste}
             contentHidden={variant === "connecting" || variant === "disconnected"}
             readOnly={variant !== "default"}
+            disabled={isSending && variant === "default"}
             autoFocus
             ref={textAreaRef}
             onKeyDown={handleKeyDown}
             placeholder={variant == "default" ? t("WRITE_MESSAGE") : ""}
             className={cn(
-              `flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 pl-8 pr-20 resize-none
+              `flex items-center w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed h-11 pl-8 pr-20 resize-none
                 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0`,
               variant == "connecting" && "cursor-default",
               variant == "disconnected" && "cursor-not-allowed bg-destructive/25 border-destructive"
@@ -226,6 +248,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
               <EmojiPicker
                 onChange={(emoji) => insertAt(getCursorPosition(), emoji)}
                 key={1}
+                disabled={isSending}
                 className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform"
               />
               <Separator orientation="vertical" />
@@ -234,8 +257,11 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
                 onClick={sendMessage}
                 onKeyDown={(e) => e.keyCode == 32 && sendMessage()}
                 strokeWidth={1.5}
-                className="z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform
-									rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring"
+                className={cn(
+                  `z-10 cursor-pointer stroke-slate-400/80 hover:stroke-slate-400 top-[14px] h-6 w-6 -translate-y-1/2 transform
+									rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring`,
+                  isSending && "cursor-not-allowed text-primary/50 pointer-events-none"
+                )}
               />
             </div>
           )}

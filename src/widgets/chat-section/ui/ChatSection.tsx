@@ -113,9 +113,15 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     };
 
     replyCancelled();
-    selectedRoomConnection?.connection.send("SendMessage", model).catch((e) => showErrorToast(t("COULD_NOT_DELIVER_MESSAGE"), e.message));
-
-    RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
+    selectedRoomConnection?.connection
+      .send("SendMessage", model)
+      .then(() => {
+        RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
+      })
+      .catch((e) => {
+        showErrorToast(t("COULD_NOT_DELIVER_MESSAGE"), e.message);
+        throw e;
+      });
   }
 
   const addReaction = useCallback(
