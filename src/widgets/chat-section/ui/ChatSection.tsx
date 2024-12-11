@@ -34,6 +34,7 @@ import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
 import RoomService from "@/entities/Room/api/RoomService";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+import RoomOwnerIcon from "@/shared/ui/RoomOwnerIcon";
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -383,8 +384,6 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     if (isNearBottom(60) && messageToReply) scrollToBottom();
   }, [messageToReply]);
 
-  let [currentPadding, setCurrentPadding] = useState<number>(0);
-
   function openAside() {
     setAsideVisibility(true);
   }
@@ -426,7 +425,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
                 <div className={`overflow-y-auto max-h-96 h-full mt-1`}>
                   {room.joinedUsers.map((u) => (
                     <div key={u.hexId} className="flex flex-row items-center gap-1.5">
-                      <Username user={u} /> <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} />
+                      <Username user={u} /> {room?.owner?.hexId == u?.hexId && <RoomOwnerIcon />} <AuthTypeBadge className="px-2.5 py-0" authType={u?.authType} />
                     </div>
                   ))}
                 </div>
@@ -448,7 +447,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       </header>
       <Separator orientation="horizontal" />
 
-      <main style={{ paddingBottom: currentPadding + 48 }} ref={mainSection} className={`h-full overflow-hidden`}>
+      <main ref={mainSection} className={`h-full overflow-hidden pb-1`}>
         <ScrollArea viewportRef={scrollAreaRef} style={{ overflowAnchor: "none" }} className={`h-full pr-3`}>
           {roomsWithNoMoreMessagesToLoad.filter((r) => r == room.guid).length == 0 && <div className="z-50 w-full top-30" ref={messagesStart}></div>}
           <MessagesList
@@ -472,7 +471,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
           onClick={() => scrollToBottom(true)}
           variant={"outline"}
           size={"icon"}
-          className={cn("z-10 transition-opacity duration-200 absolute bottom-14 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none")}
+          className={cn("z-10 transition-opacity duration-200 absolute bottom-4 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none")}
         >
           <ArrowDown className="h-4 w-4" />
         </Button>
@@ -481,7 +480,6 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       <ChatInput
         encryptionKey={roomDecryptionKey ?? ""}
         onReplySectionClicked={handleInputReplySectionClick}
-        onSizeChange={setCurrentPadding}
         variant={currentChatVariant}
         onReplyCancelled={replyCancelled}
         messageToReply={messageToReply}

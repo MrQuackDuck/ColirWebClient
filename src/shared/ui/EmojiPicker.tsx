@@ -52,9 +52,11 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
   function getDefaultTrigger() {
     return (
       <SmileIcon
-        className={cn(`h-6 w-6 stroke-slate-400/80 hover:stroke-slate-400/100 text-muted-foreground hover:text-foreground transition
+        className={cn(
+          `h-6 w-6 stroke-slate-400/80 hover:stroke-slate-400/100 text-muted-foreground hover:text-foreground transition
         rounded-full overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring`,
-        disabled && "cursor-not-allowed text-primary/50 pointer-events-none")}
+          disabled && "cursor-not-allowed text-primary/50 pointer-events-none"
+        )}
       />
     );
   }

@@ -226,5 +226,6 @@
   "CONNECTING": "Connecting...",
   "DISCONNECTED_FROM_SERVER": "Disconnected from server.",
   "DESIGN_AND_STYLE": "Design & Style",
-  "ESC_CLOSE": "[Esc] Close"
+  "ESC_CLOSE": "[Esc] Close",
+  "ROOM_OWNER": "Room owner"
 }

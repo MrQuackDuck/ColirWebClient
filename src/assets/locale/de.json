@@ -226,5 +226,6 @@
   "CONNECTING": "Verbindung wird hergestellt...",
   "DISCONNECTED_FROM_SERVER": "Verbindung zum Server getrennt.",
   "DESIGN_AND_STYLE": "Design & Stil",
-  "ESC_CLOSE": "[Esc] Schließen"
+  "ESC_CLOSE": "[Esc] Schließen",
+  "ROOM_OWNER": "Raumbesitzer"
 }
