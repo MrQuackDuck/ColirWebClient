@@ -189,6 +189,9 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       if (!scrollAreaRef.current) return;
       if (isSmooth) scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: "smooth" });
       else scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+
+      let lastMessage = messages[messages.length - 1];
+      lastMessageIdScrolledToBottom.current = lastMessage?.id;
     }, 0);
   }
 
@@ -286,35 +289,28 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   let mainSection = useRef<any>();
 
   // Count the number of messages in each room to control the scroll behavior
-  const [roomMessagesCount, setRoomMessagesCount] = useState<{[roomGuid: string]: number}>({});
+  const [roomMessagesCount, setRoomMessagesCount] = useState<{ [roomGuid: string]: number }>({});
+  const lastMessageIdScrolledToBottom = useRef<number | null>(null);
   useEffect(() => {
     if (selectedRoomConnection == null) return setMessagesLoaded(false);
     if (messages.length == 0 && selectedRoomConnection.connection.state != HubConnectionState.Connected) return setMessagesLoaded(false);
-    
+
     setMessagesLoaded(true);
-    
-    // Get the current room's GUID
+
     const currentRoomGuid = selectedRoomConnection.roomGuid;
-    
-    // Get the previous message count for this room
     const previousMessageCount = roomMessagesCount[currentRoomGuid] || 0;
-    
-    // Check if the current messages count is higher than the previous count
-    const hasNewMessage = messages.length > previousMessageCount;
-    
-    // Update the messages count for the current room
-    setRoomMessagesCount(prev => ({
+
+    setRoomMessagesCount((prev) => ({
       ...prev,
       [currentRoomGuid]: messages.length
     }));
 
     let lastMessage = messages[messages.length - 1];
+    const hasNewMessage = messages.length > previousMessageCount && lastMessageIdScrolledToBottom.current != lastMessage?.id;
+    lastMessageIdScrolledToBottom.current = lastMessage?.id;
+
     let theLastMessageIsNewAndUserIsNearBottom: () => boolean = () => (hasNewMessage && isNearBottom(300)) ?? false;
-    let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => (
-      hasNewMessage && 
-      lastMessage && 
-      lastMessage.authorHexId == currentUser?.hexId
-    );
+    let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => hasNewMessage && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
     if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor()) {

@@ -1,16 +1,32 @@
 {
 	"SMILEYS_AND_EMOTICON": [
     {
+      "value": "😁",
+      "name": "beaming face with smiling eyes :grin:"
+    },
+    {
       "value": "😂",
       "name": "face with tears of joy :joy:"
     },
     {
-      "value": "😍",
-      "name": "smiling face with heart-eyes :heart_eyes:"
+      "value": "😢",
+      "name": "crying face :cry:"
     },
     {
       "value": "😭",
       "name": "loudly crying face :sob:"
+    },
+    {
+      "value": "😎",
+      "name": "smiling face with sunglasses cool :sunglasses:"
+    },
+    {
+      "value": "🤯",
+      "name": "exploding head mind blown :exploding_head:"
+    },
+    {
+      "value": "🤩",
+      "name": "star struck stars in eyes :star-struck:"
     },
     {
       "value": "😊",
@@ -25,8 +41,8 @@
       "name": "face blowing a kiss :kissing_heart:"
     },
     {
-      "value": "💕",
-      "name": "two hearts :two_hearts:"
+      "value": "😍",
+      "name": "smiling face with heart-eyes :heart_eyes:"
     },
     {
       "value": "😩",
@@ -39,10 +55,6 @@
     {
       "value": "😏",
       "name": "smirking face :smirk:"
-    },
-    {
-      "value": "😁",
-      "name": "beaming face with smiling eyes :grin:"
     },
     {
       "value": "😉",
@@ -61,14 +73,6 @@
       "name": "see-no-evil monkey :see_no_evil:"
     },
     {
-      "value": "😢",
-      "name": "crying face :cry:"
-    },
-    {
-      "value": "😎",
-      "name": "smiling face with sunglasses cool :sunglasses:"
-    },
-    {
       "value": "😅",
       "name": "grinning face with sweat :sweat_smile:"
     },
@@ -81,28 +85,64 @@
       "name": "grinning face with smiling eyes :smile:"
     },
     {
-      "value": "💜",
-      "name": "purple heart :purple_heart:"
-    },
-    {
-      "value": "💔",
-      "name": "broken heart :broken_heart:"
+      "value": "😑",
+      "name": "expressionless face :expressionless:"
     },
     {
       "value": "💯",
       "name": "hundred points :hundred_points:"
     },
     {
-      "value": "😑",
-      "name": "expressionless face :expressionless:"
+      "value": "❤",
+      "name": "red heart :red_heart:"
+    },
+    {
+      "value": "💋",
+      "name": "kiss mark :kiss:"
+    },
+    {
+      "value": "💘",
+      "name": "heart with arrow :cupid:"
+    },
+    {
+      "value": "💗",
+      "name": "growing heart :heartpulse:"
+    },
+    {
+      "value": "💞",
+      "name": "revolving hearts :revolving_hearts:"
+    },
+    {
+      "value": "💕",
+      "name": "two hearts :two_hearts:"
+    },
+    {
+      "value": "💔",
+      "name": "broken heart :broken_heart:"
+    },
+    {
+      "value": "💓",
+      "name": "beating heart :heartbeat:"
     },
     {
       "value": "💖",
       "name": "sparkling heart :sparkling_heart:"
     },
     {
+      "value": "💛",
+      "name": "yellow heart :yellow_heart:"
+    },
+    {
       "value": "💙",
       "name": "blue heart :blue_heart:"
+    },
+    {
+      "value": "💚",
+      "name": "green heart :green_heart:"
+    },
+    {
+      "value": "💜",
+      "name": "purple heart :purple_heart:"
     },
     {
       "value": "😕",
@@ -129,24 +169,8 @@
       "name": "sleepy face :sleepy:"
     },
     {
-      "value": "💘",
-      "name": "heart with arrow :cupid:"
-    },
-    {
-      "value": "💗",
-      "name": "growing heart :heartpulse:"
-    },
-    {
-      "value": "💞",
-      "name": "revolving hearts :revolving_hearts:"
-    },
-    {
       "value": "🙊",
       "name": "speak-no-evil monkey :speak_no_evil:"
-    },
-    {
-      "value": "💋",
-      "name": "kiss mark :kiss:"
     },
     {
       "value": "😱",
@@ -173,10 +197,6 @@
       "name": "skull skeleton :skull:"
     },
     {
-      "value": "💛",
-      "name": "yellow heart :yellow_heart:"
-    },
-    {
       "value": "😤",
       "name": "face with steam from nose :triumph:"
     },
@@ -201,16 +221,8 @@
       "name": "face with medical mask :mask:"
     },
     {
-      "value": "💚",
-      "name": "green heart :green_heart:"
-    },
-    {
       "value": "😣",
       "name": "persevering face :persevere:"
-    },
-    {
-      "value": "💓",
-      "name": "beating heart :heartbeat:"
     },
     {
       "value": "😚",
@@ -437,16 +449,8 @@
       "name": "left speech bubble :speech_left:"
     },
     {
-      "value": "☺",
-      "name": "smiling face :smiling_face:"
-    },
-    {
       "value": "❣",
       "name": "heart exclamation :heart_exclamation:"
-    },
-    {
-      "value": "❤",
-      "name": "red heart :red_heart:"
     }
   ],
   "PEOPLE_AND_BODY": [
