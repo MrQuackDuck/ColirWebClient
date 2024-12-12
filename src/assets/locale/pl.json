@@ -227,5 +227,6 @@
   "DISCONNECTED_FROM_SERVER": "Rozłączono z serwerem.",
   "DESIGN_AND_STYLE": "Projekt i Styl",
   "ESC_CLOSE": "[Esc] Zamknij",
-  "ROOM_OWNER": "Właściciel pokoju"
+  "ROOM_OWNER": "Właściciel pokoju",
+  "ERROR_CODE": "Kod błędu"
 }

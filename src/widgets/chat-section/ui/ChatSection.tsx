@@ -115,8 +115,9 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
     replyCancelled();
     selectedRoomConnection?.connection
-      .send("SendMessage", model)
-      .then(() => {
+      .invoke<SignalRHubResponse<any>>("SendMessage", model)
+      .then(response => {
+        if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
         RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
       })
       .catch((e) => {
@@ -153,7 +154,11 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
   const editMessage = useCallback(
     (messageId: number, newContent: string) => {
-      selectedRoomConnection?.connection.send("EditMessage", { messageId, newContent }).catch((e) => showErrorToast(t("COULD_NOT_EDIT_MESSAGE"), e.message));
+      selectedRoomConnection?.connection.invoke<SignalRHubResponse<any>>("EditMessage", { messageId, newContent })
+        .then((response) => {
+          if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
+        })
+        .catch((e) => showErrorToast(t("COULD_NOT_EDIT_MESSAGE"), e.message));
     },
     [selectedRoomConnection]
   );

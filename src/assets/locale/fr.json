@@ -227,5 +227,6 @@
   "DISCONNECTED_FROM_SERVER": "Déconnecté du serveur.",
   "DESIGN_AND_STYLE": "Design et Style",
   "ESC_CLOSE": "[Échap] Fermer",
-  "ROOM_OWNER": "Propriétaire de la salle"
+  "ROOM_OWNER": "Propriétaire de la salle",
+  "ERROR_CODE": "Code d'erreur"
 }

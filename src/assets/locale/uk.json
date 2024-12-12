@@ -227,5 +227,6 @@
   "DISCONNECTED_FROM_SERVER": "Відключено від сервера.",
   "DESIGN_AND_STYLE": "Дизайн та Стиль",
   "ESC_CLOSE": "[Esc] Закрити",
-  "ROOM_OWNER": "Власник кімнати"
+  "ROOM_OWNER": "Власник кімнати",
+  "ERROR_CODE": "Код помилки"
 }

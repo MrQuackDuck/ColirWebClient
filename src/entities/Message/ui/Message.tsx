@@ -23,6 +23,7 @@ import { cn, decryptString, encryptString } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
+import { useTheme } from "@/shared/lib/providers/ThemeProvider";
 
 interface MessageProps {
   message: MessageModel;
@@ -60,6 +61,7 @@ const Message = forwardRef(
     ref: any
   ) => {
     const t = useTranslation();
+    const { theme } = useTheme();
     let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
     const showInfoToast = useInfoToast();
     let [isButtonDeleteConfirmationShown, setIsButtonDeleteConfirmationShown] = useState<boolean>(false);
@@ -247,7 +249,7 @@ const Message = forwardRef(
               <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
               <Username className="text-[11px]" user={repliedMessageAuthor} />
               <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-                <span className="text-ellipsis whitespace-nowrap">{formatText(decryptedRepliedMessageContent ?? "")}</span>{" "}
+                <span className="text-ellipsis whitespace-nowrap">{formatText(decryptedRepliedMessageContent ?? "", theme)}</span>{" "}
                 {decryptedRepliedMessageContent === undefined && <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}{" "}
                 {repliedMessage.attachments.map((attachment) => (
                   <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">
@@ -304,9 +306,10 @@ const Message = forwardRef(
                     </>
                   )}
                 </div>
+                {/* Message content */}
                 {!isEditMode && (
                   <span className={`${classes["message-content"]} message-content whitespace-pre-line text-sm`}>
-                    {decryptedContent && formatText(decryptedContent)}
+                    {decryptedContent && formatText(decryptedContent, theme)}
                     {!decryptedContent && <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}
                   </span>
                 )}
