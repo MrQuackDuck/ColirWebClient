@@ -93,6 +93,9 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
 
   async function sendMessage() {
     if (textAreaRef.current.textArea.disabled) return;
+    // Check if the message is empty and there are no files attached
+    if (textAreaRef.current.textArea.value.trim() === "" && files.length === 0) return; 
+
     const encryptedFiles = files.length > 0 ? await Promise.all([...files].map((file) => encryptFile(file, encryptionKey))) : [];
 
     setIsSending(true);
