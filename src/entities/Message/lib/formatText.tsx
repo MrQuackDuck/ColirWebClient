@@ -1,7 +1,7 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vs as lightTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus as darkTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export function formatText(text: string, theme: string): JSX.Element {
   const codeBlockParts = extractCodeBlocks(text);
@@ -79,7 +79,7 @@ function formatTextPart(
       <SyntaxHighlighter 
         key={index} 
         language={codeBlock.language} 
-        style={theme === 'dark' ? vscDarkPlus : vs}
+        style={theme === 'dark' ? darkTheme : lightTheme}
         customStyle={{
           borderRadius: '0.375rem',
           padding: '0.5rem',

@@ -18,11 +18,14 @@ body {
 }
 
 span,
-code,
 strong,
 p,
 a {
   white-space: pre-line;
+}
+
+pre code, pre code span {
+  white-space: break-spaces !important;
 }
 
 a:focus-visible {
