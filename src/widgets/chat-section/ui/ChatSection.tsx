@@ -164,6 +164,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   );
 
   const replyButtonClicked = useCallback((message: MessageModel) => {
+    // If the user clicks the reply button on the same message, cancel the reply
     if (messageToReplyRef.current?.id == message.id) {
       replyCancelled();
       return;

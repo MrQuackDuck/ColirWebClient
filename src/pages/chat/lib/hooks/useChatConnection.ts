@@ -107,6 +107,9 @@ export const useChatConnection = (
           // Add message to the unread replies if it's a reply to the current user and it's not in the current room
           if (message.repliedMessage && message.repliedMessage.authorHexId == currentUser.hexId && selectedRoomRef?.current?.guid != message.roomGuid) {
             setUnreadReplies((prevUnreadReplies) => [...prevUnreadReplies, message]);
+          }
+
+          if (message.repliedMessage && message.repliedMessage.authorHexId == currentUser.hexId && message.authorHexId != currentUser.hexId) {
             playPingSound();
           }
 
