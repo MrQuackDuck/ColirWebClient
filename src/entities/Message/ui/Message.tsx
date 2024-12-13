@@ -249,7 +249,7 @@ const Message = forwardRef(
               <CornerUpRightIcon className="w-3 h-3 text-secondary-foreground/80" />
               <Username className="text-[11px]" user={repliedMessageAuthor} />
               <span className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap">
-                <span className="text-ellipsis whitespace-nowrap">{formatText(decryptedRepliedMessageContent ?? "", theme)}</span>{" "}
+                <span className="text-ellipsis whitespace-nowrap">{decryptedRepliedMessageContent ?? ""}</span>{" "}
                 {decryptedRepliedMessageContent === undefined && <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}{" "}
                 {repliedMessage.attachments.map((attachment) => (
                   <span key={attachment.id} className="text-ellipsis whitespace-nowrap text-primary/70">
