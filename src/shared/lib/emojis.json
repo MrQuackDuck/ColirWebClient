@@ -3957,10 +3957,6 @@
       "name": "flag: Japan :jp:"
     },
     {
-      "value": "🇷🇺",
-      "name": "flag: Russia :ru:"
-    },
-    {
       "value": "🇰🇷",
       "name": "flag: South Korea :ko:"
     },
@@ -4757,12 +4753,12 @@
       "name": "flag: Romania :flag-ro:"
     },
     {
-      "value": "🇷🇸",
-      "name": "flag: Serbia :flag-rs:"
+      "value": "🇷🇺",
+      "name": "flag: Russia :ru: :flag-ru:"
     },
     {
-      "value": "🇷🇺",
-      "name": "flag: Russia :flag-ru:"
+      "value": "🇷🇸",
+      "name": "flag: Serbia :flag-rs:"
     },
     {
       "value": "🇷🇼",
