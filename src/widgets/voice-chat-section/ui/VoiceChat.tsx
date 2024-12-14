@@ -1,7 +1,6 @@
 import { Button } from "@/shared/ui/Button";
 import { Collapsible, CollapsibleContent } from "@/shared/ui/Collapsible";
 import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from "lucide-react";
-import { useState } from "react";
 import { VoiceChatConnection } from "../model/VoiceChatConnection";
 import { cn } from "@/shared/lib/utils";
 import { useContextSelector } from "use-context-selector";
@@ -16,14 +15,15 @@ interface VoiceChatProps {
   joinVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
   leaveVoiceChat: (voiceChatConnection: VoiceChatConnection) => void;
   currentlyTalkingUsers?: CurrentlyTalkingUser[];
+  isCollapsed: boolean;
+  toggleCollapse: () => void;
 }
 
 function VoiceChat(props: VoiceChatProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const users = useContextSelector(UsersContext, (c) => c.users);
 
   function toggleCollapse() {
-    setIsCollapsed(!isCollapsed);
+    props.toggleCollapse();
   }
 
   function joinVoiceChat() {
@@ -51,10 +51,10 @@ function VoiceChat(props: VoiceChatProps) {
           </span>
         </Button>
         <Button onClick={toggleCollapse} className="w-8 h-8 flex-shrink-0 ml-1" variant="ghost" size="icon">
-          <ChevronUpIcon className={cn("w-5 h-5 text-slate-400 transition-transform duration-100", isCollapsed && "rotate-180")} />
+          <ChevronUpIcon className={cn("w-5 h-5 text-slate-400 transition-transform duration-100", props.isCollapsed && "rotate-180")} />
         </Button>
       </div>
-      <Collapsible open={!isCollapsed} onOpenChange={setIsCollapsed}>
+      <Collapsible open={!props.isCollapsed}>
         <CollapsibleContent asChild>
           <div className="flex flex-col pt-1">
             {props.voiceChatConnection.joinedUsers.map((user) => (

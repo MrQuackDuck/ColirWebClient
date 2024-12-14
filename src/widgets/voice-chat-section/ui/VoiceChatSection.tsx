@@ -353,6 +353,14 @@ function VoiceChatSection() {
     }
   }, [voiceInputDevice]);
 
+  // Collapsed voice channels (id is the room guid)
+  let [collapsedVoiceChannels, setCollapsedVoiceChannels] = useState<string[]>([]);
+
+  let toggleCollapseVoiceChannel = (roomGuid: string) => {
+    if (collapsedVoiceChannels.includes(roomGuid)) setCollapsedVoiceChannels(collapsedVoiceChannels.filter((id) => id != roomGuid));
+    else setCollapsedVoiceChannels([...collapsedVoiceChannels, roomGuid]);
+  };
+
   return (
     <div className="flex flex-col h-full gap-2 pt-1.5">
       {joinedVoiceConnection && (
@@ -363,6 +371,8 @@ function VoiceChatSection() {
           leaveVoiceChat={leaveVoiceChat}
           currentlyTalkingUsers={currentlyTalkingUsers}
           roomName={joinedRooms.find((r) => r.guid == joinedVoiceConnection.roomGuid)?.name!}
+          isCollapsed={collapsedVoiceChannels.includes(joinedVoiceConnection.roomGuid)}
+          toggleCollapse={() => toggleCollapseVoiceChannel(joinedVoiceConnection.roomGuid)}
         />
       )}
 
@@ -373,6 +383,8 @@ function VoiceChatSection() {
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
           roomName={selectedRoom.name}
+          isCollapsed={collapsedVoiceChannels.includes(selectedRoomVoiceChat.roomGuid)}
+          toggleCollapse={() => toggleCollapseVoiceChannel(selectedRoomVoiceChat.roomGuid)}
         />
       )}
 
