@@ -36,7 +36,7 @@ Besides that, **Colir** **has** a couple of **features**, which can interest you
 > **Therefore**, use **3rd party providers** such as **GitHub** and **Google** to be able to login as much as you want.
 
 ## 👀 Screenshots
-### 🖥 Desktop (~w1910):
+### 🖥 Desktop (~w1910px):
 <img width=400 src="https://github.com/user-attachments/assets/903932c4-4c5f-42de-a1d2-65ddbcc90742" />
 <img width=400 src="https://github.com/user-attachments/assets/9e098453-ab8d-42e0-b15b-b5565f50e823" />
 <img width=400 src="https://github.com/user-attachments/assets/9b90a147-9931-4e1b-a986-07c9a95462db" />
