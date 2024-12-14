@@ -228,5 +228,6 @@
   "DESIGN_AND_STYLE": "Diseño y Estilo",
   "ESC_CLOSE": "[Esc] Cerrar",
   "ROOM_OWNER": "Propietario de la sala",
-  "ERROR_CODE": "Código de error"
+  "ERROR_CODE": "Código de error",
+  "SENDING": "Enviando..."
 }

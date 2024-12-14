@@ -228,5 +228,6 @@
   "DESIGN_AND_STYLE": "Projekt i Styl",
   "ESC_CLOSE": "[Esc] Zamknij",
   "ROOM_OWNER": "Właściciel pokoju",
-  "ERROR_CODE": "Kod błędu"
+  "ERROR_CODE": "Kod błędu",
+  "SENDING": "Wysyłanie..."
 }

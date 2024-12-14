@@ -228,5 +228,6 @@
   "DESIGN_AND_STYLE": "Дизайн та Стиль",
   "ESC_CLOSE": "[Esc] Закрити",
   "ROOM_OWNER": "Власник кімнати",
-  "ERROR_CODE": "Код помилки"
+  "ERROR_CODE": "Код помилки",
+  "SENDING": "Надсилання..."
 }

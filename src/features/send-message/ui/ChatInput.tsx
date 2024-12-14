@@ -231,7 +231,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
             autoFocus
             ref={textAreaRef}
             onKeyDown={handleKeyDown}
-            placeholder={variant == "default" ? t("WRITE_MESSAGE") : ""}
+            placeholder={variant == "default" ? (isSending ? t("SENDING") : t("WRITE_MESSAGE")) : ""}
             className={cn(
               `flex items-center w-full !max-h-72 rounded-md border border-input bg-background px-3 py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed h-11 pl-8 pr-20 resize-none
                 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0`,

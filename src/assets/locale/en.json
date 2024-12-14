@@ -228,5 +228,6 @@
   "DESIGN_AND_STYLE": "Design & Style",
   "ESC_CLOSE": "[Esc] Close",
   "ROOM_OWNER": "Room owner",
-  "ERROR_CODE": "Error code"
+  "ERROR_CODE": "Error code",
+  "SENDING": "Sending..."
 }
