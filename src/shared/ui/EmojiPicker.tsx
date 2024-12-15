@@ -74,37 +74,33 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
         {asButton ? getButtonTrigger() : getDefaultTrigger()}
       </PopoverTrigger>
       <PopoverContent className="w-[305px] overflow-hidden p-2">
-        {isOpen && (
-          <>
-            <Input className="w-full" value={searchString} onChange={(e) => setSearchString(e.target.value)} placeholder={t("FIND_EMOJI")} />
-            <ScrollArea ref={scrollAreaRef} className="h-[400px] text-[22px] mt-1 p-2">
-              <div className="flex flex-col h-full gap-1">
-                {Object.entries(filteredEmojiData).map(
-                  ([category, emojis]) =>
-                    emojis.length > 0 && (
-                      <div className="px-1" key={category}>
-                        <span className="capitalize text-base">{t(category)}</span>
-                        <Separator className="mt-0.5" />
-                        <div className="flex flex-wrap gap-1 pt-0.5">
-                          {emojis.map((emoji) => (
-                            <Button
-                              key={emoji.name}
-                              onClick={(e) => handleClick(e, emoji)}
-                              variant="ghost"
-                              size="icon"
-                              className="p-0 rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring text-[1.2rem]"
-                            >
-                              {emoji.value}
-                            </Button>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                )}
-              </div>
-            </ScrollArea>
-          </>
-        )}
+        <Input className="w-full" value={searchString} onChange={(e) => setSearchString(e.target.value)} placeholder={t("FIND_EMOJI")} />
+        <ScrollArea ref={scrollAreaRef} className="max-h-[calc(50vh)] text-[22px] mt-1 p-2">
+          <div className="flex flex-col h-full gap-1">
+            {Object.entries(filteredEmojiData).map(
+              ([category, emojis]) =>
+                emojis.length > 0 && (
+                  <div className="px-1" key={category}>
+                    <span className="capitalize text-base">{t(category)}</span>
+                    <Separator className="mt-0.5" />
+                    <div className="flex flex-wrap gap-1 pt-0.5">
+                      {emojis.map((emoji) => (
+                        <Button
+                          key={emoji.name}
+                          onClick={(e) => handleClick(e, emoji)}
+                          variant="ghost"
+                          size="icon"
+                          className="p-0 rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring text-[1.2rem]"
+                        >
+                          {emoji.value}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )
+            )}
+          </div>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

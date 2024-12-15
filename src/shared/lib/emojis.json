@@ -1019,8 +1019,12 @@
       "name": "no one under eighteen :underage:"
     },
     {
+      "value": "✅",
+      "name": "check mark button yes :white_check_mark:"
+    },
+    {
       "value": "❌",
-      "name": "cross mark :x:"
+      "name": "cross mark no :x:"
     },
     {
       "value": "❗",

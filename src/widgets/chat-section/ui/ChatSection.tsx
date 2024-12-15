@@ -5,7 +5,6 @@ import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } fr
 import Countdown from "react-countdown";
 import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { UserModel } from "@/entities/User/model/UserModel";
 import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
@@ -35,6 +34,8 @@ import RoomService from "@/entities/Room/api/RoomService";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 import RoomOwnerIcon from "@/shared/ui/RoomOwnerIcon";
+import { InvertedScrollArea } from "@/shared/ui/InvertedScrollArea";
+import { useInvertedScrollArea } from "@/shared/lib/hooks/useInvertedScrollArea";
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -45,6 +46,7 @@ interface ChatSectionProps {
 function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
+  let mainSection = useRef<any>();
   let messagesEnd = useRef<any>();
   let messagesStart = useRef<any>();
   let users = useContextSelector(UsersContext, (c) => c.users);
@@ -60,7 +62,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   let setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
   const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
-  let scrollAreaRef = useRef<HTMLDivElement | null>(null);
+  const { scrollRef, contentRef, scrollToBottom } = useInvertedScrollArea();
   const messageElementsRefs = useRef(new Map<number, HTMLDivElement>());
   const setMessageRef = useCallback(
     (messageId: number) => (el: HTMLDivElement | null) => {
@@ -116,7 +118,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     replyCancelled();
     selectedRoomConnection?.connection
       .invoke<SignalRHubResponse<any>>("SendMessage", model)
-      .then(response => {
+      .then((response) => {
         if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
         RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
       })
@@ -154,7 +156,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
   const editMessage = useCallback(
     (messageId: number, newContent: string) => {
-      selectedRoomConnection?.connection.invoke<SignalRHubResponse<any>>("EditMessage", { messageId, newContent })
+      selectedRoomConnection?.connection
+        .invoke<SignalRHubResponse<any>>("EditMessage", { messageId, newContent })
         .then((response) => {
           if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
         })
@@ -181,8 +184,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   }, []);
 
   function isNearBottom(distance: number): boolean {
-    if (!scrollAreaRef.current) return false;
-    return scrollAreaRef.current && scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < distance;
+    if (!scrollRef.current) return false;
+    return scrollRef.current && scrollRef.current.scrollHeight - scrollRef.current.scrollTop - scrollRef.current.clientHeight < distance;
   }
 
   function replyCancelled() {
@@ -197,29 +200,19 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     }
   }
 
-  function scrollToBottom(isSmooth: boolean = false) {
-    setTimeout(() => {
-      if (!scrollAreaRef.current) return;
-      if (isSmooth) scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: "smooth" });
-      else scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-
-      let lastMessage = messages[messages.length - 1];
-      lastMessageIdScrolledToBottom.current = lastMessage?.id;
-    }, 0);
-  }
-
   function scrollToMessage(messageId: number, repeatCall: boolean = true) {
-    if (filteredMessagesRef.current.find((m) => m.id == messageId) == null) return;
-    let messageRef = messageElementsRefs.current.get(messageId);
-    if (messageRef) {
-      messageRef.scrollIntoView({ block: "center" });
-      return;
+    if (filteredMessagesRef.current.find((m) => m.id == messageId) != null) {
+      let messageRef = messageElementsRefs.current.get(messageId);
+      if (messageRef) {
+        messageRef.scrollIntoView({ block: "center", behavior: "smooth" });
+        return;
+      }
     }
 
+    if (!repeatCall) return;
     let nearestMessageId = filteredMessagesRef.current.find((m) => m.id > messageId)?.id;
     selectedRoomConnectionRef.current?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId }).then((response) => {
       setMessages((prevMessages) => distinctMessages([...prevMessages, ...response.content]));
-      messageRef = messageElementsRefs.current.get(messageId);
       setTimeout(() => {
         if (repeatCall) scrollToMessage(messageId, false);
         highlightMessage(messageId);
@@ -245,8 +238,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     const countToLoad = 20;
 
     // Preserve the current scroll position
-    const previousScrollHeight = scrollAreaRef.current?.scrollHeight || 0;
-    const previousScrollTop = scrollAreaRef.current?.scrollTop || 0;
+    const previousScrollHeight = scrollRef.current?.scrollHeight || 0;
+    const previousScrollTop = scrollRef.current?.scrollTop || 0;
 
     selectedRoomConnection?.connection
       .invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
@@ -259,11 +252,11 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
         }
 
         setTimeout(() => {
-          if (scrollAreaRef.current && scrollAreaRef.current.scrollTop == 0) {
+          if (scrollRef.current && scrollRef.current.scrollTop == 0) {
             // Calculate the new scroll position
-            const newScrollHeight = scrollAreaRef.current.scrollHeight;
+            const newScrollHeight = scrollRef.current.scrollHeight;
             const scrollDifference = newScrollHeight - previousScrollHeight;
-            scrollAreaRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
+            scrollRef.current.scrollTop = previousScrollTop + scrollDifference; // Adjust scroll position to maintain the current view
           }
         }, 0);
       })
@@ -299,7 +292,15 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     selectedRoomRef.current = selectedRoom;
   }, [selectedRoom]);
 
-  let mainSection = useRef<any>();
+  function updateLastLocalMessage() {
+    let lastMessage = filteredMessages[filteredMessages.length - 1];
+    lastMessageIdScrolledToBottom.current = lastMessage?.id;
+  }
+
+  function scrollToBottomAndUpdateLastMessage(smoothScroll: boolean = false) {
+    scrollToBottom(smoothScroll ? "smooth" : "instant");
+    updateLastLocalMessage();
+  }
 
   // Count the number of messages in each room to control the scroll behavior
   const [roomMessagesCount, setRoomMessagesCount] = useState<{ [roomGuid: string]: number }>({});
@@ -318,17 +319,18 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       [currentRoomGuid]: messages.length
     }));
 
-    let lastMessage = messages[messages.length - 1];
+    if (lastMessageIdScrolledToBottom.current == null) {
+      return updateLastLocalMessage();
+    }
+
+    let lastMessage = filteredMessages[filteredMessages.length - 1];
     const hasNewMessage = messages.length > previousMessageCount && lastMessageIdScrolledToBottom.current != lastMessage?.id;
     lastMessageIdScrolledToBottom.current = lastMessage?.id;
 
-    let theLastMessageIsNewAndUserIsNearBottom: () => boolean = () => (hasNewMessage && isNearBottom(300)) ?? false;
     let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => hasNewMessage && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
-    if (theLastMessageIsNewAndUserIsNearBottom() || theLastMessageIsNewAndCurrentUserIsAuthor()) {
-      setTimeout(() => scrollToBottom(), 10);
-    }
+    if (theLastMessageIsNewAndCurrentUserIsAuthor()) scrollToBottomAndUpdateLastMessage();
   }, [filteredMessages, selectedRoomConnection]);
 
   // Set chat variant based on the connection state
@@ -358,36 +360,32 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   }, [selectedRoomConnection?.connection.state, selectedRoom]);
 
   useEffect(() => {
-    if (messagesLoaded) {
-      setCurrentChatVariant("default");
-      setTimeout(() => scrollToBottom(), 0);
-    }
+    if (messagesLoaded) setCurrentChatVariant("default");
   }, [messagesLoaded]);
 
   useEffect(() => {
-    setTimeout(() => scrollToBottom(), 0);
     setMessageToReply(null);
   }, [room.guid]);
 
   let [downButtonVisible, setDownButtonVisible] = useState(false);
   function handleScroll() {
-    if (!scrollAreaRef.current) return;
-    let isNearBottom = scrollAreaRef.current.scrollHeight - scrollAreaRef.current.scrollTop - scrollAreaRef.current.clientHeight < 2000;
+    if (!scrollRef.current) return;
+    let isNearBottom = scrollRef.current.scrollHeight - scrollRef.current.scrollTop - scrollRef.current.clientHeight < 2000;
     setDownButtonVisible(!isNearBottom);
   }
 
   // Adding event listener for scrolling
   useEffect(() => {
-    if (!scrollAreaRef.current) return;
-    scrollAreaRef.current.addEventListener("scroll", handleScroll);
+    if (!scrollRef.current) return;
+    scrollRef.current.addEventListener("scroll", handleScroll);
     return () => {
-      if (!scrollAreaRef.current) return;
-      scrollAreaRef.current.removeEventListener("scroll", handleScroll);
+      if (!scrollRef.current) return;
+      scrollRef.current.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollAreaRef.current]);
+  }, [scrollRef.current]);
 
   useEffect(() => {
-    if (isNearBottom(60) && messageToReply) scrollToBottom();
+    if (isNearBottom(60) && messageToReply) scrollToBottomAndUpdateLastMessage();
   }, [messageToReply]);
 
   function openAside() {
@@ -454,7 +452,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       <Separator orientation="horizontal" />
 
       <main ref={mainSection} className={`h-full overflow-hidden pb-1`}>
-        <ScrollArea viewportRef={scrollAreaRef} style={{ overflowAnchor: "none" }} className={`h-full pr-3`}>
+        <InvertedScrollArea scrollRef={scrollRef} contentRef={contentRef} style={{ overflowAnchor: "none" }} className={`h-full pr-3`}>
           {roomsWithNoMoreMessagesToLoad.filter((r) => r == room.guid).length == 0 && <div className="z-50 w-full top-30" ref={messagesStart}></div>}
           <MessagesList
             filteredMessages={filteredMessages}
@@ -472,9 +470,9 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
           />
           {!messagesLoaded && <SkeletonMessageList parentRef={mainSection} />}
           <div className="absolute z-50 w-full bottom-30" ref={messagesEnd}></div>
-        </ScrollArea>
+        </InvertedScrollArea>
         <Button
-          onClick={() => scrollToBottom(true)}
+          onClick={() => scrollToBottomAndUpdateLastMessage(true)}
           variant={"outline"}
           size={"icon"}
           className={cn("z-10 transition-opacity duration-200 absolute bottom-4 right-1", downButtonVisible ? "opacity-1" : "opacity-0 pointer-events-none")}
