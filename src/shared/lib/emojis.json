@@ -1004,7 +1004,11 @@
     },
     {
       "value": "✅",
-      "name": "check mark button :white_check_mark:"
+      "name": "check mark button yes :white_check_mark:"
+    },
+    {
+      "value": "❌",
+      "name": "cross mark no :x:"
     },
     {
       "value": "➡",
@@ -1017,14 +1021,6 @@
     {
       "value": "🔞",
       "name": "no one under eighteen :underage:"
-    },
-    {
-      "value": "✅",
-      "name": "check mark button yes :white_check_mark:"
-    },
-    {
-      "value": "❌",
-      "name": "cross mark no :x:"
     },
     {
       "value": "❗",
