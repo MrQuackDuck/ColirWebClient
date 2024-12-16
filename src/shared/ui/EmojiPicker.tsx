@@ -73,9 +73,9 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
       <PopoverTrigger tabIndex={0} asChild className={cn(className)} onKeyUp={(e) => e.keyCode == 32 && setIsOpen(!isOpen)}>
         {asButton ? getButtonTrigger() : getDefaultTrigger()}
       </PopoverTrigger>
-      <PopoverContent className="w-[305px] overflow-hidden p-2">
+      <PopoverContent sticky="partial" className="w-[305px] overflow-hidden p-2">
         <Input className="w-full" value={searchString} onChange={(e) => setSearchString(e.target.value)} placeholder={t("FIND_EMOJI")} />
-        <ScrollArea ref={scrollAreaRef} className="max-h-[calc(50vh)] text-[22px] mt-1 p-2">
+        <ScrollArea ref={scrollAreaRef} className="h-[50vh] max-h-[calc(50vh)] text-[22px] mt-1 p-2">
           <div className="flex flex-col h-full gap-1">
             {Object.entries(filteredEmojiData).map(
               ([category, emojis]) =>
