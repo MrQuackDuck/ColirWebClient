@@ -460,7 +460,11 @@
     },
     {
       "value": "👍",
-      "name": "thumbs up :thumbsup:"
+      "name": "thumbs up :like: :thumbsup:"
+    },
+    {
+      "value": "👎",
+      "name": "thumbs down :dislike: :thumbsdown:"
     },
     {
       "value": "🤝",
@@ -513,10 +517,6 @@
     {
       "value": "🙋",
       "name": "person raising hand :raising_hand:"
-    },
-    {
-      "value": "👎",
-      "name": "thumbs down :thumbsdown:"
     },
     {
       "value": "💃",
