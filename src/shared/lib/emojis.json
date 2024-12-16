@@ -3942,19 +3942,15 @@
   "FLAGS": [
     {
       "value": "🇺🇸",
-      "name": "flag: United States :us:"
-    },
-    {
-      "value": "🇫🇷",
-      "name": "flag: France :fr:"
+      "name": "flag United States :us:"
     },
     {
       "value": "🇮🇹",
-      "name": "flag: Italy :it:"
+      "name": "flag Italy :it:"
     },
     {
       "value": "🇬🇧",
-      "name": "flag: United Kingdom :gb:"
+      "name": "flag United Kingdom :uk: :gb:"
     },
     {
       "value": "🏁",
@@ -3966,7 +3962,7 @@
     },
     {
       "value": "🇩🇪",
-      "name": "flag: Germany :ger:"
+      "name": "flag Germany :ger:"
     },
     {
       "value": "🎌",
@@ -3974,15 +3970,15 @@
     },
     {
       "value": "🇯🇵",
-      "name": "flag: Japan :jp:"
+      "name": "flag Japan :jp:"
     },
     {
       "value": "🇰🇷",
-      "name": "flag: South Korea :ko:"
+      "name": "flag South Korea :ko:"
     },
     {
       "value": "🇨🇳",
-      "name": "flag: China :cn:"
+      "name": "flag China :cn:"
     },
     {
       "value": "🏴",
@@ -3994,1031 +3990,1031 @@
     },
     {
       "value": "🇦🇨",
-      "name": "flag: Ascension Island :flag_ac:"
+      "name": "flag Ascension Island :flag_ac:"
     },
     {
       "value": "🇦🇩",
-      "name": "flag: Andorra :flag_ad:"
+      "name": "flag Andorra :flag_ad:"
     },
     {
       "value": "🇦🇪",
-      "name": "flag: United Arab Emirates :flag_ae:"
+      "name": "flag United Arab Emirates :flag_ae:"
     },
     {
       "value": "🇦🇫",
-      "name": "flag: Afghanistan :flag_af:"
+      "name": "flag Afghanistan :flag_af:"
     },
     {
       "value": "🇦🇬",
-      "name": "flag: Antigua & Barbuda :flag_ag:"
+      "name": "flag Antigua & Barbuda :flag_ag:"
     },
     {
       "value": "🇦🇮",
-      "name": "flag: Anguilla :flag_ai:"
+      "name": "flag Anguilla :flag_ai:"
     },
     {
       "value": "🇦🇱",
-      "name": "flag: Albania :flag_al:"
+      "name": "flag Albania :flag_al:"
     },
     {
       "value": "🇦🇲",
-      "name": "flag: Armenia :flag_am:"
+      "name": "flag Armenia :flag_am:"
     },
     {
       "value": "🇦🇴",
-      "name": "flag: Angola :flag-ao:"
+      "name": "flag Angola :ao:"
     },
     {
       "value": "🇦🇶",
-      "name": "flag: Antarctica :flag-aq:"
+      "name": "flag Antarctica :aq:"
     },
     {
       "value": "🇦🇷",
-      "name": "flag: Argentina :flag-ar:"
+      "name": "flag Argentina :ar:"
     },
     {
       "value": "🇦🇸",
-      "name": "flag: American Samoa :flag-as:"
+      "name": "flag American Samoa :as:"
     },
     {
       "value": "🇦🇹",
-      "name": "flag: Austria :flag-at:"
+      "name": "flag Austria :at:"
     },
     {
       "value": "🇦🇺",
-      "name": "flag: Australia :flag-au:"
+      "name": "flag Australia :au:"
     },
     {
       "value": "🇦🇼",
-      "name": "flag: Aruba :flag-aw:"
+      "name": "flag Aruba :aw:"
     },
     {
       "value": "🇦🇽",
-      "name": "flag: Åland Islands :flag-ax:"
+      "name": "flag Åland Islands :ax:"
     },
     {
       "value": "🇦🇿",
-      "name": "flag: Azerbaijan :flag-az:"
+      "name": "flag Azerbaijan :az:"
     },
     {
       "value": "🇧🇦",
-      "name": "flag: Bosnia & Herzegovina :flag-ba:"
+      "name": "flag Bosnia & Herzegovina :ba:"
     },
     {
       "value": "🇧🇧",
-      "name": "flag: Barbados :flag-bb:"
+      "name": "flag Barbados :bb:"
     },
     {
       "value": "🇧🇩",
-      "name": "flag: Bangladesh :flag-bd:"
+      "name": "flag Bangladesh :bd:"
     },
     {
       "value": "🇧🇪",
-      "name": "flag: Belgium :flag-be:"
+      "name": "flag Belgium :be:"
     },
     {
       "value": "🇧🇫",
-      "name": "flag: Burkina Faso :flag-bf:"
+      "name": "flag Burkina Faso :bf:"
     },
     {
       "value": "🇧🇬",
-      "name": "flag: Bulgaria :flag-bg:"
+      "name": "flag Bulgaria :bg:"
     },
     {
       "value": "🇧🇭",
-      "name": "flag: Bahrain :flag-bh:"
+      "name": "flag Bahrain :bh:"
     },
     {
       "value": "🇧🇮",
-      "name": "flag: Burundi :flag-bi:"
+      "name": "flag Burundi :bi:"
     },
     {
       "value": "🇧🇯",
-      "name": "flag: Benin :flag-bj:"
+      "name": "flag Benin :bj:"
     },
     {
       "value": "🇧🇱",
-      "name": "flag: St. Barthélemy :flag-bl:"
+      "name": "flag St. Barthélemy :bl:"
     },
     {
       "value": "🇧🇲",
-      "name": "flag: Bermuda :flag-bm:"
+      "name": "flag Bermuda :bm:"
     },
     {
       "value": "🇧🇳",
-      "name": "flag: Brunei :flag-bn:"
+      "name": "flag Brunei :bn:"
     },
     {
       "value": "🇧🇴",
-      "name": "flag: Bolivia :flag-bo:"
+      "name": "flag Bolivia :bo:"
     },
     {
       "value": "🇧🇶",
-      "name": "flag: Caribbean Netherlands :flag-bq:"
+      "name": "flag Caribbean Netherlands :bq:"
     },
     {
       "value": "🇧🇷",
-      "name": "flag: Brazil :flag-br:"
+      "name": "flag Brazil :br:"
     },
     {
       "value": "🇧🇸",
-      "name": "flag: Bahamas :flag-bs:"
+      "name": "flag Bahamas :bs:"
     },
     {
       "value": "🇧🇹",
-      "name": "flag: Bhutan :flag-bt:"
+      "name": "flag Bhutan :bt:"
     },
     {
       "value": "🇧🇻",
-      "name": "flag: Bouvet Island :flag-bv:"
+      "name": "flag Bouvet Island :bv:"
     },
     {
       "value": "🇧🇼",
-      "name": "flag: Botswana :flag-bw:"
+      "name": "flag Botswana :bw:"
     },
     {
       "value": "🇧🇾",
-      "name": "flag: Belarus :flag-by:"
+      "name": "flag Belarus :by:"
     },
     {
       "value": "🇧🇿",
-      "name": "flag: Belize :flag-bz:"
+      "name": "flag Belize :bz:"
     },
     {
       "value": "🇨🇦",
-      "name": "flag: Canada :flag-ca:"
+      "name": "flag Canada :ca:"
     },
     {
       "value": "🇨🇨",
-      "name": "flag: Cocos (Keeling) Islands :flag-cc:"
+      "name": "flag Cocos (Keeling) Islands :cc:"
     },
     {
       "value": "🇨🇩",
-      "name": "flag: Congo - Kinshasa :flag-cd:"
+      "name": "flag Congo - Kinshasa :cd:"
     },
     {
       "value": "🇨🇫",
-      "name": "flag: Central African Republic :flag-cf:"
+      "name": "flag Central African Republic :cf:"
     },
     {
       "value": "🇨🇬",
-      "name": "flag: Congo - Brazzaville :flag-cg:"
+      "name": "flag Congo - Brazzaville :cg:"
     },
     {
       "value": "🇨🇭",
-      "name": "flag: Switzerland :flag-ch:"
+      "name": "flag Switzerland :ch:"
     },
     {
       "value": "🇨🇮",
-      "name": "flag: Côte d’Ivoire :flag-ci:"
+      "name": "flag Côte d’Ivoire :ci:"
     },
     {
       "value": "🇨🇰",
-      "name": "flag: Cook Islands :flag-ck:"
+      "name": "flag Cook Islands :ck:"
     },
     {
       "value": "🇨🇱",
-      "name": "flag: Chile :flag-cl:"
+      "name": "flag Chile :cl:"
     },
     {
       "value": "🇨🇲",
-      "name": "flag: Cameroon :flag-cm:"
+      "name": "flag Cameroon :cm:"
     },
     {
       "value": "🇨🇳",
-      "name": "flag: China :flag-cn:"
+      "name": "flag China :cn:"
     },
     {
       "value": "🇨🇴",
-      "name": "flag: Colombia :flag-co:"
+      "name": "flag Colombia :co:"
     },
     {
       "value": "🇨🇵",
-      "name": "flag: Clipperton Island :flag-cp:"
+      "name": "flag Clipperton Island :cp:"
     },
     {
       "value": "🇨🇷",
-      "name": "flag: Costa Rica :flag-cr:"
+      "name": "flag Costa Rica :cr:"
     },
     {
       "value": "🇨🇺",
-      "name": "flag: Cuba :flag-cu:"
+      "name": "flag Cuba :cu:"
     },
     {
       "value": "🇨🇻",
-      "name": "flag: Cape Verde :flag-cv:"
+      "name": "flag Cape Verde :cv:"
     },
     {
       "value": "🇨🇼",
-      "name": "flag: Curaçao :flag-cw:"
+      "name": "flag Curaçao :cw:"
     },
     {
       "value": "🇨🇽",
-      "name": "flag: Christmas Island :flag-cx:"
+      "name": "flag Christmas Island :cx:"
     },
     {
       "value": "🇨🇾",
-      "name": "flag: Cyprus :flag-cy:"
+      "name": "flag Cyprus :cy:"
     },
     {
       "value": "🇨🇿",
-      "name": "flag: Czechia :flag-cz:"
+      "name": "flag Czechia :cz:"
     },
     {
       "value": "🇩🇪",
-      "name": "flag: Germany :flag-de:"
+      "name": "flag Germany :de:"
     },
     {
       "value": "🇩🇬",
-      "name": "flag: Diego Garcia :flag-dg:"
+      "name": "flag Diego Garcia :dg:"
     },
     {
       "value": "🇩🇯",
-      "name": "flag: Djibouti :flag-dj:"
+      "name": "flag Djibouti :dj:"
     },
     {
       "value": "🇩🇰",
-      "name": "flag: Denmark :flag-dk:"
+      "name": "flag Denmark :dk:"
     },
     {
       "value": "🇩🇲",
-      "name": "flag: Dominica :flag-dm:"
+      "name": "flag Dominica :dm:"
     },
     {
       "value": "🇩🇴",
-      "name": "flag: Dominican Republic :flag-do:"
+      "name": "flag Dominican Republic :do:"
     },
     {
       "value": "🇩🇿",
-      "name": "flag: Algeria :flag-dz:"
+      "name": "flag Algeria :dz:"
     },
     {
       "value": "🇪🇦",
-      "name": "flag: Ceuta & Melilla :flag-ea:"
+      "name": "flag Ceuta & Melilla :ea:"
     },
     {
       "value": "🇪🇨",
-      "name": "flag: Ecuador :flag-ec:"
+      "name": "flag Ecuador :ec:"
     },
     {
       "value": "🇪🇪",
-      "name": "flag: Estonia :flag-ee:"
+      "name": "flag Estonia :ee:"
     },
     {
       "value": "🇪🇬",
-      "name": "flag: Egypt :flag-eg:"
+      "name": "flag Egypt :eg:"
     },
     {
       "value": "🇪🇭",
-      "name": "flag: Western Sahara :flag-eh:"
+      "name": "flag Western Sahara :eh:"
     },
     {
       "value": "🇪🇷",
-      "name": "flag: Eritrea :flag-er:"
+      "name": "flag Eritrea :er:"
     },
     {
       "value": "🇪🇸",
-      "name": "flag: Spain :flag-es:"
+      "name": "flag Spain :es:"
     },
     {
       "value": "🇪🇹",
-      "name": "flag: Ethiopia :flag-et:"
+      "name": "flag Ethiopia :et:"
     },
     {
       "value": "🇪🇺",
-      "name": "flag: European Union :flag-eu:"
+      "name": "flag European Union :eu:"
     },
     {
       "value": "🇫🇮",
-      "name": "flag: Finland :flag-fi:"
+      "name": "flag Finland :fi:"
     },
     {
       "value": "🇫🇯",
-      "name": "flag: Fiji :flag-fj:"
+      "name": "flag Fiji :fj:"
     },
     {
       "value": "🇫🇰",
-      "name": "flag: Falkland Islands :flag-fk:"
+      "name": "flag Falkland Islands :fk:"
     },
     {
       "value": "🇫🇲",
-      "name": "flag: Micronesia :flag-fm:"
+      "name": "flag Micronesia :fm:"
     },
     {
       "value": "🇫🇴",
-      "name": "flag: Faroe Islands :flag-fo:"
+      "name": "flag Faroe Islands :fo:"
     },
     {
       "value": "🇫🇷",
-      "name": "flag: France :flag-fr:"
+      "name": "flag France :fr:"
     },
     {
       "value": "🇬🇦",
-      "name": "flag: Gabon :flag-ga:"
+      "name": "flag Gabon :ga:"
     },
     {
       "value": "🇬🇧",
-      "name": "flag: United Kingdom :flag-gb:"
+      "name": "flag United Kingdom :gb:"
     },
     {
       "value": "🇬🇩",
-      "name": "flag: Grenada :flag-gd:"
+      "name": "flag Grenada :gd:"
     },
     {
       "value": "🇬🇪",
-      "name": "flag: Georgia :flag-ge:"
+      "name": "flag Georgia :ge:"
     },
     {
       "value": "🇬🇫",
-      "name": "flag: French Guiana :flag-gf:"
+      "name": "flag French Guiana :gf:"
     },
     {
       "value": "🇬🇬",
-      "name": "flag: Guernsey :flag-gg:"
+      "name": "flag Guernsey :gg:"
     },
     {
       "value": "🇬🇭",
-      "name": "flag: Ghana :flag-gh:"
+      "name": "flag Ghana :gh:"
     },
     {
       "value": "🇬🇮",
-      "name": "flag: Gibraltar :flag-gi:"
+      "name": "flag Gibraltar :gi:"
     },
     {
       "value": "🇬🇱",
-      "name": "flag: Greenland :flag-gl:"
+      "name": "flag Greenland :gl:"
     },
     {
       "value": "🇬🇲",
-      "name": "flag: Gambia :flag-gm:"
+      "name": "flag Gambia :gm:"
     },
     {
       "value": "🇬🇳",
-      "name": "flag: Guinea :flag-gn:"
+      "name": "flag Guinea :gn:"
     },
     {
       "value": "🇬🇵",
-      "name": "flag: Guadeloupe :flag-gp:"
+      "name": "flag Guadeloupe :gp:"
     },
     {
       "value": "🇬🇶",
-      "name": "flag: Equatorial Guinea :flag-gq:"
+      "name": "flag Equatorial Guinea :gq:"
     },
     {
       "value": "🇬🇷",
-      "name": "flag: Greece :flag-gr:"
+      "name": "flag Greece :gr:"
     },
     {
       "value": "🇬🇸",
-      "name": "flag: South Georgia & South Sandwich Islands :flag-gs:"
+      "name": "flag South Georgia & South Sandwich Islands :gs:"
     },
     {
       "value": "🇬🇹",
-      "name": "flag: Guatemala :flag-gt:"
+      "name": "flag Guatemala :gt:"
     },
     {
       "value": "🇬🇺",
-      "name": "flag: Guam :flag-gu:"
+      "name": "flag Guam :gu:"
     },
     {
       "value": "🇬🇼",
-      "name": "flag: Guinea-Bissau :flag-gw:"
+      "name": "flag Guinea-Bissau :gw:"
     },
     {
       "value": "🇬🇾",
-      "name": "flag: Guyana :flag-gy:"
+      "name": "flag Guyana :gy:"
     },
     {
       "value": "🇭🇰",
-      "name": "flag: Hong Kong SAR China :flag-hk:"
+      "name": "flag Hong Kong SAR China :hk:"
     },
     {
       "value": "🇭🇲",
-      "name": "flag: Heard & McDonald Islands :flag-hm:"
+      "name": "flag Heard & McDonald Islands :hm:"
     },
     {
       "value": "🇭🇳",
-      "name": "flag: Honduras :flag-hn:"
+      "name": "flag Honduras :hn:"
     },
     {
       "value": "🇭🇷",
-      "name": "flag: Croatia :flag-hr:"
+      "name": "flag Croatia :hr:"
     },
     {
       "value": "🇭🇹",
-      "name": "flag: Haiti :flag-ht:"
+      "name": "flag Haiti :ht:"
     },
     {
       "value": "🇭🇺",
-      "name": "flag: Hungary :flag-hu:"
+      "name": "flag Hungary :hu:"
     },
     {
       "value": "🇮🇨",
-      "name": "flag: Canary Islands :flag-ic:"
+      "name": "flag Canary Islands :ic:"
     },
     {
       "value": "🇮🇩",
-      "name": "flag: Indonesia :flag-id:"
+      "name": "flag Indonesia :id:"
     },
     {
       "value": "🇮🇪",
-      "name": "flag: Ireland :flag-ie:"
+      "name": "flag Ireland :ie:"
     },
     {
       "value": "🇮🇱",
-      "name": "flag: Israel :flag-il:"
+      "name": "flag Israel :il:"
     },
     {
       "value": "🇮🇲",
-      "name": "flag: Isle of Man :flag-im:"
+      "name": "flag Isle of Man :im:"
     },
     {
       "value": "🇮🇳",
-      "name": "flag: India :flag-in:"
+      "name": "flag India :in:"
     },
     {
       "value": "🇮🇴",
-      "name": "flag: British Indian Ocean Territory :flag-io:"
+      "name": "flag British Indian Ocean Territory :io:"
     },
     {
       "value": "🇮🇶",
-      "name": "flag: Iraq :flag-iq:"
+      "name": "flag Iraq :iq:"
     },
     {
       "value": "🇮🇷",
-      "name": "flag: Iran :flag-ir:"
+      "name": "flag Iran :ir:"
     },
     {
       "value": "🇮🇸",
-      "name": "flag: Iceland :flag-is:"
+      "name": "flag Iceland :is:"
     },
     {
       "value": "🇮🇹",
-      "name": "flag: Italy :flag-it:"
+      "name": "flag Italy :it:"
     },
     {
       "value": "🇯🇪",
-      "name": "flag: Jersey :flag-je:"
+      "name": "flag Jersey :je:"
     },
     {
       "value": "🇯🇲",
-      "name": "flag: Jamaica :flag-jm:"
+      "name": "flag Jamaica :jm:"
     },
     {
       "value": "🇯🇴",
-      "name": "flag: Jordan :flag-jo:"
+      "name": "flag Jordan :jo:"
     },
     {
       "value": "🇯🇵",
-      "name": "flag: Japan :flag-jp:"
+      "name": "flag Japan :jp:"
     },
     {
       "value": "🇰🇪",
-      "name": "flag: Kenya :flag-ke:"
+      "name": "flag Kenya :ke:"
     },
     {
       "value": "🇰🇬",
-      "name": "flag: Kyrgyzstan :flag-kg:"
+      "name": "flag Kyrgyzstan :kg:"
     },
     {
       "value": "🇰🇭",
-      "name": "flag: Cambodia :flag-kh:"
+      "name": "flag Cambodia :kh:"
     },
     {
       "value": "🇰🇮",
-      "name": "flag: Kiribati :flag-ki:"
+      "name": "flag Kiribati :ki:"
     },
     {
       "value": "🇰🇲",
-      "name": "flag: Comoros :flag-km:"
+      "name": "flag Comoros :km:"
     },
     {
       "value": "🇰🇳",
-      "name": "flag: St. Kitts & Nevis :flag-kn:"
+      "name": "flag St. Kitts & Nevis :kn:"
     },
     {
       "value": "🇰🇵",
-      "name": "flag: North Korea :flag-kp:"
+      "name": "flag North Korea :kp:"
     },
     {
       "value": "🇰🇷",
-      "name": "flag: South Korea :flag-kr:"
+      "name": "flag South Korea :kr:"
     },
     {
       "value": "🇰🇼",
-      "name": "flag: Kuwait :flag-kw:"
+      "name": "flag Kuwait :kw:"
     },
     {
       "value": "🇰🇾",
-      "name": "flag: Cayman Islands :flag-ky:"
+      "name": "flag Cayman Islands :ky:"
     },
     {
       "value": "🇰🇿",
-      "name": "flag: Kazakhstan :flag-kz:"
+      "name": "flag Kazakhstan :kz:"
     },
     {
       "value": "🇱🇦",
-      "name": "flag: Laos :flag-la:"
+      "name": "flag Laos :la:"
     },
     {
       "value": "🇱🇧",
-      "name": "flag: Lebanon :flag-lb:"
+      "name": "flag Lebanon :lb:"
     },
     {
       "value": "🇱🇨",
-      "name": "flag: St. Lucia :flag-lc:"
+      "name": "flag St. Lucia :lc:"
     },
     {
       "value": "🇱🇮",
-      "name": "flag: Liechtenstein :flag-li:"
+      "name": "flag Liechtenstein :li:"
     },
     {
       "value": "🇱🇰",
-      "name": "flag: Sri Lanka :flag-lk:"
+      "name": "flag Sri Lanka :lk:"
     },
     {
       "value": "🇱🇷",
-      "name": "flag: Liberia :flag-lr:"
+      "name": "flag Liberia :lr:"
     },
     {
       "value": "🇱🇸",
-      "name": "flag: Lesotho :flag-ls:"
+      "name": "flag Lesotho :ls:"
     },
     {
       "value": "🇱🇹",
-      "name": "flag: Lithuania :flag-lt:"
+      "name": "flag Lithuania :lt:"
     },
     {
       "value": "🇱🇺",
-      "name": "flag: Luxembourg :flag-lu:"
+      "name": "flag Luxembourg :lu:"
     },
     {
       "value": "🇱🇻",
-      "name": "flag: Latvia :flag-lv:"
+      "name": "flag Latvia :lv:"
     },
     {
       "value": "🇱🇾",
-      "name": "flag: Libya :flag-ly:"
+      "name": "flag Libya :ly:"
     },
     {
       "value": "🇲🇦",
-      "name": "flag: Morocco :flag-ma:"
+      "name": "flag Morocco :ma:"
     },
     {
       "value": "🇲🇨",
-      "name": "flag: Monaco :flag-mc:"
+      "name": "flag Monaco :mc:"
     },
     {
       "value": "🇲🇩",
-      "name": "flag: Moldova :flag-md:"
+      "name": "flag Moldova :md:"
     },
     {
       "value": "🇲🇪",
-      "name": "flag: Montenegro :flag-me:"
+      "name": "flag Montenegro :me:"
     },
     {
       "value": "🇲🇫",
-      "name": "flag: St. Martin :flag-mf:"
+      "name": "flag St. Martin :mf:"
     },
     {
       "value": "🇲🇬",
-      "name": "flag: Madagascar :flag-mg:"
+      "name": "flag Madagascar :mg:"
     },
     {
       "value": "🇲🇭",
-      "name": "flag: Marshall Islands :flag-mh:"
+      "name": "flag Marshall Islands :mh:"
     },
     {
       "value": "🇲🇰",
-      "name": "flag: North Macedonia :flag-mk:"
+      "name": "flag North Macedonia :mk:"
     },
     {
       "value": "🇲🇱",
-      "name": "flag: Mali :flag-ml:"
+      "name": "flag Mali :ml:"
     },
     {
       "value": "🇲🇲",
-      "name": "flag: Myanmar (Burma) :flag-mm:"
+      "name": "flag Myanmar (Burma) :mm:"
     },
     {
       "value": "🇲🇳",
-      "name": "flag: Mongolia :flag-mn:"
+      "name": "flag Mongolia :mn:"
     },
     {
       "value": "🇲🇴",
-      "name": "flag: Macao SAR China :flag-mo:"
+      "name": "flag Macao SAR China :mo:"
     },
     {
       "value": "🇲🇵",
-      "name": "flag: Northern Mariana Islands :flag-mp:"
+      "name": "flag Northern Mariana Islands :mp:"
     },
     {
       "value": "🇲🇶",
-      "name": "flag: Martinique :flag-mq:"
+      "name": "flag Martinique :mq:"
     },
     {
       "value": "🇲🇷",
-      "name": "flag: Mauritania :flag-mr:"
+      "name": "flag Mauritania :mr:"
     },
     {
       "value": "🇲🇸",
-      "name": "flag: Montserrat :flag-ms:"
+      "name": "flag Montserrat :ms:"
     },
     {
       "value": "🇲🇹",
-      "name": "flag: Malta :flag-mt:"
+      "name": "flag Malta :mt:"
     },
     {
       "value": "🇲🇺",
-      "name": "flag: Mauritius :flag-mu:"
+      "name": "flag Mauritius :mu:"
     },
     {
       "value": "🇲🇻",
-      "name": "flag: Maldives :flag-mv:"
+      "name": "flag Maldives :mv:"
     },
     {
       "value": "🇲🇼",
-      "name": "flag: Malawi :flag-mw:"
+      "name": "flag Malawi :mw:"
     },
     {
       "value": "🇲🇽",
-      "name": "flag: Mexico :flag-mx:"
+      "name": "flag Mexico :mx:"
     },
     {
       "value": "🇲🇾",
-      "name": "flag: Malaysia :flag-my:"
+      "name": "flag Malaysia :my:"
     },
     {
       "value": "🇲🇿",
-      "name": "flag: Mozambique :flag-mz:"
+      "name": "flag Mozambique :mz:"
     },
     {
       "value": "🇳🇦",
-      "name": "flag: Namibia :flag-na:"
+      "name": "flag Namibia :na:"
     },
     {
       "value": "🇳🇨",
-      "name": "flag: New Caledonia :flag-nc:"
+      "name": "flag New Caledonia :nc:"
     },
     {
       "value": "🇳🇪",
-      "name": "flag: Niger :flag-ne:"
+      "name": "flag Niger :ne:"
     },
     {
       "value": "🇳🇫",
-      "name": "flag: Norfolk Island :flag-nf:"
+      "name": "flag Norfolk Island :nf:"
     },
     {
       "value": "🇳🇬",
-      "name": "flag: Nigeria :flag-ng:"
+      "name": "flag Nigeria :ng:"
     },
     {
       "value": "🇳🇮",
-      "name": "flag: Nicaragua :flag-ni:"
+      "name": "flag Nicaragua :ni:"
     },
     {
       "value": "🇳🇱",
-      "name": "flag: Netherlands :flag-nl:"
+      "name": "flag Netherlands :nl:"
     },
     {
       "value": "🇳🇴",
-      "name": "flag: Norway :flag-no:"
+      "name": "flag Norway :no:"
     },
     {
       "value": "🇳🇵",
-      "name": "flag: Nepal :flag-np:"
+      "name": "flag Nepal :np:"
     },
     {
       "value": "🇳🇷",
-      "name": "flag: Nauru :flag-nr:"
+      "name": "flag Nauru :nr:"
     },
     {
       "value": "🇳🇺",
-      "name": "flag: Niue :flag-nu:"
+      "name": "flag Niue :nu:"
     },
     {
       "value": "🇳🇿",
-      "name": "flag: New Zealand :flag-nz:"
+      "name": "flag New Zealand :nz:"
     },
     {
       "value": "🇴🇲",
-      "name": "flag: Oman :flag-om:"
+      "name": "flag Oman :om:"
     },
     {
       "value": "🇵🇦",
-      "name": "flag: Panama :flag-pa:"
+      "name": "flag Panama :pa:"
     },
     {
       "value": "🇵🇪",
-      "name": "flag: Peru :flag-pe:"
+      "name": "flag Peru :pe:"
     },
     {
       "value": "🇵🇫",
-      "name": "flag: French Polynesia :flag-pf:"
+      "name": "flag French Polynesia :pf:"
     },
     {
       "value": "🇵🇬",
-      "name": "flag: Papua New Guinea :flag-pg:"
+      "name": "flag Papua New Guinea :pg:"
     },
     {
       "value": "🇵🇭",
-      "name": "flag: Philippines :flag-ph:"
+      "name": "flag Philippines :ph:"
     },
     {
       "value": "🇵🇰",
-      "name": "flag: Pakistan :flag-pk:"
+      "name": "flag Pakistan :pk:"
     },
     {
       "value": "🇵🇱",
-      "name": "flag: Poland :flag-pl:"
+      "name": "flag Poland :pl:"
     },
     {
       "value": "🇵🇲",
-      "name": "flag: St. Pierre & Miquelon :flag-pm:"
+      "name": "flag St. Pierre & Miquelon :pm:"
     },
     {
       "value": "🇵🇳",
-      "name": "flag: Pitcairn Islands :flag-pn:"
+      "name": "flag Pitcairn Islands :pn:"
     },
     {
       "value": "🇵🇷",
-      "name": "flag: Puerto Rico :flag-pr:"
+      "name": "flag Puerto Rico :pr:"
     },
     {
       "value": "🇵🇸",
-      "name": "flag: Palestinian Territories :flag-ps:"
+      "name": "flag Palestinian Territories :ps:"
     },
     {
       "value": "🇵🇹",
-      "name": "flag: Portugal :flag-pt:"
+      "name": "flag Portugal :pt:"
     },
     {
       "value": "🇵🇼",
-      "name": "flag: Palau :flag-pw:"
+      "name": "flag Palau :pw:"
     },
     {
       "value": "🇵🇾",
-      "name": "flag: Paraguay :flag-py:"
+      "name": "flag Paraguay :py:"
     },
     {
       "value": "🇶🇦",
-      "name": "flag: Qatar :flag-qa:"
+      "name": "flag Qatar :qa:"
     },
     {
       "value": "🇷🇪",
-      "name": "flag: Réunion :flag-re:"
+      "name": "flag Réunion :re:"
     },
     {
       "value": "🇷🇴",
-      "name": "flag: Romania :flag-ro:"
+      "name": "flag Romania :ro:"
     },
     {
       "value": "🇷🇺",
-      "name": "flag: Russia :ru: :flag-ru:"
+      "name": "flag Russia :ru: :ru:"
     },
     {
       "value": "🇷🇸",
-      "name": "flag: Serbia :flag-rs:"
+      "name": "flag Serbia :rs:"
     },
     {
       "value": "🇷🇼",
-      "name": "flag: Rwanda :flag-rw:"
+      "name": "flag Rwanda :rw:"
     },
     {
       "value": "🇸🇦",
-      "name": "flag: Saudi Arabia :flag-sa:"
+      "name": "flag Saudi Arabia :sa:"
     },
     {
       "value": "🇸🇧",
-      "name": "flag: Solomon Islands :flag-sb:"
+      "name": "flag Solomon Islands :sb:"
     },
     {
       "value": "🇸🇨",
-      "name": "flag: Seychelles :flag-sc:"
+      "name": "flag Seychelles :sc:"
     },
     {
       "value": "🇸🇩",
-      "name": "flag: Sudan :flag-sd:"
+      "name": "flag Sudan :sd:"
     },
     {
       "value": "🇸🇪",
-      "name": "flag: Sweden :flag-se:"
+      "name": "flag Sweden :se:"
     },
     {
       "value": "🇸🇬",
-      "name": "flag: Singapore :flag-sg:"
+      "name": "flag Singapore :sg:"
     },
     {
       "value": "🇸🇭",
-      "name": "flag: St. Helena :flag-sh:"
+      "name": "flag St. Helena :sh:"
     },
     {
       "value": "🇸🇮",
-      "name": "flag: Slovenia :flag-si:"
+      "name": "flag Slovenia :si:"
     },
     {
       "value": "🇸🇯",
-      "name": "flag: Svalbard & Jan Mayen :flag-sj:"
+      "name": "flag Svalbard & Jan Mayen :sj:"
     },
     {
       "value": "🇸🇰",
-      "name": "flag: Slovakia :flag-sk:"
+      "name": "flag Slovakia :sk:"
     },
     {
       "value": "🇸🇱",
-      "name": "flag: Sierra Leone :flag-sl:"
+      "name": "flag Sierra Leone :sl:"
     },
     {
       "value": "🇸🇲",
-      "name": "flag: San Marino :flag-sm:"
+      "name": "flag San Marino :sm:"
     },
     {
       "value": "🇸🇳",
-      "name": "flag: Senegal :flag-sn:"
+      "name": "flag Senegal :sn:"
     },
     {
       "value": "🇸🇴",
-      "name": "flag: Somalia :flag-so:"
+      "name": "flag Somalia :so:"
     },
     {
       "value": "🇸🇷",
-      "name": "flag: Suriname :flag-sr:"
+      "name": "flag Suriname :sr:"
     },
     {
       "value": "🇸🇸",
-      "name": "flag: South Sudan :flag-ss:"
+      "name": "flag South Sudan :ss:"
     },
     {
       "value": "🇸🇹",
-      "name": "flag: São Tomé & Príncipe :flag-st:"
+      "name": "flag São Tomé & Príncipe :st:"
     },
     {
       "value": "🇸🇻",
-      "name": "flag: El Salvador :flag-sv:"
+      "name": "flag El Salvador :sv:"
     },
     {
       "value": "🇸🇽",
-      "name": "flag: Sint Maarten :flag-sx:"
+      "name": "flag Sint Maarten :sx:"
     },
     {
       "value": "🇸🇾",
-      "name": "flag: Syria :flag-sy:"
+      "name": "flag Syria :sy:"
     },
     {
       "value": "🇸🇿",
-      "name": "flag: Eswatini :flag-sz:"
+      "name": "flag Eswatini :sz:"
     },
     {
       "value": "🇹🇦",
-      "name": "flag: Tristan da Cunha :flag-ta:"
+      "name": "flag Tristan da Cunha :ta:"
     },
     {
       "value": "🇹🇨",
-      "name": "flag: Turks & Caicos Islands :flag-tc:"
+      "name": "flag Turks & Caicos Islands :tc:"
     },
     {
       "value": "🇹🇩",
-      "name": "flag: Chad :flag-td:"
+      "name": "flag Chad :td:"
     },
     {
       "value": "🇹🇫",
-      "name": "flag: French Southern Territories :flag-tf:"
+      "name": "flag French Southern Territories :tf:"
     },
     {
       "value": "🇹🇬",
-      "name": "flag: Togo :flag-tg:"
+      "name": "flag Togo :tg:"
     },
     {
       "value": "🇹🇭",
-      "name": "flag: Thailand :flag-th:"
+      "name": "flag Thailand :th:"
     },
     {
       "value": "🇹🇯",
-      "name": "flag: Tajikistan :flag-tj:"
+      "name": "flag Tajikistan :tj:"
     },
     {
       "value": "🇹🇰",
-      "name": "flag: Tokelau :flag-tk:"
+      "name": "flag Tokelau :tk:"
     },
     {
       "value": "🇹🇱",
-      "name": "flag: Timor-Leste :flag-tl:"
+      "name": "flag Timor-Leste :tl:"
     },
     {
       "value": "🇹🇲",
-      "name": "flag: Turkmenistan :flag-tm:"
+      "name": "flag Turkmenistan :tm:"
     },
     {
       "value": "🇹🇳",
-      "name": "flag: Tunisia :flag-tn:"
+      "name": "flag Tunisia :tn:"
     },
     {
       "value": "🇹🇴",
-      "name": "flag: Tonga :flag-to:"
+      "name": "flag Tonga :to:"
     },
     {
       "value": "🇹🇷",
-      "name": "flag: Turkey :flag-tr:"
+      "name": "flag Turkey :tr:"
     },
     {
       "value": "🇹🇹",
-      "name": "flag: Trinidad & Tobago :flag-tt:"
+      "name": "flag Trinidad & Tobago :tt:"
     },
     {
       "value": "🇹🇻",
-      "name": "flag: Tuvalu :flag-tv:"
+      "name": "flag Tuvalu :tv:"
     },
     {
       "value": "🇹🇼",
-      "name": "flag: Taiwan :flag-tw:"
+      "name": "flag Taiwan :tw:"
     },
     {
       "value": "🇹🇿",
-      "name": "flag: Tanzania :flag-tz:"
+      "name": "flag Tanzania :tz:"
     },
     {
       "value": "🇺🇦",
-      "name": "flag: Ukraine :flag-ua:"
+      "name": "flag Ukraine :ua:"
     },
     {
       "value": "🇺🇬",
-      "name": "flag: Uganda :flag-ug:"
+      "name": "flag Uganda :ug:"
     },
     {
       "value": "🇺🇲",
-      "name": "flag: U.S. Outlying Islands :flag-um:"
+      "name": "flag U.S. Outlying Islands :um:"
     },
     {
       "value": "🇺🇸",
-      "name": "flag: United States :flag-us:"
+      "name": "flag United States :us:"
     },
     {
       "value": "🇺🇾",
-      "name": "flag: Uruguay :flag-uy:"
+      "name": "flag Uruguay :uy:"
     },
     {
       "value": "🇺🇿",
-      "name": "flag: Uzbekistan :flag-uz:"
+      "name": "flag Uzbekistan :uz:"
     },
     {
       "value": "🇻🇦",
-      "name": "flag: Vatican City :flag-va:"
+      "name": "flag Vatican City :va:"
     },
     {
       "value": "🇻🇨",
-      "name": "flag: St. Vincent & Grenadines :flag-vc:"
+      "name": "flag St. Vincent & Grenadines :vc:"
     },
     {
       "value": "🇻🇪",
-      "name": "flag: Venezuela :flag-ve:"
+      "name": "flag Venezuela :ve:"
     },
     {
       "value": "🇻🇬",
-      "name": "flag: British Virgin Islands :flag-vg:"
+      "name": "flag British Virgin Islands :vg:"
     },
     {
       "value": "🇻🇮",
-      "name": "flag: U.S. Virgin Islands :flag-vi:"
+      "name": "flag U.S. Virgin Islands :vi:"
     },
     {
       "value": "🇻🇳",
-      "name": "flag: Vietnam :flag-vn:"
+      "name": "flag Vietnam :vn:"
     },
     {
       "value": "🇻🇺",
-      "name": "flag: Vanuatu :flag_vu:"
+      "name": "flag Vanuatu :flag_vu:"
     },
     {
       "value": "🇼🇫",
-      "name": "flag: Wallis & Futuna :flag_wf:"
+      "name": "flag Wallis & Futuna :flag_wf:"
     },
     {
       "value": "🇼🇸",
-      "name": "flag: Samoa :flag_ws:"
+      "name": "flag Samoa :flag_ws:"
     },
     {
       "value": "🇽🇰",
-      "name": "flag: Kosovo :flag_xk:"
+      "name": "flag Kosovo :flag_xk:"
     },
     {
       "value": "🇾🇪",
-      "name": "flag: Yemen :flag_ye:"
+      "name": "flag Yemen :flag_ye:"
     },
     {
       "value": "🇾🇹",
-      "name": "flag: Mayotte :flag_yt:"
+      "name": "flag Mayotte :flag_yt:"
     },
     {
       "value": "🇿🇦",
-      "name": "flag: South Africa :flag_za:"
+      "name": "flag South Africa :flag_za:"
     },
     {
       "value": "🇿🇲",
-      "name": "flag: Zambia :flag_zm:"
+      "name": "flag Zambia :flag_zm:"
     },
     {
       "value": "🇿🇼",
-      "name": "flag: Zimbabwe :flag_zw:"
+      "name": "flag Zimbabwe :flag_zw:"
     }
   ]
 }

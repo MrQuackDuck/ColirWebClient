@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import CryptoJS from "crypto-js";
+import emojiData from "../lib/emojis.json";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -67,4 +68,25 @@ export async function decryptFile(encryptedData: Blob, secretKey: string): Promi
 
   // Create a blob from the binary data and return it
   return new Blob([byteArray]);
+}
+
+const emojiMap = Object.values(emojiData).flat().reduce((acc, emoji) => {
+  const shortcodes = emoji.name.match(/:[^:]+:/g) || [];
+
+  shortcodes.forEach(shortcode => {
+    acc[shortcode] = emoji.value;
+  });
+  
+  return acc;
+}, {} as Record<string, string>);
+
+// Replaces emoji shortcodes with their corresponding emoji characters
+export function replaceEmojis(text: string): string {
+  return text.replace(/\\?:[^:\s]+:/g, (match) => {
+    if (match.startsWith('\\')) {
+      return match.slice(1);
+    }
+    
+    return emojiMap[match] || match;
+  });
 }

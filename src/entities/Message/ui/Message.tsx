@@ -5,10 +5,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
 import Moment from "moment/min/moment-with-locales";
 import "moment/min/locales";
 import { Button } from "@/shared/ui/Button";
-import { CheckIcon, CodeIcon, CopyIcon, CornerUpRightIcon, PencilIcon, PencilOffIcon, ReplyIcon, SkullIcon, Trash2Icon } from "lucide-react";
+import { CodeIcon, CopyIcon, CornerUpRightIcon, PencilIcon, ReplyIcon, SkullIcon, Trash2Icon } from "lucide-react";
 import classes from "./Message.module.css";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
 import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
@@ -19,11 +18,12 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import React from "react";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useContextSelector } from "use-context-selector";
-import { cn, decryptString, encryptString } from "@/shared/lib/utils";
+import { cn, decryptString, encryptString, replaceEmojis } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
+import EditArea from "./EditArea";
 
 interface MessageProps {
   message: MessageModel;
@@ -140,7 +140,7 @@ const Message = forwardRef(
 
     function finishEditing() {
       if (editedContent?.length < 0) return;
-      if (editedContent != message.content) onMessageEdited(message.id, encryptString(editedContent, decryptionKey));
+      if (editedContent != message.content) onMessageEdited(message.id, encryptString(replaceEmojis(editedContent), decryptionKey));
       disableEditMode();
     }
 
@@ -314,24 +314,14 @@ const Message = forwardRef(
                   </span>
                 )}
                 {isEditMode && (
-                  <div className="flex flex-row gap-1">
-                    <AutosizeTextarea
-                      ref={textAreaRef}
-                      onKeyDown={handleEditInputKeyDown}
-                      onChange={(e) => setEditedContent(e.target.value)}
-                      value={editedContent}
-                      autoFocus
-                      placeholder={t("EDIT_MESSAGE")}
-                      className="flex items-center w-full rounded-md border border-input bg-background py-2.5 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 h-11 resize-none
-                    ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  <EditArea 
+                    textAreaRef={textAreaRef}
+                    handleEditInputKeyDown={handleEditInputKeyDown}
+                    setEditedContent={setEditedContent}
+                    editedContent={editedContent}
+                    onEditModeDisabled={disableEditMode}
+                    onFinishedEditing={finishEditing}
                     />
-                    <Button onClick={disableEditMode} className="w-10 h-10" variant={"outline"} size={"icon"}>
-                      <PencilOffIcon className="text-primary/80 h-4 w-4" />
-                    </Button>
-                    <Button onClick={finishEditing} className="w-10 h-10" variant={"outline"} size={"icon"}>
-                      <CheckIcon className="text-primary/80 h-4 w-4" />
-                    </Button>
-                  </div>
                 )}
 
                 {message.attachments.length > 0 && <AttachmentsSection decryptionKey={decryptionKey} attachments={message.attachments} />}

@@ -4,7 +4,7 @@ import { Loader2, PaperclipIcon, PlugZapIcon, SendIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import React from "react";
 import { EmojiPicker } from "@/shared/ui/EmojiPicker";
-import { cn, encryptFile, encryptString } from "@/shared/lib/utils";
+import { cn, encryptFile, encryptString, replaceEmojis } from "@/shared/lib/utils";
 import { MessageModel } from "@/entities/Message/model/MessageModel";
 import ReplySection from "./ReplySection";
 import { UserModel } from "@/entities/User/model/UserModel";
@@ -95,13 +95,16 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
   async function sendMessage() {
     if (textAreaRef.current.textArea.disabled) return;
     // Check if the message is empty and there are no files attached
-    if (textAreaRef.current.textArea.value.trim() === "" && files.length === 0) return; 
+    let text = textAreaRef.current.textArea.value;
+    if (text.trim() === "" && files.length === 0) return;
+
+    text = replaceEmojis(text);
 
     setIsSending(true);
     const encryptedFiles = files.length > 0 ? await Promise.all([...files].map((file) => encryptFile(file, encryptionKey))) : [];
 
     onSend({
-      content: encryptString(textAreaRef.current.textArea.value, encryptionKey) ?? "",
+      content: encryptString(text, encryptionKey) ?? "",
       attachments: encryptedFiles,
       replyMessageId: messageToReply?.id
     })

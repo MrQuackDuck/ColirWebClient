@@ -43,7 +43,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
 
   function getButtonTrigger() {
     return (
-      <Button disabled={disabled} className="w-8 h-8" variant="outline" size="icon">
+      <Button disabled={disabled} className={cn("w-8 h-8", className)} variant="outline" size="icon">
         <SmilePlusIcon className="text-primary/80 h-4 w-4" />
       </Button>
     );
