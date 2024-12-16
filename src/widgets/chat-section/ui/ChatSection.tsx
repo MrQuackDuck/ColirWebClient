@@ -62,7 +62,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   let setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
   const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
-  const { scrollRef, contentRef, scrollToBottom, isAtBottom } = useInvertedScrollArea();
+  const { scrollRef, contentRef, scrollToBottom } = useInvertedScrollArea();
   const messageElementsRefs = useRef(new Map<number, HTMLDivElement>());
   const setMessageRef = useCallback(
     (messageId: number) => (el: HTMLDivElement | null) => {
@@ -329,11 +329,8 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
     let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => hasNewMessage && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
-    // Is the user is already at bottom, he will be scrolled automatically because of how current inverted scroll area works
-    if (isAtBottom) return;
-
     // Scroll to the bottom when the user sends a message
-    if (theLastMessageIsNewAndCurrentUserIsAuthor()) scrollToBottomAndUpdateLastMessage();
+    if (theLastMessageIsNewAndCurrentUserIsAuthor()) scrollToBottomAndUpdateLastMessage(true);
   }, [filteredMessages, selectedRoomConnection]);
 
   // Set chat variant based on the connection state
