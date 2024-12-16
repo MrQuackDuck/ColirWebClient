@@ -91,6 +91,7 @@ export const EmojiPicker = ({ onChange, className, asButton, disabled = false }:
                           variant="ghost"
                           size="icon"
                           className="p-0 rounded-sm overflow-visible focus:outline-none focus-visible:ring-2 focus:ring-ring text-[1.2rem]"
+                          title={emoji.name}
                         >
                           {emoji.value}
                         </Button>

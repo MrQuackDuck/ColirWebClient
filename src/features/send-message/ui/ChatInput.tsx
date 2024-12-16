@@ -54,6 +54,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
 
     const handleDrop = (e) => {
       e.preventDefault();
+      if (isSendingRef.current) return;
       if (e.dataTransfer?.items) {
         for (let i = 0; i < e.dataTransfer.items.length; i++) {
           let item = e.dataTransfer.items[i];

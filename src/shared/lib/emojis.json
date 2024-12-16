@@ -2,7 +2,7 @@
 	"SMILEYS_AND_EMOTICON": [
     {
       "value": "😁",
-      "name": "beaming face with smiling eyes :grin:"
+      "name": "grin face with smiling eyes :grin:"
     },
     {
       "value": "😂",
@@ -37,6 +37,14 @@
       "name": "unamused face :unamused:"
     },
     {
+      "value": "🤨",
+      "name": "raised eyebrow vine boom suspicious :sus: :raised_eyebrow:"
+    },
+    {
+      "value": "🤫",
+      "name": "shushing face :tss: :shushing_face:"
+    },
+    {
       "value": "😘",
       "name": "face blowing a kiss :kissing_heart:"
     },
@@ -69,10 +77,6 @@
       "name": "flushed face :flushed:"
     },
     {
-      "value": "🙈",
-      "name": "see-no-evil monkey :see_no_evil:"
-    },
-    {
       "value": "😅",
       "name": "grinning face with sweat :sweat_smile:"
     },
@@ -85,12 +89,28 @@
       "name": "grinning face with smiling eyes :smile:"
     },
     {
+      "value": "🥱",
+      "name": "yawning face sleepy :yawning_face:"
+    },
+    {
+      "value": "🥳",
+      "name": "partying face yippie :partying_face:"
+    },
+    {
       "value": "😑",
       "name": "expressionless face :expressionless:"
     },
     {
+      "value": "👍",
+      "name": "thumbs up :like: :thumbsup:"
+    },
+    {
+      "value": "👎",
+      "name": "thumbs down :dislike: :thumbsdown:"
+    },
+    {
       "value": "💯",
-      "name": "hundred points :hundred_points:"
+      "name": "hundred points :100: :hundred_points:"
     },
     {
       "value": "❤",
@@ -171,6 +191,10 @@
     {
       "value": "🙊",
       "name": "speak-no-evil monkey :speak_no_evil:"
+    },
+    {
+      "value": "🙈",
+      "name": "see-no-evil monkey :see_no_evil:"
     },
     {
       "value": "😱",
@@ -457,14 +481,6 @@
     {
       "value": "👌",
       "name": "OK hand :ok_hand:"
-    },
-    {
-      "value": "👍",
-      "name": "thumbs up :like: :thumbsup:"
-    },
-    {
-      "value": "👎",
-      "name": "thumbs down :dislike: :thumbsdown:"
     },
     {
       "value": "🤝",
@@ -755,6 +771,14 @@
       "name": "writing hand :writing_hand:"
     },
     {
+      "value": "✌",
+      "name": "victory hand :victory_hand:"
+    },
+    {
+      "value": "☝",
+      "name": "index pointing up :index_pointing_up:"
+    },
+    {
       "value": "👁",
       "name": "eye :eye:"
     },
@@ -781,14 +805,6 @@
     {
       "value": "🗣",
       "name": "speaking head :speaking_head:"
-    },
-    {
-      "value": "✌",
-      "name": "victory hand :victory_hand:"
-    },
-    {
-      "value": "☝",
-      "name": "index pointing up :index_pointing_up:"
     }
   ],
   "ACTIVITIES": [
@@ -798,7 +814,7 @@
     },
     {
       "value": "🎉",
-      "name": "party popper :tada:"
+      "name": "party popper yippie :tada:"
     },
     {
       "value": "🎈",
@@ -3837,6 +3853,10 @@
     {
       "value": "🍏",
       "name": "green apple :green_apple:"
+    },
+    {
+      "value": "🦐",
+      "name": "shrimp :shrimp:"
     },
     {
       "value": "🍤",
