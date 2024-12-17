@@ -10,6 +10,7 @@ import joinAudio from "../../../../assets/audio/join.mp3";
 import leaveAudio from "../../../../assets/audio/leave.mp3";
 import { useContextSelector } from "use-context-selector";
 import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
+import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
 
 export const useVoiceChatConnection = (
   currentUser,
@@ -162,19 +163,18 @@ export const useVoiceChatConnection = (
   useEffect(() => {
     if (!joinedRooms) return;
 
-    getJwt().then((jwt) => {
-      joinedRooms.forEach((room) => {
-        let connection = new HubConnectionBuilder()
-          .withUrl(`${API_URL}/VoiceChat?roomGuid=${room.guid}`, {
-            accessTokenFactory: () => jwt
-          })
-          .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
-          .build();
+    let tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
+    joinedRooms.forEach((room) => {
+      let connection = new HubConnectionBuilder()
+        .withUrl(`${API_URL}/VoiceChat?roomGuid=${room.guid}`, {
+          accessTokenFactory: () => tokenFactory.getAccessToken()
+        })
+        .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
+        .build();
 
-        setVoiceChatConnections((prevConnections) => {
-          if (prevConnections.find((c) => c.roomGuid === room.guid)) return prevConnections;
-          return [...prevConnections, { roomGuid: room.guid, connection, joinedUsers: [] }];
-        });
+      setVoiceChatConnections((prevConnections) => {
+        if (prevConnections.find((c) => c.roomGuid === room.guid)) return prevConnections;
+        return [...prevConnections, { roomGuid: room.guid, connection, joinedUsers: [] }];
       });
     });
   }, [joinedRooms.length, currentUser]);

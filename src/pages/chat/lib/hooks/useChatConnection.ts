@@ -14,6 +14,7 @@ import { useContextSelector } from "use-context-selector";
 import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
 import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
+import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
 
 export const useChatConnection = (
   currentUser: DetailedUserModel | null,
@@ -280,19 +281,18 @@ export const useChatConnection = (
     if (!joinedRooms) return;
 
     verifyUsersPresenceOnAllRooms();
-    getJwt().then((jwt) => {
-      joinedRooms.map((r) => {
-        let connection = new HubConnectionBuilder()
-          .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
-            accessTokenFactory: () => jwt
-          })
-          .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
-          .build();
+    let tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
+    joinedRooms.map((r) => {
+      let connection = new HubConnectionBuilder()
+        .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
+          accessTokenFactory: () => tokenFactory.getAccessToken()
+        })
+        .withAutomaticReconnect(Array.from({ length: 20 }, () => 1000))
+        .build();
 
-        setChatConnections((prevConnections) => {
-          if (prevConnections.find((c) => c.roomGuid == r.guid)) return prevConnections;
-          return [...prevConnections, { roomGuid: r.guid, connection: connection }];
-        });
+      setChatConnections((prevConnections) => {
+        if (prevConnections.find((c) => c.roomGuid == r.guid)) return prevConnections;
+        return [...prevConnections, { roomGuid: r.guid, connection: connection }];
       });
     });
   }, [joinedRooms.length, currentUser]);

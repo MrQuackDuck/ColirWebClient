@@ -16,6 +16,7 @@ import { useContextSelector } from "use-context-selector";
 import { cn } from "@/shared/lib/utils";
 import { useTheme } from "@/shared/lib/providers/ThemeProvider";
 import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
 
 interface StorageBarProps {
   room: RoomModel;
@@ -38,32 +39,31 @@ function StorageBar(props: StorageBarProps) {
 
   // Opens a SiganlR connection to the server to "ClearRoom" hub and calls the "Clear" method
   function startClearing() {
-    getJwt().then((jwt) => {
-      let connection = new HubConnectionBuilder()
-        .withUrl(`${API_URL}/ClearRoom?roomGuid=${props.room.guid}`, {
-          accessTokenFactory: () => jwt
-        })
-        .build();
+    let tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
+    let connection = new HubConnectionBuilder()
+      .withUrl(`${API_URL}/ClearRoom?roomGuid=${props.room.guid}`, {
+        accessTokenFactory: () => tokenFactory.getAccessToken()
+      })
+      .build();
 
-      connection.start().then(() => {
-        connection.invoke<SignalRHubResponse<number>>("Clear");
-      });
+    connection.start().then(() => {
+      connection.invoke<SignalRHubResponse<number>>("Clear");
+    });
 
-      connection.on("ReceiveFilesToDeleteCount", (count) => {
-        setTotalFilesCount(count);
-        setIsConfirmationDialogOpen(false);
-        setIsClearingDialogOpen(true);
-      });
+    connection.on("ReceiveFilesToDeleteCount", (count) => {
+      setTotalFilesCount(count);
+      setIsConfirmationDialogOpen(false);
+      setIsClearingDialogOpen(true);
+    });
 
-      connection.on("FileDeleted", () => {
-        setDeletedFilesCount((files) => files + 1);
-      });
+    connection.on("FileDeleted", () => {
+      setDeletedFilesCount((files) => files + 1);
+    });
 
-      connection.on("CleaningFinished", () => {
-        setIsClearingDialogOpen(false);
-        setIsSuccessDialogOpen(true);
-        connection.stop();
-      });
+    connection.on("CleaningFinished", () => {
+      setIsClearingDialogOpen(false);
+      setIsSuccessDialogOpen(true);
+      connection.stop();
     });
   }
 
