@@ -186,7 +186,7 @@ export const useChatConnection = (
 
         connection.on("RoomRenamed", (newName) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == selectedRoomRef.current.guid);
+            let target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) target.name = newName;
             return [...prevRooms];
           });
