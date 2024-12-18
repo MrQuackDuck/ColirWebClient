@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { useContextSelector } from "use-context-selector";
 import useSound from "use-sound";
 
+import deafenAudio from "@/assets/audio/deafen.mp3";
+import muteAudio from "@/assets/audio/mute.mp3";
+import undeafenAudio from "@/assets/audio/undeafen.mp3";
+import unmuteAudio from "@/assets/audio/unmute.mp3";
 import { cn } from "@/shared/lib";
 import { Button } from "@/shared/ui";
 import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section";
 
-import deafenAudio from "../../../assets/audio/deafen.mp3";
-import muteAudio from "../../../assets/audio/mute.mp3";
-import undeafenAudio from "../../../assets/audio/undeafen.mp3";
-import unmuteAudio from "../../../assets/audio/unmute.mp3";
 import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProvider";
 
 interface VoiceChatControlsProps {

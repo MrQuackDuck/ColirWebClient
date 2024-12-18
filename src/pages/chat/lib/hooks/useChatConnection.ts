@@ -2,6 +2,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { useEffect, useRef } from "react";
 import { useContextSelector } from "use-context-selector";
 
+import pingAudio from "@/assets/audio/ping.mp3";
 import { distinctMessages, MessageModel } from "@/entities/Message";
 import { RoomModel } from "@/entities/Room";
 import { DetailedUserModel, UserModel } from "@/entities/User";
@@ -9,8 +10,6 @@ import { API_URL } from "@/shared/api";
 import { AccessTokenFactory, NotificationsSettingsContext, useErrorToast, useInfoToast, useJwt } from "@/shared/lib";
 import { SignalRHubResult } from "@/shared/model";
 import { ChatConnection } from "@/widgets/chat-section";
-
-import pingAudio from "../../../../assets/audio/ping.mp3";
 
 export const useChatConnection = (
   currentUser: DetailedUserModel | null,

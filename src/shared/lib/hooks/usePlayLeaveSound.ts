@@ -1,7 +1,8 @@
 import { useContextSelector } from "use-context-selector";
 import useSound from "use-sound";
 
-import leaveAudio from "../../../assets/audio/leave.mp3";
+import leaveAudio from "@/assets/audio/leave.mp3";
+
 import { NotificationsSettingsContext } from "../providers/NotificationsSettingsProvider";
 
 export const usePlayLeaveSound = (): (() => void) => {

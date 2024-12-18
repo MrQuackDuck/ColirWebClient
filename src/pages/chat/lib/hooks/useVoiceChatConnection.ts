@@ -2,13 +2,12 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { useEffect, useRef } from "react";
 import { useContextSelector } from "use-context-selector";
 
+import joinAudio from "@/assets/audio/join.mp3";
+import leaveAudio from "@/assets/audio/leave.mp3";
 import { API_URL } from "@/shared/api";
 import { AccessTokenFactory, NotificationsSettingsContext, useJwt } from "@/shared/lib";
 import { SignalRHubResult, SignalRResultType } from "@/shared/model";
 import { VoiceChatConnection, VoiceChatUser } from "@/widgets/voice-chat-section";
-
-import joinAudio from "../../../../assets/audio/join.mp3";
-import leaveAudio from "../../../../assets/audio/leave.mp3";
 
 export const useVoiceChatConnection = (
   currentUser,
