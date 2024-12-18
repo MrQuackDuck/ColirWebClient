@@ -1,13 +1,15 @@
-import { useContextSelector } from "use-context-selector";
-import { LanguageSettingsContext } from "../lib/providers/LanguageSettingsProvider";
-import moment from "moment/min/moment-with-locales";
 import "moment/min/locales";
+
+import moment from "moment/min/moment-with-locales";
+import { useContextSelector } from "use-context-selector";
+
+import { LanguageSettingsContext } from "../lib/providers/LanguageSettingsProvider";
 
 interface DaterProps {
   date: Date;
 }
 
-function Dater(props: DaterProps) {
+export function Dater(props: DaterProps) {
   const currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
   moment.locale(currentLanguage);
 
@@ -21,5 +23,3 @@ function Dater(props: DaterProps) {
     </div>
   );
 }
-
-export default Dater;

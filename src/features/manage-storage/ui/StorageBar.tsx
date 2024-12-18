@@ -1,29 +1,38 @@
-import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { Button } from "@/shared/ui/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import { Trash2Icon } from "lucide-react";
-import { bytesToMB } from "../lib/bytesToMB";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { useState } from "react";
-import { useJwt } from "@/shared/lib/hooks/useJwt";
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { API_URL } from "@/shared/api";
-import { Progress } from "@/shared/ui/Progress";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { Trash2Icon } from "lucide-react";
+import { useState } from "react";
 import { useContextSelector } from "use-context-selector";
-import { cn } from "@/shared/lib/utils";
-import { useTheme } from "@/shared/lib/providers/ThemeProvider";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
+
+import { RoomModel } from "@/entities/Room";
+import { CurrentUserContext } from "@/entities/User";
+import { API_URL } from "@/shared/api";
+import { AccessTokenFactory, cn, useJwt, useTheme, useTranslation } from "@/shared/lib";
+import { SignalRHubResult } from "@/shared/model";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Progress
+} from "@/shared/ui";
+
+import { bytesToMB } from "../lib/bytesToMB";
 
 interface StorageBarProps {
   room: RoomModel;
   className?: string;
 }
 
-function StorageBar(props: StorageBarProps) {
+export function StorageBar(props: StorageBarProps) {
   const t = useTranslation();
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   const getJwt = useJwt();
@@ -47,7 +56,7 @@ function StorageBar(props: StorageBarProps) {
       .build();
 
     connection.start().then(() => {
-      connection.invoke<SignalRHubResponse<number>>("Clear");
+      connection.invoke<SignalRHubResult<number>>("Clear");
     });
 
     connection.on("ReceiveFilesToDeleteCount", (count) => {
@@ -169,5 +178,3 @@ function StorageBar(props: StorageBarProps) {
     </>
   );
 }
-
-export default StorageBar;

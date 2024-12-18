@@ -1,4 +1,5 @@
 import React from "react";
+
 import { cn } from "../lib/utils";
 
 interface TabProps {
@@ -7,7 +8,7 @@ interface TabProps {
   className?: string;
 }
 
-function Tab({ children, isSelected, onClick, className }: React.PropsWithChildren<TabProps>) {
+export function Tab({ children, isSelected, onClick, className }: React.PropsWithChildren<TabProps>) {
   return (
     <button
       onClick={onClick}
@@ -21,5 +22,3 @@ function Tab({ children, isSelected, onClick, className }: React.PropsWithChildr
     </button>
   );
 }
-
-export default Tab;

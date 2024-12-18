@@ -1,10 +1,8 @@
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/shared/ui/Select";
-import { Separator } from "@/shared/ui/Separator";
-import { Slider } from "@/shared/ui/Slider";
 import { useEffect, useState } from "react";
 import { useContextSelector } from "use-context-selector";
+
+import { useTranslation, VoiceSettingsContext } from "@/shared/lib";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, Separator, Slider } from "@/shared/ui";
 
 interface InputOutputDevice {
   id: string;

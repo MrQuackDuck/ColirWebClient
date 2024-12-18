@@ -1,6 +1,7 @@
-import { ChatConnection } from "@/widgets/chat-section/models/ChatConnection";
 import React, { useState } from "react";
 import { createContext } from "use-context-selector";
+
+import { ChatConnection } from "@/widgets/chat-section/models/ChatConnection";
 
 export const ChatConnectionsContext = createContext<{
   chatConnections: ChatConnection[];

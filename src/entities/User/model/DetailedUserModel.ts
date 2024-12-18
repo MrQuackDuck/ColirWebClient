@@ -1,4 +1,5 @@
-import { RoomModel } from "@/entities/Room/model/RoomModel";
+import { RoomModel } from "@/entities/Room";
+
 import { UserAuthType } from "./UserAuthType";
 import { UserSettingsModel } from "./UserSettingsModel";
 import { UserStatisticsModel } from "./UserStatisticsModel";

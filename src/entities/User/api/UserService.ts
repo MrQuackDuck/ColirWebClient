@@ -1,11 +1,13 @@
-import $api from "@/shared/api";
 import { AxiosResponse } from "axios";
+
+import { $api } from "@/shared/api";
+
 import { DetailedUserModel } from "../model/DetailedUserModel";
+import { ChangeUsernameModel } from "../model/request/ChangeUsernameModel";
 import { UserSettingsModel } from "../model/UserSettingsModel";
 import { UserStatisticsModel } from "../model/UserStatisticsModel";
-import { ChangeUsernameModel } from "../model/ChangeUsernameModel";
 
-export default class UserService {
+export class UserService {
   public static async GetAccountInfo(): Promise<AxiosResponse<DetailedUserModel>> {
     return await $api.get("/User/GetAccountInfo");
   }

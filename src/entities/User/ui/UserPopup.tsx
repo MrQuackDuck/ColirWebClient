@@ -1,26 +1,22 @@
-import React, { useState } from "react";
-import { UserModel } from "../model/UserModel";
-import { decimalToHexString } from "@/shared/lib/utils";
-import Moment from "moment";
-import { Button } from "@/shared/ui/Button";
 import { GavelIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
-import RoomService from "@/entities/Room/api/RoomService";
-import AuthTypeBadge from "@/shared/ui/AuthTypeBadge";
-import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
+import Moment from "moment";
+import React, { useState } from "react";
 import { useContextSelector } from "use-context-selector";
+
+import { RoomService, SelectedRoomContext } from "@/entities/Room";
+import { UsersVolumeContext } from "@/features/control-user-volume";
+import { decimalToHexString, useTranslation } from "@/shared/lib";
+import { AuthTypeBadge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dialog, DialogContent, DialogDescription, DialogTitle, Slider } from "@/shared/ui";
+
 import { CurrentUserContext } from "../lib/providers/CurrentUserProvider";
-import { Slider } from "@/shared/ui/Slider";
-import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { UserModel } from "../model/UserModel";
 
 interface UserPopupProps {
   user?: UserModel;
   colorString: string;
 }
 
-const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopupProps) {
+export const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopupProps) {
   const t = useTranslation();
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
@@ -107,5 +103,3 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
     </>
   );
 });
-
-export default UserPopup;

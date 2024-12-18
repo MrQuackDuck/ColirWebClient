@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const VoiceSettingsContext = createContext<{
@@ -22,7 +23,7 @@ export const VoiceSettingsContext = createContext<{
   setVoiceOutputVolume: () => {}
 });
 
-const VoiceSettingsProvider = ({ children }) => {
+export const VoiceSettingsProvider = ({ children }) => {
   const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [voiceInputDevice, setVoiceInputDevice] = useState<string>(getFromLocalStorage("voiceInputDevice") || "");
   const [voiceInputVolume, setVoiceInputVolume] = useState<number>(getFromLocalStorage("voiceInputVolume") || 50);

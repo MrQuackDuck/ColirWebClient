@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { MessageModel } from "../../model/MessageModel";
 import { createContext } from "use-context-selector";
+
+import { MessageModel } from "../../model/MessageModel";
 
 export const MessagesContext = createContext<{
   messages: MessageModel[];

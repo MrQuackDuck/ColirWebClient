@@ -1,12 +1,13 @@
-import { Button } from "@/shared/ui/Button";
-import { Collapsible, CollapsibleContent } from "@/shared/ui/Collapsible";
 import { ChevronUpIcon, Plug2Icon, UnplugIcon, Volume2Icon } from "lucide-react";
-import { VoiceChatConnection } from "../model/VoiceChatConnection";
-import { cn } from "@/shared/lib/utils";
 import { useContextSelector } from "use-context-selector";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
-import VoiceChatUser from "./VoiceChatUser";
+
+import { UsersContext } from "@/entities/User";
+import { cn } from "@/shared/lib";
+import { Button, Collapsible, CollapsibleContent } from "@/shared/ui";
+
 import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
+import { VoiceChatConnection } from "../model/VoiceChatConnection";
+import VoiceChatUser from "./VoiceChatUser";
 
 interface VoiceChatProps {
   roomName: string;

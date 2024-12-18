@@ -1,13 +1,12 @@
 import React from "react";
-import { UserModel } from "../model/UserModel";
-import { useAdaptiveColor } from "@/shared/lib/hooks/useAdaptiveColor";
-import { cn } from "@/shared/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
-import UserPopup from "./UserPopup";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
-const Username = React.memo(function Username({ user, className }: { user?: UserModel; className?: string }) {
+import { cn, useAdaptiveColor, useTranslation } from "@/shared/lib";
+import { Popover, PopoverContent, PopoverTrigger, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+
+import { UserModel } from "../model/UserModel";
+import { UserPopup } from "./UserPopup";
+
+export const Username = React.memo(function Username({ user, className }: { user?: UserModel; className?: string }) {
   const t = useTranslation();
   const whiteHex = 16777215;
   const { colorString, isAdjusted } = useAdaptiveColor(user ? user.hexId : whiteHex);
@@ -37,5 +36,3 @@ const Username = React.memo(function Username({ user, className }: { user?: User
     </Popover>
   );
 });
-
-export default Username;

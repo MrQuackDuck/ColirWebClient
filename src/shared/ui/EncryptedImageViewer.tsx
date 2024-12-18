@@ -1,10 +1,11 @@
+import { EyeIcon, ImageIcon, ImageOffIcon, ImagePlayIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
 import { isFirefox } from "react-device-detect";
-import { decryptFile } from "../lib/utils";
-import { ImageOffIcon, ImagePlayIcon, EyeIcon, ImageIcon } from "lucide-react";
-import { Button } from "@/shared/ui/Button";
+
+import { Button, Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui";
+
 import { useTranslation } from "../lib/hooks/useTranslation";
+import { decryptFile } from "../lib/utils";
 
 interface EncryptedImageViewerProps {
   imageUrl: string;
@@ -16,7 +17,7 @@ interface EncryptedImageViewerProps {
   sizeInBytes: number;
 }
 
-function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef, fileName, sizeString, sizeInBytes }: EncryptedImageViewerProps) {
+export function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef, fileName, sizeString, sizeInBytes }: EncryptedImageViewerProps) {
   const t = useTranslation();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -100,5 +101,3 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
     </>
   );
 }
-
-export default EncryptedImageViewer;

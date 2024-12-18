@@ -1,12 +1,13 @@
+import { XIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import FocusLock from "react-focus-lock";
-import { cn } from "../lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
-import { Button } from "./Button";
-import { XIcon } from "lucide-react";
-import classes from "./PopupWindow.module.css";
-import { useTranslation } from "../lib/hooks/useTranslation";
+
 import { useResponsiveness } from "../lib/hooks/useResponsiveness";
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { cn } from "../lib/utils";
+import { Button } from "./Button";
+import classes from "./PopupWindow.module.css";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
 interface PopupWindowProps {
   isOpen: boolean;
@@ -16,7 +17,7 @@ interface PopupWindowProps {
   children?: any;
 }
 
-function PopupWindow(props: PopupWindowProps) {
+export function PopupWindow(props: PopupWindowProps) {
   const t = useTranslation();
 
   const [isHidden, setIsHidden] = useState(!props.isOpen);
@@ -64,5 +65,3 @@ function PopupWindow(props: PopupWindowProps) {
     </div>
   );
 }
-
-export default PopupWindow;

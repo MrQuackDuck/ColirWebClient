@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { UserModel } from "../../model/UserModel";
 import { createContext } from "use-context-selector";
+
+import { UserModel } from "../../model/UserModel";
 
 export const UsersContext = createContext<{
   users: UserModel[];

@@ -1,17 +1,15 @@
-import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/model/FaqTabs";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { Button } from "@/shared/ui/Button";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
-import { Input } from "@/shared/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
 import { z } from "zod";
+
+import { JoinRoomModel } from "@/entities/Room";
+import { FaqControlContext } from "@/features/control-faq";
+import { useTranslation } from "@/shared/lib";
+import { FaqTabs } from "@/shared/model";
+import { Button, CardContent, CardDescription, CardHeader, CardTitle, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/ui";
 
 function JoinRoomForm({ onSend }: { onSend: (model: JoinRoomModel) => any }) {
   const t = useTranslation();

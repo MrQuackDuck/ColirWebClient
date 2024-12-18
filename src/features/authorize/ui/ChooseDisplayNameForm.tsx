@@ -1,13 +1,10 @@
-import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { Separator } from "@/shared/ui/Separator";
-import { Input } from "@/shared/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+
+import { useTranslation } from "@/shared/lib";
+import { Button, CardContent, CardHeader, CardTitle, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input, Separator } from "@/shared/ui";
 
 function ChooseDisplayNameForm({ onProceed, onBack, username }: { onProceed: (chosenUsername) => void; onBack: () => void; username?: string }) {
   const t = useTranslation();

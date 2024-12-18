@@ -1,7 +1,7 @@
-import { useTheme } from "@/shared/lib/providers/ThemeProvider";
-import { cn } from "@/shared/lib/utils";
-import { Button } from "@/shared/ui/Button";
 import { Trash2Icon } from "lucide-react";
+
+import { cn, useTheme } from "@/shared/lib";
+import { Button } from "@/shared/ui";
 
 interface FilePreviewProps {
   file: File;

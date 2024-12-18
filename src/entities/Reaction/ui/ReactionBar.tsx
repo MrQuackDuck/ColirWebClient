@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
+import { useContextSelector } from "use-context-selector";
+
+import { CurrentUserContext, Username, UsersContext } from "@/entities/User";
+import { cn, useTranslation } from "@/shared/lib";
+import { Button, Card, CardContent, Dialog, DialogContent, DialogDescription, DialogTitle, Separator, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+
 import { ReactionModel } from "../model/ReactionModel";
 import Reaction from "./Reaction";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
-import { Button } from "@/shared/ui/Button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardContent } from "@/shared/ui/Card";
-import { Separator } from "@/shared/ui/Separator";
-import Username from "@/entities/User/ui/Username";
-import { cn } from "@/shared/lib/utils";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { useContextSelector } from "use-context-selector";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 interface ReactionBarProps {
   reactions: ReactionModel[];
@@ -27,7 +22,7 @@ interface ReactionElement {
   isActivated: boolean;
 }
 
-const ReactionBar = (props: ReactionBarProps) => {
+export const ReactionBar = (props: ReactionBarProps) => {
   const t = useTranslation();
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
   const users = useContextSelector(UsersContext, (c) => c.users);
@@ -123,5 +118,3 @@ const ReactionBar = (props: ReactionBarProps) => {
     </>
   );
 };
-
-export default ReactionBar;

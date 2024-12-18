@@ -1,6 +1,7 @@
-import useSound from "use-sound";
-import joinAudio from "../../../assets/audio/join.mp3";
 import { useContextSelector } from "use-context-selector";
+import useSound from "use-sound";
+
+import joinAudio from "../../../assets/audio/join.mp3";
 import { NotificationsSettingsContext } from "../providers/NotificationsSettingsProvider";
 
 export const usePlayJoinSound = (): (() => void) => {

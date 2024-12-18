@@ -1,7 +1,6 @@
 import React from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vs as lightTheme } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { vscDarkPlus as darkTheme } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vs as lightTheme, vscDarkPlus as darkTheme } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export function formatText(text: string, theme: string): JSX.Element {
   const codeBlockParts = extractCodeBlocks(text);

@@ -1,5 +1,5 @@
-import { AttachmentModel } from "@/entities/Attachment/model/AttachmentModel";
-import { ReactionModel } from "@/entities/Reaction/model/ReactionModel";
+import { AttachmentModel } from "@/entities/Attachment";
+import { ReactionModel } from "@/entities/Reaction";
 
 export interface MessageModel {
   id: number;

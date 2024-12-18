@@ -1,10 +1,7 @@
-import { availableLanguages } from "@/shared/lib/availableLanguages";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
-import { Label } from "@/shared/ui/Label";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/RadioGroup";
-import { Separator } from "@/shared/ui/Separator";
 import { useContextSelector } from "use-context-selector";
+
+import { availableLanguages, LanguageSettingsContext, useTranslation } from "@/shared/lib";
+import { Label, RadioGroup, RadioGroupItem, Separator } from "@/shared/ui";
 
 function LanguageSettings() {
   const t = useTranslation();

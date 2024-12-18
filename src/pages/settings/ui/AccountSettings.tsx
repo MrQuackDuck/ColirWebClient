@@ -1,25 +1,17 @@
-import UserService from "@/entities/User/api/UserService";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import { cn, decimalToHexString } from "@/shared/lib/utils";
-import { Button } from "@/shared/ui/Button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
-import HexId from "@/shared/ui/HexId";
-import { Input } from "@/shared/ui/Input";
-import { Separator } from "@/shared/ui/Separator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SaveAllIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useContextSelector } from "use-context-selector";
 import { z } from "zod";
+
+import { CurrentUserContext, UserService } from "@/entities/User";
+import { AuthContext } from "@/features/authorize";
+import { SettingsOpenCloseContext } from "@/features/open-close-settings";
+import { cn, decimalToHexString, LoadingContext, useErrorToast, useInfoToast, useResponsiveness, useTranslation } from "@/shared/lib";
+import { Button, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HexId, Input, Separator } from "@/shared/ui";
+
 import AccountDeleteConfirmationDialog from "./AccountDeleteConfirmationDialog";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { SaveAllIcon, Trash2Icon } from "lucide-react";
-import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 interface AccountSettingsProps {
   dialogOpenClosed: (newState: boolean) => void;

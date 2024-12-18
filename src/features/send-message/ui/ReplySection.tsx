@@ -1,8 +1,8 @@
-import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { UserModel } from "@/entities/User/model/UserModel";
-import Username from "@/entities/User/ui/Username";
-import { cn, decryptString } from "@/shared/lib/utils";
 import { CornerUpRightIcon, XCircleIcon } from "lucide-react";
+
+import { MessageModel } from "@/entities/Message";
+import { UserModel, Username } from "@/entities/User";
+import { cn, decryptString } from "@/shared/lib";
 
 function ReplySection({
   message,

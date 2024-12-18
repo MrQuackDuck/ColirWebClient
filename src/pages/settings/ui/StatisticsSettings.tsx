@@ -1,13 +1,3 @@
-import UserService from "@/entities/User/api/UserService";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/model/FaqTabs";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { Button } from "@/shared/ui/Button";
-import { Checkbox } from "@/shared/ui/Checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/shared/ui/Form";
-import { Separator } from "@/shared/ui/Separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SaveAllIcon } from "lucide-react";
 import { useEffect } from "react";
@@ -15,6 +5,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
 import { z } from "zod";
+
+import { CurrentUserContext, UserService } from "@/entities/User";
+import { FaqControlContext } from "@/features/control-faq";
+import { useInfoToast, useTranslation } from "@/shared/lib";
+import { FaqTabs } from "@/shared/model";
+import { Button, Checkbox, Form, FormControl, FormField, FormItem, FormLabel, Separator } from "@/shared/ui";
 
 const formSchema = z.object({
   statsDisabled: z.boolean()

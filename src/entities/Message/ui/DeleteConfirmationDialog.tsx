@@ -1,8 +1,7 @@
-import { Button } from "@/shared/ui/Button";
-import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/shared/ui/Card";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+
+import { useTranslation } from "@/shared/lib";
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dialog, DialogContent, DialogTitle } from "@/shared/ui";
 
 interface DeleteConfirmationDialogProps {
   isShown: boolean;

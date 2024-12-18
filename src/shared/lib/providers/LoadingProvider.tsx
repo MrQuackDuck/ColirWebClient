@@ -7,7 +7,7 @@ export const LoadingContext = createContext<{
   disableLoading: () => void;
 }>({ isLoading: false, enableLoading: () => {}, disableLoading: () => {} });
 
-const LoadingProvider = ({ children }) => {
+export const LoadingProvider = ({ children }) => {
   const [enabledLoadings, setEnabledLoadings] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,5 +26,3 @@ const LoadingProvider = ({ children }) => {
 
   return <LoadingContext.Provider value={{ isLoading, enableLoading, disableLoading }}>{children}</LoadingContext.Provider>;
 };
-
-export default LoadingProvider;

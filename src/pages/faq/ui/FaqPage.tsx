@@ -1,23 +1,21 @@
-import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
-import PopupWindow from "@/shared/ui/PopupWindow";
-import { useEffect, useRef, useState } from "react";
-import { useContextSelector } from "use-context-selector";
-import { importMarkdownFile } from "../lib/importMarkdownFile";
-import Markdown from "react-markdown";
-import { FaqTabs as FaqTabsEnum } from "../model/FaqTabs";
 import "./FaqPage.css";
-import FaqTabs from "./FaqTabs";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
-import { Separator } from "@/shared/ui/Separator";
-import { Button } from "@/shared/ui/Button";
-import { Loader2Icon, PanelRightCloseIcon } from "lucide-react";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
-import rehypeRaw from "rehype-raw";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 
-function FaqPage() {
+import { Loader2Icon, PanelRightCloseIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import { useContextSelector } from "use-context-selector";
+
+import { AuthContext } from "@/features/authorize";
+import { FaqControlContext } from "@/features/control-faq";
+import { LanguageSettingsContext, useResponsiveness } from "@/shared/lib";
+import { FaqTabs as FaqTabsEnum } from "@/shared/model";
+import { Button, PopupWindow, ScrollArea, Separator, Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui";
+
+import { importMarkdownFile } from "../lib/importMarkdownFile";
+import FaqTabs from "./FaqTabs";
+
+export function FaqPage() {
   const { isDesktop } = useResponsiveness();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -101,5 +99,3 @@ function FaqPage() {
     </PopupWindow>
   );
 }
-
-export default FaqPage;

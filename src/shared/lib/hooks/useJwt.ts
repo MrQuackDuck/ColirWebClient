@@ -1,4 +1,5 @@
-import AuthService from "@/features/authorize/lib/AuthService";
+import { AuthService } from "@/features/authorize";
+
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useJwt = () => {

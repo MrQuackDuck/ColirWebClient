@@ -1,9 +1,7 @@
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
-import { Checkbox } from "@/shared/ui/Checkbox";
-import { Separator } from "@/shared/ui/Separator";
-import { Slider } from "@/shared/ui/Slider";
 import { useContextSelector } from "use-context-selector";
+
+import { NotificationsSettingsContext, useTranslation } from "@/shared/lib";
+import { Checkbox, Separator, Slider } from "@/shared/ui";
 
 function NotificationsSettings() {
   const t = useTranslation();

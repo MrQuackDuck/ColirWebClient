@@ -1,6 +1,7 @@
-import { FaqTabs } from "@/pages/faq/model/FaqTabs";
 import { useState } from "react";
 import { createContext } from "use-context-selector";
+
+import FaqTabs from "@/shared/model/FaqTabs";
 
 export const FaqControlContext = createContext<{
   isFaqOpen: boolean;

@@ -1,10 +1,8 @@
-import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button";
 import { ArrowLeftIcon, RepeatIcon } from "lucide-react";
-import { Separator } from "@/shared/ui/Separator";
-import ListHexSelector from "@/shared/ui/ListHexSelector";
 import { useEffect, useState } from "react";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+
+import { useTranslation } from "@/shared/lib";
+import { Button, CardContent, CardHeader, CardTitle, ListHexSelector, Separator } from "@/shared/ui";
 
 function ChooseColirIdForm({ colors, onProceed, onRegenerate, onBack }: { colors: number[]; onProceed: (color) => void; onRegenerate: () => void; onBack: () => void }) {
   const t = useTranslation();

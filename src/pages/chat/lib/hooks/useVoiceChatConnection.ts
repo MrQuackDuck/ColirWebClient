@@ -1,16 +1,14 @@
-import { API_URL } from "@/shared/api";
-import { useJwt } from "@/shared/lib/hooks/useJwt";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
-import { VoiceChatConnection } from "@/widgets/voice-chat-section/model/VoiceChatConnection";
-import { VoiceChatUser } from "@/widgets/voice-chat-section/model/VoiceChatUser";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useEffect, useRef } from "react";
+import { useContextSelector } from "use-context-selector";
+
+import { API_URL } from "@/shared/api";
+import { AccessTokenFactory, NotificationsSettingsContext, useJwt } from "@/shared/lib";
+import { SignalRHubResult, SignalRResultType } from "@/shared/model";
+import { VoiceChatConnection, VoiceChatUser } from "@/widgets/voice-chat-section";
+
 import joinAudio from "../../../../assets/audio/join.mp3";
 import leaveAudio from "../../../../assets/audio/leave.mp3";
-import { useContextSelector } from "use-context-selector";
-import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
-import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
 
 export const useVoiceChatConnection = (
   currentUser,
@@ -61,7 +59,7 @@ export const useVoiceChatConnection = (
 
     connection.start().then(() => {
       // Getting voice chat users
-      connection.invoke<SignalRHubResponse<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
+      connection.invoke<SignalRHubResult<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
         if (response.resultType == SignalRResultType.Error) throw new Error(response.error.errorCodeAsString);
         const users = response.content;
         setVoiceChatConnections((prevConnections) => {
@@ -145,7 +143,7 @@ export const useVoiceChatConnection = (
 
       // On reconnect, refresh the users
       connection.onreconnected(() => {
-        connection.invoke<SignalRHubResponse<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
+        connection.invoke<SignalRHubResult<VoiceChatUser[]>>("GetVoiceChatUsers").then((response) => {
           if (response.resultType == SignalRResultType.Error) throw new Error(response.error.errorCodeAsString);
           const users = response.content;
           setVoiceChatConnections((prevConnections) => {

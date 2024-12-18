@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { RoomModel } from "../../model/RoomModel";
-import RoomService from "../../api/RoomService";
-import { distinctUsers } from "@/entities/User/lib/distinctUsers";
 import { createContext, useContextSelector } from "use-context-selector";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+
+import { CurrentUserContext, distinctUsers, UsersContext } from "@/entities/User";
+import { LoadingContext, useErrorToast } from "@/shared/lib";
+
+import { RoomService } from "../../api/RoomService";
+import { RoomModel } from "../../model/RoomModel";
 
 export const JoinedRoomsContext = createContext<{
   joinedRooms: RoomModel[];
@@ -20,7 +19,7 @@ export const JoinedRoomsContext = createContext<{
   updateRooms: () => {}
 });
 
-const JoinedRoomsProvider = ({ children }) => {
+export const JoinedRoomsProvider = ({ children }) => {
   const showErrorToast = useErrorToast();
   const { enableLoading, disableLoading } = useContextSelector(LoadingContext, (c) => c);
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
@@ -72,5 +71,3 @@ const JoinedRoomsProvider = ({ children }) => {
 
   return <JoinedRoomsContext.Provider value={{ joinedRooms, setJoinedRooms, isThereAnyJoinedRoom, updateRooms }}>{children}</JoinedRoomsContext.Provider>;
 };
-
-export default JoinedRoomsProvider;

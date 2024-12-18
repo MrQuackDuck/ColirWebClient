@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from "@microsoft/signalr";
-import { API_URL } from "@/shared/api";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
-import ChooseColirIdForm from "./ChooseColirIdForm";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+
+import { API_URL } from "@/shared/api";
+import { useErrorToast } from "@/shared/lib";
+import { SignalRHubResult, SignalRResultType } from "@/shared/model";
+
+import { AuthContext } from "../lib/providers/AuthProvider";
+import ChooseColirIdForm from "./ChooseColirIdForm";
+import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 
 function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: () => void }) {
   const showErrorToast = useErrorToast();
@@ -34,7 +35,7 @@ function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: (
     setUsername(username);
     const sendSignalAndProceedToNextStep = () => {
       authConnection
-        ?.invoke<SignalRHubResponse<any>>("ChooseUsername", username)
+        ?.invoke<SignalRHubResult<any>>("ChooseUsername", username)
         .then((response) => {
           if (response.resultType === SignalRResultType.Error) throw Error();
           setStep(1);
@@ -58,7 +59,7 @@ function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: (
 
   const regenerateHexs = () => {
     authConnection
-      ?.invoke<SignalRHubResponse<any>>("RegenerateHexs")
+      ?.invoke<SignalRHubResult<any>>("RegenerateHexs")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         setProposedHexs(response.content as number[]);
@@ -68,14 +69,14 @@ function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: (
 
   const colorChosen = (color) => {
     authConnection
-      ?.invoke<SignalRHubResponse<any>>("ChooseHex", color)
+      ?.invoke<SignalRHubResult<any>>("ChooseHex", color)
       .then(() => finish())
       .catch(showErrorToast);
   };
 
   const finish = () => {
     authConnection
-      ?.invoke<SignalRHubResponse<any>>("FinishRegistration")
+      ?.invoke<SignalRHubResult<any>>("FinishRegistration")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
         const jwtToken = response.content["jwtToken"].toString();

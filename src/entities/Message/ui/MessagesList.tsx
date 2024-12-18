@@ -1,8 +1,10 @@
-import React from "react";
-import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { UserModel } from "@/entities/User/model/UserModel";
-import Dater from "@/shared/ui/Dater";
 import isEqual from "fast-deep-equal";
+import React from "react";
+
+import { UserModel } from "@/entities/User";
+import { Dater } from "@/shared/ui";
+
+import { MessageModel } from "../model/MessageModel";
 import MessageListItem from "./MessageListItem";
 
 interface MessagesListProps {
@@ -20,7 +22,7 @@ interface MessagesListProps {
   onMessageObserved: (messageId: number) => any;
 }
 
-const MessagesList: React.FC<MessagesListProps> = ({
+const MessagesListInternal: React.FC<MessagesListProps> = ({
   filteredMessages,
   users,
   controlsEnabled,
@@ -86,4 +88,4 @@ const arePropsEqual = (prevProps: MessagesListProps, nextProps: MessagesListProp
   );
 };
 
-export default React.memo(MessagesList, arePropsEqual);
+export const MessagesList = React.memo(MessagesListInternal, arePropsEqual);

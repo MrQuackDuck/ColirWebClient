@@ -1,9 +1,10 @@
-import AuthService from "../lib/AuthService";
-import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
-import { AuthContext } from "../lib/providers/AuthProvider";
 import { useContextSelector } from "use-context-selector";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+
+import { LoadingContext, useErrorToast } from "@/shared/lib";
+
+import { AuthService } from "../lib/AuthService";
+import { AuthContext } from "../lib/providers/AuthProvider";
+import ChooseDisplayNameForm from "./ChooseDisplayNameForm";
 
 function AnonymousLoginForm({ onBack }: { onBack: () => void }) {
   const showErrorToast = useErrorToast();

@@ -1,17 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import { AttachmentModel } from "../model/AttachmentModel";
-import { SERVER_URL } from "@/shared/api";
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
-import { CopyIcon, DownloadIcon, FileIcon } from "lucide-react";
 import FileSaver from "file-saver";
-import { Button } from "@/shared/ui/Button";
+import { CopyIcon, DownloadIcon, FileIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { isFirefox } from "react-device-detect";
-import { cn, decryptFile, decryptString } from "@/shared/lib/utils";
-import EncryptedVideoPlayer from "@/shared/ui/EncryptedVideoPlayer";
-import EncryptedImageViewer from "@/shared/ui/EncryptedImageViewer";
-import EncryptedAudioPlayer from "@/shared/ui/EncryptedAudioPlayer";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
+
+import { SERVER_URL } from "@/shared/api";
+import { cn, decryptFile, decryptString, useInfoToast, useTranslation } from "@/shared/lib";
+import { Button, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, EncryptedAudioPlayer, EncryptedImageViewer, EncryptedVideoPlayer } from "@/shared/ui";
+
+import { AttachmentModel } from "../model/AttachmentModel";
 
 interface AttachmentProps {
   attachment: AttachmentModel;
@@ -39,7 +35,7 @@ const extensionToAttachmentTypeMap = {
   wav: AttachmentType.AUDIO
 };
 
-function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
+export function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
   const t = useTranslation();
   const showInfoToast = useInfoToast();
   const [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
@@ -187,5 +183,3 @@ function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
     </div>
   );
 }
-
-export default Attachment;

@@ -1,14 +1,15 @@
-import { UserAuthType } from "@/entities/User/model/UserAuthType";
-import { Badge } from "./Badge";
-import { cn } from "../lib/utils";
+import { UserAuthType } from "@/entities/User";
+
 import { useTranslation } from "../lib/hooks/useTranslation";
+import { cn } from "../lib/utils";
+import { Badge } from "./Badge";
 
 interface AuthTypeBadgeProps {
   authType: UserAuthType | undefined;
   className?: string;
 }
 
-function AuthTypeBadge(props: AuthTypeBadgeProps) {
+export function AuthTypeBadge(props: AuthTypeBadgeProps) {
   const t = useTranslation();
 
   return (
@@ -24,5 +25,3 @@ function AuthTypeBadge(props: AuthTypeBadgeProps) {
     </Badge>
   );
 }
-
-export default AuthTypeBadge;

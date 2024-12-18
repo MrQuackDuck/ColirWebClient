@@ -1,21 +1,22 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster } from "@/shared/ui/Toaster";
 import "./main.css";
-import IndexPage from "@/pages/index/ui/IndexPage";
-import Header from "@/widgets/header/ui/Header";
-import Loader from "@/shared/ui/Loader";
-import NotFound from "@/pages/not-found/ui/NotFound";
-import ChatPage from "@/pages/chat/ui/ChatPage";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
-import { MessagesProvider } from "@/entities/Message/lib/providers/MessagesProvider";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
-import { VoiceChatControlsProvider } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
-import SettingsPage from "@/pages/settings/ui/SettingsPage";
-import FaqPage from "@/pages/faq/ui/FaqPage";
-import { FaqControlProvider } from "@/features/control-faq/libs/providers/FaqControlProvider";
+
+import { MessagesProvider } from "@/entities/Message";
+import { JoinedRoomsContext } from "@/entities/Room";
+import { AuthContext } from "@/features/authorize";
+import { FaqControlProvider } from "@/features/control-faq";
+import { VoiceChatControlsProvider } from "@/features/manage-voice-controls";
+import { ChatPage } from "@/pages/chat";
+import { FaqPage } from "@/pages/faq";
+import { IndexPage } from "@/pages/index";
+import { NotFound } from "@/pages/not-found";
+import { SettingsPage } from "@/pages/settings";
+import { LoadingContext } from "@/shared/lib";
+import { Loader, Toaster } from "@/shared/ui";
+import { Header } from "@/widgets/header";
+import { VoiceChatConnectionsProvider } from "@/widgets/voice-chat-section";
 
 function App() {
   const isLoading = useContextSelector(LoadingContext, (c) => c.isLoading);

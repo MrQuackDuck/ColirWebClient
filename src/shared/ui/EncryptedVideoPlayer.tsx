@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { Button } from "./Button";
 import { DownloadIcon, PlayIcon, VideoIcon } from "lucide-react";
-import { cn, decryptFile } from "../lib/utils";
-import Video from "./Video";
-import { useTranslation } from "../lib/hooks/useTranslation";
+import { useEffect, useState } from "react";
+
 import { useErrorToast } from "../lib/hooks/useErrorToast";
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { cn, decryptFile } from "../lib/utils";
+import { Button } from "./Button";
+import { Video } from "./Video";
 
 interface EncryptedVideoPlayerProps {
   fileName: string;
@@ -14,7 +15,7 @@ interface EncryptedVideoPlayerProps {
   onDownloadClick: () => void;
 }
 
-const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
+export const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
 
@@ -89,5 +90,3 @@ const EncryptedVideoPlayer = (props: EncryptedVideoPlayerProps) => {
     </div>
   );
 };
-
-export default EncryptedVideoPlayer;

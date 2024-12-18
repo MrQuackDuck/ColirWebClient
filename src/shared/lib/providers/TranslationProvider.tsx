@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
-import { LanguageSettingsContext } from "./LanguageSettingsProvider";
+
 import en from "../../../assets/locale/en.json";
 import { availableLanguages } from "../availableLanguages";
+import { LanguageSettingsContext } from "./LanguageSettingsProvider";
 
 export const TranslationContext = createContext<{
   translationMap: any;
@@ -10,7 +11,7 @@ export const TranslationContext = createContext<{
   translationMap: {}
 });
 
-const TranslationProvider = ({ children }) => {
+export const TranslationProvider = ({ children }) => {
   const [translationMap, setTranslationMap] = useState<any>(en);
   const currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
 

@@ -1,29 +1,21 @@
-import { Separator } from "@/shared/ui/Separator";
-import { MessageModel } from "../model/MessageModel";
-import { UserModel } from "@/entities/User/model/UserModel";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/Tooltip";
-import Moment from "moment/min/moment-with-locales";
 import "moment/min/locales";
-import { Button } from "@/shared/ui/Button";
+
 import { CodeIcon, CopyIcon, CornerUpRightIcon, PencilIcon, ReplyIcon, SkullIcon, Trash2Icon } from "lucide-react";
-import classes from "./Message.module.css";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
-import ReactionBar from "@/entities/Reaction/ui/ReactionBar";
-import { EmojiPicker } from "@/shared/ui/EmojiPicker";
-import Username from "@/entities/User/ui/Username";
-import AttachmentsSection from "../../Attachment/ui/AttachmentsSection";
-import { formatText } from "../lib/formatText";
-import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
-import React from "react";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import Moment from "moment/min/moment-with-locales";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { useContextSelector } from "use-context-selector";
-import { cn, decryptString, encryptString, replaceEmojis } from "@/shared/lib/utils";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { useTheme } from "@/shared/lib/providers/ThemeProvider";
+
+import { AttachmentsSection } from "@/entities/Attachment";
+import { ReactionBar } from "@/entities/Reaction";
+import { CurrentUserContext, UserModel, Username } from "@/entities/User";
+import { cn, decryptString, encryptString, LanguageSettingsContext, replaceEmojis, useInfoToast, useTheme, useTranslation } from "@/shared/lib";
+import { Button, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, EmojiPicker, Separator, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
+
+import { formatText } from "../lib/formatText";
+import { MessageModel } from "../model/MessageModel";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import EditArea from "./EditArea";
+import classes from "./Message.module.css";
 
 interface MessageProps {
   message: MessageModel;

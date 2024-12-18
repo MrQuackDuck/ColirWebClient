@@ -1,8 +1,9 @@
 import { CrownIcon } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
-import { useTranslation } from "../lib/hooks/useTranslation";
 
-function RoomOwnerIcon() {
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
+
+export function RoomOwnerIcon() {
   const t = useTranslation();
 
   return (
@@ -14,5 +15,3 @@ function RoomOwnerIcon() {
     </Tooltip>
   );
 }
-
-export default RoomOwnerIcon;

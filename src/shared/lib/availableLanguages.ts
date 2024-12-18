@@ -1,11 +1,11 @@
-import { Translation } from "../model/Translation";
 import de from "../../assets/locale/de.json";
 import en from "../../assets/locale/en.json";
 import es from "../../assets/locale/es.json";
 import fr from "../../assets/locale/fr.json";
 import pl from "../../assets/locale/pl.json";
-import uk from "../../assets/locale/uk.json";
 import ru from "../../assets/locale/ru.json";
+import uk from "../../assets/locale/uk.json";
+import { Translation } from "../model/Translation";
 
 export const availableLanguages: Translation[] = [
   { languageCode: "de", languageName: "Deutsch", keyValueMap: de },

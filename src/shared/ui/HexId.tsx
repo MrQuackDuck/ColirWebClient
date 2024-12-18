@@ -9,7 +9,7 @@ interface ColorElementProps {
   className?: string;
 }
 
-function HexId({ color, isSelected, onSelected, className }: ColorElementProps) {
+export function HexId({ color, isSelected, onSelected, className }: ColorElementProps) {
   const { colorString } = useAdaptiveColor(color);
 
   return (
@@ -28,5 +28,3 @@ function HexId({ color, isSelected, onSelected, className }: ColorElementProps) 
     </div>
   );
 }
-
-export default HexId;

@@ -1,13 +1,9 @@
-import { Button } from "@/shared/ui/Button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui/Dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
-import { Separator } from "@/shared/ui/Separator";
-import { UserStatisticsModel } from "@/entities/User/model/UserStatisticsModel";
-import { useContextSelector } from "use-context-selector";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 import { useEffect, useState } from "react";
-import UserService from "@/entities/User/api/UserService";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useContextSelector } from "use-context-selector";
+
+import { CurrentUserContext, UserService, UserStatisticsModel } from "@/entities/User";
+import { useTranslation } from "@/shared/lib";
+import { Button, Card, CardContent, CardHeader, CardTitle, Dialog, DialogContent, DialogDescription, DialogTitle, Separator } from "@/shared/ui";
 
 interface StatisticsDialogProps {
   isStatsOpen: boolean;

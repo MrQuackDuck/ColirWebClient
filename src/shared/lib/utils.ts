@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 import CryptoJS from "crypto-js";
+import { twMerge } from "tailwind-merge";
+
 import emojiData from "../lib/emojis.json";
 
 export function cn(...inputs: ClassValue[]) {

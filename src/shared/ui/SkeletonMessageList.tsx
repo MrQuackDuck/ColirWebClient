@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import SkeletonMessage from "./SkeletonMessage";
 
-function SkeletonMessageList({ parentRef }: { parentRef: any }) {
+import { SkeletonMessage } from "./SkeletonMessage";
+
+export function SkeletonMessageList({ parentRef }: { parentRef: any }) {
   const [countToRender, setCountToRender] = useState(0);
 
   useEffect(() => {
@@ -18,5 +19,3 @@ function SkeletonMessageList({ parentRef }: { parentRef: any }) {
     </>
   );
 }
-
-export default SkeletonMessageList;

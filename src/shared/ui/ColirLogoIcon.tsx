@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+
 import { useTheme } from "../lib/providers/ThemeProvider";
 import { cn } from "../lib/utils";
 import classes from "./ColirLogoIcon.module.css";
 
-function ColirLogoIcon({ className, ...props }) {
+export function ColirLogoIcon({ className, ...props }) {
   const { theme } = useTheme();
   const [fillColor, setFillColor] = useState("#FFFFFF");
   const [isLogoPressed, setIsLogoPressed] = useState(false);
@@ -68,5 +69,3 @@ function ColirLogoIcon({ className, ...props }) {
     </svg>
   );
 }
-
-export default ColirLogoIcon;

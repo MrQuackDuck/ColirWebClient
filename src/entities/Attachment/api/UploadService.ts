@@ -1,8 +1,10 @@
-import $api, { API_URL } from "@/shared/api";
-import { UploadAttachmentsModel } from "../model/request/UploadAttachmentModel";
 import { AxiosResponse } from "axios";
 
-export default class UploadService {
+import { $api, API_URL } from "@/shared/api";
+
+import { UploadAttachmentsModel } from "../model/request";
+
+export class UploadService {
   static async UploadAttachments(model: UploadAttachmentsModel): Promise<AxiosResponse<number[]>> {
     const formData: FormData = new FormData();
     formData.append("roomGuid", model.roomGuid);

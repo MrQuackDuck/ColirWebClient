@@ -1,22 +1,15 @@
-import { Card } from "@/shared/ui/Card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/Tabs";
-import JoinRoomForm from "./JoinRoomForm";
-import CreateRoomForm from "./CreateRoomForm";
-import { CreateRoomModel } from "@/entities/Room/model/request/CreateRoomModel";
-import RoomService from "@/entities/Room/api/RoomService";
-import { JoinRoomModel } from "@/entities/Room/model/request/JoinRoomModel";
-import { ErrorCode } from "@/shared/model/ErrorCode";
-import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { cn } from "@/shared/lib/utils";
-import { distinctUsers } from "@/entities/User/lib/distinctUsers";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
 import { useContextSelector } from "use-context-selector";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
-function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any; onRoomCreated: (model: RoomModel) => any; className?: string }) {
+import { CreateRoomModel, JoinRoomModel, RoomModel, RoomService } from "@/entities/Room";
+import { distinctUsers, UsersContext } from "@/entities/User";
+import { cn, EncryptionKeysContext, LoadingContext, useErrorToast, useTranslation } from "@/shared/lib";
+import { ErrorCode } from "@/shared/model";
+import { Card, Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui";
+
+import CreateRoomForm from "./CreateRoomForm";
+import JoinRoomForm from "./JoinRoomForm";
+
+export function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any; onRoomCreated: (model: RoomModel) => any; className?: string }) {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
   const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
@@ -68,5 +61,3 @@ function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoined
     </Tabs>
   );
 }
-
-export default JoinOrCreateRoom;

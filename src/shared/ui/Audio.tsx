@@ -1,14 +1,15 @@
-import { useState, useRef, useEffect } from "react";
-import { Volume2, VolumeX, Pause, Play, RotateCwIcon, VolumeXIcon } from "lucide-react";
-import { Slider } from "./Slider";
+import { Pause, Play, RotateCwIcon, Volume2, VolumeX, VolumeXIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
 import { Button } from "./Button";
+import { Slider } from "./Slider";
 
 interface AudioElementProps {
   autoplay?: boolean;
   src: string | MediaStream | null;
 }
 
-function Audio({ autoplay = false, src }: AudioElementProps) {
+export function Audio({ autoplay = false, src }: AudioElementProps) {
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isEnded, setIsEnded] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -141,5 +142,3 @@ function Audio({ autoplay = false, src }: AudioElementProps) {
     </div>
   );
 }
-
-export default Audio;

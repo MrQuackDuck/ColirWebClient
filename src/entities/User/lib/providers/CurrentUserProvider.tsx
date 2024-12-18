@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { DetailedUserModel } from "../../model/DetailedUserModel";
-import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
-import UserService from "../../api/UserService";
 import { createContext } from "use-context-selector";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+
+import { useErrorToast, useLocalStorage, useTranslation } from "@/shared/lib";
+
+import { UserService } from "../../api/UserService";
+import { DetailedUserModel } from "../../model/DetailedUserModel";
 
 export const CurrentUserContext = createContext<{
   currentUser: DetailedUserModel | null;
@@ -13,7 +13,7 @@ export const CurrentUserContext = createContext<{
   updateCurrentUser: () => Promise<DetailedUserModel | undefined>;
 }>({ currentUser: null, setUser: () => {}, removeUser: () => {}, updateCurrentUser: () => Promise.resolve(undefined) });
 
-const CurrentUserProvider = ({ children }) => {
+export const CurrentUserProvider = ({ children }) => {
   const t = useTranslation();
   const tRef = useRef(t);
   useEffect(() => {
@@ -65,5 +65,3 @@ const CurrentUserProvider = ({ children }) => {
 
   return <CurrentUserContext.Provider value={{ currentUser, setUser, removeUser, updateCurrentUser }}>{children}</CurrentUserContext.Provider>;
 };
-
-export default CurrentUserProvider;

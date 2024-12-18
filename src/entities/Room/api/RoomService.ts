@@ -1,17 +1,19 @@
 import { AxiosResponse } from "axios";
-import { GetRoomInfoModel } from "../model/request/GetRoomInfoModel";
-import { RoomModel } from "../model/RoomModel";
+
+import { $api } from "@/shared/api";
+
 import { CreateRoomModel } from "../model/request/CreateRoomModel";
 import { DeleteRoomModel } from "../model/request/DeleteRoomModel";
 import { GetLastTimeReadChatModel } from "../model/request/GetLastTimeReadChatModel";
+import { GetRoomInfoModel } from "../model/request/GetRoomInfoModel";
 import { JoinRoomModel } from "../model/request/JoinRoomModel";
 import { KickMemberModel } from "../model/request/KickMemberModel";
 import { LeaveRoomModel } from "../model/request/LeaveRoomModel";
 import { RenameRoomModel } from "../model/request/RenameRoomModel";
 import { UpdateLastReadMessageModel } from "../model/request/UpdateLastReadMessageModel";
-import $api from "@/shared/api";
+import { RoomModel } from "../model/RoomModel";
 
-export default class RoomService {
+export class RoomService {
   static async GetRoomInfo(model: GetRoomInfoModel): Promise<AxiosResponse<RoomModel>> {
     return await $api.get("/Room/GetRoomInfo", {
       params: {

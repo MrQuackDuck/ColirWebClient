@@ -1,20 +1,21 @@
-import { Card } from "@/shared/ui/Card";
-import ChooseAuthMethodForm from "./ChooseAuthMethodForm";
-import { useEffect, useState } from "react";
-import AuthService from "../lib/AuthService";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import AnonymousLoginForm from "./AnonymousLoginForm";
-import OAuth2LoginForm from "./OAuth2LoginForm";
 import { AxiosResponse } from "axios";
-import { cn } from "@/shared/lib/utils";
-import { AuthContext } from "../lib/providers/AuthProvider";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
+
+import { JoinedRoomsContext } from "@/entities/Room";
+import { cn, LoadingContext } from "@/shared/lib";
+import { Card } from "@/shared/ui";
+
+import { AuthService } from "../lib/AuthService";
+import { AuthContext } from "../lib/providers/AuthProvider";
+import AnonymousLoginForm from "./AnonymousLoginForm";
+import ChooseAuthMethodForm from "./ChooseAuthMethodForm";
+import OAuth2LoginForm from "./OAuth2LoginForm";
 
 type AuthorizationType = "Anonymous" | "Google" | "GitHub" | null;
 
-function AuthForm({ className }: { className?: string }) {
+export function AuthForm({ className }: { className?: string }) {
   const [authType, setAuthType] = useState<AuthorizationType>(null);
   const [queueToken, setQueueToken] = useState("");
   const [queryParams] = useSearchParams();
@@ -96,5 +97,3 @@ function AuthForm({ className }: { className?: string }) {
     </>
   );
 }
-
-export default AuthForm;

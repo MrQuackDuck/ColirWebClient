@@ -9,3 +9,5 @@ export enum FaqTabs {
   LibsReferences = "LibsReferences",
   DesignAndStyle = "DesignAndStyle"
 }
+
+export default FaqTabs;

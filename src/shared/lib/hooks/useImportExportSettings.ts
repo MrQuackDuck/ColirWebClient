@@ -1,13 +1,15 @@
 import CryptoJS from "crypto-js";
-import { useContextSelector } from "use-context-selector";
 import FileSaver from "file-saver";
 import Moment from "moment";
+import { useContextSelector } from "use-context-selector";
+
+import { UsersVolumeContext } from "@/features/control-user-volume";
+import { decryptString, encryptString } from "@/shared/lib";
+
 import { EncryptionKeysContext } from "../providers/EncryptionKeysProvider";
 import { LanguageSettingsContext } from "../providers/LanguageSettingsProvider";
-import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
 import { NotificationsSettingsContext } from "../providers/NotificationsSettingsProvider";
 import { VoiceSettingsContext } from "../providers/VoiceSettingsProvider";
-import { encryptString, decryptString } from "@/shared/lib/utils";
 
 class Settings {
   currentLanguage: string;

@@ -1,6 +1,7 @@
-import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import { useState } from "react";
 import { createContext } from "use-context-selector";
+
+import { useLocalStorage } from "@/shared/lib";
 
 export const UsersVolumeContext = createContext<{
   userVolumes: Record<number, number>;

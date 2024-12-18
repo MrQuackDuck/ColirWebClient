@@ -1,9 +1,11 @@
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import AuthService from "@/features/authorize/lib/AuthService";
-import { useLocalStorage } from "@/shared/lib/hooks/useLocalStorage";
 import { useState } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
+
+import { JoinedRoomsContext } from "@/entities/Room";
+import { CurrentUserContext } from "@/entities/User";
+import { useLocalStorage } from "@/shared/lib";
+
+import { AuthService } from "../AuthService";
 
 export const AuthContext = createContext<{
   isAuthorized: boolean;
@@ -11,7 +13,7 @@ export const AuthContext = createContext<{
   logOut: () => void;
 }>({ isAuthorized: false, authorize: () => {}, logOut: () => {} });
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(getFromLocalStorage("jwtToken") !== null);
   const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
@@ -36,5 +38,3 @@ const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={{ isAuthorized, authorize, logOut }}>{children}</AuthContext.Provider>;
 };
-
-export default AuthProvider;

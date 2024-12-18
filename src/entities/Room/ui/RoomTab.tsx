@@ -1,29 +1,45 @@
-import { CheckIcon, CopyIcon, DollarSignIcon, KeyIcon, LogOutIcon, MailCheckIcon, SettingsIcon, Trash2Icon } from "lucide-react";
-import { RoomModel } from "../model/RoomModel";
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/shared/ui/ContextMenu";
-import { Button } from "@/shared/ui/Button";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription } from "@/shared/ui/Dialog";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/Card";
-import RoomService from "../api/RoomService";
-import { Separator } from "@/shared/ui/Separator";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/Form";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Input } from "@/shared/ui/Input";
-import { Link } from "react-router-dom";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { CheckIcon, CopyIcon, DollarSignIcon, KeyIcon, LogOutIcon, MailCheckIcon, SettingsIcon, Trash2Icon } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
+import { z } from "zod";
+
+import { CurrentUserContext } from "@/entities/User";
+import { FaqControlContext } from "@/features/control-faq";
+import { EncryptionKeysContext, useErrorToast, useInfoToast, useTranslation } from "@/shared/lib";
+import { FaqTabs } from "@/shared/model";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Separator
+} from "@/shared/ui";
+
+import { RoomService } from "../api/RoomService";
 import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/model/FaqTabs";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
+import { RoomModel } from "../model/RoomModel";
 
 function RoomTab({
   room,

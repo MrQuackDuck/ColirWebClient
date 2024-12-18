@@ -1,10 +1,9 @@
-import React from "react";
-import { FaqTabs as FaqTabsEnum } from "../model/FaqTabs";
-import HeaderTab from "@/shared/ui/HeaderTab";
-import Tab from "@/shared/ui/Tab";
 import { BookIcon, BrushIcon, DollarSignIcon, IdCardIcon, KeyIcon, LibraryIcon, LightbulbIcon, LockIcon, PaintbrushIcon } from "lucide-react";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import React from "react";
+
+import { useTranslation } from "@/shared/lib";
+import { FaqTabs as FaqTabsEnum } from "@/shared/model";
+import { HeaderTab, ScrollArea, Tab } from "@/shared/ui";
 
 interface FaqTabsProps {
   className?: string;

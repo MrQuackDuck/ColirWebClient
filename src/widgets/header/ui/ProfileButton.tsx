@@ -1,14 +1,15 @@
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
-import { Button } from "@/shared/ui/Button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
 import { GearIcon } from "@radix-ui/react-icons";
 import { BarChart3Icon, Undo2Icon, UserIcon } from "lucide-react";
 import { useState } from "react";
 import { useContextSelector } from "use-context-selector";
+
+import { CurrentUserContext } from "@/entities/User";
+import { AuthContext } from "@/features/authorize";
+import { SettingsOpenCloseContext } from "@/features/open-close-settings";
+import { useTranslation } from "@/shared/lib";
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/ui";
+
 import StatisticsDialog from "./StatisticsDialog";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 function ProfileButton() {
   const t = useTranslation();

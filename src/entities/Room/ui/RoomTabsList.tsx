@@ -1,13 +1,15 @@
 import { useContextSelector } from "use-context-selector";
-import { RoomModel } from "../model/RoomModel";
-import RoomTab from "./RoomTab";
+
+import { MessagesContext } from "@/entities/Message";
+import { ScrollArea } from "@/shared/ui";
+
+import { RoomService } from "../api/RoomService";
 import { JoinedRoomsContext } from "../lib/providers/JoinedRoomsProvider";
 import { SelectedRoomContext } from "../lib/providers/SelectedRoomProvider";
-import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider";
-import RoomService from "../api/RoomService";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
+import { RoomModel } from "../model/RoomModel";
+import RoomTab from "./RoomTab";
 
-function RoomTabsList() {
+export function RoomTabsList() {
   const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
   const setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
@@ -42,5 +44,3 @@ function RoomTabsList() {
     </ScrollArea>
   );
 }
-
-export default RoomTabsList;

@@ -1,6 +1,8 @@
-import * as React from "react";
-import { cn } from "@/shared/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
+import * as React from "react";
+
+import { cn } from "@/shared/lib";
+
 import { Button } from "./Button";
 import classes from "./Input.module.css";
 

@@ -1,29 +1,24 @@
-import { useContextSelector } from "use-context-selector";
-import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
-import { VoiceChatConnectionsContext } from "../lib/providers/VoiceChatConnectionsProvider";
-import { VoiceChatConnection } from "../model/VoiceChatConnection";
 import { HubConnectionState } from "@microsoft/signalr";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
-import { VoiceChatControlsContext } from "@/features/manage-voice-controls/lib/providers/VoiceChatControlsProvider";
-import VoiceChat from "./VoiceChat";
 import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { decryptString, encryptString } from "@/shared/lib/utils";
-import { blobToString } from "../lib/blobToString";
-import { stringToBlob } from "../lib/stringToBlob";
-import { UserAudioTrack } from "../model/UserAudioTrack";
-import { UsersVolumeContext } from "@/features/control-user-volume/lib/providers/UsersVolumeProvider";
-import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { usePlayJoinSound } from "@/shared/lib/hooks/usePlayJoinSound";
-import { VoiceSettingsContext } from "@/shared/lib/providers/VoiceSettingsProvider";
-import { usePlayLeaveSound } from "@/shared/lib/hooks/usePlayLeaveSound";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+import { useContextSelector } from "use-context-selector";
 
-function VoiceChatSection() {
+import { JoinedRoomsContext, SelectedRoomContext } from "@/entities/Room";
+import { CurrentUserContext } from "@/entities/User";
+import { UsersVolumeContext } from "@/features/control-user-volume";
+import { VoiceChatControlsContext } from "@/features/manage-voice-controls";
+import { decryptString, EncryptionKeysContext, encryptString, useErrorToast, usePlayJoinSound, usePlayLeaveSound, useTranslation, VoiceSettingsContext } from "@/shared/lib";
+import { SignalRHubResult } from "@/shared/model";
+
+import { blobToString } from "../lib/blobToString";
+import { VoiceChatConnectionsContext } from "../lib/providers/VoiceChatConnectionsProvider";
+import { stringToBlob } from "../lib/stringToBlob";
+import { CurrentlyTalkingUser } from "../model/CurrentlyTalkingUser";
+import { UserAudioTrack } from "../model/UserAudioTrack";
+import { VoiceChatConnection } from "../model/VoiceChatConnection";
+import VoiceChat from "./VoiceChat";
+
+export function VoiceChatSection() {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
   const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
@@ -165,7 +160,7 @@ function VoiceChatSection() {
       const blobAsString = await blobToString(audioBlob);
 
       if (!(await isAudioTooQuiet(audioBlob))) {
-        joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>("SendVoiceSignal", encryptString(blobAsString, encryptionKey));
+        joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResult<undefined>>("SendVoiceSignal", encryptString(blobAsString, encryptionKey));
       }
 
       if (isMutedRef.current || !joinedVoiceConnectionRef.current) return;
@@ -285,7 +280,7 @@ function VoiceChatSection() {
       return;
     }
 
-    const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Join", isMuted, isDeafened);
+    const response = await connection.connection.invoke<SignalRHubResult<undefined>>("Join", isMuted, isDeafened);
     if (response.error) {
       showErrorToast(t("AN_ERROR_OCCURRED_DURING_JOINING"), t("FAILED_TO_JOIN_VOICE_CHAT"));
       console.error("Error joining voice chat:", response.error.errorCodeAsString);
@@ -320,7 +315,7 @@ function VoiceChatSection() {
     }
 
     try {
-      const response = await connection.connection.invoke<SignalRHubResponse<undefined>>("Leave");
+      const response = await connection.connection.invoke<SignalRHubResult<undefined>>("Leave");
       if (response.error) throw new Error(response.error.errorCodeAsString);
     } catch (error) {
       console.error("Error leaving voice chat:", error);
@@ -396,5 +391,3 @@ function VoiceChatSection() {
     </div>
   );
 }
-
-export default VoiceChatSection;

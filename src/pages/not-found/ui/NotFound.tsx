@@ -1,4 +1,4 @@
-function NotFound() {
+export function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full pb-[20%]">
       <span className="font-bold text-8xl">404</span>
@@ -7,5 +7,3 @@ function NotFound() {
     </div>
   );
 }
-
-export default NotFound;

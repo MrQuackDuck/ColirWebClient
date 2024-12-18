@@ -1,7 +1,8 @@
-import $api from "@/shared/api";
 import { AxiosResponse } from "axios";
 
-export default class AuthService {
+import { $api } from "@/shared/api";
+
+export class AuthService {
   static async IsAuthenticated(): Promise<AxiosResponse> {
     return await $api.get("/Auth/IsAuthenticated");
   }

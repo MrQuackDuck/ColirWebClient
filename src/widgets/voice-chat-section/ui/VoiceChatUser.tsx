@@ -1,11 +1,11 @@
-import { UserModel } from "@/entities/User/model/UserModel";
-import { useAdaptiveColor } from "@/shared/lib/hooks/useAdaptiveColor";
-import { cn } from "@/shared/lib/utils";
 import { HeadphoneOff, MicIcon, MicOffIcon } from "lucide-react";
-import { VoiceChatUser as VoiceChatUserModel } from "../model/VoiceChatUser";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import UserPopup from "@/entities/User/ui/UserPopup";
 import { useState } from "react";
+
+import { UserModel, UserPopup } from "@/entities/User";
+import { cn, useAdaptiveColor } from "@/shared/lib";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
+
+import { VoiceChatUser as VoiceChatUserModel } from "../model/VoiceChatUser";
 
 interface VoiceChatUserProps {
   voiceChatUser: VoiceChatUserModel;

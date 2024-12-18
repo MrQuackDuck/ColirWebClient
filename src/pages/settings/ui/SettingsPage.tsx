@@ -1,24 +1,22 @@
-import { Button } from "@/shared/ui/Button";
-import { useContextSelector } from "use-context-selector";
-import { SettingsOpenCloseContext } from "@/features/open-close-settings/lib/providers/SettingsOpenCloseProvider";
 import { PanelRightCloseIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Separator } from "@/shared/ui/Separator";
-import AccountSettings from "./AccountSettings";
-import VoiceSettings from "./VoiceSettings";
-import NotificationsSettings from "./NotificationsSettings";
-import StatisticsSettings from "./StatisticsSettings";
-import LanguageSettings from "./LanguageSettings";
-import ImportExportSettings from "./ImportExportSettings";
-import { SettingsTabs as SettingsTabsEnum } from "../lib/SettingsTabs";
-import SettingsTabs from "./SettingsTabs";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui/Sheet";
-import PopupWindow from "@/shared/ui/PopupWindow";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
+import { useContextSelector } from "use-context-selector";
 
-function SettingsPage() {
+import { CurrentUserContext } from "@/entities/User";
+import { SettingsOpenCloseContext } from "@/features/open-close-settings";
+import { useResponsiveness } from "@/shared/lib";
+import { SettingsTabs as SettingsTabsEnum } from "@/shared/model";
+import { Button, PopupWindow, ScrollArea, Separator, Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui";
+
+import AccountSettings from "./AccountSettings";
+import ImportExportSettings from "./ImportExportSettings";
+import LanguageSettings from "./LanguageSettings";
+import NotificationsSettings from "./NotificationsSettings";
+import SettingsTabs from "./SettingsTabs";
+import StatisticsSettings from "./StatisticsSettings";
+import VoiceSettings from "./VoiceSettings";
+
+export function SettingsPage() {
   const { isDesktop } = useResponsiveness();
 
   const isSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.isOpen);
@@ -99,5 +97,3 @@ function SettingsPage() {
     </PopupWindow>
   );
 }
-
-export default SettingsPage;

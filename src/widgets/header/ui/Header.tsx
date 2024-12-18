@@ -1,14 +1,16 @@
-import ColirLogoIcon from "@/shared/ui/ColirLogoIcon";
-import ThemeButton from "./ThemeButton";
-import ProfileButton from "./ProfileButton";
 import { useNavigate } from "react-router-dom";
-import classes from "./Header.module.css";
 import { useContextSelector } from "use-context-selector";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import LanguageButton from "./LanguageButton";
 
-function Header() {
+import { AuthContext } from "@/features/authorize";
+import { FaqControlContext } from "@/features/control-faq";
+import { ColirLogoIcon } from "@/shared/ui";
+
+import classes from "./Header.module.css";
+import LanguageButton from "./LanguageButton";
+import ProfileButton from "./ProfileButton";
+import ThemeButton from "./ThemeButton";
+
+export function Header() {
   const navigate = useNavigate();
   const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
@@ -33,5 +35,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

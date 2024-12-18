@@ -1,23 +1,15 @@
-import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
-import { Separator } from "@/shared/ui/Separator";
 import { Loader2, PaperclipIcon, PlugZapIcon, SendIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
-import React from "react";
-import { EmojiPicker } from "@/shared/ui/EmojiPicker";
-import { cn, encryptFile, encryptString, replaceEmojis } from "@/shared/lib/utils";
-import { MessageModel } from "@/entities/Message/model/MessageModel";
-import ReplySection from "./ReplySection";
-import { UserModel } from "@/entities/User/model/UserModel";
+import React, { useEffect, useRef } from "react";
+
+import { MessageModel } from "@/entities/Message";
+import { UserModel } from "@/entities/User";
+import { cn, encryptFile, encryptString, replaceEmojis, useTranslation } from "@/shared/lib";
+import { AutosizeTextarea, EmojiPicker, Separator } from "@/shared/ui";
+
+import { ChatInputMessage } from "../model/ChatInputMessage";
+import { ChatInputVariant } from "../model/ChatInputVariant";
 import FileList from "./FileList";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-
-export type ChatInputVariant = "default" | "connecting" | "disconnected";
-
-export interface ChatInputMessage {
-  content: string;
-  attachments: File[];
-  replyMessageId: number | undefined;
-}
+import ReplySection from "./ReplySection";
 
 interface ChatInputProps {
   onSend: (message: ChatInputMessage) => Promise<void>;
@@ -30,7 +22,7 @@ interface ChatInputProps {
   variant?: ChatInputVariant;
 }
 
-function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, encryptionKey, onReplyCancelled, variant = "default", onReplySectionClicked }: ChatInputProps) {
+export function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, encryptionKey, onReplyCancelled, variant = "default", onReplySectionClicked }: ChatInputProps) {
   const t = useTranslation();
   const textAreaRef = useRef<any>();
   const fileInputRef = useRef<any>();
@@ -270,5 +262,3 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
     </>
   );
 }
-
-export default ChatInput;

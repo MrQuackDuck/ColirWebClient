@@ -1,4 +1,4 @@
-import { UserModel } from "@/entities/User/model/UserModel";
+import { UserModel } from "@/entities/User";
 
 export interface RoomModel {
   guid: string;

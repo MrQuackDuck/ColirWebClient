@@ -1,10 +1,11 @@
+import { DownloadIcon, Music2Icon, PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "./Button";
-import { DownloadIcon, PlayIcon, Music2Icon } from "lucide-react";
-import { cn, decryptFile } from "../lib/utils";
-import Audio from "./Audio";
-import { useTranslation } from "../lib/hooks/useTranslation";
+
 import { useErrorToast } from "../lib/hooks/useErrorToast";
+import { useTranslation } from "../lib/hooks/useTranslation";
+import { cn, decryptFile } from "../lib/utils";
+import { Audio } from "./Audio";
+import { Button } from "./Button";
 
 interface EncryptedAudioPlayerProps {
   fileName: string;
@@ -14,7 +15,7 @@ interface EncryptedAudioPlayerProps {
   onDownloadClick: () => void;
 }
 
-const EncryptedAudioPlayer = (props: EncryptedAudioPlayerProps) => {
+export const EncryptedAudioPlayer = (props: EncryptedAudioPlayerProps) => {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
@@ -78,5 +79,3 @@ const EncryptedAudioPlayer = (props: EncryptedAudioPlayerProps) => {
     </div>
   );
 };
-
-export default EncryptedAudioPlayer;

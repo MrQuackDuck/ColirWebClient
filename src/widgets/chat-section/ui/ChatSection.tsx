@@ -1,41 +1,20 @@
-import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { Button } from "@/shared/ui/Button";
-import { Separator } from "@/shared/ui/Separator";
-import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
-import Countdown from "react-countdown";
-import ChatInput, { ChatInputMessage, ChatInputVariant } from "../../../features/send-message/ui/ChatInput";
-import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { UserModel } from "@/entities/User/model/UserModel";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { SignalRResultType } from "@/shared/model/response/SignalRResultType";
-import SkeletonMessageList from "@/shared/ui/SkeletonMessageList";
 import { HubConnectionState } from "@microsoft/signalr";
-import { SendMessageModel } from "@/entities/Message/model/request/SendMessageModel";
-import UploadService from "@/entities/Attachment/api/UploadService";
-import { ErrorResponse } from "@/shared/model/ErrorResponse";
-import { ErrorCode } from "@/shared/model/ErrorCode";
-import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
-import Username from "@/entities/User/ui/Username";
-import AuthTypeBadge from "@/shared/ui/AuthTypeBadge";
-import StorageBar from "@/features/manage-storage/ui/StorageBar";
+import { ArrowDown, DollarSignIcon, PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Countdown from "react-countdown";
 import { useContextSelector } from "use-context-selector";
-import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider";
-import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
-import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
-import MessagesList from "@/entities/Message/ui/MessagesList";
-import { EncryptionKeysContext } from "@/shared/lib/providers/EncryptionKeysProvider";
-import { cn } from "@/shared/lib/utils";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import RoomService from "@/entities/Room/api/RoomService";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
-import RoomOwnerIcon from "@/shared/ui/RoomOwnerIcon";
-import { InvertedScrollArea } from "@/shared/ui/InvertedScrollArea";
-import { useInvertedScrollArea } from "@/shared/lib/hooks/useInvertedScrollArea";
+
+import { UploadService } from "@/entities/Attachment";
+import { DeleteMessageModel, distinctMessages, EditMessageModel, MessageModel, MessagesContext, MessagesList, RemoveReactionFromMessageModel, SendMessageModel } from "@/entities/Message";
+import { RoomModel, RoomService, SelectedRoomContext } from "@/entities/Room";
+import { CurrentUserContext, UserModel, Username, UsersContext } from "@/entities/User";
+import { StorageBar } from "@/features/manage-storage";
+import { ChatInput, ChatInputMessage, ChatInputVariant } from "@/features/send-message";
+import { cn, EncryptionKeysContext, useErrorToast, useInvertedScrollArea, useResponsiveness, useTranslation } from "@/shared/lib";
+import { ErrorCode, ErrorResponse, SignalRHubResult, SignalRResultType } from "@/shared/model";
+import { AuthTypeBadge, Button, InvertedScrollArea, Popover, PopoverContent, PopoverTrigger, RoomOwnerIcon, Separator, SkeletonMessageList } from "@/shared/ui";
+
+import { ChatConnectionsContext } from "../lib/providers/ChatConnectionsProvider";
 
 interface ChatSectionProps {
   room: RoomModel;
@@ -43,7 +22,7 @@ interface ChatSectionProps {
   setVoiceChatSectionVisibility: (isVisible: boolean) => any | null;
 }
 
-function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
+export function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
   const mainSection = useRef<any>();
@@ -117,7 +96,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
     replyCancelled();
     selectedRoomConnection?.connection
-      .invoke<SignalRHubResponse<any>>("SendMessage", model)
+      .invoke<SignalRHubResult<any>>("SendMessage", model)
       .then((response) => {
         if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
         RoomService.UpdateLastReadMessage({ roomGuid: room.guid });
@@ -131,7 +110,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   const addReaction = useCallback(
     (messageId: number, reaction: string) => {
       selectedRoomConnection?.connection
-        .invoke<SignalRHubResponse<any>>("AddReactionOnMessage", { messageId, reaction })
+        .invoke<SignalRHubResult<any>>("AddReactionOnMessage", { messageId, reaction })
         .then((response) => {
           if (response.resultType == SignalRResultType.Error) throw Error(`Error code: ${response.error.errorCodeAsString}`);
         })
@@ -142,22 +121,25 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
   const removeReaction = useCallback(
     (reactionId: number) => {
-      selectedRoomConnection?.connection.send("RemoveReactionFromMessage", { reactionId }).catch((e) => showErrorToast(t("COULD_NOT_REVMOVE_REACTION"), e.message));
+      const model: RemoveReactionFromMessageModel = { reactionId };
+      selectedRoomConnection?.connection.send("RemoveReactionFromMessage", model).catch((e) => showErrorToast(t("COULD_NOT_REVMOVE_REACTION"), e.message));
     },
     [selectedRoomConnection]
   );
 
   const deleteMessage = useCallback(
     (messageId: number) => {
-      selectedRoomConnection?.connection.send("DeleteMessage", { messageId: messageId }).catch((e) => showErrorToast(t("COULD_NOT_DELETE_MESSAGE"), e.message));
+      const model: DeleteMessageModel = { messageId };
+      selectedRoomConnection?.connection.send("DeleteMessage", model).catch((e) => showErrorToast(t("COULD_NOT_DELETE_MESSAGE"), e.message));
     },
     [selectedRoomConnection]
   );
 
   const editMessage = useCallback(
     (messageId: number, newContent: string) => {
+      const model: EditMessageModel = { messageId, newContent };
       selectedRoomConnection?.connection
-        .invoke<SignalRHubResponse<any>>("EditMessage", { messageId, newContent })
+        .invoke<SignalRHubResult<any>>("EditMessage", model)
         .then((response) => {
           if (response.resultType == SignalRResultType.Error) throw Error(`${t("ERROR_CODE")}: ${response.error.errorCodeAsString}`);
         })
@@ -211,7 +193,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
     if (!repeatCall) return;
     const nearestMessageId = filteredMessagesRef.current.find((m) => m.id > messageId)?.id;
-    selectedRoomConnectionRef.current?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId }).then((response) => {
+    selectedRoomConnectionRef.current?.connection.invoke<SignalRHubResult<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId }).then((response) => {
       setMessages((prevMessages) => distinctMessages([...prevMessages, ...response.content]));
       setTimeout(() => {
         if (repeatCall) scrollToMessage(messageId, false);
@@ -242,7 +224,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     const previousScrollTop = scrollRef.current?.scrollTop || 0;
 
     selectedRoomConnection?.connection
-      .invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
+      .invoke<SignalRHubResult<MessageModel[]>>("GetMessages", { count: countToLoad, skipCount: messageElementsRefs.current.size })
       .then((response) => {
         if (!response?.content) return;
         setMessages((prevMessages) => distinctMessages([...response.content, ...prevMessages])); // Add new messages to the top
@@ -494,5 +476,3 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     </div>
   );
 }
-
-export default ChatSection;

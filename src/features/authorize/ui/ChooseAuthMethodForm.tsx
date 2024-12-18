@@ -1,17 +1,14 @@
-import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/shared/ui/Separator";
-import GoogleLogoIcon from "@/shared/ui/GoogleLogoIcon";
-import AuthService from "../lib/AuthService";
-import redirect from "../lib/redirect";
 import { UserIcon } from "lucide-react";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
-import { Button } from "@/shared/ui/Button";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqControlProvider";
-import { FaqTabs } from "@/pages/faq/model/FaqTabs";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
+
+import { FaqControlContext } from "@/features/control-faq";
+import { LoadingContext, useErrorToast, useTranslation } from "@/shared/lib";
+import { FaqTabs } from "@/shared/model";
+import { Button, CardContent, CardHeader, CardTitle, GoogleLogoIcon, Separator } from "@/shared/ui";
+
+import { AuthService } from "../lib/AuthService";
+import { redirect } from "../lib/redirect";
 
 function ChooseAuthMethodForm({ onAnonymousMethodChosen }: { onAnonymousMethodChosen: () => void }) {
   const t = useTranslation();

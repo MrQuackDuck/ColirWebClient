@@ -1,7 +1,8 @@
 import { useState } from "react";
-import HexId from "./HexId";
 
-function ListHexSelector({ colors, onSelected }: { colors: number[]; onSelected: (color: number) => void }) {
+import { HexId } from "./HexId";
+
+export function ListHexSelector({ colors, onSelected }: { colors: number[]; onSelected: (color: number) => void }) {
   const [selectedColor, setSelectedColor] = useState<number>(colors[0]);
 
   const onHexSelected = (color) => {
@@ -17,5 +18,3 @@ function ListHexSelector({ colors, onSelected }: { colors: number[]; onSelected:
     </>
   );
 }
-
-export default ListHexSelector;

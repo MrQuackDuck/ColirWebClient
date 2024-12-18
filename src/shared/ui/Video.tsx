@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { Volume2, VolumeX, Pause, Play, Maximize, Minimize, VideoOffIcon, RotateCwIcon } from "lucide-react";
-import { Slider } from "./Slider";
+import { Maximize, Minimize, Pause, Play, RotateCwIcon, VideoOffIcon, Volume2, VolumeX } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
 import { Button } from "./Button";
+import { Slider } from "./Slider";
 
 interface VideoElementProps {
   autoplay?: boolean;
@@ -9,7 +10,7 @@ interface VideoElementProps {
   src: string | MediaStream | null;
 }
 
-function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
+export function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isEnded, setIsEnded] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -195,5 +196,3 @@ function Video({ autoplay = false, controls = true, src }: VideoElementProps) {
     </div>
   );
 }
-
-export default Video;

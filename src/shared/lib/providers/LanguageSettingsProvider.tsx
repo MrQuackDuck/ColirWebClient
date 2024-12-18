@@ -1,6 +1,7 @@
-import { createContext } from "use-context-selector";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useEffect, useState } from "react";
+import { createContext } from "use-context-selector";
+
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const LanguageSettingsContext = createContext<{
   currentLanguage: string;
@@ -10,7 +11,7 @@ export const LanguageSettingsContext = createContext<{
   setCurrentLanguage: () => {}
 });
 
-const LanguageSettingsProvider = ({ children }) => {
+export const LanguageSettingsProvider = ({ children }) => {
   const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [currentLanguage, setCurrentLanguage] = useState<string>(getFromLocalStorage("currentLanguage") ?? "en");
 
@@ -33,5 +34,3 @@ const LanguageSettingsProvider = ({ children }) => {
     </LanguageSettingsContext.Provider>
   );
 };
-
-export default LanguageSettingsProvider;

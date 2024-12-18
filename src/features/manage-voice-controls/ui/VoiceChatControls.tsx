@@ -1,22 +1,24 @@
-import { Button } from "@/shared/ui/Button";
-import { Headphones, HeadphoneOff, MicIcon, MicOffIcon } from "lucide-react";
-import { useContextSelector } from "use-context-selector";
-import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProvider";
-import { cn } from "@/shared/lib/utils";
-import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
-import { useEffect } from "react";
-import useSound from "use-sound";
 import { HubConnectionState } from "@microsoft/signalr";
-import muteAudio from "../../../assets/audio/mute.mp3";
-import unmuteAudio from "../../../assets/audio/unmute.mp3";
+import { HeadphoneOff, Headphones, MicIcon, MicOffIcon } from "lucide-react";
+import { useEffect } from "react";
+import { useContextSelector } from "use-context-selector";
+import useSound from "use-sound";
+
+import { cn } from "@/shared/lib";
+import { Button } from "@/shared/ui";
+import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section";
+
 import deafenAudio from "../../../assets/audio/deafen.mp3";
+import muteAudio from "../../../assets/audio/mute.mp3";
 import undeafenAudio from "../../../assets/audio/undeafen.mp3";
+import unmuteAudio from "../../../assets/audio/unmute.mp3";
+import { VoiceChatControlsContext } from "../lib/providers/VoiceChatControlsProvider";
 
 interface VoiceChatControlsProps {
   className?: string;
 }
 
-function VoiceChatControls({ className }: VoiceChatControlsProps) {
+export function VoiceChatControls({ className }: VoiceChatControlsProps) {
   const isMuted = useContextSelector(VoiceChatControlsContext, (c) => c.isMuted);
   const setIsMuted = useContextSelector(VoiceChatControlsContext, (c) => c.setIsMuted);
   const isDeafened = useContextSelector(VoiceChatControlsContext, (c) => c.isDeafened);
@@ -75,5 +77,3 @@ function VoiceChatControls({ className }: VoiceChatControlsProps) {
     </div>
   );
 }
-
-export default VoiceChatControls;

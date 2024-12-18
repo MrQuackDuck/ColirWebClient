@@ -1,6 +1,7 @@
-import { AttachmentModel } from "@/entities/Attachment/model/AttachmentModel";
-import Attachment from "./Attachment";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/shared/lib";
+
+import { AttachmentModel } from "../model";
+import { Attachment } from "./Attachment";
 
 interface AttachmentsSectionProps {
   attachments: AttachmentModel[];
@@ -8,7 +9,7 @@ interface AttachmentsSectionProps {
   decryptionKey: string;
 }
 
-function AttachmentsSection(props: AttachmentsSectionProps) {
+export function AttachmentsSection(props: AttachmentsSectionProps) {
   return (
     <div className={cn("flex flex-wrap w-fit gap-2 pt-1", props.className)}>
       {props.attachments.map((attachment, index) => (
@@ -17,5 +18,3 @@ function AttachmentsSection(props: AttachmentsSectionProps) {
     </div>
   );
 }
-
-export default AttachmentsSection;

@@ -1,20 +1,16 @@
-import { useEffect, useRef } from "react";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
-import { API_URL } from "@/shared/api";
-import { MessageModel } from "@/entities/Message/model/MessageModel";
-import { SignalRHubResponse } from "@/shared/model/response/SignalRHubResult";
-import { UserModel } from "@/entities/User/model/UserModel";
-import { useJwt } from "@/shared/lib/hooks/useJwt";
-import { distinctMessages } from "@/entities/Message/lib/distinctMessages";
-import pingAudio from "../../../../assets/audio/ping.mp3";
-import { DetailedUserModel } from "@/entities/User/model/DetailedUserModel";
-import { RoomModel } from "@/entities/Room/model/RoomModel";
-import { ChatConnection } from "@/widgets/chat-section/models/ChatConnection";
+import { useEffect, useRef } from "react";
 import { useContextSelector } from "use-context-selector";
-import { NotificationsSettingsContext } from "@/shared/lib/providers/NotificationsSettingsProvider";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { AccessTokenFactory } from "@/shared/lib/AccessTokenFactory";
+
+import { distinctMessages, MessageModel } from "@/entities/Message";
+import { RoomModel } from "@/entities/Room";
+import { DetailedUserModel, UserModel } from "@/entities/User";
+import { API_URL } from "@/shared/api";
+import { AccessTokenFactory, NotificationsSettingsContext, useErrorToast, useInfoToast, useJwt } from "@/shared/lib";
+import { SignalRHubResult } from "@/shared/model";
+import { ChatConnection } from "@/widgets/chat-section";
+
+import pingAudio from "../../../../assets/audio/ping.mp3";
 
 export const useChatConnection = (
   currentUser: DetailedUserModel | null,
@@ -76,15 +72,15 @@ export const useChatConnection = (
       .start()
       .then(() => {
         // Getting the last message
-        connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 1, skipCount: 0 }).then((lastMessageResponse) => {
+        connection.invoke<SignalRHubResult<MessageModel[]>>("GetMessages", { count: 1, skipCount: 0 }).then((lastMessageResponse) => {
           // Getting possible unread messages
-          connection.invoke<SignalRHubResponse<MessageModel[]>>("GetUnreadRepliesAsync").then((unreadRepliedResponse) => {
+          connection.invoke<SignalRHubResult<MessageModel[]>>("GetUnreadRepliesAsync").then((unreadRepliedResponse) => {
             // If there any unread messages, fetch the whole range of messages from the first unread to the last message
             if (unreadRepliedResponse.content.length > 0) {
               setUnreadReplies((prevUnreadReplies) => [...prevUnreadReplies, ...unreadRepliedResponse.content]);
               const lastMessage = lastMessageResponse.content[0];
               const firstUnreadMessage = unreadRepliedResponse.content[0];
-              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id }).then((response) => {
+              connection.invoke<SignalRHubResult<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id }).then((response) => {
                 setMessages((prevMessages) => {
                   if (!response?.content) return prevMessages;
                   return distinctMessages([...prevMessages, ...response.content]);
@@ -93,7 +89,7 @@ export const useChatConnection = (
             }
             // If not just fetch the last 50 messages
             else {
-              connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 }).then((response) => {
+              connection.invoke<SignalRHubResult<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 }).then((response) => {
                 setMessages((prevMessages) => {
                   if (!response?.content) return prevMessages;
                   return distinctMessages([...prevMessages, ...response.content]);

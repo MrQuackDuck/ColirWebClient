@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const NotificationsSettingsContext = createContext<{
@@ -24,7 +25,7 @@ export const NotificationsSettingsContext = createContext<{
   setIsJoinLeaveSoundDisabled: () => {}
 });
 
-const NotificationsSettingsProvider = ({ children }) => {
+export const NotificationsSettingsProvider = ({ children }) => {
   const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [pingVolume, setPingVolume] = useState<number>(getFromLocalStorage("pingVolume") ?? 50);
   const [isPingSoundDisabled, setIsPingSoundDisabled] = useState<boolean>(getFromLocalStorage("isPingSoundDisabled") ?? false);
@@ -61,5 +62,3 @@ const NotificationsSettingsProvider = ({ children }) => {
     </NotificationsSettingsContext.Provider>
   );
 };
-
-export default NotificationsSettingsProvider;

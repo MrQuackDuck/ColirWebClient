@@ -1,11 +1,8 @@
-import { useImportExportSettings } from "@/shared/lib/hooks/useImportExportSettings";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
-import { useInfoToast } from "@/shared/lib/hooks/useInfoToast";
-import { Button } from "@/shared/ui/Button";
-import { Separator } from "@/shared/ui/Separator";
 import { FileCodeIcon, ImportIcon } from "lucide-react";
 import { useRef } from "react";
+
+import { useErrorToast, useImportExportSettings, useInfoToast, useTranslation } from "@/shared/lib";
+import { Button, Separator } from "@/shared/ui";
 
 function ImportExportSettings() {
   const t = useTranslation();

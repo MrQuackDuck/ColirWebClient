@@ -1,10 +1,10 @@
 import "moment/min/locales";
-import { Button } from "@/shared/ui/Button";
+
 import { CheckIcon, PencilOffIcon } from "lucide-react";
-import { AutosizeTextarea } from "@/shared/ui/AutosizeTextarea";
 import React from "react";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { EmojiPicker } from "@/shared/ui/EmojiPicker";
+
+import { useTranslation } from "@/shared/lib";
+import { AutosizeTextarea, Button, EmojiPicker } from "@/shared/ui";
 
 interface EditAreaProps {
   textAreaRef: React.MutableRefObject<any>;

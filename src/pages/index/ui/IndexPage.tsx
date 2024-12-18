@@ -1,11 +1,11 @@
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
-import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
-import AuthForm from "@/features/authorize/ui/AuthForm";
-import JoinOrCreateRoom from "@/features/join-or-create-room/ui/JoinOrCreateRoom";
-import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
 
-function IndexPage() {
+import { JoinedRoomsContext } from "@/entities/Room";
+import { AuthContext, AuthForm } from "@/features/authorize";
+import { JoinOrCreateRoom } from "@/features/join-or-create-room";
+import { LoadingContext } from "@/shared/lib";
+
+export function IndexPage() {
   const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
   const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
   const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
@@ -27,5 +27,3 @@ function IndexPage() {
     </div>
   );
 }
-
-export default IndexPage;

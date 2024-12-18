@@ -1,29 +1,35 @@
-import { Separator } from "@/shared/ui/Separator";
-import ChatSection from "../../../widgets/chat-section/ui/ChatSection";
-import { useEffect, useState } from "react";
-import classes from "./ChatPage.module.css";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/shared/ui/Sheet";
-import { SheetWithUnmountableContent, SheetContent as SheetContentWithUnmountableContent } from "@/shared/ui/SheetWithUnmountableContent";
 import { HubConnectionState } from "@microsoft/signalr";
-import Aside from "@/widgets/aside/ui/Aside";
-import { MessagesContext } from "@/entities/Message/lib/providers/MessagesProvider";
-import { useContextSelector } from "use-context-selector";
-import { JoinedRoomsContext } from "@/entities/Room/lib/providers/JoinedRoomsProvider";
-import { SelectedRoomContext } from "@/entities/Room/lib/providers/SelectedRoomProvider";
-import { UsersContext } from "@/entities/User/lib/providers/UsersProvider";
-import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
-import { ChatConnectionsContext } from "@/widgets/chat-section/lib/providers/ChatConnectionsProvider";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/shared/ui/Resizable";
-import { useResponsiveness } from "@/shared/lib/hooks/useResponsiveness";
-import { useChatConnection } from "../lib/hooks/useChatConnection";
-import VoiceChatSection from "@/widgets/voice-chat-section/ui/VoiceChatSection";
-import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
-import { VoiceChatConnectionsContext } from "@/widgets/voice-chat-section/lib/providers/VoiceChatConnectionsProvider";
-import VoiceChatControls from "@/features/manage-voice-controls/ui/VoiceChatControls";
+import { useEffect, useState } from "react";
 import FocusLock from "react-focus-lock";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+import { useContextSelector } from "use-context-selector";
 
-function ChatPage() {
+import { MessagesContext } from "@/entities/Message";
+import { JoinedRoomsContext, SelectedRoomContext } from "@/entities/Room";
+import { CurrentUserContext, UsersContext } from "@/entities/User";
+import { VoiceChatControls } from "@/features/manage-voice-controls";
+import { useResponsiveness, useTranslation } from "@/shared/lib";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  Separator,
+  Sheet,
+  SheetContent,
+  SheetContent as SheetContentWithUnmountableContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetWithUnmountableContent
+} from "@/shared/ui";
+import { Aside } from "@/widgets/aside";
+import { ChatConnectionsContext, ChatSection } from "@/widgets/chat-section";
+import { VoiceChatConnectionsContext, VoiceChatSection } from "@/widgets/voice-chat-section";
+
+import { useChatConnection } from "../lib/hooks/useChatConnection";
+import { useVoiceChatConnection } from "../lib/hooks/useVoiceChatConnection";
+import classes from "./ChatPage.module.css";
+
+export function ChatPage() {
   const t = useTranslation();
   const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
@@ -122,5 +128,3 @@ function ChatPage() {
     </>
   );
 }
-
-export default ChatPage;

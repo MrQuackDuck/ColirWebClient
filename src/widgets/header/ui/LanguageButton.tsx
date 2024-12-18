@@ -1,10 +1,8 @@
-import { availableLanguages } from "@/shared/lib/availableLanguages";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
-import { LanguageSettingsContext } from "@/shared/lib/providers/LanguageSettingsProvider";
-import { Button } from "@/shared/ui/Button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
 import { LanguagesIcon } from "lucide-react";
 import { useContextSelector } from "use-context-selector";
+
+import { availableLanguages, LanguageSettingsContext, useTranslation } from "@/shared/lib";
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui";
 
 function LanguageButton() {
   const t = useTranslation();

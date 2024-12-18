@@ -1,10 +1,8 @@
 import { BarChart3Icon, GlobeIcon, ImportIcon, MegaphoneIcon, UserIcon, Volume2Icon } from "lucide-react";
-import { Separator } from "@/shared/ui/Separator";
-import Tab from "@/shared/ui/Tab";
-import HeaderTab from "@/shared/ui/HeaderTab";
-import { SettingsTabs as SettingsTabsEnum } from "../lib/SettingsTabs";
-import { ScrollArea } from "@/shared/ui/ScrollArea";
-import { useTranslation } from "@/shared/lib/hooks/useTranslation";
+
+import { useTranslation } from "@/shared/lib";
+import { SettingsTabs as SettingsTabsEnum } from "@/shared/model";
+import { HeaderTab, ScrollArea, Separator, Tab } from "@/shared/ui";
 
 interface SettingsTabsProps {
   className?: string;

@@ -1,6 +1,6 @@
-import { Skeleton } from "@/shared/ui/Skeleton";
+import { Skeleton } from "@/shared/ui";
 
-function SkeletonMessage() {
+export function SkeletonMessage() {
   return (
     <div className="pl-2 py-0.5 my-1 flex flex-col gap-0.5">
       <div className="flex h-5 items-center max-w-24 flex-row gap-1">
@@ -11,5 +11,3 @@ function SkeletonMessage() {
     </div>
   );
 }
-
-export default SkeletonMessage;

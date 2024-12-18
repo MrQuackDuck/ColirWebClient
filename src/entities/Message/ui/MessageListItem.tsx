@@ -1,8 +1,10 @@
-import React from "react";
-import Message from "./Message";
-import { MessageModel } from "../model/MessageModel";
-import { UserModel } from "@/entities/User/model/UserModel";
 import isEqual from "fast-deep-equal";
+import React from "react";
+
+import { UserModel } from "@/entities/User";
+
+import { MessageModel } from "../model/MessageModel";
+import Message from "./Message";
 
 interface MessageListItemProps {
   setMessagesRef: (messageId: number) => (el: HTMLDivElement | null) => void;
