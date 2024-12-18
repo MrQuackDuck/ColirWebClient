@@ -57,7 +57,8 @@ export function ChatPage() {
   useEffect(() => {
     const mappedConnections: string[] = [];
     chatConnections.map((c) => {
-      if (chatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
+      const connectionState = c.connection.state;
+      if (connectionState == HubConnectionState.Connected || connectionState == HubConnectionState.Connecting) return;
       if (mappedConnections.includes(c.roomGuid)) return;
       mappedConnections.push(c.roomGuid);
       startChatConnection(c.roomGuid, c.connection);
@@ -68,7 +69,8 @@ export function ChatPage() {
   useEffect(() => {
     const mappedConnections: string[] = [];
     voiceChatConnections.map((c) => {
-      if (voiceChatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
+      const connectionState = c.connection.state;
+      if (connectionState == HubConnectionState.Connected || connectionState == HubConnectionState.Connecting) return;
       if (mappedConnections.includes(c.roomGuid)) return;
       mappedConnections.push(c.roomGuid);
       startVoiceConnection(c.roomGuid, c.connection);
