@@ -52,7 +52,7 @@ function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: (
       });
     }
 
-    // Just send the signal
+    // Send a signal that the username is chosen and proceed to the next step
     sendSignalAndProceedToNextStep();
   };
 
