@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { CheckIcon, CopyIcon, DollarSignIcon, KeyIcon, LogOutIcon, MailCheckIcon, SettingsIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,6 +24,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogTitle,
   Form,
   FormControl,
   FormDescription,

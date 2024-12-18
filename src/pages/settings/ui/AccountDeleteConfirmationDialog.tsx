@@ -1,9 +1,8 @@
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { BrushIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { decimalToHexString, useTranslation } from "@/shared/lib";
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dialog, DialogContent, DialogTitle, Input } from "@/shared/ui";
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dialog, DialogContent, DialogDescription, DialogTitle, Input } from "@/shared/ui";
 
 interface AccountDeleteConfirmationDialogProps {
   hexId: number;

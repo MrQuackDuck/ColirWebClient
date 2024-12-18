@@ -1,4 +1,3 @@
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useContextSelector } from "use-context-selector";
@@ -8,7 +7,7 @@ import { FaqControlContext } from "@/features/control-faq";
 import { JoinOrCreateRoom } from "@/features/join-or-create-room";
 import { VoiceChatControls } from "@/features/manage-voice-controls";
 import { useTranslation } from "@/shared/lib";
-import { Button, Dialog, DialogContent, DialogTitle } from "@/shared/ui";
+import { Button, Dialog, DialogContent, DialogDescription, DialogTitle } from "@/shared/ui";
 
 export function Aside() {
   const t = useTranslation();

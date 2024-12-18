@@ -1,5 +1,4 @@
-import { GearIcon } from "@radix-ui/react-icons";
-import { BarChart3Icon, Undo2Icon, UserIcon } from "lucide-react";
+import { BarChart3Icon, SettingsIcon, Undo2Icon, UserIcon } from "lucide-react";
 import { useState } from "react";
 import { useContextSelector } from "use-context-selector";
 
@@ -31,7 +30,7 @@ function ProfileButton() {
         <DropdownMenuContent onCloseAutoFocus={(e) => e.preventDefault()}>
           <DropdownMenuGroup>
             <DropdownMenuItem data-no-focus-lock onClick={openSettings}>
-              <GearIcon className="mr-2 h-4 w-4" strokeWidth={2} /> {t("SETTINGS")}
+              <SettingsIcon className="mr-2 h-4 w-4" strokeWidth={2} /> {t("SETTINGS")}
             </DropdownMenuItem>
             <DropdownMenuItem data-no-focus-lock disabled={!currentUser?.userSettings.statisticsEnabled} onClick={() => setIsStatsOpen(true)}>
               <BarChart3Icon className="mr-2 h-4 w-4" strokeWidth={2} /> {t("STATS")}
