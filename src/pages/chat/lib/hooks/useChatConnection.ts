@@ -86,7 +86,7 @@ export const useChatConnection = (
                 });
               });
             }
-            // If not just fetch the last 50 messages
+            // If not just fetch the last N messages
             else {
               connection.invoke<SignalRHubResult<MessageModel[]>>("GetMessages", { count: 25, skipCount: 0 }).then((response) => {
                 setMessages((prevMessages) => {
