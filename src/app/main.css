@@ -34,8 +34,9 @@ a:focus-visible {
   border-radius: 2px;
 }
 
-code {
-  font-family: CascadiaCode, monospace;
+code * {
+  font-size: 12px !important;
+  font-family: CascadiaCode !important;
 }
 
 a:hover {
