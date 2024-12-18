@@ -7,7 +7,7 @@ import { distinctMessages, MessageModel } from "@/entities/Message";
 import { RoomModel } from "@/entities/Room";
 import { DetailedUserModel, UserModel } from "@/entities/User";
 import { API_URL } from "@/shared/api";
-import { AccessTokenFactory, NotificationsSettingsContext, useErrorToast, useInfoToast, useJwt } from "@/shared/lib";
+import { AccessTokenFactory, NotificationsSettingsContext, useInfoToast, useJwt } from "@/shared/lib";
 import { SignalRHubResult } from "@/shared/model";
 import { ChatConnection } from "@/widgets/chat-section";
 
@@ -23,7 +23,6 @@ export const useChatConnection = (
   setSelectedRoom: React.Dispatch<React.SetStateAction<RoomModel>>
 ) => {
   const showInfoToast = useInfoToast();
-  const showErrorToast = useErrorToast();
   const getJwt = useJwt();
   const joinedRoomsRef = useRef(joinedRooms);
   const selectedRoomRef = useRef(selectedRoom);
@@ -251,7 +250,7 @@ export const useChatConnection = (
         });
       })
       .catch((e) => {
-        showErrorToast(`Couldn't connect to the room`, `We weren't able to establish a connection. Error: ${e}.`);
+        console.error(e, "Couldn't connect to the room");
       });
 
     connection.onclose(() => {
