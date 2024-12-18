@@ -67,7 +67,7 @@ export { ScrollArea } from "./ScrollArea";
 export { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "./Select";
 export { Separator } from "./Separator";
 export { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger } from "./Sheet";
-export { SheetWithUnmountableContent } from "./SheetWithUnmountableContent";
+export { SheetContent as SheetContentWithUnmountableContent, SheetWithUnmountableContent } from "./SheetWithUnmountableContent";
 export { Skeleton } from "./Skeleton";
 export { SkeletonMessage } from "./SkeletonMessage";
 export { SkeletonMessageList } from "./SkeletonMessageList";

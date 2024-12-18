@@ -15,7 +15,7 @@ import {
   Separator,
   Sheet,
   SheetContent,
-  SheetContent as SheetContentWithUnmountableContent,
+  SheetContentWithUnmountableContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
