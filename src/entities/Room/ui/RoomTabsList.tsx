@@ -8,11 +8,11 @@ import RoomService from "../api/RoomService";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 function RoomTabsList() {
-  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
-  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
-  let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
-  let unreadReplied = useContextSelector(MessagesContext, (c) => c.unreadReplies);
-  let setUnreadReplied = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
+  const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+  const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  const setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  const unreadReplied = useContextSelector(MessagesContext, (c) => c.unreadReplies);
+  const setUnreadReplied = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
 
   function selectRoom(room: RoomModel) {
     setSelectedRoom(room);

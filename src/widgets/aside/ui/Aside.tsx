@@ -15,10 +15,10 @@ import { FaqControlContext } from "@/features/control-faq/libs/providers/FaqCont
 
 function Aside() {
   const t = useTranslation();
-  let [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
-  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
-  let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  const [newRoomModalOpened, setNewRoomModalOpened] = useState(false);
+  const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+  const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  const setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
   const isFaqOpen = useContextSelector(FaqControlContext, (c) => c.isFaqOpen);
 
   function onJoinedOrCreatedRoom(room: RoomModel) {

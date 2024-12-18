@@ -42,10 +42,10 @@ const extensionToAttachmentTypeMap = {
 function Attachment({ attachment, className, decryptionKey }: AttachmentProps) {
   const t = useTranslation();
   const showInfoToast = useInfoToast();
-  let [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
-  let [isDownloading, setIsDownloading] = useState(false);
-  let imgRef = useRef<HTMLImageElement>(null); // Needed for implementing copy to clipboard
-  let decryptedFilename = decryptString(attachment.filename, decryptionKey);
+  const [attachmentType, setAttachmentType] = useState<AttachmentType>(AttachmentType.DOCUMENT);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null); // Needed for implementing copy to clipboard
+  const decryptedFilename = decryptString(attachment.filename, decryptionKey);
 
   function getAttachmentType() {
     const extension = decryptedFilename?.split(".").pop()?.toLowerCase();

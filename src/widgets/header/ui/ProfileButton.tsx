@@ -12,10 +12,10 @@ import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 function ProfileButton() {
   const t = useTranslation();
-  let setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let logOut = useContextSelector(AuthContext, (c) => c.logOut);
-  let [isStatsOpen, setIsStatsOpen] = useState(false);
+  const setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const logOut = useContextSelector(AuthContext, (c) => c.logOut);
+  const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   const openSettings = () => setIsSettingsOpen(true);
 

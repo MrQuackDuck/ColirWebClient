@@ -2,7 +2,7 @@ import { useState } from "react";
 import HexId from "./HexId";
 
 function ListHexSelector({ colors, onSelected }: { colors: number[]; onSelected: (color: number) => void }) {
-  let [selectedColor, setSelectedColor] = useState<number>(colors[0]);
+  const [selectedColor, setSelectedColor] = useState<number>(colors[0]);
 
   const onHexSelected = (color) => {
     setSelectedColor(color);

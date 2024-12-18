@@ -6,9 +6,9 @@ import { LoadingContext } from "@/shared/lib/providers/LoadingProvider";
 import { useContextSelector } from "use-context-selector";
 
 function IndexPage() {
-  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+  const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
 
   const onJoinedRoom = (room) => {
     enableLoading();

@@ -12,10 +12,10 @@ export const TranslationContext = createContext<{
 
 const TranslationProvider = ({ children }) => {
   const [translationMap, setTranslationMap] = useState<any>(en);
-  let currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
+  const currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
 
   useEffect(() => {
-    let language = availableLanguages.find((lang) => lang.languageCode === currentLanguage)!;
+    const language = availableLanguages.find((lang) => lang.languageCode === currentLanguage)!;
     if (!language) return console.error("Language not found");
     setTranslationMap(language.keyValueMap);
   }, [currentLanguage]);

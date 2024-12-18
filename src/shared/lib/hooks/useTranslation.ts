@@ -5,7 +5,7 @@ import { TranslationContext } from "../providers/TranslationProvider";
 type TFunction = (key: string, ...args: (string | number)[]) => string;
 
 export const useTranslation = (): TFunction => {
-  let translationMap = useContextSelector(TranslationContext, (c) => c.translationMap);
+  const translationMap = useContextSelector(TranslationContext, (c) => c.translationMap);
 
   const translate: TFunction = (key: string, ...args: (string | number)[]) => {
     let translatedString = translationMap[key];

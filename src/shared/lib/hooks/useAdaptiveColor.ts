@@ -5,10 +5,10 @@ type ColorType = "tooBlack" | "normal" | "tooWhite";
 // Returns adjusted color for current theme
 export const useAdaptiveColor = (color: number) => {
   let colorString = "#" + color.toString(16).padStart(6, "0");
-  let colorType = getBrightness(colorString);
+  const colorType = getBrightness(colorString);
   let isAdjusted: boolean = false;
 
-  let { theme } = useTheme();
+  const { theme } = useTheme();
 
   if (colorType == "tooBlack" && theme == "dark") {
     isAdjusted = true;
@@ -22,17 +22,17 @@ export const useAdaptiveColor = (color: number) => {
 };
 
 function getBrightness(hexcolor): ColorType {
-  var r = parseInt(hexcolor.substring(1, 3), 16);
-  var g = parseInt(hexcolor.substring(3, 5), 16);
-  var b = parseInt(hexcolor.substring(5, 7), 16);
-  var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  const r = parseInt(hexcolor.substring(1, 3), 16);
+  const g = parseInt(hexcolor.substring(3, 5), 16);
+  const b = parseInt(hexcolor.substring(5, 7), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
   if (brightness < 50) return "tooBlack";
   if (brightness >= 50 && brightness <= 185) return "normal";
   else return "tooWhite";
 }
 
 function adjustColor(color, percent) {
-  let hex = color.replace(/^#/, "");
+  const hex = color.replace(/^#/, "");
 
   const num = parseInt(hex, 16);
   let r = (num >> 16) + Math.round(255 * percent);

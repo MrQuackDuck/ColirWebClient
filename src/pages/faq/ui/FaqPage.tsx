@@ -18,7 +18,7 @@ import rehypeRaw from "rehype-raw";
 import { AuthContext } from "@/features/authorize/lib/providers/AuthProvider";
 
 function FaqPage() {
-  let { isDesktop } = useResponsiveness();
+  const { isDesktop } = useResponsiveness();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,10 +29,10 @@ function FaqPage() {
   const selectedFaqTabRef = useRef(selectedFaqTab);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
 
-  let [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [markdownContent, setMarkdownContent] = useState("");
-  let languageCode = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
-  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+  const languageCode = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
+  const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
 
   useEffect(() => {
     if (!isAuthorized) setIsFaqOpen(false);

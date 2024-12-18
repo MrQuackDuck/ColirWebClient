@@ -18,9 +18,9 @@ import FaqPage from "@/pages/faq/ui/FaqPage";
 import { FaqControlProvider } from "@/features/control-faq/libs/providers/FaqControlProvider";
 
 function App() {
-  let isLoading = useContextSelector(LoadingContext, (c) => c.isLoading);
-  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
-  let isThereAnyJoinedRoom = useContextSelector(JoinedRoomsContext, (c) => c.isThereAnyJoinedRoom);
+  const isLoading = useContextSelector(LoadingContext, (c) => c.isLoading);
+  const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+  const isThereAnyJoinedRoom = useContextSelector(JoinedRoomsContext, (c) => c.isThereAnyJoinedRoom);
 
   const getRoutes = () => {
     if (isAuthorized && isThereAnyJoinedRoom) {

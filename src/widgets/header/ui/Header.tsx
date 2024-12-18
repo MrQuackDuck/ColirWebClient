@@ -10,8 +10,8 @@ import LanguageButton from "./LanguageButton";
 
 function Header() {
   const navigate = useNavigate();
-  let isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
-  let setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
+  const isAuthorized = useContextSelector(AuthContext, (c) => c.isAuthorized);
+  const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
 
   const navigateHome = () => {
     navigate("/", { replace: true });

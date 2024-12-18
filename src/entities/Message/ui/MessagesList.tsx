@@ -39,7 +39,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
       {filteredMessages.map((m, index, filteredMessages) => {
         const currentMessageDate = new Date(m.postDate).getDate();
         const previousMessageDate = index > 0 ? new Date(filteredMessages[index - 1].postDate).getDate() : null;
-        let needToInsertDater = index === 0 || currentMessageDate !== previousMessageDate;
+        const needToInsertDater = index === 0 || currentMessageDate !== previousMessageDate;
         const sender = users.find((u) => u.hexId === m.authorHexId)!;
         const repliedMessageAuthor = m.repliedMessage ? users.find((u) => u.hexId === m.repliedMessage?.authorHexId) : undefined;
 

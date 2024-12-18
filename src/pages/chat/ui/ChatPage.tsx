@@ -25,23 +25,23 @@ import { useTranslation } from "@/shared/lib/hooks/useTranslation";
 
 function ChatPage() {
   const t = useTranslation();
-  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let chatConnections = useContextSelector(ChatConnectionsContext, (c) => c.chatConnections);
-  let setChatConnections = useContextSelector(ChatConnectionsContext, (c) => c.setChatConnections);
-  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.voiceChatConnections);
-  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.joinedVoiceConnection);
-  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.setJoinedVoiceConnection);
-  let setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.setVoiceChatConnections);
-  let setMessages = useContextSelector(MessagesContext, (c) => c.setMessages);
-  let setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
-  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
-  let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
-  let setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
-  let [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
-  let [voiceChatSectionOpen, setVoiceChatSectionOpen] = useState<boolean>(false); // For mobile devices
-  let { isDesktop } = useResponsiveness();
+  const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+  const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const chatConnections = useContextSelector(ChatConnectionsContext, (c) => c.chatConnections);
+  const setChatConnections = useContextSelector(ChatConnectionsContext, (c) => c.setChatConnections);
+  const voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.voiceChatConnections);
+  const joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.joinedVoiceConnection);
+  const setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.setJoinedVoiceConnection);
+  const setVoiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.setVoiceChatConnections);
+  const setMessages = useContextSelector(MessagesContext, (c) => c.setMessages);
+  const setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
+  const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  const setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  const setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
+  const [asideOpen, setAsideOpen] = useState<boolean>(false); // For mobile devices
+  const [voiceChatSectionOpen, setVoiceChatSectionOpen] = useState<boolean>(false); // For mobile devices
+  const { isDesktop } = useResponsiveness();
 
   const { startChatConnection } = useChatConnection(currentUser, joinedRooms, setJoinedRooms, setChatConnections, setMessages, setUnreadReplies, setUsers, selectedRoom, setSelectedRoom);
 
@@ -49,7 +49,7 @@ function ChatPage() {
 
   // Starts a SignalR connection for each room's text chat
   useEffect(() => {
-    let mappedConnections: string[] = [];
+    const mappedConnections: string[] = [];
     chatConnections.map((c) => {
       if (chatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
       if (mappedConnections.includes(c.roomGuid)) return;
@@ -60,7 +60,7 @@ function ChatPage() {
 
   // Starts a SignalR connection for each room's voice chat
   useEffect(() => {
-    let mappedConnections: string[] = [];
+    const mappedConnections: string[] = [];
     voiceChatConnections.map((c) => {
       if (voiceChatConnections.find((c) => c.roomGuid == selectedRoom?.guid)?.connection.state == HubConnectionState.Connected) return;
       if (mappedConnections.includes(c.roomGuid)) return;

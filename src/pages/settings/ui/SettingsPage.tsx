@@ -19,19 +19,19 @@ import { ScrollArea } from "@/shared/ui/ScrollArea";
 import { CurrentUserContext } from "@/entities/User/lib/providers/CurrentUserProvider";
 
 function SettingsPage() {
-  let { isDesktop } = useResponsiveness();
+  const { isDesktop } = useResponsiveness();
 
   const isSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.isOpen);
   const setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
 
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
 
-  let [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  let [isAnyDialogOpen, setIsAnyDialogOpen] = useState(false);
-  let [isAnyDialogOpenDelayed, setIsAnyDialogOpenDelayed] = useState(false);
+  const [isAnyDialogOpen, setIsAnyDialogOpen] = useState(false);
+  const [isAnyDialogOpenDelayed, setIsAnyDialogOpenDelayed] = useState(false);
 
-  let [selectedTab, setSelectedTab] = useState(SettingsTabsEnum.Account);
+  const [selectedTab, setSelectedTab] = useState(SettingsTabsEnum.Account);
 
   useEffect(() => {
     if (!currentUser) return setIsSettingsOpen(false);
@@ -52,7 +52,7 @@ function SettingsPage() {
 
   function handleEscapePress() {
     if (isAnyDialogOpenDelayed) return;
-    let focusedItemTagName = document.activeElement?.tagName;
+    const focusedItemTagName = document.activeElement?.tagName;
     if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || focusedItemTagName === "VIDEO") return;
     setIsSettingsOpen(false);
   }

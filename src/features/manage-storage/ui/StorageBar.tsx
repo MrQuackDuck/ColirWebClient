@@ -25,22 +25,22 @@ interface StorageBarProps {
 
 function StorageBar(props: StorageBarProps) {
   const t = useTranslation();
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let getJwt = useJwt();
-  let { theme } = useTheme();
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const getJwt = useJwt();
+  const { theme } = useTheme();
 
-  let [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
-  let [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
-  let [isClearingDialogOpen, setIsClearingDialogOpen] = useState<boolean>(false);
-  let [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
+  const [isClearingDialogOpen, setIsClearingDialogOpen] = useState<boolean>(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState<boolean>(false);
 
-  let [totalFilesCount, setTotalFilesCount] = useState<number>(0);
-  let [deletedFilesCount, setDeletedFilesCount] = useState<number>(0);
+  const [totalFilesCount, setTotalFilesCount] = useState<number>(0);
+  const [deletedFilesCount, setDeletedFilesCount] = useState<number>(0);
 
   // Opens a SiganlR connection to the server to "ClearRoom" hub and calls the "Clear" method
   function startClearing() {
-    let tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
-    let connection = new HubConnectionBuilder()
+    const tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
+    const connection = new HubConnectionBuilder()
       .withUrl(`${API_URL}/ClearRoom?roomGuid=${props.room.guid}`, {
         accessTokenFactory: () => tokenFactory.getAccessToken()
       })

@@ -2,7 +2,7 @@ export const importMarkdownFile = async (tab, languageCode) => {
   try {
     const module = await import(`../../../assets/faq/${tab}/${tab}_${languageCode}.md`);
     return module.default;
-  } catch (error) {
+  } catch {
     // Fallback to English if specific language file not found
     if (languageCode !== "en") {
       try {

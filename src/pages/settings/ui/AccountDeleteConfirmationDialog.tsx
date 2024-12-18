@@ -17,8 +17,8 @@ interface AccountDeleteConfirmationDialogProps {
 
 function AccountDeleteConfirmationDialog(props: AccountDeleteConfirmationDialogProps) {
   const t = useTranslation();
-  let [enteredHexId, setEnteredHexId] = useState("");
-  let [deleteButtonEnabled, setDeleteButtonEnabled] = useState(false);
+  const [enteredHexId, setEnteredHexId] = useState("");
+  const [deleteButtonEnabled, setDeleteButtonEnabled] = useState(false);
 
   useEffect(() => {
     if (decimalToHexString(props.hexId) == enteredHexId.toUpperCase()) setDeleteButtonEnabled(true);

@@ -11,7 +11,7 @@ export const LanguageSettingsContext = createContext<{
 });
 
 const LanguageSettingsProvider = ({ children }) => {
-  let { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
+  const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [currentLanguage, setCurrentLanguage] = useState<string>(getFromLocalStorage("currentLanguage") ?? "en");
 
   function saveAllToLocalStorage() {

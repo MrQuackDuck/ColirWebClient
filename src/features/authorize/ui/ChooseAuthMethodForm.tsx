@@ -18,8 +18,8 @@ function ChooseAuthMethodForm({ onAnonymousMethodChosen }: { onAnonymousMethodCh
   const showErrorToast = useErrorToast();
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
 
   const authenticateViaGitHub = () => {
     enableLoading();

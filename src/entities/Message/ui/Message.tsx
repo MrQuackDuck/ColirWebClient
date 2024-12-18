@@ -62,17 +62,17 @@ const Message = forwardRef(
   ) => {
     const t = useTranslation();
     const { theme } = useTheme();
-    let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+    const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
     const showInfoToast = useInfoToast();
-    let [isButtonDeleteConfirmationShown, setIsButtonDeleteConfirmationShown] = useState<boolean>(false);
-    let [isDeleteConfirmationDialogShown, setIsDeleteConfirmationDialogShown] = useState<boolean>(false);
-    let [isEditMode, setIsEditMode] = useState<boolean>(false);
-    let [editedContent, setEditedContent] = useState<string>(message.content);
-    let [shiftPressed, setShiftPressed] = useState<boolean>(false);
-    let textAreaRef = useRef<any>();
-    let decryptedContent: string | undefined = decryptString(message.content, decryptionKey);
-    let decryptedRepliedMessageContent = repliedMessage ? decryptString(repliedMessage.content, decryptionKey) : undefined;
-    let isReplyToCurrentUser = repliedMessage && repliedMessage.authorHexId == currentUser?.hexId;
+    const [isButtonDeleteConfirmationShown, setIsButtonDeleteConfirmationShown] = useState<boolean>(false);
+    const [isDeleteConfirmationDialogShown, setIsDeleteConfirmationDialogShown] = useState<boolean>(false);
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+    const [editedContent, setEditedContent] = useState<string>(message.content);
+    const [shiftPressed, setShiftPressed] = useState<boolean>(false);
+    const textAreaRef = useRef<any>();
+    const decryptedContent: string | undefined = decryptString(message.content, decryptionKey);
+    const decryptedRepliedMessageContent = repliedMessage ? decryptString(repliedMessage.content, decryptionKey) : undefined;
+    const isReplyToCurrentUser = repliedMessage && repliedMessage.authorHexId == currentUser?.hexId;
     const messageContentRef = useRef<HTMLDivElement>(null);
     const currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
 
@@ -114,7 +114,7 @@ const Message = forwardRef(
     }
 
     function addOrRemoveReaction(reaction: string) {
-      let reactionId = message.reactions.find((r) => r.authorHexId == currentUser?.hexId && r.symbol == reaction)?.id;
+      const reactionId = message.reactions.find((r) => r.authorHexId == currentUser?.hexId && r.symbol == reaction)?.id;
 
       if (reactionId) onReactionRemoved(reactionId);
       else onReactionAdded(message.id, reaction);
@@ -187,8 +187,8 @@ const Message = forwardRef(
       onDeleteClicked(message.id);
     }
 
-    let [keyUpHandler] = useState(() => handleKeyUp);
-    let [keyDownHandler] = useState(() => handleKeyDown);
+    const [keyUpHandler] = useState(() => handleKeyUp);
+    const [keyDownHandler] = useState(() => handleKeyDown);
 
     function handleMouseEnter() {
       if (message.authorHexId != currentUser?.hexId) return;
@@ -224,7 +224,6 @@ const Message = forwardRef(
     // Preventing context menu on the attachments and the reaction bar (because it's already handled by the ReactionBar component)
     function validateContextMenu(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
       if (event.target instanceof HTMLElement && !isContextMenuAllowed(event.target, 8)) {
-        event.target.parentElement?.parentElement;
         event.preventDefault();
         event.stopPropagation();
       }
@@ -314,14 +313,14 @@ const Message = forwardRef(
                   </span>
                 )}
                 {isEditMode && (
-                  <EditArea 
+                  <EditArea
                     textAreaRef={textAreaRef}
                     handleEditInputKeyDown={handleEditInputKeyDown}
                     setEditedContent={setEditedContent}
                     editedContent={editedContent}
                     onEditModeDisabled={disableEditMode}
                     onFinishedEditing={finishEditing}
-                    />
+                  />
                 )}
 
                 {message.attachments.length > 0 && <AttachmentsSection decryptionKey={decryptionKey} attachments={message.attachments} />}

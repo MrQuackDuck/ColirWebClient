@@ -4,9 +4,7 @@ import { Button } from "@/shared/ui/Button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/ui/DropdownMenu";
 import { MoonIcon, SunIcon } from "lucide-react";
 
-type Props = {};
-
-function ThemeButton({}: Props) {
+function ThemeButton() {
   const t = useTranslation();
   const { theme, setTheme } = useTheme();
 

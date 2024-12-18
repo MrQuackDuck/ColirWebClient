@@ -2,9 +2,7 @@ import { CrownIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 import { useTranslation } from "../lib/hooks/useTranslation";
 
-type Props = {};
-
-function RoomOwnerIcon({}: Props) {
+function RoomOwnerIcon() {
   const t = useTranslation();
 
   return (

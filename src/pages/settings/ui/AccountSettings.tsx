@@ -29,14 +29,14 @@ function AccountSettings(props: AccountSettingsProps) {
   const t = useTranslation();
   const showInfoToast = useInfoToast();
   const showErrorToast = useErrorToast();
-  let { isDesktop } = useResponsiveness();
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
-  let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
-  let setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
-  let logOut = useContextSelector(AuthContext, (c) => c.logOut);
+  const { isDesktop } = useResponsiveness();
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
+  const setIsSettingsOpen = useContextSelector(SettingsOpenCloseContext, (c) => c.setIsOpen);
+  const logOut = useContextSelector(AuthContext, (c) => c.logOut);
 
   const formSchema = z.object({
     username: z.string().min(2, t("USERNAME_MUST_BE_AT_LEAST_N_CHARACTERS", 2)).max(50, t("USERNAME_CANT_BE_LONGER_THAN_N_CHARACTERS", 50))

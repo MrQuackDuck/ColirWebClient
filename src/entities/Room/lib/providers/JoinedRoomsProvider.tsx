@@ -22,12 +22,12 @@ export const JoinedRoomsContext = createContext<{
 
 const JoinedRoomsProvider = ({ children }) => {
   const showErrorToast = useErrorToast();
-  let { enableLoading, disableLoading } = useContextSelector(LoadingContext, (c) => c);
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
+  const { enableLoading, disableLoading } = useContextSelector(LoadingContext, (c) => c);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
   const [joinedRooms, setJoinedRooms] = useState<RoomModel[]>([]);
   const [isThereAnyJoinedRoom, setIsThereAnyJoinedRoom] = useState<boolean>(joinedRooms.length > 0);
-  let setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
+  const setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
 
   function updateRooms(withLoading: boolean = false) {
     if (withLoading) enableLoading();

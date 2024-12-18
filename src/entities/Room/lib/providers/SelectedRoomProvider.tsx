@@ -12,7 +12,7 @@ export const SelectedRoomContext = createContext<{
 });
 
 const SelectedRoomProvider = ({ children }) => {
-  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+  const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
   const [selectedRoom, setSelectedRoom] = useState<RoomModel>(joinedRooms?.[0]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const SelectedRoomProvider = ({ children }) => {
 
   useEffect(() => {
     if (!joinedRooms) return;
-    let currentRoom = joinedRooms?.find((room) => room.guid === selectedRoom?.guid);
+    const currentRoom = joinedRooms?.find((room) => room.guid === selectedRoom?.guid);
     if (currentRoom) setSelectedRoom(currentRoom);
   }, [joinedRooms]);
 

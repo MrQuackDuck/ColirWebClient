@@ -19,7 +19,7 @@ function VoiceChatUser({ voiceChatUser, user, isTalking, couldDecrypt, className
   const whiteHex = 16777215;
   const { colorString } = useAdaptiveColor(user ? user.hexId : whiteHex);
 
-  let [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>

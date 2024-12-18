@@ -16,8 +16,8 @@ interface StatisticsDialogProps {
 
 function StatisticsDialog({ isStatsOpen, setIsStatsOpen }: StatisticsDialogProps) {
   const t = useTranslation();
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let [statistics, setStatistics] = useState<UserStatisticsModel | undefined>(currentUser?.userStatistics);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const [statistics, setStatistics] = useState<UserStatisticsModel | undefined>(currentUser?.userStatistics);
 
   useEffect(() => {
     if (!isStatsOpen) return;

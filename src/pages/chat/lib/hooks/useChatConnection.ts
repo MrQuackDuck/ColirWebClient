@@ -50,7 +50,7 @@ export const useChatConnection = (
 
   const playPingSound = () => {
     if (isPingSoundDisabledRef.current) return;
-    let audio = new Audio(pingAudio);
+    const audio = new Audio(pingAudio);
     audio.volume = pingSoundVolumeRef.current / 100;
     audio.play();
   };
@@ -58,7 +58,7 @@ export const useChatConnection = (
   const verifyUsersPresenceOnAllRooms = () => {
     if (!joinedRoomsRef.current || !currentUser) return;
 
-    let usersToKeep: number[] = [];
+    const usersToKeep: number[] = [];
     joinedRoomsRef.current.forEach((r) => {
       r.joinedUsers.forEach((u) => {
         usersToKeep.push(u.hexId);
@@ -82,8 +82,8 @@ export const useChatConnection = (
             // If there any unread messages, fetch the whole range of messages from the first unread to the last message
             if (unreadRepliedResponse.content.length > 0) {
               setUnreadReplies((prevUnreadReplies) => [...prevUnreadReplies, ...unreadRepliedResponse.content]);
-              let lastMessage = lastMessageResponse.content[0];
-              let firstUnreadMessage = unreadRepliedResponse.content[0];
+              const lastMessage = lastMessageResponse.content[0];
+              const firstUnreadMessage = unreadRepliedResponse.content[0];
               connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: firstUnreadMessage.id, endId: lastMessage.id }).then((response) => {
                 setMessages((prevMessages) => {
                   if (!response?.content) return prevMessages;
@@ -145,7 +145,7 @@ export const useChatConnection = (
           if (selectedRoomRef?.current?.guid == roomGuid) showInfoToast("User joined", `${user.username} has joined the room.`);
           setUsers((prevUsers) => [...prevUsers, user]);
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             target?.joinedUsers.push(user);
             return [...prevRooms];
           });
@@ -153,7 +153,7 @@ export const useChatConnection = (
 
         connection.on("UserLeft", (hexId) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) target.joinedUsers = target.joinedUsers.filter((u) => u.hexId != hexId);
             return [...prevRooms];
           });
@@ -168,7 +168,7 @@ export const useChatConnection = (
 
         connection.on("UserKicked", (hexId) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) target.joinedUsers = target.joinedUsers.filter((u) => u.hexId != hexId);
             return [...prevRooms];
           });
@@ -176,7 +176,7 @@ export const useChatConnection = (
           // If the current user leaves, remove the connection and the room
           if (currentUser.hexId == hexId) {
             setChatConnections((prevConnections) => [...prevConnections.filter((c) => c.roomGuid != roomGuid)]);
-            let newRooms = [...joinedRoomsRef.current.filter((r) => r.guid != roomGuid)];
+            const newRooms = [...joinedRoomsRef.current.filter((r) => r.guid != roomGuid)];
             setJoinedRooms(newRooms);
             setMessages((prevMessages) => prevMessages.filter((m) => m.roomGuid != roomGuid));
             if (newRooms.length > 0 && selectedRoomRef.current.guid == roomGuid) setSelectedRoom(newRooms[0]);
@@ -187,7 +187,7 @@ export const useChatConnection = (
 
         connection.on("RoomRenamed", (newName) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) target.name = newName;
             return [...prevRooms];
           });
@@ -199,12 +199,12 @@ export const useChatConnection = (
         });
 
         connection.on("RoomSizeChanged", (newSize) => {
-          let target = joinedRoomsRef.current.find((r) => r.guid == roomGuid);
+          const target = joinedRoomsRef.current.find((r) => r.guid == roomGuid);
           if (target?.usedMemoryInBytes == newSize) return;
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) {
-              let prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
+              const prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
               target.freeMemoryInBytes = prevSize - newSize;
               target.usedMemoryInBytes = newSize;
             }
@@ -224,9 +224,9 @@ export const useChatConnection = (
 
           // Also clears the room's memory
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) {
-              let prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
+              const prevSize = target.freeMemoryInBytes + target.usedMemoryInBytes;
               target.freeMemoryInBytes = prevSize;
               target.usedMemoryInBytes = 0;
             }
@@ -249,7 +249,7 @@ export const useChatConnection = (
 
         connection.on("UserDeleted", (hexId) => {
           setJoinedRooms((prevRooms) => {
-            let target = prevRooms.find((r) => r.guid == roomGuid);
+            const target = prevRooms.find((r) => r.guid == roomGuid);
             if (target) target.joinedUsers = target.joinedUsers.filter((u) => u.hexId != hexId);
             return [...prevRooms];
           });
@@ -281,9 +281,9 @@ export const useChatConnection = (
     if (!joinedRooms) return;
 
     verifyUsersPresenceOnAllRooms();
-    let tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
+    const tokenFactory: AccessTokenFactory = new AccessTokenFactory(getJwt, 60);
     joinedRooms.map((r) => {
-      let connection = new HubConnectionBuilder()
+      const connection = new HubConnectionBuilder()
         .withUrl(`${API_URL}/Chat?roomGuid=${r.guid}`, {
           accessTokenFactory: () => tokenFactory.getAccessToken()
         })

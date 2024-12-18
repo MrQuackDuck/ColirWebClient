@@ -7,17 +7,17 @@ import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function AnonymousLoginForm({ onBack }: { onBack: () => void }) {
   const showErrorToast = useErrorToast();
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
-  let authorize = useContextSelector(AuthContext, (c) => c.authorize);
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
+  const authorize = useContextSelector(AuthContext, (c) => c.authorize);
 
   const authorizeAsAnonymous = (username) => {
     enableLoading();
     AuthService.AnonymousLogin(username)
       .then((response) => {
         if (response["status"] !== 200) throw Error;
-        let jwtToken = response["data"]["jwtToken"];
-        let refreshToken = response["data"]["refreshToken"];
+        const jwtToken = response["data"]["jwtToken"];
+        const refreshToken = response["data"]["refreshToken"];
         authorize(jwtToken, refreshToken);
       })
       .catch(() => {

@@ -4,7 +4,7 @@ export const useInvertedScrollArea = () => {
   const { scrollRef, contentRef, scrollToBottom } = useStickToBottom({
     initial: "instant",
     resize: "smooth",
-    stiffness: 0.08,
+    stiffness: 0.08
   });
 
   return { scrollRef, contentRef, scrollToBottom };

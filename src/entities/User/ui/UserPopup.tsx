@@ -35,9 +35,10 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
     selectedRoom.joinedUsers.find((u) => u.hexId === user?.hexId) != null; // User must be in the room
 
   function kickUser() {
+    if (!user?.hexId) return;
     RoomService.KickMember({
       roomGuid: selectedRoom.guid,
-      targetHexId: user?.hexId!
+      targetHexId: user?.hexId
     }).then(() => {
       setIsKickConfirmationShown(false);
     });
@@ -50,7 +51,7 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
   }
 
   function handleSliderChange(value: number[]) {
-    setVolumeForUser(user?.hexId!, value[0]);
+    setVolumeForUser(user?.hexId ?? 0, value[0]);
   }
 
   return (
@@ -64,10 +65,10 @@ const UserPopup = React.memo(function UserPopup({ user, colorString }: UserPopup
         <p>
           <span className="font-medium">{t("REGISTRATION_DATE")}</span>: {formatDate(user?.registrationDate)}
         </p>
-        {currentUser?.hexId != user?.hexId && (
+        {currentUser?.hexId != user?.hexId && user?.hexId && (
           <div className="flex flex-row items-center gap-1 pt-1">
             <p className="font-semibold flex-shrink-0">{t("VOLUME")}:</p>
-            <Slider className="cursor-pointer" value={[userVolumes[user?.hexId!] ?? 50]} onValueChange={handleSliderChange} step={0.1} />
+            <Slider className="cursor-pointer" value={[userVolumes[user?.hexId] ?? 50]} onValueChange={handleSliderChange} step={0.1} />
           </div>
         )}
       </div>

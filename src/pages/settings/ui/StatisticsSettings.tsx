@@ -27,9 +27,9 @@ function StatisticsSettings() {
   const setIsFaqOpen = useContextSelector(FaqControlContext, (c) => c.setIsFaqOpen);
   const setSelectedFaqTab = useContextSelector(FaqControlContext, (c) => c.setSelectedFaqTab);
 
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
-  let userSettings = currentUser?.userSettings;
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const updateCurrentUser = useContextSelector(CurrentUserContext, (c) => c.updateCurrentUser);
+  const userSettings = currentUser?.userSettings;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

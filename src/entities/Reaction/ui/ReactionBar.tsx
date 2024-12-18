@@ -29,8 +29,8 @@ interface ReactionElement {
 
 const ReactionBar = (props: ReactionBarProps) => {
   const t = useTranslation();
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let users = useContextSelector(UsersContext, (c) => c.users);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const users = useContextSelector(UsersContext, (c) => c.users);
   const [reactionElements, setReactionElements] = useState<ReactionElement[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [currentReactionInDialog, setCurrentReactionInDialog] = useState<string | null>(props.reactions[0]?.symbol);

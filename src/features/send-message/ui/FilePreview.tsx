@@ -9,7 +9,7 @@ interface FilePreviewProps {
 }
 
 function FilePreview(props: FilePreviewProps) {
-  let { theme } = useTheme();
+  const { theme } = useTheme();
   function isImage(file: File) {
     return file.type.startsWith("image");
   }

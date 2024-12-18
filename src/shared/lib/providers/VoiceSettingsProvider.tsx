@@ -23,7 +23,7 @@ export const VoiceSettingsContext = createContext<{
 });
 
 const VoiceSettingsProvider = ({ children }) => {
-  let { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
+  const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [voiceInputDevice, setVoiceInputDevice] = useState<string>(getFromLocalStorage("voiceInputDevice") || "");
   const [voiceInputVolume, setVoiceInputVolume] = useState<number>(getFromLocalStorage("voiceInputVolume") || 50);
   const [voiceOutputDevice, setVoiceOutputDevice] = useState<string>(getFromLocalStorage("voiceOutputDevice") || "");

@@ -10,7 +10,7 @@ interface ColorElementProps {
 }
 
 function HexId({ color, isSelected, onSelected, className }: ColorElementProps) {
-  let { colorString } = useAdaptiveColor(color);
+  const { colorString } = useAdaptiveColor(color);
 
   return (
     <div

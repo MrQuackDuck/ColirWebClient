@@ -46,13 +46,13 @@ function RoomTab({
   const [leaveConfirmationOpened, setLeaveConfirmationOpened] = useState(false);
   const [roomSettingsOpened, setRoomSettingsOpened] = useState(false);
   const [deleteConfirmationOpened, setDeleteConfirmationOpened] = useState(false);
-  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
-  let setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
-  let setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let setEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.setEncryptionKey);
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
-  let roomEncryptionKey = getEncryptionKey(room.guid);
+  const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  const setSelectedRoom = useContextSelector(SelectedRoomContext, (c) => c.setSelectedRoom);
+  const setJoinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.setJoinedRooms);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const setEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.setEncryptionKey);
+  const getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
+  const roomEncryptionKey = getEncryptionKey(room.guid);
 
   const formSchema = z.object({
     roomName: z
@@ -129,7 +129,7 @@ function RoomTab({
       RoomService.RenameRoom({ roomGuid: room.guid, newName: values.roomName })
         .then(() => {
           setJoinedRooms((rooms) => {
-            let target = rooms.find((r) => r.guid == room.guid);
+            const target = rooms.find((r) => r.guid == room.guid);
             if (target) target.name = values.roomName;
             return [...rooms];
           });

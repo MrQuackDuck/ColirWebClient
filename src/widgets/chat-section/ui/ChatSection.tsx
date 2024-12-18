@@ -46,20 +46,20 @@ interface ChatSectionProps {
 function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }: ChatSectionProps) {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
-  let mainSection = useRef<any>();
-  let messagesEnd = useRef<any>();
-  let messagesStart = useRef<any>();
-  let users = useContextSelector(UsersContext, (c) => c.users);
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
-  let [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
-  let [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
-  let [messagesLoaded, setMessagesLoaded] = useState(false);
-  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
-  let messages = useContextSelector(MessagesContext, (m) => m.messages);
-  let setMessages = useContextSelector(MessagesContext, (m) => m.setMessages);
-  let unreadReplies = useContextSelector(MessagesContext, (c) => c.unreadReplies);
-  let setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
+  const mainSection = useRef<any>();
+  const messagesEnd = useRef<any>();
+  const messagesStart = useRef<any>();
+  const users = useContextSelector(UsersContext, (c) => c.users);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const [messageToReply, setMessageToReply] = useState<MessageModel | null>(null);
+  const [messageToReplyAuthor, setMessageToReplyAuthor] = useState<UserModel | null>(null);
+  const [currentChatVariant, setCurrentChatVariant] = useState<ChatInputVariant>("connecting");
+  const [messagesLoaded, setMessagesLoaded] = useState(false);
+  const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  const messages = useContextSelector(MessagesContext, (m) => m.messages);
+  const setMessages = useContextSelector(MessagesContext, (m) => m.setMessages);
+  const unreadReplies = useContextSelector(MessagesContext, (c) => c.unreadReplies);
+  const setUnreadReplies = useContextSelector(MessagesContext, (c) => c.setUnreadReplies);
   const isLoadingMoreMessages = useRef<boolean>(false);
   const selectedRoomRef = useRef(selectedRoom);
   const { scrollRef, contentRef, scrollToBottom } = useInvertedScrollArea();
@@ -74,19 +74,19 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   const filteredMessages = useMemo(() => {
     return messages.filter((m) => m.roomGuid === room.guid).sort((a, b) => a.id - b.id);
   }, [messages, room]);
-  let { isDesktop } = useResponsiveness();
+  const { isDesktop } = useResponsiveness();
 
   const messageToReplyRef = useRef(messageToReply);
   useEffect(() => {
     messageToReplyRef.current = messageToReply;
   }, [messageToReply]);
 
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
-  let roomDecryptionKey = getEncryptionKey(room?.guid);
+  const getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
+  const roomDecryptionKey = getEncryptionKey(room?.guid);
 
-  let [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
-  let chatConnections = useContextSelector(ChatConnectionsContext, (c) => c.chatConnections);
-  let selectedRoomConnection = useMemo(() => chatConnections.find((c) => c.roomGuid == room.guid), [chatConnections, room?.guid]);
+  const [roomsWithNoMoreMessagesToLoad, setRoomsWithNoMoreMessagesToLoad] = useState<string[]>([]);
+  const chatConnections = useContextSelector(ChatConnectionsContext, (c) => c.chatConnections);
+  const selectedRoomConnection = useMemo(() => chatConnections.find((c) => c.roomGuid == room.guid), [chatConnections, room?.guid]);
   const selectedRoomConnectionRef = useRef(selectedRoomConnection);
   useEffect(() => {
     selectedRoomConnectionRef.current = selectedRoomConnection;
@@ -103,13 +103,13 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     try {
       if (message.attachments.length > 0) attachmentIds = (await UploadService.UploadAttachments({ roomGuid: room.guid, files: message.attachments })).data;
     } catch (e: any) {
-      let error = e?.response.data as ErrorResponse;
+      const error = e?.response.data as ErrorResponse;
 
       if (error.errorCode == ErrorCode.NotEnoughSpace) showErrorToast(t("NOT_ENOUGH_SPACE"), t("THERE_IS_NOT_ENOUGH_SPACE_TO_UPLOAD_ATTACHMENTS"));
       else showErrorToast(t("COULD_NOT_UPLOAD_ATTACHMENTS"), t("UNKNOWN_ERROR_OCCURRED_NOTIFY_DEVELOPER"));
     }
 
-    let model: SendMessageModel = {
+    const model: SendMessageModel = {
       content: message.content,
       attachmentsIds: attachmentIds,
       replyMessageId: messageToReply?.id
@@ -202,7 +202,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
 
   function scrollToMessage(messageId: number, repeatCall: boolean = true) {
     if (filteredMessagesRef.current.find((m) => m.id == messageId) != null) {
-      let messageRef = messageElementsRefs.current.get(messageId);
+      const messageRef = messageElementsRefs.current.get(messageId);
       if (messageRef) {
         messageRef.scrollIntoView({ block: "center", behavior: "smooth" });
         return;
@@ -210,7 +210,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     }
 
     if (!repeatCall) return;
-    let nearestMessageId = filteredMessagesRef.current.find((m) => m.id > messageId)?.id;
+    const nearestMessageId = filteredMessagesRef.current.find((m) => m.id > messageId)?.id;
     selectedRoomConnectionRef.current?.connection.invoke<SignalRHubResponse<MessageModel[]>>("GetMessagesRange", { startId: messageId, endId: nearestMessageId }).then((response) => {
       setMessages((prevMessages) => distinctMessages([...prevMessages, ...response.content]));
       setTimeout(() => {
@@ -221,7 +221,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   }
 
   function highlightMessage(messageId: number) {
-    let messageRef = messageElementsRefs.current.get(messageId);
+    const messageRef = messageElementsRefs.current.get(messageId);
     if (messageRef) {
       messageRef.classList.add("outline");
       setTimeout(() => messageRef.classList.remove("outline"), 1000);
@@ -293,7 +293,7 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
   }, [selectedRoom]);
 
   function updateLastLocalMessage() {
-    let lastMessage = filteredMessages[filteredMessages.length - 1];
+    const lastMessage = filteredMessages[filteredMessages.length - 1];
     lastMessageIdScrolledToBottom.current = lastMessage?.id;
   }
 
@@ -323,11 +323,11 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
       return updateLastLocalMessage();
     }
 
-    let lastMessage = filteredMessages[filteredMessages.length - 1];
+    const lastMessage = filteredMessages[filteredMessages.length - 1];
     const hasNewMessage = messages.length > previousMessageCount && lastMessageIdScrolledToBottom.current != lastMessage?.id;
     lastMessageIdScrolledToBottom.current = lastMessage?.id;
 
-    let theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => hasNewMessage && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
+    const theLastMessageIsNewAndCurrentUserIsAuthor: () => boolean = () => hasNewMessage && lastMessage && lastMessage.authorHexId == currentUser?.hexId;
 
     // Scroll to the bottom when the user sends a message
     if (theLastMessageIsNewAndCurrentUserIsAuthor()) scrollToBottomAndUpdateLastMessage(true);
@@ -367,10 +367,10 @@ function ChatSection({ room, setAsideVisibility, setVoiceChatSectionVisibility }
     setMessageToReply(null);
   }, [room.guid]);
 
-  let [downButtonVisible, setDownButtonVisible] = useState(false);
+  const [downButtonVisible, setDownButtonVisible] = useState(false);
   function handleScroll() {
     if (!scrollRef.current) return;
-    let isNearBottom = scrollRef.current.scrollHeight - scrollRef.current.scrollTop - scrollRef.current.clientHeight < 2000;
+    const isNearBottom = scrollRef.current.scrollHeight - scrollRef.current.scrollTop - scrollRef.current.clientHeight < 2000;
     setDownButtonVisible(!isNearBottom);
   }
 

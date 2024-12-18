@@ -19,13 +19,15 @@ function ReplySection({
   decryptionKey: string;
   onClicked: () => any;
 }) {
-  let decryptedMessage = decryptString(message?.content ?? "", decryptionKey);
+  const decryptedMessage = decryptString(message?.content ?? "", decryptionKey);
 
   return (
     <div className={cn("flex flex-row overflow-hidden text-ellipsis pl-2.5 pr-3 h-5 justify-between items-center w-[100%]", className)}>
       <div onClick={onClicked} className="flex flex-row cursor-pointer overflow-hidden text-ellipsis items-center text-[11px] gap-1 select-none">
         <CornerUpRightIcon className="shrink-0 w-3 h-3" />
-        <div className="shrink-0"><Username className="shrink-0 text-[12px]" user={sender} /></div>
+        <div className="shrink-0">
+          <Username className="shrink-0 text-[12px]" user={sender} />
+        </div>
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
           <span className="block flex-row overflow-hidden text-ellipsis whitespace-nowrap mr-1">
             {decryptedMessage}

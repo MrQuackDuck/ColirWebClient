@@ -18,16 +18,16 @@ function AuthForm({ className }: { className?: string }) {
   const [authType, setAuthType] = useState<AuthorizationType>(null);
   const [queueToken, setQueueToken] = useState("");
   const [queryParams] = useSearchParams();
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
-  let authorize = useContextSelector(AuthContext, (c) => c.authorize);
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
+  const authorize = useContextSelector(AuthContext, (c) => c.authorize);
   const navigate = useNavigate();
   const updateRooms = useContextSelector(JoinedRoomsContext, (c) => c.updateRooms);
 
   useEffect(() => {
     enableLoading();
-    let code = queryParams.get("code");
-    let state = queryParams.get("state");
+    const code = queryParams.get("code");
+    const state = queryParams.get("state");
 
     const processResponse = (responsePromise: Promise<AxiosResponse>, authType: AuthorizationType) => {
       responsePromise

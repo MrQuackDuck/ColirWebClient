@@ -14,8 +14,8 @@ export class AccessTokenFactory {
       this.cachedToken = await this.getToken();
       this.lastTimeCached = new Date();
     } else {
-      let now = new Date();
-      let diff = now.getTime() - this.lastTimeCached.getTime();
+      const now = new Date();
+      const diff = now.getTime() - this.lastTimeCached.getTime();
       if (diff > this.tokenCacheInSeconds * 1000) {
         this.cachedToken = await this.getToken();
         this.lastTimeCached = new Date();
@@ -23,5 +23,5 @@ export class AccessTokenFactory {
     }
 
     return this.cachedToken;
-  }
+  };
 }

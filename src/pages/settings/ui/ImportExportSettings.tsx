@@ -11,11 +11,11 @@ function ImportExportSettings() {
   const t = useTranslation();
   const showInfoToast = useInfoToast();
   const showErrorToast = useErrorToast();
-  let fileInputRef = useRef<any>();
-  let { exportSettings, importSettings } = useImportExportSettings();
+  const fileInputRef = useRef<any>();
+  const { exportSettings, importSettings } = useImportExportSettings();
 
   const handleFileSelect = async (e) => {
-    let files = e.target.files as FileList;
+    const files = e.target.files as FileList;
     if (files.length != 1) return;
 
     try {

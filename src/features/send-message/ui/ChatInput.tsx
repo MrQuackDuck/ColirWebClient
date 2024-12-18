@@ -32,15 +32,15 @@ interface ChatInputProps {
 
 function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, encryptionKey, onReplyCancelled, variant = "default", onReplySectionClicked }: ChatInputProps) {
   const t = useTranslation();
-  let textAreaRef = useRef<any>();
-  let fileInputRef = useRef<any>();
-  let topAreaRef = useRef<any>();
+  const textAreaRef = useRef<any>();
+  const fileInputRef = useRef<any>();
+  const topAreaRef = useRef<any>();
   const documentRef = useRef(document);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey && e.keyCode != 86) || e.altKey || e.keyCode == 16 || e.keyCode == 9 || e.keyCode == 32) return;
-      let focusedItemTagName = document.activeElement?.tagName;
+      const focusedItemTagName = document.activeElement?.tagName;
       if (focusedItemTagName === "TEXTAREA" || focusedItemTagName === "INPUT" || (focusedItemTagName === "VIDEO" && e.keyCode == 32)) return;
       if (!textAreaRef.current) return;
       if (e.key === "Enter") e.preventDefault();
@@ -57,9 +57,9 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
       if (isSendingRef.current) return;
       if (e.dataTransfer?.items) {
         for (let i = 0; i < e.dataTransfer.items.length; i++) {
-          let item = e.dataTransfer.items[i];
+          const item = e.dataTransfer.items[i];
           if (item.kind === "file") {
-            let file = item.getAsFile();
+            const file = item.getAsFile();
             if (file) {
               setFiles((prev) => [...prev, file]);
             }
@@ -86,7 +86,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
     textAreaRef.current.textArea.style.height = "42px";
   }
 
-  let [isSending, setIsSending] = React.useState(false);
+  const [isSending, setIsSending] = React.useState(false);
   const isSendingRef = useRef(isSending);
   useEffect(() => {
     isSendingRef.current = isSending;
@@ -118,7 +118,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
 
   function insertAt(index: number, str: string) {
     if (textAreaRef.current.textArea.disabled) return;
-    let value = textAreaRef.current.textArea.value;
+    const value = textAreaRef.current.textArea.value;
     textAreaRef.current.textArea.value = value.substr(0, index) + str + value.substr(index);
     setCursorPosition(index + str.length);
   }
@@ -130,7 +130,7 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
 
     if (event.key == "Enter" && !event.shiftKey) {
       event.preventDefault();
-      let element = event.target as HTMLTextAreaElement;
+      const element = event.target as HTMLTextAreaElement;
 
       if (element.value?.length === 0 && files.length === 0) {
         event.preventDefault();
@@ -152,13 +152,13 @@ function ChatInput({ onSend, messageToReply, messageToReplyAuthor, className, en
     textAreaRef.current.textArea.selectionEnd = index;
   }
 
-  let [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = React.useState<File[]>([]);
   function fileSelected(e) {
-    let files = e.target.files as FileList;
+    const files = e.target.files as FileList;
     if (files.length == 0) return;
 
     for (let i = 0; i < files.length; i++) {
-      let file = files[i];
+      const file = files[i];
       setFiles((prev) => [...prev, file]);
     }
   }

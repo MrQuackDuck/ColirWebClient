@@ -19,9 +19,9 @@ interface PopupWindowProps {
 function PopupWindow(props: PopupWindowProps) {
   const t = useTranslation();
 
-  let [isHidden, setIsHidden] = useState(!props.isOpen);
-  let [isPopupWindowShown, setisPopupWindowShown] = useState(props.isOpen);
-  let { isDesktop } = useResponsiveness();
+  const [isHidden, setIsHidden] = useState(!props.isOpen);
+  const [isPopupWindowShown, setisPopupWindowShown] = useState(props.isOpen);
+  const { isDesktop } = useResponsiveness();
 
   // Additional functionality to set "display: hidden" to the component
   // in order to prevent focusing on hidden elements when the popup is closed

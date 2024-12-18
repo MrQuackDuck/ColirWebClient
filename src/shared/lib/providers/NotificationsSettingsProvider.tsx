@@ -25,7 +25,7 @@ export const NotificationsSettingsContext = createContext<{
 });
 
 const NotificationsSettingsProvider = ({ children }) => {
-  let { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
+  const { getFromLocalStorage, setToLocalStorage } = useLocalStorage();
   const [pingVolume, setPingVolume] = useState<number>(getFromLocalStorage("pingVolume") ?? 50);
   const [isPingSoundDisabled, setIsPingSoundDisabled] = useState<boolean>(getFromLocalStorage("isPingSoundDisabled") ?? false);
 

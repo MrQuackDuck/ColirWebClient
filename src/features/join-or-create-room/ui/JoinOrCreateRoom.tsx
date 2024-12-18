@@ -18,11 +18,11 @@ import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function JoinOrCreateRoom({ onJoinedRoom, onRoomCreated, className }: { onJoinedRoom: (model: RoomModel) => any; onRoomCreated: (model: RoomModel) => any; className?: string }) {
   const t = useTranslation();
-  let showErrorToast = useErrorToast();
-  let enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
-  let disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
-  let setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
-  let setEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.setEncryptionKey);
+  const showErrorToast = useErrorToast();
+  const enableLoading = useContextSelector(LoadingContext, (c) => c.enableLoading);
+  const disableLoading = useContextSelector(LoadingContext, (c) => c.disableLoading);
+  const setUsers = useContextSelector(UsersContext, (c) => c.setUsers);
+  const setEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.setEncryptionKey);
 
   const joinRoom = async (model: JoinRoomModel) => {
     enableLoading();

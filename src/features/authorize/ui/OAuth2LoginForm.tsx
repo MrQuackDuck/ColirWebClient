@@ -12,12 +12,12 @@ import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 
 function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: () => void }) {
   const showErrorToast = useErrorToast();
-  let [step, setStep] = useState(0);
-  let [username, setUsername] = useState("");
-  let [authConnection, setAuthConnection] = useState<HubConnection>();
-  let [proposedHexs, setProposedHexs] = useState<number[]>();
-  let authorize = useContextSelector(AuthContext, (c) => c.authorize);
-  let navigate = useNavigate();
+  const [step, setStep] = useState(0);
+  const [username, setUsername] = useState("");
+  const [authConnection, setAuthConnection] = useState<HubConnection>();
+  const [proposedHexs, setProposedHexs] = useState<number[]>();
+  const authorize = useContextSelector(AuthContext, (c) => c.authorize);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setAuthConnection(new HubConnectionBuilder().withUrl(`${API_URL}/Registration?queueToken=${queueToken}`).configureLogging(LogLevel.Information).build());
@@ -78,8 +78,8 @@ function OAuth2LoginForm({ queueToken, onBack }: { queueToken: string; onBack: (
       ?.invoke<SignalRHubResponse<any>>("FinishRegistration")
       .then((response) => {
         if (response.resultType === SignalRResultType.Error) throw Error;
-        let jwtToken = response.content["jwtToken"].toString();
-        let refreshToken = response.content["refreshToken"].toString();
+        const jwtToken = response.content["jwtToken"].toString();
+        const refreshToken = response.content["refreshToken"].toString();
         authorize(jwtToken, refreshToken);
         navigate("/");
       })

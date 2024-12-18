@@ -26,44 +26,44 @@ import { useErrorToast } from "@/shared/lib/hooks/useErrorToast";
 function VoiceChatSection() {
   const t = useTranslation();
   const showErrorToast = useErrorToast();
-  let currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
-  let currentUserRef = useRef(currentUser);
+  const currentUser = useContextSelector(CurrentUserContext, (c) => c.currentUser);
+  const currentUserRef = useRef(currentUser);
   useEffect(() => {
     currentUserRef.current = currentUser;
   }, [currentUser]);
 
-  let selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
+  const selectedRoom = useContextSelector(SelectedRoomContext, (c) => c.selectedRoom);
 
-  let voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.voiceChatConnections);
+  const voiceChatConnections = useContextSelector(VoiceChatConnectionsContext, (c) => c.voiceChatConnections);
 
-  let joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.joinedVoiceConnection);
-  let joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
+  const joinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.joinedVoiceConnection);
+  const joinedVoiceConnectionRef = useRef(joinedVoiceConnection);
   useEffect(() => {
     joinedVoiceConnectionRef.current = joinedVoiceConnection;
   }, [joinedVoiceConnection]);
 
-  let setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.setJoinedVoiceConnection);
+  const setJoinedVoiceConnection = useContextSelector(VoiceChatConnectionsContext, (c) => c.setJoinedVoiceConnection);
 
-  let joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
+  const joinedRooms = useContextSelector(JoinedRoomsContext, (c) => c.joinedRooms);
 
-  let selectedRoomVoiceChat = voiceChatConnections.find((c) => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
+  const selectedRoomVoiceChat = voiceChatConnections.find((c) => c.roomGuid == selectedRoom.guid && c.connection.state != HubConnectionState.Disconnected);
 
-  let isMuted = useContextSelector(VoiceChatControlsContext, (c) => c.isMuted);
-  let isMutedRef = useRef(isMuted);
+  const isMuted = useContextSelector(VoiceChatControlsContext, (c) => c.isMuted);
+  const isMutedRef = useRef(isMuted);
   useEffect(() => {
     isMutedRef.current = isMuted;
   }, [isMuted]);
 
-  let setIsMuted = useContextSelector(VoiceChatControlsContext, (c) => c.setIsMuted);
+  const setIsMuted = useContextSelector(VoiceChatControlsContext, (c) => c.setIsMuted);
 
-  let isDeafened = useContextSelector(VoiceChatControlsContext, (c) => c.isDeafened);
-  let isDeafenedRef = useRef(isDeafened);
+  const isDeafened = useContextSelector(VoiceChatControlsContext, (c) => c.isDeafened);
+  const isDeafenedRef = useRef(isDeafened);
   useEffect(() => {
     isDeafenedRef.current = isDeafened;
   }, [isDeafened]);
 
-  let getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
-  let [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
+  const getEncryptionKey = useContextSelector(EncryptionKeysContext, (c) => c.getEncryptionKey);
+  const [currentlyTalkingUsers, setCurrentlyTalkingUsers] = useState<CurrentlyTalkingUser[]>([]);
 
   const userVolumes = useContextSelector(UsersVolumeContext, (c) => c.userVolumes);
   const userVolumesRef = useRef(userVolumes);
@@ -104,10 +104,10 @@ function VoiceChatSection() {
     joinedVoiceKeyRef.current = getEncryptionKey(joinedVoiceConnectionRef.current?.roomGuid ?? "") ?? "";
   }, [keyChangeTrigger, joinedVoiceConnection]);
 
-  let mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  let mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
 
-  let [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
+  const [currentlyPlayingAudioTracks, setCurrentlyPlayingAudioTracks] = useState<UserAudioTrack[]>([]);
 
   useEffect(() => {
     currentlyPlayingAudioTracks.forEach((track) => {
@@ -157,12 +157,12 @@ function VoiceChatSection() {
     mediaRecorder.addEventListener("stop", async () => {
       if (audioChunks.length === 0) return;
 
-      let audioBlob = new Blob(audioChunks);
+      const audioBlob = new Blob(audioChunks);
 
       if (!joinedVoiceConnectionRef.current) return;
 
-      let encryptionKey = joinedVoiceKeyRef.current;
-      let blobAsString = await blobToString(audioBlob);
+      const encryptionKey = joinedVoiceKeyRef.current;
+      const blobAsString = await blobToString(audioBlob);
 
       if (!(await isAudioTooQuiet(audioBlob))) {
         joinedVoiceConnectionRef.current?.connection.invoke<SignalRHubResponse<undefined>>("SendVoiceSignal", encryptString(blobAsString, encryptionKey));
@@ -236,9 +236,9 @@ function VoiceChatSection() {
       if (isDeafenedRef.current) return;
       if (!joinedVoiceConnectionRef.current) return;
       if (joinedVoiceConnectionRef.current.joinedUsers.find((u) => u.hexId == issuerId)?.isMuted) return;
-      let decryptionKey = joinedVoiceKeyRef.current;
+      const decryptionKey = joinedVoiceKeyRef.current;
 
-      let decryptedAudio = decryptString(data, decryptionKey);
+      const decryptedAudio = decryptString(data, decryptionKey);
 
       if (decryptedAudio == undefined) {
         // Imitate a silent audio track for 300ms
@@ -249,13 +249,13 @@ function VoiceChatSection() {
         return;
       }
 
-      let audioBlob = await stringToBlob(decryptedAudio);
-      let audioURL = URL.createObjectURL(audioBlob);
+      const audioBlob = await stringToBlob(decryptedAudio);
+      const audioURL = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioURL);
 
       setCurrentlyPlayingAudioTracks((prev) => [...prev, { userHexId: issuerId, track: audio, couldDecrypt: true }]);
 
-      let settingsOutputCoefficient = voiceOutputVolumeRef.current / 100;
+      const settingsOutputCoefficient = voiceOutputVolumeRef.current / 100;
 
       audio.volume = userVolumesRef.current[issuerId] != undefined ? (userVolumesRef.current[issuerId] / 100) * settingsOutputCoefficient : settingsOutputCoefficient;
 
@@ -354,9 +354,9 @@ function VoiceChatSection() {
   }, [voiceInputDevice]);
 
   // Collapsed voice channels (id is the room guid)
-  let [collapsedVoiceChannels, setCollapsedVoiceChannels] = useState<string[]>([]);
+  const [collapsedVoiceChannels, setCollapsedVoiceChannels] = useState<string[]>([]);
 
-  let toggleCollapseVoiceChannel = (roomGuid: string) => {
+  const toggleCollapseVoiceChannel = (roomGuid: string) => {
     if (collapsedVoiceChannels.includes(roomGuid)) setCollapsedVoiceChannels(collapsedVoiceChannels.filter((id) => id != roomGuid));
     else setCollapsedVoiceChannels([...collapsedVoiceChannels, roomGuid]);
   };
@@ -370,7 +370,7 @@ function VoiceChatSection() {
           joinVoiceChat={joinVoiceChat}
           leaveVoiceChat={leaveVoiceChat}
           currentlyTalkingUsers={currentlyTalkingUsers}
-          roomName={joinedRooms.find((r) => r.guid == joinedVoiceConnection.roomGuid)?.name!}
+          roomName={joinedRooms.find((r) => r.guid == joinedVoiceConnection.roomGuid)!.name}
           isCollapsed={collapsedVoiceChannels.includes(joinedVoiceConnection.roomGuid)}
           toggleCollapse={() => toggleCollapseVoiceChannel(joinedVoiceConnection.roomGuid)}
         />

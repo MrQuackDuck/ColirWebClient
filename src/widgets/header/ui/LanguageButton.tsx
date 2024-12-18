@@ -8,7 +8,7 @@ import { useContextSelector } from "use-context-selector";
 
 function LanguageButton() {
   const t = useTranslation();
-  let setCurrentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.setCurrentLanguage);
+  const setCurrentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.setCurrentLanguage);
 
   return (
     <DropdownMenu>

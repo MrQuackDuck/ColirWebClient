@@ -34,7 +34,7 @@ function EncryptedImageViewer({ imageUrl, alternativeText, decryptionKey, imgRef
       const decryptedBlob = await decryptFile(encryptedData, decryptionKey);
       const decryptedUrl = URL.createObjectURL(decryptedBlob);
       setImageSrc(decryptedUrl);
-    } catch (error) {
+    } catch {
       setImageSrc(null);
     } finally {
       setIsLoading(false);

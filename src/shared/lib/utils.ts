@@ -34,12 +34,12 @@ export function decryptString(str: string, key: string): string | undefined {
   if (str.length === 0) return " ";
   try {
     const decrypted = CryptoJS.AES.decrypt(str, key);
-    let decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
+    const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
 
     if (str.length > 0 && decryptedString.length === 0) return undefined;
 
     return decryptedString;
-  } catch (error) {
+  } catch {
     return undefined;
   }
 }
@@ -70,23 +70,28 @@ export async function decryptFile(encryptedData: Blob, secretKey: string): Promi
   return new Blob([byteArray]);
 }
 
-const emojiMap = Object.values(emojiData).flat().reduce((acc, emoji) => {
-  const shortcodes = emoji.name.match(/:[^:]+:/g) || [];
+const emojiMap = Object.values(emojiData)
+  .flat()
+  .reduce(
+    (acc, emoji) => {
+      const shortcodes = emoji.name.match(/:[^:]+:/g) || [];
 
-  shortcodes.forEach(shortcode => {
-    acc[shortcode] = emoji.value;
-  });
-  
-  return acc;
-}, {} as Record<string, string>);
+      shortcodes.forEach((shortcode) => {
+        acc[shortcode] = emoji.value;
+      });
+
+      return acc;
+    },
+    {} as Record<string, string>
+  );
 
 // Replaces emoji shortcodes with their corresponding emoji characters
 export function replaceEmojis(text: string): string {
   return text.replace(/\\?:[^:\s]+:/g, (match) => {
-    if (match.startsWith('\\')) {
+    if (match.startsWith("\\")) {
       return match.slice(1);
     }
-    
+
     return emojiMap[match] || match;
   });
 }

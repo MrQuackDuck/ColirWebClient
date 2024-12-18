@@ -8,8 +8,8 @@ import { useContextSelector } from "use-context-selector";
 
 function LanguageSettings() {
   const t = useTranslation();
-  let currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
-  let setCurrentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.setCurrentLanguage);
+  const currentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.currentLanguage);
+  const setCurrentLanguage = useContextSelector(LanguageSettingsContext, (c) => c.setCurrentLanguage);
 
   return (
     <div className="flex flex-col gap-3.5">

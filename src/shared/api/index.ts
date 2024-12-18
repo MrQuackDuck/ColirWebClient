@@ -6,6 +6,7 @@ import { isDevelopment } from "../lib/utils";
 export const SERVER_URL = isDevelopment() ? `http://localhost:7700` : "https://api.colir.net";
 export const API_URL = `${SERVER_URL}/API`;
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
 const { setToLocalStorage, getFromLocalStorage, removeFromLocalStorage } = useLocalStorage();
 
 const $api = axios.create({
@@ -23,8 +24,8 @@ $api.interceptors.response.use(
   (error) => {
     // Intercept "Unauthorized (401)"
     if (error?.response?.status == 401) {
-      let currentJwtToken = getFromLocalStorage<string>("jwtToken");
-      let currentRefreshToken = getFromLocalStorage<string>("refreshToken");
+      const currentJwtToken = getFromLocalStorage<string>("jwtToken");
+      const currentRefreshToken = getFromLocalStorage<string>("refreshToken");
 
       if (!currentJwtToken || !currentRefreshToken) {
         removeFromLocalStorage("jwtToken");
