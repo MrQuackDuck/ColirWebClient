@@ -8,8 +8,8 @@
 }
 
 @font-face {
-  font-family: CascadiaCode;
-  src: url("/src/assets/fonts/CascadiaCode.woff2");
+  font-family: Consolas;
+  src: url("/src/assets/fonts/Consolas.woff2");
 }
 
 body {
@@ -36,7 +36,7 @@ a:focus-visible {
 
 code * {
   font-size: 12px !important;
-  font-family: CascadiaCode !important;
+  font-family: Consolas, monospace !important;
 }
 
 a:hover {
