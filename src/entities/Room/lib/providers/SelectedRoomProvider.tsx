@@ -22,7 +22,7 @@ export const SelectedRoomProvider = ({ children }) => {
 
   useEffect(() => {
     if (!joinedRooms) return;
-    const currentRoom = joinedRooms?.find((room) => room.guid === selectedRoom?.guid);
+    const currentRoom = joinedRooms?.find((room) => room?.guid === selectedRoom?.guid);
     if (currentRoom) setSelectedRoom(currentRoom);
   }, [joinedRooms]);
 
