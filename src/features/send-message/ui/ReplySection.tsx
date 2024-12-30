@@ -2,7 +2,7 @@ import { CornerUpRightIcon, XCircleIcon } from "lucide-react";
 
 import { MessageModel } from "@/entities/Message";
 import { UserModel, Username } from "@/entities/User";
-import { cn, decryptString } from "@/shared/lib";
+import { cn, decryptString, useTranslation } from "@/shared/lib";
 
 function ReplySection({
   message,
@@ -19,6 +19,7 @@ function ReplySection({
   decryptionKey: string;
   onClicked: () => any;
 }) {
+  const t = useTranslation();
   const decryptedMessage = decryptString(message?.content ?? "", decryptionKey);
 
   return (
@@ -31,7 +32,7 @@ function ReplySection({
         <span className="overflow-hidden text-ellipsis whitespace-nowrap">
           <span className="block flex-row overflow-hidden text-ellipsis whitespace-nowrap mr-1">
             {decryptedMessage}
-            {decryptedMessage === undefined && <span className="text-destructive">{<>t("COULD_NOT_DECRYPT")</>}</span>}
+            {decryptedMessage === undefined && <span className="text-destructive">{t("COULD_NOT_DECRYPT")}</span>}
           </span>
           <div className="flex flex-row gap-1">
             {message?.attachments.map((attachment) => (
