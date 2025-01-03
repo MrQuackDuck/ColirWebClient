@@ -152,6 +152,7 @@
   "COPY": "Копіювати",
   "DOWNLOAD": "Завантажити",
   "ACCOUNT": "Обліковий запис",
+  "APPEARANCE": "Зовнішній вигляд",
   "COLIR_ID_AKA_HEX_ID": "Colir ID (або hex ID)",
   "IT_CANT_BE_CHANGED": "*Не можна змінити",
   "VOICE_SETTINGS": "Налаштування голосу",
@@ -229,5 +230,9 @@
   "ESC_CLOSE": "[Esc] Закрити",
   "ROOM_OWNER": "Власник кімнати",
   "ERROR_CODE": "Код помилки",
-  "SENDING": "Надсилання..."
+  "SENDING": "Надсилання...",
+  "TIME_FORMAT": "Формат часу",
+  "EXAMPLE": "Приклад",
+  "12_HOUR": "12-годинний",
+  "24_HOUR": "24-годинний"
 }

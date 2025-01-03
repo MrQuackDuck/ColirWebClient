@@ -152,6 +152,7 @@
   "COPY": "Copier",
   "DOWNLOAD": "Télécharger",
   "ACCOUNT": "Compte",
+  "APPEARANCE": "Apparence",
   "COLIR_ID_AKA_HEX_ID": "Colir ID (ou ID hexadécimal)",
   "IT_CANT_BE_CHANGED": "*Ne peut pas être modifié",
   "VOICE_SETTINGS": "Paramètres vocaux",
@@ -229,5 +230,9 @@
   "ESC_CLOSE": "[Échap] Fermer",
   "ROOM_OWNER": "Propriétaire de la salle",
   "ERROR_CODE": "Code d'erreur",
-  "SENDING": "Envoi en cours..."
+  "SENDING": "Envoi en cours...",
+  "TIME_FORMAT": "Format de l'heure",
+  "EXAMPLE": "Exemple",
+  "12_HOUR": "12 heures",
+  "24_HOUR": "24 heures"
 }

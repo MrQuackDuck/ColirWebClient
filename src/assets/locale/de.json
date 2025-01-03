@@ -152,6 +152,7 @@
   "COPY": "Kopieren",
   "DOWNLOAD": "Herunterladen",
   "ACCOUNT": "Konto",
+  "APPEARANCE": "Erscheinungsbild",
   "COLIR_ID_AKA_HEX_ID": "Colir ID (oder Hex-ID)",
   "IT_CANT_BE_CHANGED": "*Kann nicht geändert werden",
   "VOICE_SETTINGS": "Spracheinstellungen",
@@ -229,5 +230,9 @@
   "ESC_CLOSE": "[Esc] Schließen",
   "ROOM_OWNER": "Raumbesitzer",
   "ERROR_CODE": "Fehlercode",
-  "SENDING": "Senden..."
+  "SENDING": "Senden...",
+  "TIME_FORMAT": "Zeitformat",
+  "EXAMPLE": "Beispiel",
+  "12_HOUR": "12-Stunden",
+  "24_HOUR": "24-Stunden"
 }

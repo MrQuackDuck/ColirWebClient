@@ -152,6 +152,7 @@
   "COPY": "Копировать",
   "DOWNLOAD": "Скачать",
   "ACCOUNT": "Аккаунт",
+  "APPEARANCE": "Внешний вид",
   "COLIR_ID_AKA_HEX_ID": "Colir ID (или hex ID)",
   "IT_CANT_BE_CHANGED": "*Это нельзя поменять",
   "VOICE_SETTINGS": "Настройки голоса",
@@ -229,5 +230,9 @@
   "ESC_CLOSE": "[Esc] Закрыть",
   "ROOM_OWNER": "Владелец комнаты",
   "ERROR_CODE": "Код ошибки",
-  "SENDING": "Отправка..."
+  "SENDING": "Отправка...",
+  "TIME_FORMAT": "Формат времени",
+  "EXAMPLE": "Пример",
+  "12_HOUR": "12-часовой",
+  "24_HOUR": "24-часовой"
 }

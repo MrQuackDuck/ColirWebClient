@@ -1,5 +1,6 @@
 export { useAdaptiveColor } from "./useAdaptiveColor";
 export { useErrorToast } from "./useErrorToast";
+export { useFormatDate } from "./useFormatDate";
 export { useImportExportSettings } from "./useImportExportSettings";
 export { useInfoToast } from "./useInfoToast";
 export { useInvertedScrollArea } from "./useInvertedScrollArea";

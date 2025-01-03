@@ -9,6 +9,7 @@ import { SettingsTabs as SettingsTabsEnum } from "@/shared/model";
 import { Button, PopupWindow, ScrollArea, Separator, Sheet, SheetContent, SheetDescription, SheetTitle } from "@/shared/ui";
 
 import AccountSettings from "./AccountSettings";
+import AppearanceSettings from "./AppearanceSettings";
 import ImportExportSettings from "./ImportExportSettings";
 import LanguageSettings from "./LanguageSettings";
 import NotificationsSettings from "./NotificationsSettings";
@@ -76,6 +77,7 @@ export function SettingsPage() {
         <ScrollArea className="w-full">
           <div className="w-full pl-4 pr-12 pt-5">
             {selectedTab == SettingsTabsEnum.Account && <AccountSettings dialogOpenClosed={setIsAnyDialogOpen} />}
+            {selectedTab == SettingsTabsEnum.Appearance && <AppearanceSettings />}
             {selectedTab == SettingsTabsEnum.VoiceSettings && <VoiceSettings />}
             {selectedTab == SettingsTabsEnum.Notifications && <NotificationsSettings />}
             {selectedTab == SettingsTabsEnum.Statistics && <StatisticsSettings />}

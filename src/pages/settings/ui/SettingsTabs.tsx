@@ -1,4 +1,4 @@
-import { BarChart3Icon, GlobeIcon, ImportIcon, MegaphoneIcon, UserIcon, Volume2Icon } from "lucide-react";
+import { BarChart3Icon, GlobeIcon, ImportIcon, MegaphoneIcon, Sparkles, UserIcon, Volume2Icon } from "lucide-react";
 
 import { useTranslation } from "@/shared/lib";
 import { SettingsTabs as SettingsTabsEnum } from "@/shared/model";
@@ -19,6 +19,9 @@ function SettingsTabs({ className, selectedTab, setSelectedTab }: SettingsTabsPr
         <HeaderTab>{t("SETTINGS")}</HeaderTab>
         <Tab className="w-full" isSelected={selectedTab == SettingsTabsEnum.Account} onClick={() => setSelectedTab(SettingsTabsEnum.Account)}>
           <UserIcon className="shrink-0 text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("ACCOUNT")}
+        </Tab>
+        <Tab className="w-full" isSelected={selectedTab == SettingsTabsEnum.Appearance} onClick={() => setSelectedTab(SettingsTabsEnum.Appearance)}>
+          <Sparkles className="shrink-0 text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("APPEARANCE")}
         </Tab>
         <Tab className="w-full" isSelected={selectedTab == SettingsTabsEnum.VoiceSettings} onClick={() => setSelectedTab(SettingsTabsEnum.VoiceSettings)}>
           <Volume2Icon className="shrink-0 text-popover-foreground mr-1.5 h-4 w-4" strokeWidth={2.5} /> {t("VOICE_SETTINGS")}

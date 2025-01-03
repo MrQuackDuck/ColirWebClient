@@ -8,7 +8,7 @@ import { useContextSelector } from "use-context-selector";
 import { AttachmentsSection } from "@/entities/Attachment";
 import { ReactionBar } from "@/entities/Reaction";
 import { CurrentUserContext, UserModel, Username } from "@/entities/User";
-import { cn, decryptString, encryptString, LanguageSettingsContext, replaceEmojis, useInfoToast, useTheme, useTranslation } from "@/shared/lib";
+import { cn, decryptString, encryptString, LanguageSettingsContext, replaceEmojis, useFormatDate, useInfoToast, useTheme, useTranslation } from "@/shared/lib";
 import { Button, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, EmojiPicker, Separator, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 
 import { formatText } from "../lib/formatText";
@@ -204,14 +204,7 @@ const Message = forwardRef(
       setShiftPressed(event.shiftKey);
     }
 
-    function formatDate(date) {
-      const now = Moment();
-      const givenDate = Moment(date);
-
-      if (givenDate.isSame(now, "day")) return givenDate.format("h:mm A");
-      if (givenDate.isSame(now.add(1, "day"), "day")) return givenDate.format("MMMM D, h:mm A");
-      return givenDate.format("MMMM D, h:mm A");
-    }
+    const { formatDateShortened, formatFullDate } = useFormatDate();
 
     // Preventing context menu on the attachments and the reaction bar (because it's already handled by the ReactionBar component)
     function validateContextMenu(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
@@ -274,9 +267,9 @@ const Message = forwardRef(
                 <div className="flex row items-center gap-1.5">
                   <Username user={sender} />
                   <Tooltip>
-                    <TooltipTrigger asChild>{<span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px]">{formatDate(message.postDate)}</span>}</TooltipTrigger>
+                    <TooltipTrigger asChild>{<span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px]">{formatDateShortened(message.postDate)}</span>}</TooltipTrigger>
                     <TooltipContent side="right">
-                      <span className="text-[12px] capitalize">{Moment(message.postDate).format("LLLL")}</span>
+                      <span className="text-[12px] capitalize">{formatFullDate(message.postDate)}</span>
                     </TooltipContent>
                   </Tooltip>
                   {message.editDate && (
@@ -286,12 +279,12 @@ const Message = forwardRef(
                         <TooltipTrigger asChild>
                           {
                             <span className="text-slate-400 cursor-default text-[0.625rem] translate-y-[1px] font-medium">
-                              {t("EDITED")} {formatDate(message.editDate)}
+                              {t("EDITED")} {formatDateShortened(message.editDate)}
                             </span>
                           }
                         </TooltipTrigger>
                         <TooltipContent side="right">
-                          <span className="text-[12px] capitalize">{Moment(message.editDate).format("LLLL")}</span>
+                          <span className="text-[12px] capitalize">{formatFullDate(message.editDate)}</span>
                         </TooltipContent>
                       </Tooltip>
                     </>

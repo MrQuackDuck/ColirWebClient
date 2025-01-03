@@ -8,6 +8,7 @@ import { AuthProvider } from "@/features/authorize";
 import { UsersVolumeProvider } from "@/features/control-user-volume";
 import { SettingsOpenCloseProvider } from "@/features/open-close-settings";
 import { EncryptionKeysProvider, LanguageSettingsProvider, LoadingProvider, NotificationsSettingsProvider, ThemeProvider, TranslationProvider, VoiceSettingsProvider } from "@/shared/lib";
+import { TimeFormatSettingsProvider } from "@/shared/lib/providers/TimeFormatProvider";
 import { TooltipProvider } from "@/shared/ui";
 import { ChatConnectionsProvider } from "@/widgets/chat-section";
 
@@ -30,7 +31,9 @@ createRoot(document.getElementById("root")!).render(
                             <SettingsOpenCloseProvider>
                               <VoiceSettingsProvider>
                                 <NotificationsSettingsProvider>
-                                  <App />
+                                  <TimeFormatSettingsProvider>
+                                    <App />
+                                  </TimeFormatSettingsProvider>
                                 </NotificationsSettingsProvider>
                               </VoiceSettingsProvider>
                             </SettingsOpenCloseProvider>

@@ -3,5 +3,6 @@ export { LanguageSettingsContext, LanguageSettingsProvider } from "./LanguageSet
 export { LoadingContext, LoadingProvider } from "./LoadingProvider";
 export { NotificationsSettingsContext, NotificationsSettingsProvider } from "./NotificationsSettingsProvider";
 export { ThemeProvider, useTheme } from "./ThemeProvider";
+export { TimeFormatSettingsContext, TimeFormatSettingsProvider } from "./TimeFormatProvider";
 export { TranslationContext, TranslationProvider } from "./TranslationProvider";
 export { VoiceSettingsContext, VoiceSettingsProvider } from "./VoiceSettingsProvider";
