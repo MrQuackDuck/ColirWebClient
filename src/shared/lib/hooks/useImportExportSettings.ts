@@ -4,7 +4,7 @@ import Moment from "moment";
 import { useContextSelector } from "use-context-selector";
 
 import { UsersVolumeContext } from "@/features/control-user-volume";
-import { decryptString, encryptString } from "@/shared/lib";
+import { decryptString, encryptString, TimeFormatSettingsContext } from "@/shared/lib";
 
 import { EncryptionKeysContext } from "../providers/EncryptionKeysProvider";
 import { LanguageSettingsContext } from "../providers/LanguageSettingsProvider";
@@ -14,6 +14,7 @@ import { VoiceSettingsContext } from "../providers/VoiceSettingsProvider";
 class Settings {
   currentLanguage: string;
   encryptionKeys: [string, string][];
+  timeFormat: string;
   userVolumes: Record<number, number>;
   isJoinLeaveSoundDisabled: boolean;
   isPingSoundDisabled: boolean;
@@ -29,6 +30,7 @@ export const useImportExportSettings = () => {
   const { currentLanguage, setCurrentLanguage } = useContextSelector(LanguageSettingsContext, (c) => c);
   const userVolumes = useContextSelector(UsersVolumeContext, (c) => c.userVolumes);
   const { getAllEncryptionKeys, setEncryptionKey } = useContextSelector(EncryptionKeysContext, (c) => c);
+  const { timeFormat, setTimeFormat } = useContextSelector(TimeFormatSettingsContext, c => c);
 
   const { pingVolume, isPingSoundDisabled, setPingVolume, setIsPingSoundDisabled, joinLeaveVolume, isJoinLeaveSoundDisabled, setJoinLeaveVolume, setIsJoinLeaveSoundDisabled } = useContextSelector(
     NotificationsSettingsContext,
@@ -50,6 +52,7 @@ export const useImportExportSettings = () => {
     const settings: Settings = {
       encryptionKeys: Array.from(getAllEncryptionKeys()!.entries()) ?? new Map<string, string>(),
       currentLanguage,
+      timeFormat,
       userVolumes,
       isJoinLeaveSoundDisabled,
       isPingSoundDisabled,
@@ -105,6 +108,7 @@ export const useImportExportSettings = () => {
     });
 
     setCurrentLanguage(settings.currentLanguage);
+    setTimeFormat(settings.timeFormat as "12-hour" | "24-hour");
     setIsJoinLeaveSoundDisabled(settings.isJoinLeaveSoundDisabled);
     setIsPingSoundDisabled(settings.isPingSoundDisabled);
     setJoinLeaveVolume(settings.joinLeaveVolume);
